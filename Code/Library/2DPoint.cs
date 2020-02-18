@@ -4,8 +4,8 @@ namespace Library
 {
 	public class _2DPoint
 	{
-		public double X { get; private set; }
-		public double Y { get; private set; }
+		public double X { get; protected set; }
+		public double Y { get; protected set; }
 
 		protected _2DPoint(double x, double y)
 		{
