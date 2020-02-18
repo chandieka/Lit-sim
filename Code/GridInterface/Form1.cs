@@ -26,7 +26,7 @@ namespace GridInterface
             InitializeComponent();
 
             // set the variables for this session
-            this.gridRows = 30;
+            this.gridRows = 25;
             this.gridColumns = 30;
 
             this.playfieldWidth = 150d;
@@ -50,7 +50,7 @@ namespace GridInterface
 
             Fire f1 = new Fire(_2DPoint.MakeNew(.7d * this.playfieldWidth, .2d * this.playfieldHeight));
 
-            Fire f2 = new Fire(_2DPoint.MakeNew(.1d * this.playfieldWidth, .6d * this.playfieldHeight));
+            Fire f2 = new Fire(_2DPoint.MakeNew(.1d * this.playfieldWidth, .65555d * this.playfieldHeight));
 
             // create a list of paintable objects
             this.paintables = new IPaintable[] {p1, p2, fe1, f1, f2};
@@ -60,8 +60,6 @@ namespace GridInterface
             {
                 float pixelsPerColumn = this.PBGrid.Width / this.gridColumns;
                 float pixelsPerRow = this.PBGrid.Height / this.gridRows;
-
-                double anglePrecision = .05d;
 
                 Pen gridlinePen = Pens.Gray;
 
@@ -89,13 +87,27 @@ namespace GridInterface
                             double rowsInRadius = (crl.Radius / this.playfieldHeight) * this.gridRows;
                             double colsInRadius = (crl.Radius / this.playfieldWidth) * this.gridColumns;
 
-                            double radiusSteps = crl.Radius / Math.Max(rowsInRadius, colsInRadius);
+                            double radiusStep = crl.Radius / Math.Max(rowsInRadius, colsInRadius);
 
                             // do a sweep around the circle's center for every step of the radius
-                            for (double radius = 0d; radius <= crl.Radius; radius += radiusSteps)
+                            for (double radius = 0d; radius <= crl.Radius; radius += radiusStep)
                             {
-                                for (double angle = 0d; angle < Math.PI * 2; angle += anglePrecision)
-                                {
+                                // sohcahtoa tells us that the step size of the radius is caldulated by taking the 
+                                // tangens of either the length or the width of a cell, depending on which one is smallest
+                                // ---- here's a visualization ----
+                                // 
+                                //     b|---___
+                                //      |       ---___
+                                //      |              ---___
+                                //     a|_____________________---___c
+                                //
+                                //     imagine the line ac is the radius of the circle, and ab is the smallest side of a cell.
+                                //     you can calculate the radius of c by taking the tangens of ab divided by ac.
+                                //
+                                double angleStep = Math.Tan(Math.Min(this.playfieldWidth / this.gridColumns, this.playfieldHeight / this.gridRows) / radius);
+
+                                double angle = 0d;
+                                while (angle <= Math.PI * 2) {
                                     // get the location of the sweeper end
                                     double x = crl.Center.X + (Math.Cos(angle) * radius);
                                     double y = crl.Center.Y + (Math.Sin(angle) * radius);
@@ -108,6 +120,7 @@ namespace GridInterface
                                     if (p is Fire) cell.brush = new SolidBrush(Color.Red);
 
                                     coloredCells.Add(cell);
+                                    angle += angleStep;
                                 }
                             }
                             break;
