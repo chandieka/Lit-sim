@@ -1,7 +1,9 @@
-﻿namespace Library
+﻿using System.Drawing;
+
+namespace Library
 {
     public interface IPaintable
     {
-        void Paint();
+        void Paint(Graphics ctx);
     }
 }

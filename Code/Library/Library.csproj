@@ -42,8 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2DCircle.cs" />
+    <Compile Include="Fire.cs" />
+    <Compile Include="FireExtinguisher.cs" />
+    <Compile Include="FlammablePoint.cs" />
+    <Compile Include="IAnimatedObject.cs" />
     <Compile Include="IPaintable.cs" />
+    <Compile Include="Person.cs" />
+    <Compile Include="2DPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
