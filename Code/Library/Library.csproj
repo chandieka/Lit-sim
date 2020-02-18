@@ -43,14 +43,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2DCircle.cs" />
+    <Compile Include="2DLine.cs" />
     <Compile Include="Fire.cs" />
     <Compile Include="FireExtinguisher.cs" />
     <Compile Include="FlammablePoint.cs" />
-    <Compile Include="IAnimatedObject.cs" />
+    <Compile Include="IChangeableObject.cs" />
     <Compile Include="IPaintable.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="2DPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

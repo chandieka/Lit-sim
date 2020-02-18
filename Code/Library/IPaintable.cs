@@ -4,6 +4,6 @@ namespace Library
 {
     public interface IPaintable
     {
-        void Paint(Graphics ctx);
+        void Paint(Graphics g);
     }
 }

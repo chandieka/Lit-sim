@@ -1,6 +1,6 @@
 ﻿namespace Library
 {
-	interface IAnimatedObject
+	public interface IChangeableObject
 	{
 		void Tick();
 	}
