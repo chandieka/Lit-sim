@@ -1,5 +1,6 @@
-﻿using System.Windows.Forms;
-using Library;
+﻿using Library;
+using System;
+using System.Windows.Forms;
 
 namespace Interface
 {
@@ -15,11 +16,11 @@ namespace Interface
 		{
 			InitializeComponent();
 
-			w = new Wall(_2DPoint.MakeNew(0, 0), _2DPoint.MakeNew(this.ClientSize.Width, this.ClientSize.Height));
+			w = new Wall(_2DPoint.MakeNew(50, 800), _2DPoint.MakeNew(120, 0));
 			p1 = new Person(this.ClientSize.Width / 2, this.ClientSize.Height / 2);
 			p2 = new Person(this.ClientSize.Width / 2 - 200, this.ClientSize.Height / 2);
 			fe = new FireExtinguisher(this.ClientSize.Width - 500, 100);
-			f = new Fire(_2DPoint.MakeNew(0, 0));
+			f = new Fire(_2DPoint.MakeNew(10, 100));
 
 			p1.Died();
 
@@ -29,11 +30,16 @@ namespace Interface
 
 		private void AnimationPainter_Paint(object sender, PaintEventArgs e)
 		{
+			f.Paint(e.Graphics);
 			p1.Paint(e.Graphics);
 			p2.Paint(e.Graphics);
 			fe.Paint(e.Graphics);
-			f.Paint(e.Graphics);
 			w.Paint(e.Graphics);
+
+			Console.WriteLine(f.IntersectsWith(w));
+			Console.WriteLine(f.IntersectsWith(fe));
+			Console.WriteLine(f.IntersectsWith(p2));
+			Console.WriteLine(f.IntersectsWith(p1));
 		}
 	}
 }

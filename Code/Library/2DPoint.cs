@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Library
 {
@@ -12,10 +13,15 @@ namespace Library
 			this.X = x;
 			this.Y = y;
 		}
-		
+
 		public static _2DPoint MakeNew(double x, double y)
 		{
 			return new _2DPoint(x, y);
+		}
+
+		public static double Distance(_2DPoint p1, _2DPoint p2)
+		{
+			return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
 		}
 
 		public Point ToPoint()
