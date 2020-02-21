@@ -1,4 +1,4 @@
-﻿using Library;
+﻿using Library.Graphical;
 using System;
 using System.Windows.Forms;
 

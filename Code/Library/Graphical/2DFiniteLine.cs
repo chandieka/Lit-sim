@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Library
+namespace Library.Graphical
 {
 	public class _2DFiniteLine : _2DLine
 	{
@@ -23,10 +23,26 @@ namespace Library
 		}
 
 		// static line info
+		/// <summary>
+		/// Calculate the rate at which a line goes up/down with the given start point and end point.
+		/// </summary>
+		/// <param name="start"></param>
+		/// <param name="end"></param>
+		/// <returns></returns>
 		private static double CalculateSlope(_2DPoint start, _2DPoint end) => _2DPoint.CalculateDistanceX(start, end) / _2DPoint.CalculateDistanceY(start, end);
+		/// <summary>
+		/// Calculate the length of a line between the given start point and end point.
+		/// </summary>
+		/// <param name="start"></param>
+		/// <param name="end"></param>
+		/// <returns></returns>
 		private static double CalculateLength(_2DPoint start, _2DPoint end) => _2DPoint.CalculateDistance(start, end);
 
 		// basic line info
+		/// <summary>
+		/// Calculate the length of this line.
+		/// </summary>
+		/// <returns></returns>
 		private double CalculateLength() => _2DFiniteLine.CalculateLength(this.StartPoint, this.EndPoint);
 
 		// overrides

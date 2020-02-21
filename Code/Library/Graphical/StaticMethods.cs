@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library
+﻿namespace Library.Graphical
 {
     public static class StaticMethods
 	{
+		/// <summary>
+		/// Tries to find the intersection point between 2 lines.
+		/// </summary>
+		/// <param name="line_a"></param>
+		/// <param name="line_b"></param>
+		/// <returns>The point at which they intersect, can also return null if they don't intersect.</returns>
 		public static _2DPoint IntersectionPoint(_2DLine line_a, _2DLine line_b)
 		{
 			if (line_a.Slope == line_b.Slope) return null;
@@ -20,8 +20,26 @@ namespace Library
 
 			return line_a.PointForX(x);
 		}
+		/// <summary>
+		/// Checks if the point is on the line.
+		/// </summary>
+		/// <param name="line"></param>
+		/// <param name="point"></param>
+		/// <returns></returns>
 		public static bool Intersects(_2DLine line, _2DPoint point) => line.PointForX(point.X).Y == point.Y;
+		/// <summary>
+		/// Checks if the 2 lines intersect.
+		/// </summary>
+		/// <param name="line_a"></param>
+		/// <param name="line_b"></param>
+		/// <returns></returns>
 		public static bool Intersects(_2DLine line_a, _2DLine line_b) => StaticMethods.IntersectionPoint(line_a, line_b) == null;
+		/// <summary>
+		/// Checks if the line intersects with the circle.
+		/// </summary>
+		/// <param name="line"></param>
+		/// <param name="circle"></param>
+		/// <returns></returns>
 		public static bool Intersects(_2DLine line, _2DCircle circle)
 		{
 			// TODO: Check devide by 0
@@ -48,9 +66,27 @@ namespace Library
 			return segmentLength < circle.Radius;
 		}
 
+		/// <summary>
+		/// Checks if the point is somewhere on the circle.
+		/// </summary>
+		/// <param name="circle"></param>
+		/// <param name="point"></param>
+		/// <returns></returns>
 		public static bool Intersects(_2DCircle circle, _2DPoint point) => _2DPoint.CalculateDistance(circle.Center, point) <= circle.Radius;
+		/// <summary>
+		/// Checks if the 2 circles overlap.
+		/// </summary>
+		/// <param name="circle_a"></param>
+		/// <param name="circle_b"></param>
+		/// <returns></returns>
 		public static bool Intersects(_2DCircle circle_a, _2DCircle circle_b) => _2DPoint.CalculateDistance(circle_a.Center, circle_b.Center) <= circle_a.Radius + circle_b.Radius;
 
+		/// <summary>
+		/// Checks if the 2 points are the same.
+		/// </summary>
+		/// <param name="point_a"></param>
+		/// <param name="point_b"></param>
+		/// <returns></returns>
 		public static bool Intersects(_2DPoint point_a, _2DPoint point_b) => _2DPoint.CalculateDistance(point_a, point_b) == 0d;
 
 		// extensions

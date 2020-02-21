@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Library
+namespace Library.Graphical
 {
 	public class Person : _2DPoint, IPaintable, IChangeableObject
 	{
@@ -13,17 +13,32 @@ namespace Library
 		private readonly static Pen DeathPen = Pens.Black;
 		private readonly static int PaintSize = 10;
 
+		/// <summary>
+		/// The amount at which the person moves in a specified direction.
+		/// </summary>
 		private const double WalkingSpeed = 5;
-		public bool HasExtinguisher { get; private set; } = false;
+		/// <summary>
+		/// Check if the person is holding a fire extinguisher.
+		/// </summary>
+		public bool HasFireExtinguisher { get; private set; } = false;
+		/// <summary>
+		/// Check if the person is still alive.
+		/// </summary>
 		public bool IsAlive { get; private set; } = true;
 
 		public Person(double x, double y) : base(x, y) { }
 
+		/// <summary>
+		/// Indicate that the person has died.
+		/// </summary>
 		public void Died()
 		{
 			this.IsAlive = false;
 		}
 
+		/// <summary>
+		/// Move the person to the next frame in its animation.
+		/// </summary>
 		public void Tick()
 		{
             // TODO
@@ -31,6 +46,24 @@ namespace Library
             this.On_Tick();
 		}
 
+		/// <summary>
+		/// Indicate that the person has picked up a fire extinguisher.
+		/// </summary>
+		/// <param name="fireExtinguisher"></param>
+		/// <remarks>
+		/// The fire extinguisher will be used after this.
+		/// </remarks>
+		public void PickUpFireExtinguisher(FireExtinguisher fireExtinguisher)
+		{
+			this.HasFireExtinguisher = true;
+
+			fireExtinguisher.Use();
+		}
+
+		/// <summary>
+		/// Move the person to the given location, this will go at the rate of this person's movespeed.
+		/// </summary>
+		/// <param name="location"></param>
         public void WalkToward(_2DPoint location)
         {
             double diff_x = location.X - this.X;
@@ -53,6 +86,10 @@ namespace Library
             }
         }
 
+		/// <summary>
+		/// Paint the person on the given graphics object.
+		/// </summary>
+		/// <param name="g"></param>
 		public void Paint(Graphics g)
 		{
 			float sizeHalf = Person.PaintSize / 2;
@@ -66,7 +103,7 @@ namespace Library
 					Person.PaintSize
 				);
 
-				g.FillEllipse(HasExtinguisher ? Person.HoldsExtinguisherBrush : Person.MainBrush, rect);
+				g.FillEllipse(HasFireExtinguisher ? Person.HoldsExtinguisherBrush : Person.MainBrush, rect);
 			} else
 			{
 				g.DrawLine(Person.DeathPen, (int)(this.X - sizeHalf), (int)(this.Y - sizeHalf), (int)(this.X + sizeHalf), (int)(this.Y + sizeHalf));

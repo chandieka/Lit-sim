@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Library
+namespace Library.Graphical
 {
     public class _2DLine
 	{
@@ -37,13 +33,39 @@ namespace Library
         }
 
 		// static line info
+		/// <summary>
+		/// Calculate the value for y at which the line through the reference point with the given slope goes through the x-axis.
+		/// </summary>
+		/// <param name="slope"></param>
+		/// <param name="reference_point"></param>
+		/// <returns></returns>
 		public static double CalculateXIntercept(double slope, _2DPoint reference_point) => (reference_point.Y - _2DLine.CalculateYIntercept(slope, reference_point)) / slope;
+		/// <summary>
+		/// Calculate the value for x at which the line through the reference point with the given slope goes through the y-axis.
+		/// </summary>
+		/// <param name="slope"></param>
+		/// <param name="reference_point"></param>
+		/// <returns></returns>
 		public static double CalculateYIntercept(double slope, _2DPoint reference_point) => reference_point.Y - (slope * reference_point.X);
 
 		// basic line info
+		/// <summary>
+		/// Calculate the value for y at which this line goes through the x-axis.
+		/// </summary>
+		/// <returns></returns>
 		protected double CalculateXIntercept() => _2DLine.CalculateXIntercept(this.Slope, new _2DPoint(0, this.Y_intercept));
 
+		/// <summary>
+		/// Calculate the point that sits on this line for the given x value.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <returns></returns>
         public _2DPoint PointForX(double x) => new _2DPoint(x, (this.Slope * x) + this.Y_intercept);
+		/// <summary>
+		/// Calculate the point that sits on this line for the given y value.
+		/// </summary>
+		/// <param name="y"></param>
+		/// <returns></returns>
         public _2DPoint PointForY(double y) => new _2DPoint((y - this.Y_intercept) / this.Slope, y);
 
 		// overrides
