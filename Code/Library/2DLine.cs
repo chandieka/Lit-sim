@@ -1,141 +1,52 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Library
 {
-	public class _2DLine
+    public class _2DLine
 	{
-		public readonly _2DPoint StartPoint;
-		public readonly _2DPoint EndPoint;
+		private readonly double slope;
+		private readonly Lazy<double> x_intercept;
+		private readonly double y_intercept;
 
-		protected _2DLine(_2DPoint start, _2DPoint end)
+		/// <summary>
+		/// The amount at which the y-value goes up for each x-value of 1.
+		/// </summary>
+		public double Slope => this.slope;
+		/// <summary>
+		/// The x-value at which the line crosses the x-axis (x for y = 0).
+		/// </summary>
+		public double X_intercept => this.x_intercept.Value;
+		/// <summary>
+		/// The y-value at which the line crosses the y-axis (y for x = 0).
+		/// </summary>
+		public double Y_intercept => this.y_intercept;
+
+		private _2DLine()
 		{
-			StartPoint = start;
-			EndPoint = end;
+			this.x_intercept = new Lazy<double>(this.CalculateXIntercept);
 		}
+		public _2DLine(_2DPoint reference_point, double slope)
+			:this()
+        {
+			this.slope = slope;
+			this.y_intercept = _2DLine.CalculateYIntercept(this.Slope, reference_point);
+        }
 
-		public bool IntersectsWith(_2DPoint point)
-		{
-			// TODO: Check my math
-			double a = getA();
-			double b = getB(a);
-			return GetYForX(point.X, a, b) == point.Y;
-		}
+		// static line info
+		public static double CalculateXIntercept(double slope, _2DPoint reference_point) => (reference_point.Y - _2DLine.CalculateYIntercept(slope, reference_point)) / slope;
+		public static double CalculateYIntercept(double slope, _2DPoint reference_point) => reference_point.Y - (slope * reference_point.X);
 
-		public bool IntersectsWith(_2DLine line)
-		{
-			return this.intersectionPoint(line) != null;
-		}
+		// basic line info
+		protected double CalculateXIntercept() => _2DLine.CalculateXIntercept(this.Slope, new _2DPoint(0, this.Y_intercept));
 
-		internal bool IntersectsWith(_2DCircle circle)
-		{
-			// TODO: Check devide by 0
+        public _2DPoint PointForX(double x) => new _2DPoint(x, (this.Slope * x) + this.Y_intercept);
+        public _2DPoint PointForY(double y) => new _2DPoint((y - this.Y_intercept) / this.Slope, y);
 
-			// Steps:
-			// 1: Find the line perpendicular to this line, through the center of the circle
-			// 2: Get the intersection point of the new line with the origional line
-			// 3: Get the length of the line, through the center of the circle, intersecting with the origional line
-			// 4: If this lengtn is bigger than the radius of the circle, they don't intersect
-
-			double a = this.getA();
-			double b = this.getB(a);
-
-			// Step 1
-			double newA = -1 / a;
-			double newB = _2DLine.getB(newA, circle.Center);
-
-			// Step 2
-			_2DPoint intersectionPoint = _2DLine.intersectionPoint(a, newA, b, newB);
-
-			// Step 3
-			double segmentLength = _2DPoint.Distance(circle.Center, intersectionPoint);
-
-			// Step 4
-			return segmentLength <= circle.Radius;
-		}
-
-		private double getA()
-		{
-			// TODO: Check devide by 0
-
-			// a = (y1 - y2) / (x1 - x2)
-			return (StartPoint.Y - EndPoint.Y) / (StartPoint.X - EndPoint.X);
-		}
-
-		private double getB(double a)
-		{
-			return getB(a, StartPoint.X, StartPoint.Y);	
-		}
-
-		private _2DPoint intersectionPoint(_2DLine line)
-		{
-			double thisA = this.getA();
-			double lineA = line.getA();
-
-			return intersectionPoint(thisA, lineA, this.getB(thisA), line.getB(lineA));
-		}
-
-		private static double getB(double a, _2DPoint p)
-		{
-			return getB(a, p.X, p.Y);
-		}
-
-		private static double getB(double a, double x, double y)
-		{
-			// y = ax + b
-			// b = y - ax
-			return y - a * x;
-		}
-
-		// Warning: Could return null
-		private static _2DPoint intersectionPoint(double l1A, double l2A, double l1B, double l2B)
-		{
-			// If a is the same, the lines are parallel, so they don't intersect
-			if (l1A == l2A)
-				return null;
-			else
-			{
-				// Prevent devide by 0 error
-				double x;
-				try
-				{
-					// both lines: y = ax + b
-					// ax + b = ax + b	-> 2x + 3 = 1x + 5
-					// ax - ax = b - b	-> 2x - 1x = 5 - 3
-					// (a - a)x = b - b	-> 1x = 2
-					// x = (b-b)/(a-a)	-> x = 2
-					x = (l1B - l2B) / (l2A - l1A);
-				} catch (DivideByZeroException)
-				{
-					return null;
-				}
-
-				// For y use one of the lines and fill in x
-				double y = l1A * x + l1B;
-
-				// TODO: Maybe add check if for the same x, both equations give the same y
-				return _2DPoint.MakeNew(x, y);
-			}
-		}
-
-		private static double GetXForY(double y, double a, double b)
-		{
-			// TODO: Check devide by 0
-
-			// y = ax + b
-			// ax = y - b
-			// x = (y - b) / a
-			return (y - b) / a;
-		}
-
-		private static double GetYForX(double x, double a, double b)
-		{
-			// y = ax + b
-			return a * x + b;
-		}
-
-		public override string ToString()
-		{
-			return $"Start: {this.StartPoint}; End: {this.EndPoint}";
-		}
+		// overrides
+		public override string ToString() => $"Slope: {this.Slope}, Y intercept: {this.Y_intercept}";
 	}
 }

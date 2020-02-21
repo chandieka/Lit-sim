@@ -2,7 +2,7 @@
 
 namespace Library
 {
-	public class Wall : _2DLine, IPaintable
+	public class Wall : _2DFiniteLine, IPaintable
 	{
 		private readonly static Pen Pen = Pens.Black;
 

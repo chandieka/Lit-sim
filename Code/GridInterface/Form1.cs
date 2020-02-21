@@ -36,21 +36,21 @@ namespace GridInterface
             p1.On_Tick = () =>
             {
                 // move from 0%, 0% of the playfield to 50%, 100% of the playfield 
-                p1.WalkToward(_2DPoint.MakeNew(.5d * this.playfieldWidth, 1d * this.playfieldHeight));
+                p1.WalkToward(new _2DPoint(.5d * this.playfieldWidth, 1d * this.playfieldHeight));
             };
 
             Person p2 = new Person(1d * this.playfieldWidth, 1d * this.playfieldHeight);
             p2.On_Tick = () =>
             {
                 // move from 100%, 100% to 75%, 50% of the playfield
-                p2.WalkToward(_2DPoint.MakeNew(.75d * this.playfieldWidth, .5d * this.playfieldHeight));
+                p2.WalkToward(new _2DPoint(.75d * this.playfieldWidth, .5d * this.playfieldHeight));
             };
 
             FireExtinguisher fe1 = new FireExtinguisher(.5d * this.playfieldWidth, .3d * this.playfieldHeight);
 
-            Fire f1 = new Fire(_2DPoint.MakeNew(.7d * this.playfieldWidth, .2d * this.playfieldHeight));
+            Fire f1 = new Fire(new _2DPoint(.7d * this.playfieldWidth, .2d * this.playfieldHeight));
 
-            Fire f2 = new Fire(_2DPoint.MakeNew(.1d * this.playfieldWidth, .65555d * this.playfieldHeight));
+            Fire f2 = new Fire(new _2DPoint(.1d * this.playfieldWidth, .65555d * this.playfieldHeight));
 
             // create a list of paintable objects
             this.paintables = new IPaintable[] {p1, p2, fe1, f1, f2};
@@ -93,7 +93,7 @@ namespace GridInterface
                             for (double radius = 0d; radius <= crl.Radius; radius += radiusStep)
                             {
                                 // sohcahtoa tells us that the step size of the radius is caldulated by taking the 
-                                // tangens of either the length or the width of a cell, depending on which one is smallest
+                                // tangens of either the Length or the width of a cell, depending on which one is smallest
                                 // ---- here's a visualization ----
                                 // 
                                 //     b|---___

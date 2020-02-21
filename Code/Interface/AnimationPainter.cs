@@ -16,11 +16,11 @@ namespace Interface
 		{
 			InitializeComponent();
 
-			w = new Wall(_2DPoint.MakeNew(50, 800), _2DPoint.MakeNew(120, 0));
+			w = new Wall(new _2DPoint(50, 800), new _2DPoint(120, 0));
 			p1 = new Person(this.ClientSize.Width / 2, this.ClientSize.Height / 2);
 			p2 = new Person(this.ClientSize.Width / 2 - 200, this.ClientSize.Height / 2);
 			fe = new FireExtinguisher(this.ClientSize.Width - 500, 100);
-			f = new Fire(_2DPoint.MakeNew(10, 100));
+			f = new Fire(new _2DPoint(10, 100));
 
 			p1.Died();
 

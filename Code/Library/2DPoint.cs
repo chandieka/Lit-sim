@@ -8,30 +8,21 @@ namespace Library
 		public double X { get; protected set; }
 		public double Y { get; protected set; }
 
-		protected _2DPoint(double x, double y)
+		public _2DPoint(double x, double y)
 		{
 			this.X = x;
 			this.Y = y;
 		}
 
-		public static _2DPoint MakeNew(double x, double y)
-		{
-			return new _2DPoint(x, y);
-		}
+		// static point info
+		public static double CalculateDistanceX(_2DPoint a, _2DPoint b) => a.X - b.X;
+		public static double CalculateDistanceY(_2DPoint a, _2DPoint b) => a.Y - b.Y;
+		public static double CalculateDistance(_2DPoint a, _2DPoint b)=> Math.Sqrt(Math.Pow(_2DPoint.CalculateDistanceX(a, b), 2) + Math.Pow(_2DPoint.CalculateDistanceY(a, b), 2));
 
-		public static double Distance(_2DPoint p1, _2DPoint p2)
-		{
-			return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2));
-		}
+		public Point ToPoint() => new Point((int)this.X, (int)this.Y);
+		public PointF ToPointF() => new PointF((float)this.X, (float)this.Y);
 
-		public Point ToPoint()
-		{
-			return new Point((int)this.X, (int)this.Y);
-		}
-
-		public override string ToString()
-		{
-			return $"X: {X}, Y: {Y}";
-		}
+		// overrides
+		public override string ToString() => $"X: {X}, Y: {Y}";
 	}
 }
