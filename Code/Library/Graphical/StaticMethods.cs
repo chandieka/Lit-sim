@@ -3,7 +3,7 @@
     public static class StaticMethods
 	{
 		/// <summary>
-		/// Tries to find the intersection point between 2 lines.
+		/// Tries to find the intersection point between 2 lines. WARNING: May return null
 		/// </summary>
 		/// <param name="line_a"></param>
 		/// <param name="line_b"></param>

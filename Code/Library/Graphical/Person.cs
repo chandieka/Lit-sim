@@ -11,7 +11,7 @@ namespace Library.Graphical
 		private readonly static Brush HoldsExtinguisherBrush = new SolidBrush(Color.Orange);
 		private readonly static Brush MainBrush = new SolidBrush(Color.Blue);
 		private readonly static Pen DeathPen = Pens.Black;
-		private readonly static int PaintSize = 10;
+		private readonly static int PaintSize = 5;
 
 		/// <summary>
 		/// The amount at which the person moves in a specified direction.

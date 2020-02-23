@@ -15,11 +15,11 @@ namespace Library.Graphical
 		/// <summary>
 		/// The x-value at which the line crosses the x-axis (x for y = 0).
 		/// </summary>
-		public double X_intercept => this.x_intercept.Value;
+		public double X_intercept { get { return this.x_intercept.Value; } }
 		/// <summary>
 		/// The y-value at which the line crosses the y-axis (y for x = 0).
 		/// </summary>
-		public double Y_intercept => this.y_intercept;
+		public double Y_intercept { get { return this.y_intercept; } }
 
 		private _2DLine()
 		{

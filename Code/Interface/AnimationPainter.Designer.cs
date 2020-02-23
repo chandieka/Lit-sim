@@ -34,7 +34,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(514, 261);
+			this.ClientSize = new System.Drawing.Size(484, 461);
 			this.Name = "AnimationPainter";
 			this.Text = "Animation";
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.AnimationPainter_Paint);
