@@ -29,23 +29,33 @@ namespace Library.Graphical
 		/// <param name="start"></param>
 		/// <param name="end"></param>
 		/// <returns></returns>
-		private static double CalculateSlope(_2DPoint start, _2DPoint end) => _2DPoint.CalculateDistanceX(start, end) / _2DPoint.CalculateDistanceY(start, end);
+		private static double CalculateSlope(_2DPoint start, _2DPoint end)
+		{
+			// TODO: Check devide by 0
+
+			// a = (y1 - y2) / (x1 - x2)
+			return _2DPoint.CalculateDistanceY(end, start) / _2DPoint.CalculateDistanceX(end, start);
+		}
+
 		/// <summary>
 		/// Calculate the length of a line between the given start point and end point.
 		/// </summary>
 		/// <param name="start"></param>
 		/// <param name="end"></param>
 		/// <returns></returns>
-		private static double CalculateLength(_2DPoint start, _2DPoint end) => _2DPoint.CalculateDistance(start, end);
+		private static double CalculateLength(_2DPoint start, _2DPoint end) => 
+			_2DPoint.CalculateDistance(start, end);
 
 		// basic line info
 		/// <summary>
 		/// Calculate the length of this line.
 		/// </summary>
 		/// <returns></returns>
-		private double CalculateLength() => _2DFiniteLine.CalculateLength(this.StartPoint, this.EndPoint);
+		private double CalculateLength() => 
+			_2DFiniteLine.CalculateLength(this.StartPoint, this.EndPoint);
 
 		// overrides
-		public override string ToString() => $"Start: {this.StartPoint}; End: {this.EndPoint}";
+		public override string ToString() => 
+			$"Start: {this.StartPoint}; End: {this.EndPoint}";
 	}
 }

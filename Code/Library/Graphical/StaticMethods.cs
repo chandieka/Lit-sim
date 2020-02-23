@@ -10,30 +10,41 @@
 		/// <returns>The point at which they intersect, can also return null if they don't intersect.</returns>
 		public static _2DPoint IntersectionPoint(_2DLine line_a, _2DLine line_b)
 		{
+			// If a is the same, the lines are parallel, so they don't intersect
 			if (line_a.Slope == line_b.Slope) return null;
 
 			// TODO: add different calculation for finite line
 			// if (line_a is _2DFiniteLine) ...
 			// if (line_b is _2DFiniteLine) ...
 
+			// both lines: y = ax + b
+			// ax + b = ax + b	-> 2x + 3 = 1x + 5
+			// ax - ax = b - b	-> 2x - 1x = 5 - 3
+			// (a - a)x = b - b	-> 1x = 2
+			// x = (b-b)/(a-a)	-> x = 2
 			double x = (line_a.Y_intercept - line_b.Y_intercept) / (line_a.Slope - line_b.Slope);
 
 			return line_a.PointForX(x);
 		}
+
 		/// <summary>
 		/// Checks if the point is on the line.
 		/// </summary>
 		/// <param name="line"></param>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public static bool Intersects(_2DLine line, _2DPoint point) => line.PointForX(point.X).Y == point.Y;
+		public static bool Intersects(_2DLine line, _2DPoint point) => 
+			line.PointForX(point.X).Y == point.Y;
+
 		/// <summary>
 		/// Checks if the 2 lines intersect.
 		/// </summary>
 		/// <param name="line_a"></param>
 		/// <param name="line_b"></param>
 		/// <returns></returns>
-		public static bool Intersects(_2DLine line_a, _2DLine line_b) => StaticMethods.IntersectionPoint(line_a, line_b) == null;
+		public static bool Intersects(_2DLine line_a, _2DLine line_b) => 
+			StaticMethods.IntersectionPoint(line_a, line_b) == null;
+
 		/// <summary>
 		/// Checks if the line intersects with the circle.
 		/// </summary>
@@ -63,7 +74,7 @@
 			double segmentLength = _2DPoint.CalculateDistance(intersectionPoint, circle.Center);
 
 			// Step 4
-			return segmentLength < circle.Radius;
+			return segmentLength <= circle.Radius;
 		}
 
 		/// <summary>
@@ -72,14 +83,17 @@
 		/// <param name="circle"></param>
 		/// <param name="point"></param>
 		/// <returns></returns>
-		public static bool Intersects(_2DCircle circle, _2DPoint point) => _2DPoint.CalculateDistance(circle.Center, point) <= circle.Radius;
+		public static bool Intersects(_2DCircle circle, _2DPoint point) => 
+			_2DPoint.CalculateDistance(circle.Center, point) <= circle.Radius;
+
 		/// <summary>
 		/// Checks if the 2 circles overlap.
 		/// </summary>
 		/// <param name="circle_a"></param>
 		/// <param name="circle_b"></param>
 		/// <returns></returns>
-		public static bool Intersects(_2DCircle circle_a, _2DCircle circle_b) => _2DPoint.CalculateDistance(circle_a.Center, circle_b.Center) <= circle_a.Radius + circle_b.Radius;
+		public static bool Intersects(_2DCircle circle_a, _2DCircle circle_b) => 
+			_2DPoint.CalculateDistance(circle_a.Center, circle_b.Center) <= circle_a.Radius + circle_b.Radius;
 
 		/// <summary>
 		/// Checks if the 2 points are the same.
@@ -87,9 +101,10 @@
 		/// <param name="point_a"></param>
 		/// <param name="point_b"></param>
 		/// <returns></returns>
-		public static bool Intersects(_2DPoint point_a, _2DPoint point_b) => _2DPoint.CalculateDistance(point_a, point_b) == 0d;
+		public static bool Intersects(_2DPoint point_a, _2DPoint point_b) =>
+			_2DPoint.CalculateDistance(point_a, point_b) == 0d;
 
-		// extensions
+		// Extensions
 		public static bool IntersectsWith(this _2DLine line_self, _2DPoint point) => StaticMethods.Intersects(line_self, point);
 		public static bool IntersectsWith(this _2DLine line_self, _2DCircle circle) => StaticMethods.Intersects(line_self, circle);
 		public static bool IntersectsWith(this _2DLine line_self, _2DLine line) => StaticMethods.Intersects(line_self, line);
