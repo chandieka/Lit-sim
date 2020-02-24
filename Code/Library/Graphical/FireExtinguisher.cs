@@ -5,7 +5,7 @@ namespace Library.Graphical
 	public class FireExtinguisher : FlammablePoint, IPaintable
 	{
 		private readonly static Brush Brush = new SolidBrush(Color.Green);
-		private static readonly int PaintSize = 8;
+		private static readonly int PaintSize = 10;
 
 		/// <summary>
 		/// The radius of the circle in which fires will be extinguished.

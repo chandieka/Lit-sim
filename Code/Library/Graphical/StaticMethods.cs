@@ -22,7 +22,8 @@
 			// ax - ax = b - b	-> 2x - 1x = 5 - 3
 			// (a - a)x = b - b	-> 1x = 2
 			// x = (b-b)/(a-a)	-> x = 2
-			double x = (line_a.Y_intercept - line_b.Y_intercept) / (line_a.Slope - line_b.Slope);
+			// To be clear: x = (b2-b1)/(a1-a2). Very important!
+			double x = (line_b.Y_intercept - line_a.Y_intercept) / (line_a.Slope - line_b.Slope);
 
 			return line_a.PointForX(x);
 		}
@@ -62,7 +63,8 @@
 			// 4: If this lengtn is bigger than the radius of the circle, they don't intersect
 
 			// Step 1
-			double slope_perpendicular = -1 / line.Slope;
+
+			double slope_perpendicular = -1f / line.Slope;
 			double y_intercept = _2DLine.CalculateYIntercept(slope_perpendicular, circle.Center);
 
 			_2DLine perpendicular = new _2DLine(new _2DPoint(0, y_intercept), slope_perpendicular);
