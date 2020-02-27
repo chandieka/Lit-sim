@@ -17,6 +17,7 @@
 		}
 
 		// overrides
-		public override string ToString() => $"Center: {this.Center}; Radius: {this.Radius}";
+		public override string ToString() => 
+			$"Center: {this.Center}; Radius: {this.Radius}";
 	}
 }
