@@ -66,21 +66,18 @@ namespace Library.Graphical
 		/// <param name="location"></param>
         public void WalkToward(_2DPoint location)
         {
-			double diff_x = _2DPoint.CalculateDistanceX(location, this);
-			double diff_y = _2DPoint.CalculateDistanceY(location, this);
-
 			// Same as: _2DPoint.CalculateDistance
-			double diff = Math.Sqrt(Math.Pow(diff_x, 2) + Math.Pow(diff_y, 2));
+			double diff = _2DPoint.CalculateDistance(location, this);
 
-            if (diff < Person.WalkingSpeed)
+			if (diff < Person.WalkingSpeed)
             {
                 this.X = location.X;
                 this.Y = location.Y;
             }
             else
             {
-                double ratio_x = diff_x / diff;
-                double ratio_y = diff_y / diff;
+                double ratio_x = _2DPoint.CalculateDistanceX(location, this) / diff;
+                double ratio_y = _2DPoint.CalculateDistanceY(location, this) / diff;
 
                 this.X += ratio_x * Person.WalkingSpeed;
                 this.Y += ratio_y * Person.WalkingSpeed;

@@ -64,7 +64,7 @@
 
 			// Step 1
 
-			double slope_perpendicular = -1f / line.Slope;
+			double slope_perpendicular = -1d / line.Slope;
 			double y_intercept = _2DLine.CalculateYIntercept(slope_perpendicular, circle.Center);
 
 			_2DLine perpendicular = new _2DLine(new _2DPoint(0, y_intercept), slope_perpendicular);
@@ -76,7 +76,12 @@
 			double segmentLength = _2DPoint.CalculateDistance(intersectionPoint, circle.Center);
 
 			// Step 4
-			return segmentLength <= circle.Radius;
+			// Vic pls don't revert:
+			// The circle still intersects, not only when the segmentLength is less than the radius, but also when it's is equal to the radius (the line doesn't pierce the circle, but it still 'touches' it's edge), so instead of returning
+			//     segmentLength <= circle.Radius
+			// we should return
+			//     segmentLength < circle.Radius
+			return segmentLength < circle.Radius;
 		}
 
 		/// <summary>
