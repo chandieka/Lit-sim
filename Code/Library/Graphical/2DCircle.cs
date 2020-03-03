@@ -16,6 +16,12 @@
 			Center = center;
 		}
 
+		public _2DCircle(_2DPoint center, double radius)
+			: this(center)
+		{
+			this.Radius = radius;
+		}
+
 		// overrides
 		public override string ToString() => 
 			$"Center: {this.Center}; Radius: {this.Radius}";

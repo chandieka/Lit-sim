@@ -18,7 +18,7 @@
 			// if (line_b is _2DFiniteLine) ...
 
 			// both lines: y = ax + b
-			// ax + b = ax + b	-> 2x + 3 = 1x + 5
+			// ax + b = Ax + B	-> 2x + 3 = 1x + 5
 			// ax - ax = b - b	-> 2x - 1x = 5 - 3
 			// (a - a)x = b - b	-> 1x = 2
 			// x = (b-b)/(a-a)	-> x = 2
@@ -44,7 +44,7 @@
 		/// <param name="line_b"></param>
 		/// <returns></returns>
 		public static bool Intersects(_2DLine line_a, _2DLine line_b) => 
-			StaticMethods.IntersectionPoint(line_a, line_b) == null;
+			StaticMethods.IntersectionPoint(line_a, line_b) != null;
 
 		/// <summary>
 		/// Checks if the line intersects with the circle.
