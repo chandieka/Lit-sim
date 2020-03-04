@@ -81,7 +81,7 @@
 			//     segmentLength <= circle.Radius
 			// we should return
 			//     segmentLength < circle.Radius
-			return segmentLength < circle.Radius;
+			return segmentLength <= circle.Radius;
 		}
 
 		/// <summary>
