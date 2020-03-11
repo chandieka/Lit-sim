@@ -87,37 +87,60 @@ namespace Library
                 }
             }
         }
-        public Bitmap Paint() // WIP
+        public Bitmap Paint()
         {
-            // create and lock a new bitmap
-            var bmp = new Bitmap(GridWidth, GridHeight);
-            var bmpdata = bmp.LockBits(new Rectangle(0, 0, GridWidth, GridHeight), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-
-            // turn the bitmap data into a byte-array
-            // note: instead of turning the bitmap into an array and editing the raw bytes, you could also do bmp.SetPixel(x, y, color), but that is MUUUUCH slower. ;)
-            var ptr = bmpdata.Scan0;
-            var bytes = new byte[GridHeight * bmpdata.Stride];
-            System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, bytes.Length);
-
-            var bpp = (double)bmpdata.Stride / GridWidth;
-
-            // fill the byte-array with the right data
-            for (int x = 0; x < GridWidth; x++)
+            Bitmap UseLockbits(Bitmap bmp)
             {
-                for (int y = 0; y < GridHeight; y++)
-                { 
-                    var color = (Color)this.grid[x, y].GetType().GetField("color").GetValue(this.grid[x, y]);
-                    var offset = (int)(((y * GridWidth) + x) * bpp);
+                var bmpdata = bmp.LockBits(new Rectangle(0, 0, GridWidth, GridHeight), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
-                    Array.Copy(new[] { color.R, color.G, color.B }, 0, bytes, offset, (int)bpp);
+                // turn the bitmap data into a byte-array
+                // note: instead of turning the bitmap into an array and editing the raw bytes, you could also do bmp.SetPixel(x, y, color), but that is MUUUUCH slower. ;)
+                var ptr = bmpdata.Scan0;
+                var bytes = new byte[GridHeight * bmpdata.Stride];
+                System.Runtime.InteropServices.Marshal.Copy(ptr, bytes, 0, bytes.Length);
+
+                var bpp = (double)bmpdata.Stride / GridWidth;
+
+                // fill the byte-array with the right data
+                for (int x = 0; x < GridWidth; x++)
+                {
+                    for (int y = 0; y < GridHeight; y++)
+                    {
+                        var color = (Color)this.grid[x, y].GetType().GetField("color").GetValue(this.grid[x, y]);
+                        var offset = (int)(((y * GridWidth) + x) * bpp);
+
+                        Array.Copy(new[] { color.R, color.G, color.B }, 0, bytes, offset, (int)bpp);
+                    }
                 }
+
+                // turn the byte-array back into a bitmap
+                System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, bytes.Length);
+                bmp.UnlockBits(bmpdata);
+
+                return bmp;
+            }
+            Bitmap UseGraphics(Bitmap bmp)
+            {
+                var gr = Graphics.FromImage(bmp);
+                Brush br;
+
+                for (int x = 0; x < GridWidth; x++)
+                {
+                    for (int y = 0; y < GridHeight; y++)
+                    {
+                        var color = (Color)this.grid[x, y].GetType().GetField("color").GetValue(this.grid[x, y]);
+                        br = new SolidBrush(color);
+
+                        gr.FillRectangle(br, x, y, 1, 1);
+                    }
+                }
+
+                return bmp;
             }
 
-            // turn the byte-array back into a bitmap
-            System.Runtime.InteropServices.Marshal.Copy(bytes, 0, ptr, bytes.Length);
-            bmp.UnlockBits(bmpdata);
-
-            return bmp;
+            // create a new bitmap
+            var bitmap = new Bitmap(GridWidth, GridHeight);
+            return UseGraphics(bitmap);
         }
     }
 }

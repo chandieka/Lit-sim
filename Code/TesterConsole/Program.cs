@@ -24,7 +24,7 @@ namespace TesterConsole
             var bmp = gc.Paint();
 
             // store the bimap in a file
-            var path = "F:\\Personal Files\\Documents\\myexample.png";
+            var path = "C:\\Users\\user\\Pictures\\mypng.png";
 
             bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
 
