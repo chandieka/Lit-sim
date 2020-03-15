@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1519E548-95AC-44EB-91FC-DB09CA41FC78}</ProjectGuid>
+    <ProjectGuid>{4AC9C808-B4C0-41C3-AD99-3BEC5873A111}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Interface</RootNamespace>
-    <AssemblyName>Interface</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>FireSimulator</RootNamespace>
+    <AssemblyName>FireSimulator</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -46,30 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FireSimulator\Form1.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FireSimulator\Form1.Designer.cs">
+    <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FireSimulator\Icons.Designer.cs" />
-    <Compile Include="FireSimulator\obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="FireSimulator\obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="FireSimulator\obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
-    <Compile Include="FireSimulator\Program.cs" />
-    <Compile Include="FireSimulator\Properties\AssemblyInfo.cs" />
-    <Compile Include="FireSimulator\Properties\Resources.Designer.cs" />
-    <Compile Include="FireSimulator\Properties\Settings.Designer.cs" />
+    <Compile Include="Icons.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Icons.resx</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FireSimulator\Form1.resx">
+    <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FireSimulator\Icons.resx" />
-    <EmbeddedResource Include="FireSimulator\obj\Debug\FireSimulator.Form1.resources" />
-    <EmbeddedResource Include="FireSimulator\obj\Debug\FireSimulator.Icons.resources" />
-    <EmbeddedResource Include="FireSimulator\obj\Debug\FireSimulator.Properties.Resources.resources" />
-    <EmbeddedResource Include="FireSimulator\Properties\Resources.resx" />
+    <EmbeddedResource Include="Icons.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -79,14 +75,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="FireSimulator\App.config" />
-    <None Include="FireSimulator\bin\Debug\FireSimulator.exe.config" />
-    <None Include="FireSimulator\obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <None Include="FireSimulator\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <None Include="FireSimulator\obj\Debug\FireSimulator.csproj.CoreCompileInputs.cache" />
-    <None Include="FireSimulator\obj\Debug\FireSimulator.csproj.GenerateResource.cache" />
-    <None Include="FireSimulator\obj\Debug\FireSimulator.csprojAssemblyReference.cache" />
-    <None Include="FireSimulator\Properties\Settings.settings" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -101,21 +89,28 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FireSimulator\bin\Debug\FireSimulator.exe" />
-    <Content Include="FireSimulator\bin\Debug\FireSimulator.pdb" />
-    <Content Include="FireSimulator\FireSimulator.csproj" />
-    <Content Include="FireSimulator\obj\Debug\FireSimulator.csproj.FileListAbsolute.txt" />
-    <Content Include="FireSimulator\obj\Debug\FireSimulator.exe" />
-    <Content Include="FireSimulator\obj\Debug\FireSimulator.pdb" />
-    <Content Include="FireSimulator\obj\Debug\TempPE\Icons.Designer.cs.dll" />
-    <Content Include="FireSimulator\Resources\Door.jpeg" />
-    <Content Include="FireSimulator\Resources\Eraser.jpeg" />
-    <Content Include="FireSimulator\Resources\Exit.jpeg" />
-    <Content Include="FireSimulator\Resources\Fire.jpeg" />
-    <Content Include="FireSimulator\Resources\Fire_extinguisher.jpeg" />
-    <Content Include="FireSimulator\Resources\Person.jpeg" />
-    <Content Include="FireSimulator\Resources\Play.jpeg" />
-    <Content Include="FireSimulator\Resources\Wall.jpeg" />
+    <None Include="Resources\Person.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wall.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Door.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Eraser.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fire.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fire_extinguisher.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
