@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    class FunctionalBlock
+    public abstract class FunctionalBlock : Block
     {
+        public abstract Func<Block[,], Block[,]> Function { get; }
     }
 }
