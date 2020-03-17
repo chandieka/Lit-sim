@@ -24,12 +24,12 @@ namespace TesterConsole
             var bmp = gc.Paint();
 
             // store the bimap in a file
-            var path = "C:\\Users\\user\\Pictures\\mypng.png";
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/mylayout.png";
 
             bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
 
             // report success
-            Console.WriteLine("Success!");
+            Console.WriteLine("Successfully saved to " + path);
             Console.ReadKey();
         }
     }
