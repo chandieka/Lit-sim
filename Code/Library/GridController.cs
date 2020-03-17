@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Library
 {
@@ -210,7 +204,7 @@ namespace Library
             //used for autosaving
             if (string.IsNullOrEmpty(path))
             {
-                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
             }
 
             try
@@ -238,7 +232,7 @@ namespace Library
         /// <returns></returns>
         public bool IsLoadable()
         {
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
 
             return File.Exists(path);
         }
@@ -252,7 +246,7 @@ namespace Library
             //used for loading the autosaved file
             if (string.IsNullOrEmpty(path))
             {
-                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
             }
 
             try
