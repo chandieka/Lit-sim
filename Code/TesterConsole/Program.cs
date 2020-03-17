@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Library;
 
@@ -14,12 +15,13 @@ namespace TesterConsole
             // create a new Grid
             var gc = new GridController((10, 10));
 
+            gc.Load(string.Empty);
             // add some random data to the grid
             gc.FillFloor((1, 3), 5, 5);
             gc.FillWall((1, 2), 5, 1);
             gc.PutPerson((8, 3));
             gc.PutPerson((8, 5));
-
+            
             // generate a bitmap from the grid
             var bmp = gc.Paint();
 
@@ -31,6 +33,19 @@ namespace TesterConsole
             // report success
             Console.WriteLine("Success!");
             Console.ReadKey();
+        }
+
+        static void PrintArray(int[,] array)
+        {
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    Console.WriteLine(array[i, j] + " ");
+                }
+
+                Console.WriteLine();
+            }
         }
     }
 }

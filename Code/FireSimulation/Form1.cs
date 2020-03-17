@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,36 +16,28 @@ namespace FireSimulator
         TimeSpan time = new TimeSpan(0, 0, 0);
         bool running;
         bool building = true;
+        GridController gridController;
+
         public Form1()
         {
             InitializeComponent();
             tbTimer.Text = time.ToString();
-        }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            tbTimer.Text = time.ToString();
-            TimeSpan second = new TimeSpan(0, 0, 1);
-            time = time.Add(second);
-        }
-
-        private void picBoxPlay_Click(object sender, EventArgs e)
-        {
-            if (running == false)
+            this.gridController = new GridController((100, 100));
+            if (this.gridController.IsLoadable())
             {
-                timer1.Start();
-                running = true;
-                toolTipPlay.SetToolTip(picBoxPlay, "Pause");
-            }
-            else
-            {
-                timer1.Stop();
-                running = false;
-                toolTipPlay.SetToolTip(picBoxPlay, "Resume");
+                //Add a messagebox or some other form of asking the user if he wants to load the last auto saved verion
+                //if (yes)
+                //{
+                //  this.gridController.Load(string.Empty);
+                //}
             }
         }
 
-        private void switchInput() {
+        #region Private Methods 
+
+        private void switchInput()
+        {
             if (building == true)
             {
                 picBoxWall.Visible = false;
@@ -73,6 +66,34 @@ namespace FireSimulator
             }
         }
 
+        #endregion
+
+        #region Private EventHandlers
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            tbTimer.Text = time.ToString();
+            TimeSpan second = new TimeSpan(0, 0, 1);
+            time = time.Add(second);
+        }
+
+        private void picBoxPlay_Click(object sender, EventArgs e)
+        {
+            if (running == false)
+            {
+                timer1.Start();
+                running = true;
+                toolTipPlay.SetToolTip(picBoxPlay, "Pause");
+            }
+            else
+            {
+                timer1.Stop();
+                running = false;
+                toolTipPlay.SetToolTip(picBoxPlay, "Resume");
+            }
+        }
+
+
         private void lblGenerate_Click(object sender, EventArgs e)
         {
             switchInput();
@@ -82,5 +103,19 @@ namespace FireSimulator
         {
             switchInput();
         }
+        
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (gridController.IsSavable())
+            {
+                //Ask the user if he wants to autosave
+                //if (yes)
+                //{
+                //  gridController.Save(string.Empty);
+                //}
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,18 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Library
 {
     public class GridController
     {
+        #region Private Fields
+
         private Block[,] grid;
-        
+
+        #endregion
+
+        #region Public Properties
+
         public int GridWidth => this.grid.GetLength(0);
         public int GridHeight => this.grid.GetLength(1);
+
+        #endregion
+
+        #region Constructor
 
         public GridController((int width, int height) gridSize)
         {
@@ -27,6 +42,10 @@ namespace Library
                 }
             }
         }
+
+        #endregion
+
+        #region Public Methods
 
         public void PutFloor((int x, int y) location)
         {
@@ -46,6 +65,7 @@ namespace Library
         {
             this.grid[location.x, location.y] = new Wall();
         }
+
         public void FillWall((int x, int y) topLeft, int width, int height)
         {
             for (int x = topLeft.x; x < topLeft.x + width; x++)
@@ -56,14 +76,17 @@ namespace Library
                 }
             }
         }
+
         public void PutPerson((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Person();
+            //this.grid[location.x, location.y] = new Person();
         }
+
         public void PutFire((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Fire();
+            //this.grid[location.x, location.y] = new Fire();
         }
+
         public void PutFireExtinguisher((int x, int y) location)
         {
             this.grid[location.x, location.y] = new FireExtinguisher();
@@ -75,7 +98,7 @@ namespace Library
             {
                 for (int y = 0; y < this.grid.GetLength(1); y++)
                 {
-                    switch (this.grid[x, y])
+                    /*switch (this.grid[x, y])
                     {
                         case FunctionalBlock fb:
                             this.grid = fb.Function(this.grid);
@@ -83,10 +106,11 @@ namespace Library
                         case Block bl:
                             // Do nothing?
                             break;
-                    }
+                    }*/
                 }
             }
         }
+
         public Bitmap Paint()
         {
             Bitmap UseLockbits(Bitmap bmp)
@@ -142,5 +166,114 @@ namespace Library
             var bitmap = new Bitmap(GridWidth, GridHeight);
             return UseGraphics(bitmap);
         }
+
+        /// <summary>
+        /// Check if the current verison is savable
+        /// </summary>
+        /// <returns></returns>
+        public bool IsSavable()
+        {
+            Block[,] loadedGrid = null;
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+
+            try
+            {
+                using (Stream stream = File.Open(path, FileMode.Open))
+                {
+                    BinaryFormatter bformatter = new BinaryFormatter();
+                    loadedGrid = (Block[,])bformatter.Deserialize(stream);
+
+                    if (loadedGrid != this.grid)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (SerializationException)
+            {
+                return false;
+            }
+            catch (IOException)
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Saving the grid
+        /// </summary>
+        /// <param name="path"></param>
+        public bool Save(string path)
+        {
+            //used for autosaving
+            if (string.IsNullOrEmpty(path))
+            {
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+            }
+
+            try
+            {
+                using (Stream stream = File.Open(path, FileMode.Create))
+                {
+                    BinaryFormatter bformatter = new BinaryFormatter();
+                    bformatter.Serialize(stream, this.grid);
+                    return true;
+                }
+            }
+            catch (SerializationException)
+            {
+                return false;
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the version is loadable
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLoadable()
+        {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+
+            return File.Exists(path);
+        }
+
+        /// <summary>
+        /// Loading the grid
+        /// </summary>
+        /// <param name="path"></param>
+        public bool Load(string path)
+        {
+            //used for loading the autosaved file
+            if (string.IsNullOrEmpty(path))
+            {
+                path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+            }
+
+            try
+            {
+                using (Stream stream = File.Open(path, FileMode.Open))
+                {
+                    BinaryFormatter bformatter = new BinaryFormatter();
+                    this.grid = (Block[,])bformatter.Deserialize(stream);
+                    return true;
+                }
+            }
+            catch (SerializationException)
+            {
+                return false;
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+        }
+
+        #endregion
     }
 }
