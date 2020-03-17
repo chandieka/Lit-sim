@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    public class Person : FunctionalBlock
+    public class Person : Block
     {
         new public static readonly Color color = Color.Blue;
 
-        public override Func<Block[,], Block[,]> Function => _ => _; // TODO
+        //public override Func<Block[,], Block[,]> Function => _ => _; // TODO
 
         public Person()
             : base()
