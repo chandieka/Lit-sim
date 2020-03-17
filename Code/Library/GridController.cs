@@ -174,7 +174,7 @@ namespace Library
         public bool IsSavable()
         {
             Block[,] loadedGrid = null;
-            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.txt");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
 
             try
             {
