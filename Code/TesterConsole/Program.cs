@@ -12,6 +12,8 @@ namespace TesterConsole
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Supplied arguments: " + string.Join(", ", args));
+
             // create a new Grid
             var gc = new GridController((10, 10));
 
@@ -35,6 +37,7 @@ namespace TesterConsole
             Console.ReadKey();
         }
 
+        #pragma warning disable IDE0051 // disable the warning about the un-used method.
         static void PrintArray(int[,] array)
         {
             for (int i = 0; i < array.GetLength(0); i++)
