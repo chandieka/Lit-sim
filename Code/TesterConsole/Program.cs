@@ -12,16 +12,19 @@ namespace TesterConsole
     {
         static void Main(string[] args)
         {
-            // create a new Grid
-            var gc = new GridController((10, 10));
+            Console.WriteLine("Supplied arguments: " + string.Join(", ", args));
 
-            gc.Load(string.Empty);
+            // create a new Grid
+            var gc = new GridController((500, 500));
+
+            //gc.Load(string.Empty);
             // add some random data to the grid
-            gc.FillFloor((1, 3), 5, 5);
-            gc.FillWall((1, 2), 5, 1);
-            gc.PutPerson((8, 3));
-            gc.PutPerson((8, 5));
-            
+            gc.PutDefaultFloorPlan(1);
+
+            //gc.FillWall((1, 2), 5, 1);
+            //gc.PutPerson((8, 3));
+            //gc.PutPerson((8, 5));
+
             // generate a bitmap from the grid
             var bmp = gc.Paint();
 
@@ -35,6 +38,7 @@ namespace TesterConsole
             Console.ReadKey();
         }
 
+        #pragma warning disable IDE0051 // disable the warning about the un-used method.
         static void PrintArray(int[,] array)
         {
             for (int i = 0; i < array.GetLength(0); i++)
