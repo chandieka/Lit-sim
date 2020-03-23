@@ -167,7 +167,15 @@ namespace Library
                 FillFloor((2 * widthScale, 7 * heightScale), 1 * widthScale, thickness);
                 // Door 6
                 FillFloor((4 * widthScale, 8 * heightScale), 1 * widthScale, thickness);
-                PutWall((4 * widthScale, 8 * heightScale));
+
+                int x;
+                int y;
+                for (int i = 0; i < thickness; i++)
+                {
+                    x = (4 * widthScale) - 1;
+                    y = (8 * heightScale) - 1;
+                    PutWall((x, y));
+                }
 
                 // Do horizonal door fill
                 // Door 2
