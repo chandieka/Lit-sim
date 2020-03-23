@@ -41,6 +41,17 @@ namespace Library
 
         #region Methods
         #region Grid Manipulation
+        public void Clear()
+        {
+            // fill the grid with empty blocks.
+            for (int x = 0; x < this.grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < this.grid.GetLength(1); y++)
+                {
+                    this.grid[x, y] = Block.Empty;
+                }
+            }
+        }
         public void PutFloor((int x, int y) location)
         {
             this.grid[location.x, location.y] = new Floor();
