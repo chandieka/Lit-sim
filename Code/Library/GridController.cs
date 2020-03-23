@@ -62,6 +62,8 @@ namespace Library
 
         public void FillWall((int x, int y) topLeft, int width, int height)
         {
+            // Only for horizon and vertical wall
+         
             for (int x = topLeft.x; x < topLeft.x + width; x++)
             {
                 for (int y = topLeft.y; y < topLeft.y + height; y++)
@@ -84,6 +86,64 @@ namespace Library
         public void PutFireExtinguisher((int x, int y) location)
         {
             this.grid[location.x, location.y] = new FireExtinguisher();
+        }
+        
+        public void PutDefaultFloorPlan()
+        {
+            /// <summary>
+            /// TODO:
+            ///     check the scale of the grid array if its scalable by 10
+            ///     Do horizonal wall fill
+            ///     Do vertical wall fill
+            ///     Do horizonal door fill
+            ///     Do vertical door fill
+            /// </summary>
+            /// 
+            
+            // check whether the grid size is in ratio of 10
+            if (this.GridHeight % 10 == 0 & this.GridWidth % 10 == 0)
+            {
+                int heightScale = GridHeight / 10;
+                int widthScale = GridWidth / 10;
+                int wallThickness = 1;
+
+                // Do horizonal wall fill
+                // AB
+                FillWall((0, 0), GridWidth, wallThickness);
+                // LM
+                FillWall((4 * widthScale, 3 * heightScale), 3 * widthScale, wallThickness);
+                // IK
+                FillWall((0 * widthScale, 4 * heightScale), 4 * widthScale, wallThickness);
+                // QF
+                FillWall((6 * widthScale, 6 * heightScale), 4 * widthScale, wallThickness);
+                // JN
+                FillWall((0 * widthScale, 7 * heightScale), 4 * widthScale, wallThickness);
+                // OP
+                FillWall((4 * widthScale, 8 * heightScale), 2 * widthScale, wallThickness);
+                // CD
+                FillWall((0 * widthScale, GridHeight - 1), GridWidth, wallThickness);
+
+                // Do vertical wall fill
+                // AC
+                FillWall((0, 0), wallThickness, GridHeight);
+                // LK
+                FillWall((4 * widthScale, 3 * heightScale), wallThickness, 1 * heightScale);
+                // NH
+                FillWall((4 * widthScale, 7 * heightScale), wallThickness, 3 * heightScale);
+                // QG
+                FillWall((6 * widthScale, 6 * heightScale), wallThickness, 4 * heightScale);
+                // ER
+                FillWall((7 * widthScale, 0 * heightScale), wallThickness, 6 * heightScale);
+                // BD
+                FillWall((GridWidth - 1, 0 * heightScale), wallThickness, GridHeight);
+
+
+                //     Do horizonal door fill
+
+                //     Do vertical door fill
+
+                // Fill all empty array as floor
+            }
         }
 
         public void Tick()

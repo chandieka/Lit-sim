@@ -15,15 +15,16 @@ namespace TesterConsole
             Console.WriteLine("Supplied arguments: " + string.Join(", ", args));
 
             // create a new Grid
-            var gc = new GridController((10, 10));
+            var gc = new GridController((1000, 1000));
 
-            gc.Load(string.Empty);
+            //gc.Load(string.Empty);
             // add some random data to the grid
-            gc.FillFloor((1, 3), 5, 5);
-            gc.FillWall((1, 2), 5, 1);
-            gc.PutPerson((8, 3));
-            gc.PutPerson((8, 5));
-            
+            gc.PutDefaultFloorPlan();
+
+            //gc.FillWall((1, 2), 5, 1);
+            //gc.PutPerson((8, 3));
+            //gc.PutPerson((8, 5));
+
             // generate a bitmap from the grid
             var bmp = gc.Paint();
 
