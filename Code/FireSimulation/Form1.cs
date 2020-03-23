@@ -21,6 +21,7 @@ namespace FireSimulator
         public Form1()
         {
             InitializeComponent();
+            Placeholder.Items.Add("This is just a placeholder");
             tbTimer.Text = time.ToString();
 
             this.gridController = new GridController((100, 100));
@@ -40,6 +41,8 @@ namespace FireSimulator
         {
             if (building == true)
             {
+                lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
+                lblBuild.Font = new Font(lblBuild.Font, FontStyle.Regular);
                 picBoxWall.Visible = false;
                 picBoxFireExtinguisher.Visible = false;
                 picBoxFire.Visible = false;
@@ -53,6 +56,8 @@ namespace FireSimulator
             }
             else
             {
+                lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Regular);
+                lblBuild.Font = new Font(lblBuild.Font, FontStyle.Underline);
                 picBoxWall.Visible = true;
                 picBoxFireExtinguisher.Visible = true;
                 picBoxFire.Visible = true;
@@ -77,19 +82,21 @@ namespace FireSimulator
             time = time.Add(second);
         }
 
-        private void picBoxPlay_Click(object sender, EventArgs e)
+        private void picBoxPlayPause_Click(object sender, EventArgs e)
         {
             if (running == false)
             {
                 timer1.Start();
                 running = true;
-                toolTipPlay.SetToolTip(picBoxPlay, "Pause");
+                picBoxPlayPause.Image = Icons.Pause;
+                toolTipPlay.SetToolTip(picBoxPlayPause, "Pause");
             }
             else
             {
                 timer1.Stop();
                 running = false;
-                toolTipPlay.SetToolTip(picBoxPlay, "Resume");
+                picBoxPlayPause.Image = Icons.Play;
+                toolTipPlay.SetToolTip(picBoxPlayPause, "Resume");
             }
         }
 
