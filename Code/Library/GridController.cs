@@ -99,7 +99,7 @@ namespace Library
             this.grid[location.x, location.y] = new FireExtinguisher();
         }
         
-        public void PutDefaultFloorPlan()
+        public void PutDefaultFloorPlan(int _thickness)
         {
             /// <summary>
             /// TODO:
@@ -116,44 +116,64 @@ namespace Library
             {
                 int heightScale = GridHeight / 10;
                 int widthScale = GridWidth / 10;
-                int wallThickness = 1;
+                int thickness = _thickness;
+
+                // Fill all empty array as floor
+                for (int i = 0; i < this.GridHeight; i++)
+                {
+                    for (int j = 0; j < this.GridWidth; j++)
+                    {
+                        PutFloor((i, j));
+                    }
+                }
 
                 // Do horizonal wall fill
                 // AB
-                FillWall((0, 0), GridWidth, wallThickness);
+                FillWall((0, 0), GridWidth, thickness);
                 // LM
-                FillWall((4 * widthScale, 3 * heightScale), 3 * widthScale, wallThickness);
+                FillWall((4 * widthScale, 3 * heightScale), 3 * widthScale, thickness);
                 // IK
-                FillWall((0 * widthScale, 4 * heightScale), 4 * widthScale, wallThickness);
+                FillWall((0 * widthScale, 4 * heightScale), 4 * widthScale, thickness);
                 // QF
-                FillWall((6 * widthScale, 6 * heightScale), 4 * widthScale, wallThickness);
+                FillWall((6 * widthScale, 6 * heightScale), 4 * widthScale, thickness);
                 // JN
-                FillWall((0 * widthScale, 7 * heightScale), 4 * widthScale, wallThickness);
+                FillWall((0 * widthScale, 7 * heightScale), 4 * widthScale, thickness);
                 // OP
-                FillWall((4 * widthScale, 8 * heightScale), 2 * widthScale, wallThickness);
+                FillWall((4 * widthScale, 8 * heightScale), 2 * widthScale, thickness);
                 // CD
-                FillWall((0 * widthScale, GridHeight - 1), GridWidth, wallThickness);
+                FillWall((0 * widthScale, GridHeight - 1), GridWidth, thickness);
 
                 // Do vertical wall fill
                 // AC
-                FillWall((0, 0), wallThickness, GridHeight);
+                FillWall((0, 0), thickness, GridHeight);
                 // LK
-                FillWall((4 * widthScale, 3 * heightScale), wallThickness, 1 * heightScale);
+                FillWall((4 * widthScale, 3 * heightScale), thickness, 1 * heightScale);
                 // NH
-                FillWall((4 * widthScale, 7 * heightScale), wallThickness, 3 * heightScale);
+                FillWall((4 * widthScale, 7 * heightScale), thickness, 3 * heightScale);
                 // QG
-                FillWall((6 * widthScale, 6 * heightScale), wallThickness, 4 * heightScale);
+                FillWall((6 * widthScale, 6 * heightScale), thickness, 4 * heightScale);
                 // ER
-                FillWall((7 * widthScale, 0 * heightScale), wallThickness, 6 * heightScale);
+                FillWall((7 * widthScale, 0 * heightScale), thickness, 6 * heightScale);
                 // BD
-                FillWall((GridWidth - 1, 0 * heightScale), wallThickness, GridHeight);
+                FillWall((GridWidth - 1, 0 * heightScale), thickness, GridHeight);
 
 
-                //     Do horizonal door fill
+                // Do vertical door fill
+                // Door 1
+                FillFloor((1 * widthScale, 4 * heightScale), 1 * widthScale, thickness);
+                // Door 4
+                FillFloor((8 * widthScale, 6 * heightScale), 1 * widthScale, thickness);
+                // Door 5
+                FillFloor((2 * widthScale, 7 * heightScale), 1 * widthScale, thickness);
+                // Door 6
+                FillFloor((4 * widthScale, 8 * heightScale), 1 * widthScale, thickness);
+                PutWall((4 * widthScale, 8 * heightScale));
 
-                //     Do vertical door fill
-
-                // Fill all empty array as floor
+                // Do horizonal door fill
+                // Door 2
+                FillFloor((7 * widthScale, 1 * heightScale), thickness, 1 * widthScale);
+                // Door 3
+                FillFloor((7 * widthScale, 4 * heightScale), thickness, 1 * widthScale);
             }
         }
 

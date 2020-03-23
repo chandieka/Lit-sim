@@ -15,11 +15,11 @@ namespace TesterConsole
             Console.WriteLine("Supplied arguments: " + string.Join(", ", args));
 
             // create a new Grid
-            var gc = new GridController((1000, 1000));
+            var gc = new GridController((500, 500));
 
             //gc.Load(string.Empty);
             // add some random data to the grid
-            gc.PutDefaultFloorPlan();
+            gc.PutDefaultFloorPlan(1);
 
             //gc.FillWall((1, 2), 5, 1);
             //gc.PutPerson((8, 3));
