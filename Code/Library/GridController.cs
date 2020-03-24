@@ -172,8 +172,8 @@ namespace Library
                 int y;
                 for (int i = 0; i < thickness; i++)
                 {
-                    x = (4 * widthScale) - 1;
-                    y = (8 * heightScale) - 1;
+                    x = (4 * widthScale);
+                    y = (8 * heightScale);
                     PutWall((x, y));
                 }
 
@@ -205,7 +205,7 @@ namespace Library
         }
         #endregion
         #region Grid Visualization
-        public Bitmap Paint()
+        public Bitmap Paint((int xScale, int yScale)scaleSize)
         {
             #pragma warning disable CS8321 // disable the warning about the un-used method.
             Bitmap UseLockbits(Bitmap bmp)
@@ -250,7 +250,7 @@ namespace Library
                         var color = (Color)this.grid[x, y].GetType().GetField("color").GetValue(this.grid[x, y]);
                         br = new SolidBrush(color);
 
-                        gr.FillRectangle(br, x, y, 1, 1);
+                        gr.FillRectangle(br, x * scaleSize.xScale, y * scaleSize.yScale, 1 * scaleSize.xScale, 1 * scaleSize.xScale);
                     }
                 }
 
@@ -258,7 +258,8 @@ namespace Library
             }
 
             // create a new bitmap
-            var bitmap = new Bitmap(GridWidth, GridHeight);
+            var bitmap = new Bitmap(GridWidth* scaleSize.xScale, GridHeight* scaleSize.yScale);
+            // set DPI resolution
             return UseGraphics(bitmap);
         }
         #endregion

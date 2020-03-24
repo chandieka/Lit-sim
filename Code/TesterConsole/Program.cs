@@ -15,7 +15,7 @@ namespace TesterConsole
             Console.WriteLine("Supplied arguments: " + string.Join(", ", args));
 
             // create a new Grid
-            var gc = new GridController((500, 500));
+            var gc = new GridController((100, 100));
 
             //gc.Load(string.Empty);
             // add some random data to the grid
@@ -26,7 +26,7 @@ namespace TesterConsole
             //gc.PutPerson((8, 5));
 
             // generate a bitmap from the grid
-            var bmp = gc.Paint();
+            var bmp = gc.Paint((10,10));
 
             // store the bimap in a file
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/mylayout.png";
