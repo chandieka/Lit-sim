@@ -11,28 +11,35 @@ using System.Windows.Forms;
 
 namespace FireSimulator
 {
-    public partial class Form1 : Form
+    public partial class FireSimulatorForm : Form
     {
         TimeSpan time = new TimeSpan(0, 0, 0);
         bool running;
         bool building = true;
         GridController gridController;
 
-        public Form1()
+        public FireSimulatorForm()
         {
             InitializeComponent();
-            Placeholder.Items.Add("This is just a placeholder");
+            //Placeholder.Items.Add("This is just a placeholder");
             tbTimer.Text = time.ToString();
 
             this.gridController = new GridController((100, 100));
-            if (this.gridController.IsLoadable())
-            {
-                //Add a messagebox or some other form of asking the user if he wants to load the last auto saved verion
-                //if (yes)
-                //{
-                //  this.gridController.Load(string.Empty);
-                //}
-            }
+
+            gridController.PutDefaultFloorPlan(1);
+
+            Bitmap bmp = gridController.Paint((6, 6));
+
+            pbSimulation.Image = bmp;
+
+            ////if (this.gridController.IsLoadable())
+            ////{
+            ////    //Add a messagebox or some other form of asking the user if he wants to load the last auto saved verion
+            ////    //if (yes)
+            ////    //{
+            ////    //  this.gridController.Load(string.Empty);
+            ////    //}
+            ////}
         }
 
         #region Private Methods 

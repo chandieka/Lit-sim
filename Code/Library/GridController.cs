@@ -147,7 +147,7 @@ namespace Library
                 // AC
                 FillWall((0, 0), thickness, GridHeight);
                 // LK
-                FillWall((4 * widthScale, 3 * heightScale), thickness, 1 * heightScale);
+                FillWall((4 * widthScale, 3 * heightScale), thickness, 2 * heightScale);
                 // NH
                 FillWall((4 * widthScale, 7 * heightScale), thickness, 3 * heightScale);
                 // QG
