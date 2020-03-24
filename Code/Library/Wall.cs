@@ -11,10 +11,10 @@ namespace Library
     {
         new public static readonly Color color = Color.Black;
 
-        public Wall()
+        public Wall(Tuple<int,int> coordinate)
             : base()
         {
-
+            this.Coordinate = coordinate;
         }
     }
 }

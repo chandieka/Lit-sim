@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization;
@@ -9,8 +10,13 @@ namespace Library
     public class GridController
     {
         #region Private Fields
-
+        // playing fields
         private Block[,] grid;
+
+        // Blocks 
+        private List<Block> persons;
+        private List<Block> fireExtinguishers;
+        private List<Block> walls;
 
         #endregion
 
@@ -35,6 +41,10 @@ namespace Library
                     this.grid[x, y] = Block.Empty;
                 }
             }
+
+            persons = new List<Block>();
+            fireExtinguishers = new List<Block>();
+            walls = new List<Block>();
         }
 
         #endregion
@@ -68,12 +78,14 @@ namespace Library
         }
         public void PutWall((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Wall();
+            Wall nwWall = new Wall(new Tuple<int, int>(location.x, location.y));
+            this.grid[location.x, location.y] = nwWall;
+            walls.Add(nwWall);
         }
 
         public void FillWall((int x, int y) topLeft, int width, int height)
         {
-            // Only for horizon and vertical wall
+            // Only for horizontal and vertical wall
          
             for (int x = topLeft.x; x < topLeft.x + width; x++)
             {
@@ -86,7 +98,46 @@ namespace Library
 
         public void PutPerson((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Person();
+            Person nwPerson = new Person(new Tuple<int, int>(location.x, location.y));
+            this.grid[location.x, location.y] = nwPerson;
+            persons.Add(nwPerson);
+        }
+
+        public bool PutPersons(int persons, int seeds = 0)
+        { 
+            if (persons > 0)
+            {
+                Random rand;
+
+                if (seeds != 0)
+                {
+                    rand = new Random(seeds);
+                }
+
+                rand = new Random();
+
+                for (int i = 0; i < persons; i++)
+                {
+                    bool isPlace = false;
+
+                    while (!isPlace)
+                    {
+                        int x = rand.Next(0, GridWidth);
+                        int y = rand.Next(0, GridHeight);
+
+                        if (grid[x,y] is Floor && !(grid[x, y] is Person))
+                        {
+                            PutPerson((x, y));
+                            isPlace = true;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void PutFire((int x, int y) location)
@@ -98,7 +149,18 @@ namespace Library
         {
             this.grid[location.x, location.y] = new FireExtinguisher();
         }
-        
+        public bool PutFireExtinguishers(int fireExtinguishers)
+        {
+            if (fireExtinguishers > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void PutDefaultFloorPlan(int _thickness)
         {
             /// <summary>
@@ -110,78 +172,88 @@ namespace Library
             ///     Do vertical door fill
             /// </summary>
             /// 
-            
-            // check whether the grid size is in ratio of 10
-            if (this.GridHeight % 10 == 0 & this.GridWidth % 10 == 0)
+            if (_thickness > 0)
             {
-                int heightScale = GridHeight / 10;
-                int widthScale = GridWidth / 10;
-                int thickness = _thickness;
-
-                // Fill all empty array as floor
-                for (int i = 0; i < this.GridHeight; i++)
+                // check whether the grid size is in ratio of 10
+                if (this.GridHeight % 10 == 0 & this.GridWidth % 10 == 0)
                 {
-                    for (int j = 0; j < this.GridWidth; j++)
+                    int heightScale = GridHeight / 10;
+                    int widthScale = GridWidth / 10;
+                    int thickness = _thickness;
+
+                    // Fill all empty array as floor
+                    for (int i = 0; i < this.GridHeight; i++)
                     {
-                        PutFloor((i, j));
+                        for (int j = 0; j < this.GridWidth; j++)
+                        {
+                            PutFloor((i, j));
+                        }
                     }
+
+                    // Do horizonal wall fill
+                    // AB
+                    FillWall((0, 0), GridWidth, thickness);
+                    // LM
+                    FillWall((4 * widthScale, 3 * heightScale), 3 * widthScale, thickness);
+                    // IK
+                    FillWall((0 * widthScale, 4 * heightScale), 4 * widthScale, thickness);
+                    // QF
+                    FillWall((6 * widthScale, 6 * heightScale), 4 * widthScale, thickness);
+                    // JN
+                    FillWall((0 * widthScale, 7 * heightScale), 4 * widthScale, thickness);
+                    // OP
+                    FillWall((4 * widthScale, 8 * heightScale), 2 * widthScale, thickness);
+                    // CD
+                    FillWall((0 * widthScale, GridHeight - 1), GridWidth, thickness);
+
+                    // Do vertical wall fill
+                    // AC
+                    FillWall((0, 0), thickness, GridHeight);
+                    // LK
+                    FillWall((4 * widthScale, 3 * heightScale), thickness, 1 * heightScale);
+                    // NH
+                    FillWall((4 * widthScale, 7 * heightScale), thickness, 3 * heightScale);
+                    // QG
+                    FillWall((6 * widthScale, 6 * heightScale), thickness, 4 * heightScale);
+                    // ER
+                    FillWall((7 * widthScale, 0 * heightScale), thickness, 6 * heightScale);
+                    // BD
+                    FillWall((GridWidth - 1, 0 * heightScale), thickness, GridHeight);
+
+
+                    // Do vertical door fill
+                    // Door 1
+                    FillFloor((1 * widthScale, 4 * heightScale), 1 * widthScale, thickness);
+                    // Door 4
+                    FillFloor((8 * widthScale, 6 * heightScale), 1 * widthScale, thickness);
+                    // Door 5
+                    FillFloor((2 * widthScale, 7 * heightScale), 1 * widthScale, thickness);
+                    // Door 6
+                    FillFloor((4 * widthScale, 8 * heightScale), 1 * widthScale, thickness);
+
+                    int x;
+                    int y;
+                    for (int i = 0; i < thickness; i++)
+                    {
+                        x = (4 * widthScale);
+                        y = (8 * heightScale);
+                        PutWall((x, y));
+                    }
+
+                    // Do horizonal door fill
+                    // Door 2
+                    FillFloor((7 * widthScale, 1 * heightScale), thickness, 1 * widthScale);
+                    // Door 3
+                    FillFloor((7 * widthScale, 4 * heightScale), thickness, 1 * widthScale);
                 }
-
-                // Do horizonal wall fill
-                // AB
-                FillWall((0, 0), GridWidth, thickness);
-                // LM
-                FillWall((4 * widthScale, 3 * heightScale), 3 * widthScale, thickness);
-                // IK
-                FillWall((0 * widthScale, 4 * heightScale), 4 * widthScale, thickness);
-                // QF
-                FillWall((6 * widthScale, 6 * heightScale), 4 * widthScale, thickness);
-                // JN
-                FillWall((0 * widthScale, 7 * heightScale), 4 * widthScale, thickness);
-                // OP
-                FillWall((4 * widthScale, 8 * heightScale), 2 * widthScale, thickness);
-                // CD
-                FillWall((0 * widthScale, GridHeight - 1), GridWidth, thickness);
-
-                // Do vertical wall fill
-                // AC
-                FillWall((0, 0), thickness, GridHeight);
-                // LK
-                FillWall((4 * widthScale, 3 * heightScale), thickness, 1 * heightScale);
-                // NH
-                FillWall((4 * widthScale, 7 * heightScale), thickness, 3 * heightScale);
-                // QG
-                FillWall((6 * widthScale, 6 * heightScale), thickness, 4 * heightScale);
-                // ER
-                FillWall((7 * widthScale, 0 * heightScale), thickness, 6 * heightScale);
-                // BD
-                FillWall((GridWidth - 1, 0 * heightScale), thickness, GridHeight);
-
-
-                // Do vertical door fill
-                // Door 1
-                FillFloor((1 * widthScale, 4 * heightScale), 1 * widthScale, thickness);
-                // Door 4
-                FillFloor((8 * widthScale, 6 * heightScale), 1 * widthScale, thickness);
-                // Door 5
-                FillFloor((2 * widthScale, 7 * heightScale), 1 * widthScale, thickness);
-                // Door 6
-                FillFloor((4 * widthScale, 8 * heightScale), 1 * widthScale, thickness);
-
-                int x;
-                int y;
-                for (int i = 0; i < thickness; i++)
+                else
                 {
-                    x = (4 * widthScale);
-                    y = (8 * heightScale);
-                    PutWall((x, y));
-                }
 
-                // Do horizonal door fill
-                // Door 2
-                FillFloor((7 * widthScale, 1 * heightScale), thickness, 1 * widthScale);
-                // Door 3
-                FillFloor((7 * widthScale, 4 * heightScale), thickness, 1 * widthScale);
+                }
+            }
+            else
+            {
+
             }
         }
 

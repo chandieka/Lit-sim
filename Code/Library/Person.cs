@@ -13,10 +13,10 @@ namespace Library
 
         //public override Func<Block[,], Block[,]> Function => _ => _; // TODO
 
-        public Person()
+        public Person(Tuple<int, int> coordinate)
             : base()
         {
-
+            this.Coordinate = coordinate;
         }
     }
 }
