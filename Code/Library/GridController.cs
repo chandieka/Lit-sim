@@ -376,6 +376,26 @@ namespace Library
                     FillFloor((7 * widthScale, 1 * heightScale), thickness, 1 * widthScale);
                     // Door 3
                     FillFloor((7 * widthScale, 4 * heightScale), thickness, 1 * widthScale);
+
+                    // store the wall location
+                    // Current fix but still a problem 
+                    StoreWallIntoList();
+                }
+            }
+        }
+
+        public void StoreWallIntoList()
+        {
+            walls.Clear();
+
+            for (int i = 0; i < GridHeight; i++)
+            {
+                for(int j = 0; j < GridWidth; j++)
+                {
+                    if (grid[i,j].GetType() == typeof(Wall))
+                    {
+                        walls.Add(grid[i, j]);
+                    }
                 }
             }
         }

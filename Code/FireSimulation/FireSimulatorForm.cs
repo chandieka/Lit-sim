@@ -24,13 +24,10 @@ namespace FireSimulator
             //Placeholder.Items.Add("This is just a placeholder");
             tbTimer.Text = time.ToString();
 
-            this.gridController = new GridController((100, 100));
+            this.gridController = new GridController((50, 50));
 
             gridController.PutDefaultFloorPlan(1);
-
-            Bitmap bmp = gridController.Paint();
-
-            pbSimulation.Image = bmp;
+            
 
             ////if (this.gridController.IsLoadable())
             ////{
@@ -85,8 +82,19 @@ namespace FireSimulator
         private void timer1_Tick(object sender, EventArgs e)
         {
             tbTimer.Text = time.ToString();
-            TimeSpan second = new TimeSpan(0, 0, 1);
+            TimeSpan second = new TimeSpan(0, 0, 10);
             time = time.Add(second);
+
+            // Testing purpose
+            gridController.Clear();
+
+            gridController.PutDefaultFloorPlan(1);
+            gridController.PutPersons(20);
+            gridController.PutFireExtinguishers(20);
+
+            Bitmap bmp = gridController.Paint((10, 10));
+
+            pbSimulation.Image = bmp;
         }
 
         private void picBoxPlayPause_Click(object sender, EventArgs e)
