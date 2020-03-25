@@ -26,25 +26,20 @@ namespace Library
         #endregion
 
         #region Public Properties
-
         public int GridWidth => this.grid.GetLength(0);
         public int GridHeight => this.grid.GetLength(1);
-
         #endregion
 
         #region Constructor
-
         public GridController((int width, int height) gridSize)
         {
             this.grid = new Block[gridSize.width, gridSize.height];
 
             // fill the grid with empty blocks.
-            for (int x = 0; x < this.grid.GetLength(0); x++)
+            for (int x = 0; x < this.GridWidth; x++)
             {
-                for (int y = 0; y < this.grid.GetLength(1); y++)
-                {
+                for (int y = 0; y < this.GridHeight; y++)
                     this.grid[x, y] = Block.Empty;
-                }
             }
 
             persons = new List<Block>();
@@ -52,6 +47,10 @@ namespace Library
             walls = new List<Block>();
         }
 
+        public GridController(Block[,] grid)
+        {
+            this.grid = grid;
+        }
         #endregion
 
         #region Methods
@@ -67,10 +66,12 @@ namespace Library
                 }
             }
         }
+
         public void PutFloor((int x, int y) location)
         {
             this.grid[location.x, location.y] = new Floor();
         }
+
         public void FillFloor((int x, int y) topLeft, int width, int height)
         {
             for (int x = topLeft.x; x < topLeft.x + width; x++)
@@ -81,6 +82,7 @@ namespace Library
                 }
             }
         }
+
         public void PutWall((int x, int y) location)
         {
             Wall nwWall = new Wall(new Tuple<int, int>(location.x, location.y));
@@ -387,7 +389,7 @@ namespace Library
                     switch (this.grid[x, y])
                     {
                         case FunctionalBlock fb:
-                            this.grid = fb.Function(this.grid);
+                            fb.Function(this.grid, x, y); // The item should directly edit the grid
                             break;
                         //case Block bl:
                         //     Do nothing?
@@ -457,8 +459,8 @@ namespace Library
         }
         #endregion
         #region IO
-        private string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
-        private Block[,] getSavedGrid(string path)
+        private static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
+        private static Block[,] getSavedGrid(string path)
         {
             try
             {
@@ -535,14 +537,14 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public bool Load(string path = null)
+        public static GridController Load(string path = null)
         {
-            var savedGrid = getSavedGrid(path ?? defaultPath);
+            Block[,] grid = getSavedGrid(path ?? defaultPath);
 
-            if (savedGrid == null) return false;
+            if (grid != null)
+                return new GridController(grid);
 
-            this.grid = savedGrid;
-            return true;
+            return null;
         }
         #endregion
         #endregion

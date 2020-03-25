@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Library
 {
-    public class Person : Block
+    public class Person : FunctionalBlock
     {
         new public static readonly Color color = Color.Blue;
 
@@ -17,6 +12,11 @@ namespace Library
             : base()
         {
             this.Coordinate = coordinate;
+        }
+
+        public override void Function(Block[,] grid, int x, int y)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

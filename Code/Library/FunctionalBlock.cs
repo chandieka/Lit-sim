@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library
+﻿namespace Library
 {
     public abstract class FunctionalBlock : Block
     {
-        public abstract Func<Block[,], Block[,]> Function { get; }
+        public abstract void Function(Block[,] grid, int x, int y);
     }
 }
