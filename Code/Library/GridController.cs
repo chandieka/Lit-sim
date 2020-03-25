@@ -11,12 +11,17 @@ namespace Library
     {
         #region Private Fields
         // playing fields
-        private Block[,] grid;
 
-        // Blocks 
+        public Block[,] grid;
+
+        // list of Blocks from the grid map for ease of access 
+        // every block know it own location so that it easy to translate it back in the grid
+
         private List<Block> persons;
         private List<Block> fireExtinguishers;
         private List<Block> walls;
+
+        // others 
 
         #endregion
 
@@ -80,7 +85,7 @@ namespace Library
         {
             Wall nwWall = new Wall(new Tuple<int, int>(location.x, location.y));
             this.grid[location.x, location.y] = nwWall;
-            walls.Add(nwWall);
+            this.walls.Add(nwWall);
         }
 
         public void FillWall((int x, int y) topLeft, int width, int height)
@@ -103,9 +108,11 @@ namespace Library
             persons.Add(nwPerson);
         }
 
-        public bool PutPersons(int persons, int seeds = 0)
-        { 
-            if (persons > 0)
+        public bool PutPersons(int amount, int seeds = 0)
+        {
+            int totalFloor = (GridHeight * GridWidth) - persons.Count - walls.Count - fireExtinguishers.Count;
+
+            if (amount > 0 && amount < totalFloor)
             {
                 Random rand;
 
@@ -116,16 +123,20 @@ namespace Library
 
                 rand = new Random();
 
-                for (int i = 0; i < persons; i++)
+                for (int i = 0; i < amount; i++)
                 {
                     bool isPlace = false;
 
                     while (!isPlace)
                     {
+                        // generate coordinate
                         int x = rand.Next(0, GridWidth);
                         int y = rand.Next(0, GridHeight);
 
-                        if (grid[x,y] is Floor && !(grid[x, y] is Person))
+                        // check whether the random tiles is a floor
+                        // peoples are only able to be put on floor block
+
+                        if (grid[x,y] is Floor)
                         {
                             PutPerson((x, y));
                             isPlace = true;
@@ -147,12 +158,129 @@ namespace Library
 
         public void PutFireExtinguisher((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new FireExtinguisher();
+            FireExtinguisher nwFx = new FireExtinguisher(new Tuple<int, int>(location.x, location.y));
+
+            this.grid[location.x, location.y] = nwFx;
+            this.fireExtinguishers.Add(nwFx);
         }
-        public bool PutFireExtinguishers(int fireExtinguishers)
+        public bool PutFireExtinguishers(int amount, int seed = 0)
         {
-            if (fireExtinguishers > 0)
+            AssignEmptyWallNeighbors();
+
+            // must have atleast 1 fire extinguisher 
+            int totalFloor = (GridHeight * GridWidth) - persons.Count - walls.Count - fireExtinguishers.Count;
+            if (amount > 0 && amount <= totalFloor)
             {
+                if (walls.Count > 0)
+                {
+                    Random rand = new Random();
+
+                    if (seed != 0)
+                    {
+                        rand = new Random(seed);
+                    }
+
+                    for (int i = 0; i < amount; i++)
+                    {
+                        bool isPlace = false;
+
+                        // find the right wall that fit all requirement
+                        while (!isPlace)
+                        {
+                            int wallChance = rand.Next(0, walls.Count);
+                            Wall w = (Wall)walls[wallChance];
+
+                            // check if its have more that 1 neighbour
+                            for (int j = 0; j < w.EmptyNeighbors.Count; j++)
+                            {
+                                int neighborChance = rand.Next(0, w.EmptyNeighbors.Count - 1);
+
+                                int x = w.EmptyNeighbors[neighborChance].Item1;
+                                int y = w.EmptyNeighbors[neighborChance].Item2;
+
+                                // Replace the floor with fire extinguisher
+
+                                FireExtinguisher fx = new FireExtinguisher(new Tuple<int, int>(x, y));
+                                fireExtinguishers.Add(fx);
+                                grid[x, y] = fx;
+
+                                // remove the empty neighbor
+                                w.EmptyNeighbors.RemoveAt(neighborChance);
+                                isPlace = true;
+                            }
+                        }   
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AssignEmptyWallNeighbors()
+        {
+            if (walls.Count > 0)
+            {
+                for (int i = 0; i < walls.Count; i++)
+                {
+                    Wall w = (Wall)walls[i];
+
+                    int x = w.Coordinate.Item1;
+                    int y = w.Coordinate.Item2;
+
+                    // check the vertical neighbors
+                    // check the neighbor x and y coordinate did not exceed the boundaries
+
+                    if (x + 1 < GridWidth)
+                    {
+                        //check if it a floor
+                        if (grid[x + 1, y].GetType() == typeof(Floor))
+                        {
+                            // add it to the list 
+                            w.EmptyNeighbors.Add(new Tuple<int, int>(x + 1, y));
+                        }
+                    }
+                    if (x - 1 > 0)
+                    {
+                        //check if it a floor
+                        if (grid[x - 1, y].GetType() == typeof(Floor))
+                        {
+                            // add it to the list 
+
+                            w.EmptyNeighbors.Add(new Tuple<int, int>(x - 1, y));
+                        }
+                    }
+
+                    // check the horizontal neighbors 
+                    // check the neighbor x and y coordinate did not exceed the boundaries
+
+                    if (y + 1 < GridHeight)
+                    {
+                        //check if it a floor
+                        if (grid[x, y + 1].GetType() == typeof(Floor))
+                        {
+                            // add it to the list 
+
+                            w.EmptyNeighbors.Add(new Tuple<int, int>(x, y + 1));
+                        }
+                    }
+                    if (y - 1 > 0)
+                    {
+                        //check if it a floor
+                        if (grid[x, y - 1].GetType() == typeof(Floor))
+                        {
+                            // add it to the list 
+
+                            w.EmptyNeighbors.Add(new Tuple<int, int>(x, y - 1));
+                        }
+                    }
+                }
                 return true;
             }
             else
@@ -237,6 +365,7 @@ namespace Library
                     {
                         x = (4 * widthScale);
                         y = (8 * heightScale);
+
                         PutWall((x, y));
                     }
 
@@ -246,14 +375,6 @@ namespace Library
                     // Door 3
                     FillFloor((7 * widthScale, 4 * heightScale), thickness, 1 * widthScale);
                 }
-                else
-                {
-
-                }
-            }
-            else
-            {
-
             }
         }
 

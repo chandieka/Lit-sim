@@ -21,12 +21,14 @@ namespace TesterConsole
             // add some random data to the grid
             gc.PutDefaultFloorPlan(1);
             gc.PutPersons(10);
+            gc.PutFireExtinguishers(10);
+
             //gc.FillWall((1, 2), 5, 1);
             //gc.PutPerson((8, 3));
             //gc.PutPerson((8, 5));
 
             // generate a bitmap from the grid
-            var bmp = gc.Paint((10,10));
+            var bmp = gc.Paint((10, 10));
 
             // store the bimap in a file
             var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/mylayout.png";
