@@ -28,7 +28,7 @@ namespace FireSimulator
 
             gridController.PutDefaultFloorPlan(1);
 
-            Bitmap bmp = gridController.Paint((6, 6));
+            Bitmap bmp = gridController.Paint();
 
             pbSimulation.Image = bmp;
 

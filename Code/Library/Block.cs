@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Library
 {
@@ -11,10 +6,5 @@ namespace Library
     {
         public static readonly Block Empty = new Block();
         public static readonly Color color = Color.DarkGray;
-
-        static Block()
-        {
-
-        }
     }
 }
