@@ -72,6 +72,7 @@
             this.lblFireExTotal = new System.Windows.Forms.Label();
             this.lblDeaths = new System.Windows.Forms.Label();
             this.lblResult = new System.Windows.Forms.Label();
+            this.btnGenerate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWall)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFireExtinguisher)).BeginInit();
@@ -102,6 +103,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.btnGenerate);
             this.groupBox1.Controls.Add(this.tbFireExtinguishers);
             this.groupBox1.Controls.Add(this.tbPeople);
             this.groupBox1.Controls.Add(this.lblFireExtinguishers);
@@ -495,6 +497,16 @@
             this.lblResult.TabIndex = 13;
             this.lblResult.Text = "<Success/Fail>";
             // 
+            // btnGenerate
+            // 
+            this.btnGenerate.Location = new System.Drawing.Point(14, 333);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(76, 36);
+            this.btnGenerate.TabIndex = 14;
+            this.btnGenerate.Text = "Generate";
+            this.btnGenerate.UseVisualStyleBackColor = true;
+            this.btnGenerate.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -573,6 +585,7 @@
         private System.Windows.Forms.Button btnRerunSimulation;
         private System.Windows.Forms.Button btnCloseStatistics;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnGenerate;
     }
 }
 

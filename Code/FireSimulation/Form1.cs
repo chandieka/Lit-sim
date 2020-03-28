@@ -52,6 +52,7 @@ namespace FireSimulator
                 tbFireExtinguishers.Visible = true;
                 lblPeople.Visible = true;
                 lblFireExtinguishers.Visible = true;
+                btnGenerate.Visible = true;
                 building = false;
             }
             else
