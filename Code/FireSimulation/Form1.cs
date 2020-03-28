@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +69,7 @@ namespace FireSimulator
                 tbFireExtinguishers.Visible = false;
                 lblPeople.Visible = false;
                 lblFireExtinguishers.Visible = false;
+                btnGenerate.Visible = false;
                 building = true;
             }
         }
@@ -129,6 +131,39 @@ namespace FireSimulator
         private void btnCloseStatistics_Click(object sender, EventArgs e)
         {
             gBoxSettings.Visible = false;
+        }
+
+        private void btnSaveLayout_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog myDialog = new SaveFileDialog())
+            {
+                if (myDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string name = myDialog.FileName;
+                    
+                        FileStream fs = new FileStream(name, FileMode.CreateNew, FileAccess.Write);
+                       
+                                        
+                }
+            }
+        }
+
+        private void btnUploadFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog myDialog = new OpenFileDialog())
+            {
+                if (myDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string name = myDialog.FileName;
+                    FileStream fs = null;
+                   
+                    fs = new FileStream(name, FileMode.Open, FileAccess.Read);                   
+                    
+                    if (fs != null)
+                    fs.Close();
+                    
+                }
+            }
         }
     }
 }

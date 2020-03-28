@@ -115,7 +115,7 @@
             this.groupBox1.Controls.Add(this.lblBuild);
             this.groupBox1.Controls.Add(this.picBoxPerson);
             this.groupBox1.Controls.Add(this.picBoxFire);
-            this.groupBox1.Location = new System.Drawing.Point(23, 35);
+            this.groupBox1.Location = new System.Drawing.Point(23, 46);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -194,7 +194,7 @@
             this.lblGenerate.BackColor = System.Drawing.Color.Transparent;
             this.lblGenerate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGenerate.Location = new System.Drawing.Point(42, 7);
+            this.lblGenerate.Location = new System.Drawing.Point(41, 15);
             this.lblGenerate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGenerate.Name = "lblGenerate";
             this.lblGenerate.Size = new System.Drawing.Size(67, 16);
@@ -221,7 +221,7 @@
             this.lblBuild.BackColor = System.Drawing.Color.White;
             this.lblBuild.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblBuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBuild.Location = new System.Drawing.Point(4, 7);
+            this.lblBuild.Location = new System.Drawing.Point(3, 15);
             this.lblBuild.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBuild.Name = "lblBuild";
             this.lblBuild.Size = new System.Drawing.Size(42, 16);
@@ -299,7 +299,7 @@
             this.gBoxSettings.Controls.Add(this.btnUploadFile);
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSaveLayout);
-            this.gBoxSettings.Location = new System.Drawing.Point(810, 35);
+            this.gBoxSettings.Location = new System.Drawing.Point(811, 50);
             this.gBoxSettings.Name = "gBoxSettings";
             this.gBoxSettings.Size = new System.Drawing.Size(200, 234);
             this.gBoxSettings.TabIndex = 15;
@@ -324,6 +324,7 @@
             this.btnSaveLayout.TabIndex = 16;
             this.btnSaveLayout.Text = "Save Session Layout";
             this.btnSaveLayout.UseVisualStyleBackColor = true;
+            this.btnSaveLayout.Click += new System.EventHandler(this.btnSaveLayout_Click);
             // 
             // btnUploadFile
             // 
@@ -334,6 +335,7 @@
             this.btnUploadFile.TabIndex = 17;
             this.btnUploadFile.Text = "Upload Session File";
             this.btnUploadFile.UseVisualStyleBackColor = true;
+            this.btnUploadFile.Click += new System.EventHandler(this.btnUploadFile_Click);
             // 
             // label2
             // 
