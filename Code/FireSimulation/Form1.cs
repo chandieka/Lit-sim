@@ -124,5 +124,10 @@ namespace FireSimulator
         }
 
         #endregion
+
+        private void btnCloseStatistics_Click(object sender, EventArgs e)
+        {
+            gBoxSettings.Visible = false;
+        }
     }
 }
