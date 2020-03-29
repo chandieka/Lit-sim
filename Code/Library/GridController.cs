@@ -205,6 +205,7 @@ namespace Library
                         // remove the empty neighbor
                         w.EmptyNeighbors.RemoveAt(neighborChance);
                         isPlace = true;
+                        break; // has been place 
                     }
                 }   
             }
