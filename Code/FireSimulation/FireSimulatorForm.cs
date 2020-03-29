@@ -33,8 +33,9 @@ namespace FireSimulator
 
             if (testingTicks)
             {
+                timer1.Interval = 1;
                 gridController.PutFire((1, 1));
-                gridController.RandomizePersons(20);
+                gridController.RandomizePersons(10);
                 gridController.RandomizeFireExtinguishers(20);
             }
 
@@ -118,6 +119,12 @@ namespace FireSimulator
             }
 
             VisualizeSimulation();
+
+            if (gridController.Ended())
+            {
+                picBoxPlayPause_Click(null, null);
+                MessageBox.Show("Everybody is dead...\nSimulation stopped", "Done", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void picBoxPlayPause_Click(object sender, EventArgs e)

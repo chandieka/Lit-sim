@@ -18,6 +18,8 @@ namespace Library
         #region Private Fields
         // playing fields
         private readonly Block[,] grid;
+
+        private List<Person> persons = new List<Person>();
         // others 
         #endregion
 
@@ -91,7 +93,9 @@ namespace Library
 
         public void PutPerson((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Person();
+            Person p = new Person();
+            persons.Add(p);
+            this.grid[location.x, location.y] = p;
         }
 
         public bool RandomizePersons(int amount, int? seed = null)
@@ -230,6 +234,11 @@ namespace Library
                     FillFloor((7 * widthScale, 4 * heightScale), thickness, 1 * widthScale);
                 }
             }
+        }
+
+        public bool Ended()
+        {
+            return this.persons.TrueForAll(p => p.IsDead);
         }
 
         public void Tick()
