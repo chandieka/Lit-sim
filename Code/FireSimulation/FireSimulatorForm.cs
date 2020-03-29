@@ -25,10 +25,13 @@ namespace FireSimulator
             //Placeholder.Items.Add("This is just a placeholder");
             tbTimer.Text = time.ToString();
 
-            this.gridController = new GridController((50, 50));
+            this.gridController = new GridController((100, 100));
 
             gridController.PutDefaultFloorPlan(1);
-            
+
+            // paint the grid to the picturebox
+            VisualizeSimulation();
+
 
             ////if (this.gridController.IsLoadable())
             ////{
@@ -76,6 +79,12 @@ namespace FireSimulator
                 btnGenerate.Visible = false;
                 building = true;
             }
+        }
+
+        private void VisualizeSimulation()
+        {
+            Bitmap bmp = gridController.Paint((6, 6));
+            pbSimulation.Image = bmp;
         }
 
         #endregion
@@ -179,6 +188,56 @@ namespace FireSimulator
                     
                 }
             }
+        }
+
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            bool isSuccess = false;
+            
+            // clear the map
+            gridController.Clear();
+            gridController.PutDefaultFloorPlan(1);
+
+            if (int.TryParse(tbPeople.Text, out int amountPeople))
+            {
+                if (int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
+                {
+                    if (gridController.TotalNoOfFloorAvailableOnTheWall() >= amountFireEx)
+                    {
+                        // put the fire ex on the grid
+                        gridController.PutFireExtinguishers(amountFireEx);
+
+                        if (gridController.TotalNoOfFloor() - gridController.TotalNoOfFloorAvailableOnTheWall() >= amountPeople)
+                        {
+                            gridController.PutPersons(amountPeople);
+                            isSuccess = true;
+                        }
+                        else
+                        {
+                            // TODO
+                            // Show Warning Message for the no of fire ex is exceeding the capacity
+                        }
+                    }
+                    else
+                    {
+                        // TODO
+                        // Show Warning Message for the no of fire ex is exceeding the capacity
+                    }
+                }
+                else
+                {
+                    // TODO
+                    // show notification that the input for the fire ex is not a number
+                }
+            }
+            else
+            {
+                // TODO
+                // show notification that the input for the person is not a number
+            }
+
+            // visualize the map
+            VisualizeSimulation();
         }
     }
 }

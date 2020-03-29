@@ -12,7 +12,7 @@ namespace Library
         #region Private Fields
         // playing fields
 
-        public Block[,] grid;
+        private Block[,] grid;
 
         // list of Blocks from the grid map for ease of access 
         // every block know it own location so that it easy to translate it back in the grid
@@ -170,61 +170,47 @@ namespace Library
             AssignEmptyWallNeighbors();
 
             // must have atleast 1 fire extinguisher 
-            int totalFloor = (GridHeight * GridWidth) - persons.Count - walls.Count - fireExtinguishers.Count;
-            if (amount > 0 && amount <= totalFloor)
+            
+            Random rand = new Random();
+
+            if (seed != 0)
             {
-                if (walls.Count > 0)
-                {
-                    Random rand = new Random();
-
-                    if (seed != 0)
-                    {
-                        rand = new Random(seed);
-                    }
-
-                    for (int i = 0; i < amount; i++)
-                    {
-                        bool isPlace = false;
-
-                        // find the right wall that fit all requirement
-                        while (!isPlace)
-                        {
-                            int wallChance = rand.Next(0, walls.Count);
-                            Wall w = (Wall)walls[wallChance];
-
-                            // check if its have more that 1 neighbour
-                            for (int j = 0; j < w.EmptyNeighbors.Count; j++)
-                            {
-                                int neighborChance = rand.Next(0, w.EmptyNeighbors.Count - 1);
-
-                                int x = w.EmptyNeighbors[neighborChance].Item1;
-                                int y = w.EmptyNeighbors[neighborChance].Item2;
-
-                                // Replace the floor with fire extinguisher
-
-                                FireExtinguisher fx = new FireExtinguisher(new Tuple<int, int>(x, y));
-                                fireExtinguishers.Add(fx);
-                                grid[x, y] = fx;
-
-                                // remove the empty neighbor
-                                w.EmptyNeighbors.RemoveAt(neighborChance);
-                                isPlace = true;
-                            }
-                        }   
-                    }
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                rand = new Random(seed);
             }
-            else
+
+            for (int i = 0; i < amount; i++)
             {
-                return false;
+                bool isPlace = false;
+
+                // find the right wall that fit all requirement
+                while (!isPlace)
+                {
+                    int wallChance = rand.Next(0, walls.Count);
+                    Wall w = (Wall)walls[wallChance];
+
+                    // check if its have more that 1 neighbour
+                    for (int j = 0; j < w.EmptyNeighbors.Count; j++)
+                    {
+                        int neighborChance = rand.Next(0, w.EmptyNeighbors.Count - 1);
+
+                        int x = w.EmptyNeighbors[neighborChance].Item1;
+                        int y = w.EmptyNeighbors[neighborChance].Item2;
+
+                        // Replace the floor with fire extinguisher
+
+                        FireExtinguisher fx = new FireExtinguisher(new Tuple<int, int>(x, y));
+                        fireExtinguishers.Add(fx);
+                        grid[x, y] = fx;
+
+                        // remove the empty neighbor
+                        w.EmptyNeighbors.RemoveAt(neighborChance);
+                        isPlace = true;
+                    }
+                }   
             }
+            return true;
         }
-
+        
         public bool AssignEmptyWallNeighbors()
         {
             if (walls.Count > 0)
@@ -293,15 +279,6 @@ namespace Library
 
         public void PutDefaultFloorPlan(int _thickness)
         {
-            /// <summary>
-            /// TODO:
-            ///     check the scale of the grid array if its scalable by 10
-            ///     Do horizonal wall fill
-            ///     Do vertical wall fill
-            ///     Do horizonal door fill
-            ///     Do vertical door fill
-            /// </summary>
-            /// 
             if (_thickness > 0)
             {
                 // check whether the grid size is in ratio of 10
@@ -340,7 +317,7 @@ namespace Library
                     // AC
                     FillWall((0, 0), thickness, GridHeight);
                     // LK
-                    FillWall((4 * widthScale, 3 * heightScale), thickness, 1 * heightScale);
+                    FillWall((4 * widthScale, 3 * heightScale), thickness, 2 * heightScale);
                     // NH
                     FillWall((4 * widthScale, 7 * heightScale), thickness, 3 * heightScale);
                     // QG
@@ -565,6 +542,52 @@ namespace Library
                 return new GridController(grid);
 
             return null;
+        }
+        #endregion
+        #region Other methods
+        public int GetNoOfWall()
+        {
+            return walls.Count;
+        }
+
+        public int GetNoOfPersons()
+        {
+            return persons.Count;
+        }
+
+        public int GetNoOfFireEx()
+        {
+            return fireExtinguishers.Count;
+        }
+
+        public int TotalNoOfFloorAvailableOnTheWall()
+        {
+            int counter = 0;
+            AssignEmptyWallNeighbors();
+
+            for (int i = 0; i < walls.Count; i++)
+            {
+                Wall nwWall = (Wall)walls[i];
+                counter += nwWall.EmptyNeighbors.Count;
+            }
+
+            return counter;
+        }
+
+        public int TotalNoOfFloor()
+        {
+            int counter = 0;
+            for (int i = 0; i < GridHeight; i++)
+            {
+                for (int j = 0; j < GridWidth; j++)
+                {
+                    if (grid[j, i].GetType() == typeof(Floor))
+                    {
+                        counter++;
+                    }
+                }
+            }
+            return counter;
         }
         #endregion
         #endregion
