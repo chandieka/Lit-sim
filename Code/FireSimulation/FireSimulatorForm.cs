@@ -22,8 +22,8 @@ namespace FireSimulator
         public FireSimulatorForm()
         {
             InitializeComponent();
-            //Placeholder.Items.Add("This is just a placeholder");
             tbTimer.Text = time.ToString();
+            this.Text = "Fire Escape Simulator";
 
             this.gridController = new GridController((100, 100));
 
@@ -104,9 +104,7 @@ namespace FireSimulator
             gridController.PutPersons(20);
             gridController.PutFireExtinguishers(20);
 
-            Bitmap bmp = gridController.Paint((10, 10));
-
-            pbSimulation.Image = bmp;
+            VisualizeSimulation();
         }
 
         private void picBoxPlayPause_Click(object sender, EventArgs e)
@@ -237,7 +235,11 @@ namespace FireSimulator
             }
 
             // visualize the map
-            VisualizeSimulation();
+            // not wasting computing power if its not success full
+            if (isSuccess)
+            {
+                VisualizeSimulation();
+            }
         }
     }
 }

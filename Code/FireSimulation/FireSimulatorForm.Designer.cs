@@ -106,7 +106,7 @@
             this.groupBox1.Controls.Add(this.lblBuild);
             this.groupBox1.Controls.Add(this.picBoxPerson);
             this.groupBox1.Controls.Add(this.picBoxFire);
-            this.groupBox1.Location = new System.Drawing.Point(23, 46);
+            this.groupBox1.Location = new System.Drawing.Point(23, 56);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -503,7 +503,7 @@
             // 
             // pbSimulation
             // 
-            this.pbSimulation.Location = new System.Drawing.Point(183, 50);
+            this.pbSimulation.Location = new System.Drawing.Point(193, 56);
             this.pbSimulation.Name = "pbSimulation";
             this.pbSimulation.Size = new System.Drawing.Size(600, 600);
             this.pbSimulation.TabIndex = 17;
