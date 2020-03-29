@@ -10,11 +10,15 @@ namespace Library
 {
     public class GridController
     {
+        #region Public static propeties
+        public static Floor Floor = new Floor();
+        public static Fire Fire = new Fire() ;
+        #endregion
+
         #region Private Fields
         // playing fields
-
         private readonly Block[,] grid;
-
+        // others 
         #endregion
 
         #region Public Properties
@@ -53,7 +57,7 @@ namespace Library
 
         public void PutFloor((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Floor();
+            this.grid[location.x, location.y] = GridController.Floor;
         }
 
         public void FillFloor((int x, int y) topLeft, int width, int height)
@@ -116,7 +120,7 @@ namespace Library
 
         public void PutFire((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new Fire();
+            this.grid[location.x, location.y] = GridController.Fire;
         }
 
         public void PutFireExtinguisher((int x, int y) location)
@@ -230,11 +234,14 @@ namespace Library
 
         public void Tick()
         {
-            for (int x = 0; x < this.grid.GetLength(0); x++)
+            // This is needed to prevent the fire form spreading rapidly
+            var gridCopy = this.grid.Clone() as Block[,];
+
+            for (int x = 0; x < gridCopy.GetLength(0); x++)
             {
-                for (int y = 0; y < this.grid.GetLength(1); y++)
+                for (int y = 0; y < gridCopy.GetLength(1); y++)
                 {
-                    switch (this.grid[x, y])
+                    switch (gridCopy[x, y])
                     {
                         case FunctionalBlock fb:
                             fb.Function(this.grid, x, y);
@@ -283,6 +290,14 @@ namespace Library
             }
             Bitmap UseGraphics(Bitmap bmp)
             {
+                Color getColor(int x, int y)
+                {
+                    if (this.grid[x, y] is Person)
+                        return ((Person)this.grid[x, y]).Color;
+                    else
+                        return (Color)this.grid[x, y].GetType().GetField("Color").GetValue(this.grid[x, y]);
+                }
+
                 var gr = Graphics.FromImage(bmp);
                 Brush br;
 
@@ -290,8 +305,7 @@ namespace Library
                 {
                     for (int y = 0; y < GridHeight; y++)
                     {
-                        var color = (Color)this.grid[x, y].GetType().GetField("color").GetValue(this.grid[x, y]);
-                        br = new SolidBrush(color);
+                        br = new SolidBrush(getColor(x, y));
 
                         gr.FillRectangle(br, x * scaleSize.xScale, y * scaleSize.yScale, 1 * scaleSize.xScale, 1 * scaleSize.xScale);
                     }

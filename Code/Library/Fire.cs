@@ -5,38 +5,40 @@ namespace Library
 {
     public class Fire : FunctionalBlock
     {
-        public static new readonly Color color = Color.Red;
+        public static new readonly Color Color = Color.Red;
 
-        public Fire() : base()
-        { }
+        public Fire() : base() { }
 
         public override void Function(Block[,] grid, int x, int y)
         {
-            void TrySpreadTo((int x, int y) location)
+            void putFire(int locX, int locY)
             {
-                var blockType = grid[x, y].GetType();
-                var unSpreadable = new[] { typeof(Wall), Block.Empty.GetType() };
-
-                if (!unSpreadable.Contains(blockType))
-                    grid[x, y] = new Fire();
+                // Somebody needs to check this =P
+                if (locX >= 0 && locY >= 0 && locX < grid.GetLength(0) && locY < grid.GetLength(1))
+                {
+                    // Only if the space is empty, a fire can be placed
+                    if (grid[locX, locY] == GridController.Floor)
+                        grid[locX, locY] = GridController.Fire;
+                    // If the space is occupied by a person, they are dead now
+                    else if (grid[locX, locY] is Person)
+                        ((Person)grid[locX, locY]).Kill();
+                }
             }
 
-            if (x > 1)
-            {
-                TrySpreadTo((x - 1, y));
-            }
-            if (y > 1)
-            {
-                TrySpreadTo((x, y - 1));
-            }
-            if (x < grid.GetLength(0) - 1)
-            {
-                TrySpreadTo((x + 1, y));
-            }
-            if (y < grid.GetLength(1) - 1)
-            {
-                TrySpreadTo((x, y + 1));
-            }
+            /* Get all the blocks surrounding the block */
+            // Top row
+            putFire(x - 1, y - 1);
+            putFire(x, y - 1);
+            putFire(x + 1, y + 1);
+
+            // Middle row
+            putFire(x - 1, y);
+            putFire(x + 1, y);
+
+            // Bottom row
+            putFire(x - 1, y + 1);
+            putFire(x, y + 1);
+            putFire(x + 1, y + 1);
         }
     }
 }

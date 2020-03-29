@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Library
 {
     public class Floor : Block
     {
-        new public static readonly Color color = Color.White;
+        new public static readonly Color Color = Color.White;
 
-        public Floor()
-            : base()
-        { }
+        public Floor() : base() { }
     }
 }

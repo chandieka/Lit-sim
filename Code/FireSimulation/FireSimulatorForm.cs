@@ -19,6 +19,8 @@ namespace FireSimulator
         private bool building = true;
         private readonly GridController gridController;
 
+        private bool testingTicks = true;
+
         public FireSimulatorForm()
         {
             InitializeComponent();
@@ -28,6 +30,13 @@ namespace FireSimulator
             this.gridController = new GridController((100, 100));
 
             gridController.PutDefaultFloorPlan(1);
+
+            if (testingTicks)
+            {
+                gridController.PutFire((1, 1));
+                gridController.RandomizePersons(20);
+                gridController.RandomizeFireExtinguishers(20);
+            }
 
             // paint the grid to the picturebox
             VisualizeSimulation();
@@ -98,11 +107,15 @@ namespace FireSimulator
             time = time.Add(second);
 
             // Testing purpose
-            gridController.Clear();
-
-            gridController.PutDefaultFloorPlan(1);
-            gridController.RandomizePersons(20);
-            gridController.RandomizeFireExtinguishers(20);
+            if (testingTicks)
+                gridController.Tick();
+            else
+            {
+                gridController.Clear();
+                gridController.PutDefaultFloorPlan(1);
+                gridController.RandomizePersons(20);
+                gridController.RandomizeFireExtinguishers(20);
+            }
 
             VisualizeSimulation();
         }
