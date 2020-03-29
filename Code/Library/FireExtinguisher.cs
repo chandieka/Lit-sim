@@ -11,10 +11,8 @@ namespace Library
     {
         new public static readonly Color color = Color.Green;
 
-        public FireExtinguisher(Tuple<int, int> coordinate)
+        public FireExtinguisher()
             : base()
-        {
-            Coordinate = coordinate;
-        }
+        { }
     }
 }

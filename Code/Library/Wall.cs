@@ -11,13 +11,8 @@ namespace Library
     {
         new public static readonly Color color = Color.Black;
 
-        public List<Tuple<int, int>> EmptyNeighbors { get; set; }
-
-        public Wall(Tuple<int,int> coordinate)
+        public Wall()
             : base()
-        {
-            EmptyNeighbors = new List<Tuple<int, int>>();
-            this.Coordinate = coordinate;
-        }
+        { }
     }
 }

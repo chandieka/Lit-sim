@@ -14,10 +14,10 @@ namespace FireSimulator
 {
     public partial class FireSimulatorForm : Form
     {
-        TimeSpan time = new TimeSpan(0, 0, 0);
-        bool running;
-        bool building = true;
-        GridController gridController;
+        private TimeSpan time = new TimeSpan(0, 0, 0);
+        private bool running;
+        private bool building = true;
+        private readonly GridController gridController;
 
         public FireSimulatorForm()
         {
@@ -101,8 +101,8 @@ namespace FireSimulator
             gridController.Clear();
 
             gridController.PutDefaultFloorPlan(1);
-            gridController.PutPersons(20);
-            gridController.PutFireExtinguishers(20);
+            gridController.RandomizePersons(20);
+            gridController.RandomizeFireExtinguishers(20);
 
             VisualizeSimulation();
         }
@@ -165,7 +165,7 @@ namespace FireSimulator
                     
                         FileStream fs = new FileStream(name, FileMode.CreateNew, FileAccess.Write);
                        
-                                        
+                                        // TODO?
                 }
             }
         }
@@ -183,56 +183,30 @@ namespace FireSimulator
                     
                     if (fs != null)
                     fs.Close();
-                    
+                    // TODO?
                 }
             }
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            bool isSuccess = false;
+            bool isSuccess = true;
             
             // clear the map
             gridController.Clear();
             gridController.PutDefaultFloorPlan(1);
 
-            if (int.TryParse(tbPeople.Text, out int amountPeople))
-            {
-                if (int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
-                {
-                    if (gridController.TotalNoOfFloorAvailableOnTheWall() >= amountFireEx)
-                    {
-                        // put the fire ex on the grid
-                        gridController.PutFireExtinguishers(amountFireEx);
+            if (!int.TryParse(tbPeople.Text, out int amountPeople))
+                isSuccess &= false; // TODO: show error message
 
-                        if (gridController.TotalNoOfFloor() - gridController.TotalNoOfFloorAvailableOnTheWall() >= amountPeople)
-                        {
-                            gridController.PutPersons(amountPeople);
-                            isSuccess = true;
-                        }
-                        else
-                        {
-                            // TODO
-                            // Show Warning Message for the no of fire ex is exceeding the capacity
-                        }
-                    }
-                    else
-                    {
-                        // TODO
-                        // Show Warning Message for the no of fire ex is exceeding the capacity
-                    }
-                }
-                else
-                {
-                    // TODO
-                    // show notification that the input for the fire ex is not a number
-                }
-            }
-            else
-            {
-                // TODO
-                // show notification that the input for the person is not a number
-            }
+            if (!int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
+                isSuccess &= false; // TODO: show error message
+
+            if (!this.gridController.RandomizePersons(amountPeople))
+                isSuccess &= false; // TODO: show error message
+
+            if (!this.gridController.RandomizeFireExtinguishers(amountFireEx))
+                isSuccess &= false; // TODO: show error message
 
             // visualize the map
             // not wasting computing power if its not success full

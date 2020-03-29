@@ -20,8 +20,8 @@ namespace TesterConsole
             //gc.Load(string.Empty);
             // add some random data to the grid
             gc.PutDefaultFloorPlan(1);
-            gc.PutPersons(10);
-            gc.PutFireExtinguishers(10);
+            gc.RandomizePersons(10);
+            gc.RandomizeFireExtinguishers(10);
 
             //gc.FillWall((1, 2), 5, 1);
             //gc.PutPerson((8, 3));
