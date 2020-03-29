@@ -1,6 +1,6 @@
 ﻿namespace FireSimulator
 {
-    partial class Form1
+    partial class FireSimulatorForm
     {
         /// <summary>
         /// Required designer variable.
