@@ -30,7 +30,6 @@ namespace Library
         {
             if (!IsDead)
             {
-                Console.WriteLine(grid[x - 1, y] == GridController.Floor);
                 if (x - 1 > 0 && grid[x - 1, y] == GridController.Floor)
                 {
                     grid[x, y] = GridController.Floor;
