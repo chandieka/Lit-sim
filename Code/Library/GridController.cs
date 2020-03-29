@@ -20,6 +20,7 @@ namespace Library
         private readonly Block[,] grid;
 
         private List<Person> persons = new List<Person>();
+        private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
         // others 
         #endregion
 
@@ -129,7 +130,9 @@ namespace Library
 
         public void PutFireExtinguisher((int x, int y) location)
         {
-            this.grid[location.x, location.y] = new FireExtinguisher();
+            FireExtinguisher f = new FireExtinguisher();
+            fireExtinguishers.Add(f);
+            this.grid[location.x, location.y] = f;
         }
         public bool RandomizeFireExtinguishers(int amount, int? seed = null)
         {
@@ -448,6 +451,29 @@ namespace Library
             }
 
             return false;
+        }
+
+        public int GetNrOfPeople()
+        {
+            return persons.Count();
+        }
+
+        public int GetNrOfFireExtinguishers()
+        {
+            return fireExtinguishers.Count();
+        }
+
+        public int GetTotalDeaths()
+        {
+            int count = 0;
+            foreach (Person p in persons)
+            {
+                if (p.IsDead == true)
+                {
+                    count++;
+                }
+            }
+            return count;
         }
         #endregion
         #endregion

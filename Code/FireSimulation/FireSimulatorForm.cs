@@ -33,10 +33,7 @@ namespace FireSimulator
 
             if (testingTicks)
             {
-                timer1.Interval = 1;
-                gridController.PutFire((1, 1));
-                gridController.RandomizePersons(10);
-                gridController.RandomizeFireExtinguishers(20);
+                FillDefault();
             }
 
             // paint the grid to the picturebox
@@ -53,7 +50,33 @@ namespace FireSimulator
             ////}
         }
 
-        #region Private Methods 
+        #region Private Methods
+
+        private void FillDefault()
+        {
+            timer1.Interval = 1;
+            gridController.PutFire((1, 1));
+            gridController.RandomizePersons(10);
+            gridController.RandomizeFireExtinguishers(20);
+        }
+
+        private void GetStats()
+        {
+            int people = gridController.GetNrOfPeople();
+            int deaths = gridController.GetTotalDeaths();
+            int fireExtinguishers = gridController.GetNrOfFireExtinguishers();
+
+            if (people == deaths)
+            {
+                lblResult.Text = "Fail";
+            }
+
+            lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+            lblElapsedTime.Text = time.ToString();
+            lblPeopleTotal.Text = people.ToString();
+            lblFireExTotal.Text = fireExtinguishers.ToString();
+            lblDeaths.Text = deaths.ToString();
+        }
 
         private void switchInput()
         {
@@ -123,7 +146,8 @@ namespace FireSimulator
             if (gridController.Ended())
             {
                 picBoxPlayPause_Click(null, null);
-                MessageBox.Show("Everybody is dead...\nSimulation stopped", "Done", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                GetStats();
+                gBoxStatistics.Visible = true;
             }
         }
 
@@ -172,7 +196,7 @@ namespace FireSimulator
 
         private void btnCloseStatistics_Click(object sender, EventArgs e)
         {
-            gBoxSettings.Visible = false;
+            gBoxStatistics.Visible = false;
         }
 
         private void btnSaveLayout_Click(object sender, EventArgs e)
@@ -234,6 +258,17 @@ namespace FireSimulator
             {
                 VisualizeSimulation();
             }
+        }
+
+        private void btnRerunSimulation_Click(object sender, EventArgs e)
+        {
+            gridController.Clear();
+            gridController.PutDefaultFloorPlan(1);
+            FillDefault();
+            time = TimeSpan.Zero;
+            tbTimer.Text = time.ToString();
+            VisualizeSimulation();
+            gBoxStatistics.Visible = false;
         }
     }
 }
