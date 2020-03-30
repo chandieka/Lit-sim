@@ -18,6 +18,7 @@ namespace FireSimulator
         public FireSimulatorForm()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
 
@@ -251,6 +252,9 @@ namespace FireSimulator
             // clear the map
             gridController.Clear();
             gridController.PutDefaultFloorPlan(1);
+
+            // For testing
+            gridController.PutFire((1, 1));
 
             if (!int.TryParse(tbPeople.Text, out int amountPeople))
                 isSuccess &= false; // TODO: show error message

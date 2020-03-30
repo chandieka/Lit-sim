@@ -103,6 +103,9 @@ namespace Library
         {
             Random rand;
 
+            // Prevent infinite simulation
+            persons.Clear();
+
             if (seed.HasValue)
                 rand = new Random(seed.Value);
             else
