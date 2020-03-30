@@ -10,9 +10,9 @@ namespace Library
 {
     public class GridController
     {
-        #region Public static propeties
-        public static Floor Floor = new Floor();
-        public static Fire Fire = new Fire() ;
+        #region Internal static propeties
+        internal static Floor Floor = new Floor();
+        internal static Fire Fire = new Fire();
         #endregion
 
         #region Private Fields
@@ -134,6 +134,7 @@ namespace Library
             fireExtinguishers.Add(f);
             this.grid[location.x, location.y] = f;
         }
+
         public bool RandomizeFireExtinguishers(int amount, int? seed = null)
         {
             Random rand;
@@ -466,6 +467,11 @@ namespace Library
         public int GetTotalDeaths()
         {
             return persons.Count(p => p.IsDead);
+        }
+
+        public Block GetAt((int x, int y) loc)
+        {
+            return this.grid[loc.x, loc.y];
         }
         #endregion
         #endregion
