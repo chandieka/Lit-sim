@@ -26,9 +26,7 @@ namespace FireSimulator
             gridController.PutDefaultFloorPlan(1);
 
             if (testingTicks)
-            {
                 FillDefault();
-            }
 
             // paint the grid to the picturebox
             VisualizeSimulation();
@@ -48,7 +46,7 @@ namespace FireSimulator
 
         private void FillDefault()
         {
-            timer1.Interval = 1;
+            animationLoopTimer.Interval = 1;
             gridController.PutFire((1, 1));
             gridController.RandomizePersons(10);
             gridController.RandomizeFireExtinguishers(20);
@@ -118,7 +116,7 @@ namespace FireSimulator
 
         #region Private EventHandlers
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void animationLoopTimer_Tick(object sender, EventArgs e)
         {
             tbTimer.Text = time.ToString();
             TimeSpan second = new TimeSpan(0, 0, 10);
@@ -149,17 +147,17 @@ namespace FireSimulator
         {
             if (running == false)
             {
-                timer1.Start();
+                animationLoopTimer.Start();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
-                toolTipPlay.SetToolTip(picBoxPlayPause, "Pause");
+                toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
             }
             else
             {
-                timer1.Stop();
+                animationLoopTimer.Stop();
                 running = false;
                 picBoxPlayPause.Image = Icons.Play;
-                toolTipPlay.SetToolTip(picBoxPlayPause, "Resume");
+                toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
             }
         }
 
@@ -178,7 +176,7 @@ namespace FireSimulator
         {
             if (gridController.IsSavable())
             {
-                //Ask the user if he wants to autosave
+                //Ask the user if they want to autosave
                 //if (yes)
                 //{
                 //  gridController.Save(string.Empty);
@@ -195,15 +193,30 @@ namespace FireSimulator
 
         private void btnSaveLayout_Click(object sender, EventArgs e)
         {
+            string fomatNum(int number)
+            {
+                if (number < 10)
+                    return "0" + number;
+                else
+                    return number.ToString();
+            }
+
             using (SaveFileDialog myDialog = new SaveFileDialog())
             {
+                DateTime time = DateTime.Now;
+
+                myDialog.DefaultExt = "bin";
+                myDialog.AddExtension = true;
+                myDialog.Filter = "Binary|.bin";
+                myDialog.CheckPathExists = true;
+                myDialog.FileName = $"Lit export [{fomatNum(time.Hour)}:{fomatNum(time.Minute)}:{fomatNum(time.Second)} {time.Year}-{fomatNum(time.Month)}-{fomatNum(time.Day)}].bin";
+
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
                     string name = myDialog.FileName;
-                    
-                        FileStream fs = new FileStream(name, FileMode.CreateNew, FileAccess.Write);
-                       
-                                        // TODO?
+
+                    //FileStream fs = new FileStream(name, FileMode.CreateNew, FileAccess.Write);
+                    // TODO?
                 }
             }
         }
@@ -212,6 +225,9 @@ namespace FireSimulator
         {
             using (OpenFileDialog myDialog = new OpenFileDialog())
             {
+                myDialog.Filter = "Binary|*.bin|All|*";
+                myDialog.DefaultExt = "bin";
+
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
                     string name = myDialog.FileName;
@@ -220,7 +236,9 @@ namespace FireSimulator
                     fs = new FileStream(name, FileMode.Open, FileAccess.Read);                   
                     
                     if (fs != null)
-                    fs.Close();
+                        fs.Close();
+
+                    lblImportFileLoc.Text = Path.GetFileName(name);
                     // TODO?
                 }
             }
@@ -263,6 +281,22 @@ namespace FireSimulator
             tbTimer.Text = time.ToString();
             VisualizeSimulation();
             gBoxStatistics.Visible = false;
+        }
+
+        // For shortcuts
+        private void FireSimulatorForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine("KEYEYYEYE");
+
+            if (e.KeyCode == Keys.Space)
+                picBoxPlayPause_Click(null, null);
+            else if (e.Control)
+            {
+                if (e.KeyCode == Keys.O)
+                    btnUploadFile_Click(null, null);
+                else if (e.KeyCode == Keys.S)
+                    btnSaveLayout_Click(null, null);
+            }
         }
     }
 }
