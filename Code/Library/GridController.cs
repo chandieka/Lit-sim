@@ -446,7 +446,7 @@ namespace Library
             {
                 for (int YOffset = -1; YOffset <= 1; YOffset++)
                 {
-                    if ((self.x + XOffset < 0) || (self.x + XOffset > grid.GetLength(0)) || (self.y + YOffset < 0) || (self.y + YOffset > grid.GetLength(1)) || (XOffset == 0 && YOffset == 0))
+                    if ((self.x + XOffset < 0) || (self.x + XOffset > grid.GetLength(0) - 1) || (self.y + YOffset < 0) || (self.y + YOffset > grid.GetLength(1) - 1) || (XOffset == 0 && YOffset == 0))
                         continue;
 
                     if (grid[(self.x + XOffset), (self.y + YOffset)].GetType() == neighbor) return true;
