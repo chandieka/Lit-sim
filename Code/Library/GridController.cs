@@ -465,15 +465,7 @@ namespace Library
 
         public int GetTotalDeaths()
         {
-            int count = 0;
-            foreach (Person p in persons)
-            {
-                if (p.IsDead == true)
-                {
-                    count++;
-                }
-            }
-            return count;
+            return persons.Count(p => p.IsDead);
         }
         #endregion
         #endregion
