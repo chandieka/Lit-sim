@@ -48,7 +48,7 @@ namespace FireSimulator
         private void FillDefault()
         {
             animationLoopTimer.Interval = 1;
-            gridController.PutFire((1, 1));
+            gridController.RandomizeFire(1);
             gridController.RandomizePersons(10);
             gridController.RandomizeFireExtinguishers(20);
         }
@@ -251,10 +251,10 @@ namespace FireSimulator
             
             // clear the map
             gridController.Clear();
+            // get the basic floor plan
             gridController.PutDefaultFloorPlan(1);
-
-            // For testing
-            gridController.PutFire((1, 1));
+            // add fire to the map
+            gridController.RandomizeFire(1);
 
             if (!int.TryParse(tbPeople.Text, out int amountPeople))
                 isSuccess &= false; // TODO: show error message

@@ -131,6 +131,20 @@ namespace Library
             this.grid[location.x, location.y] = GridController.Fire;
         }
 
+        public void RandomizeFire(int amount, int? seed = null)
+        {
+            Random rand;
+            List<(int x, int y)> floorSpot = GetFloorBlocks();
+
+            if (seed.HasValue)
+                rand = new Random(seed.Value);
+            else
+                rand = new Random();
+
+            int rng = rand.Next(0, floorSpot.Count - 1);
+            grid[floorSpot[rng].x, floorSpot[rng].y] = Fire;
+        }
+
         public void PutFireExtinguisher((int x, int y) location)
         {
             FireExtinguisher f = new FireExtinguisher();
@@ -433,7 +447,10 @@ namespace Library
             {
                 for (int y = 0; y < this.GridHeight; y++)
                 {
-                    if (this.grid[x, y].GetType() == typeof(Floor)) result.Add((x, y));
+                    if (this.grid[x, y].GetType() == typeof(Floor))
+                    {
+                        result.Add((x, y));
+                    }
                 }
             }
 
