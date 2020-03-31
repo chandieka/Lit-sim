@@ -269,7 +269,7 @@ namespace FireSimulator
                 isSuccess &= false; // TODO: show error message
 
             // visualize the map
-            // not wasting computing power if its not success full
+            // not wasting computing power if its not successfull
             if (isSuccess)
             {
                 VisualizeSimulation();

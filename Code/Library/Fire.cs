@@ -26,18 +26,18 @@ namespace Library
 
             /* Get all the blocks surrounding the block */
             // Top row
-            putFire(x - 1, y - 1);
+            //putFire(x - 1, y - 1);
             putFire(x, y - 1);
-            putFire(x + 1, y + 1);
+            //putFire(x + 1, y + 1);
 
             // Middle row
             putFire(x - 1, y);
             putFire(x + 1, y);
 
             // Bottom row
-            putFire(x - 1, y + 1);
+            //putFire(x - 1, y + 1);
             putFire(x, y + 1);
-            putFire(x + 1, y + 1);
+            //putFire(x + 1, y + 1);
         }
     }
 }
