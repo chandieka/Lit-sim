@@ -22,7 +22,7 @@ namespace FireSimulator
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
 
-            this.gridController = new GridController((100, 100));
+            this.gridController = new GridController((50, 50));
 
             gridController.PutDefaultFloorPlan(1);
 
@@ -33,14 +33,17 @@ namespace FireSimulator
             VisualizeSimulation();
 
 
-            ////if (this.gridController.IsLoadable())
-            ////{
-            ////    //Add a messagebox or some other form of asking the user if he wants to load the last auto saved verion
-            ////    //if (yes)
-            ////    //{
-            ////    //  this.gridController.Load(string.Empty);
-            ////    //}
-            ////}
+            if (this.gridController.IsLoadable())
+            {
+                using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
+                {
+                    autoLoadDialog.ShowDialog();
+                    if (autoLoadDialog.DialogResult == DialogResult.Yes)
+                    {
+                        this.gridController.Load(GridController.defaultPath);
+                    }
+                }
+            }
         }
 
         #region Private Methods
@@ -177,11 +180,18 @@ namespace FireSimulator
         {
             if (gridController.IsSavable())
             {
-                //Ask the user if they want to autosave
-                //if (yes)
-                //{
-                //  gridController.Save(string.Empty);
-                //}
+                using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
+                {
+                    autoSaveDialog.ShowDialog();
+                    if (autoSaveDialog.DialogResult == DialogResult.Yes)
+                    {
+                        this.gridController.Save(GridController.defaultPath);
+                    }
+                    else if (autoSaveDialog.DialogResult == DialogResult.Cancel)
+                    {
+                        e.Cancel = true;
+                    }
+                }
             }
         }
 
@@ -214,10 +224,7 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string name = myDialog.FileName;
-
-                    //FileStream fs = new FileStream(name, FileMode.CreateNew, FileAccess.Write);
-                    // TODO?
+                    this.gridController.Save(myDialog.FileName);
                 }
             }
         }
@@ -231,16 +238,8 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string name = myDialog.FileName;
-                    FileStream fs = null;
-                   
-                    fs = new FileStream(name, FileMode.Open, FileAccess.Read);                   
-                    
-                    if (fs != null)
-                        fs.Close();
-
-                    lblImportFileLoc.Text = Path.GetFileName(name);
-                    // TODO?
+                    this.gridController.Load(myDialog.FileName);
+                    VisualizeSimulation();
                 }
             }
         }
