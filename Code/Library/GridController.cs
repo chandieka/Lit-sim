@@ -17,7 +17,7 @@ namespace Library
 
         #region Private Fields
         // playing fields
-        private readonly Block[,] grid;
+        private Block[,] grid;
 
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
@@ -350,12 +350,14 @@ namespace Library
         }
         #endregion
         #region IO
-        private static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
+
+        public static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
+
         private static Block[,] getSavedGrid(string path)
         {
             try
             {
-                using (Stream stream = File.Open(path, FileMode.Open, FileAccess.Read))
+                using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
                     BinaryFormatter bformatter = new BinaryFormatter();
 
@@ -373,11 +375,12 @@ namespace Library
                 return null;
             }
         }
+
         private bool setSavedGrid(string path)
         {
             try
             {
-                using (Stream stream = File.Open(path, FileMode.Create, FileAccess.Write))
+                using (FileStream stream = new FileStream(path, FileMode.Create))
                 {
                     BinaryFormatter bformatter = new BinaryFormatter();
                     bformatter.Serialize(stream, this.grid);
@@ -402,7 +405,7 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
-            return getSavedGrid(defaultPath) != this.grid;
+            return getSavedGrid(defaultPath) == this.grid;
         }
 
         /// <summary>
@@ -412,7 +415,6 @@ namespace Library
         public bool Save(string path)
         {
             return setSavedGrid(path ?? defaultPath);
-
         }
 
         /// <summary>
@@ -428,15 +430,17 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public static GridController Load(string path = null)
+        public void Load(string path)
         {
-            Block[,] grid = getSavedGrid(path ?? defaultPath);
+            if (string.IsNullOrEmpty(path))
+                path = defaultPath;
 
-            if (grid != null)
-                return new GridController(grid);
-
-            return null;
+            Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
+            
+            if (loadedGrid != null)
+                this.grid = loadedGrid;
         }
+
         #endregion
         #region Other methods
         public List<(int x, int y)> GetFloorBlocks()

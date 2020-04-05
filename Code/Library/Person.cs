@@ -4,6 +4,7 @@ using System.Drawing;
 
 namespace Library
 {
+    [Serializable]
     public class Person : FunctionalBlock
     {
         public bool IsDead { get; private set; }

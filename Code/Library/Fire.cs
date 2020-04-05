@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Library
 {
+    [Serializable]
     public class Fire : FunctionalBlock
     {
         private static readonly Random random = new Random();
