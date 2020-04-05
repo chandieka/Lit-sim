@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 
 namespace Library
 {
@@ -38,9 +39,9 @@ namespace Library
             }
 
             // cycle through the neigboring blocks of the given spot
-            for (int xOffset = -1; xOffset <= 1; xOffset++)
+            foreach (var xOffset in new[] { -1, 1 })
                 maybePutFire(x + xOffset, y);
-            for (int yOffset = -1; yOffset <= 1; yOffset++)
+            foreach (var yOffset in new[] { -1, 1 })
                 maybePutFire(x, y + yOffset);
         }
     }
