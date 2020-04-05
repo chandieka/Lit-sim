@@ -22,7 +22,7 @@ namespace FireSimulator
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
 
-            this.gridController = new GridController((50, 50));
+            this.gridController = new GridController((100, 100));
 
             gridController.PutDefaultFloorPlan(1);
 
@@ -41,6 +41,7 @@ namespace FireSimulator
                     if (autoLoadDialog.DialogResult == DialogResult.Yes)
                     {
                         this.gridController.Load(GridController.defaultPath);
+                        VisualizeSimulation();
                     }
                 }
             }
