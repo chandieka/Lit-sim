@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.AStar;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -19,8 +20,8 @@ namespace Library
         // playing fields
         private Block[,] grid;
 
-        private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
+        private List<Person> persons = new List<Person>();
         // others 
         #endregion
 
@@ -111,7 +112,7 @@ namespace Library
             else
                 rand = new Random();
 
-            var floorSpots = this.GetFloorBlocks();
+            var floorSpots = new List<(int x, int y)>(this.GetFloorBlocks());
 
             if (amount > floorSpots.Count || amount < 1)
                 return false;
@@ -123,6 +124,7 @@ namespace Library
                 this.PutPerson(floorSpots[rand_int]);
                 floorSpots.RemoveAt(rand_int);
             }
+
             return true;
         }
 
@@ -134,14 +136,14 @@ namespace Library
         public void RandomizeFire(int amount, int? seed = null)
         {
             Random rand;
-            List<(int x, int y)> floorSpot = GetFloorBlocks();
+            var floorSpot = GetFloorBlocks();
 
             if (seed.HasValue)
                 rand = new Random(seed.Value);
             else
                 rand = new Random();
 
-            int rng = rand.Next(0, floorSpot.Count - 1);
+            int rng = rand.Next(0, floorSpot.Length - 1);
             grid[floorSpot[rng].x, floorSpot[rng].y] = Fire;
         }
 
@@ -151,6 +153,7 @@ namespace Library
             fireExtinguishers.Add(f);
             this.grid[location.x, location.y] = f;
         }
+
         public bool RandomizeFireExtinguishers(int amount, int? seed = null)
         {
             fireExtinguishers.Clear();
@@ -444,7 +447,7 @@ namespace Library
 
         #endregion
         #region Other methods
-        public List<(int x, int y)> GetFloorBlocks()
+        public (int x, int y)[] GetFloorBlocks()
         {
             var result = new List<(int x, int y)>();
 
@@ -453,13 +456,11 @@ namespace Library
                 for (int y = 0; y < this.GridHeight; y++)
                 {
                     if (this.grid[x, y].GetType() == typeof(Floor))
-                    {
                         result.Add((x, y));
-                    }
                 }
             }
 
-            return result;
+            return result.ToArray();
         }
 
         private bool HasNeighbor((int x, int y) self, Block[,] grid, Type neighbor)

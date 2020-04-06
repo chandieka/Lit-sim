@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace Library
@@ -19,46 +18,16 @@ namespace Library
             }
         }
 
-        public Person()
-            : base()
-        { }
+        public Person() : base() { }
 
         public void Kill()
         {
             this.IsDead = true;
         }
 
-        // This could be optimized by calculating this once at start up
-        private static (int x, int y) GetNearestFireExtinguisher(Block[,] grid, (int x, int y) location)
+        public override void Function(Block[,] grid, int x, int y)
         {
-            // This should be optimized by calculating this only once every loop
-            (int x, int y)[] getFireExtinguisers()
-            {
-                List<(int x, int y)> list = new List<(int x, int y)>();
-
-                for (int x = 0; x < grid.GetLength(0); x++)
-                    for (int y = 0; y < grid.GetLength(1); y++)
-                        if (grid[x, y] is FireExtinguisher)
-                            list.Add((x, y));
-
-                return list.ToArray();
-            }
-            double calcDist((int x, int y) person, (int x, int y) fe)
-            {
-                return Math.Sqrt(Math.Pow(person.x - fe.x, 2) + Math.Pow(person.y - fe.y, 2));
-            }
-
-            var extinguishers = getFireExtinguisers();
-            Tuple<(int x, int y), double> n = null;
-            for (int i = 0; i < extinguishers.Length; i++)
-            {
-                var dist = calcDist(location, extinguishers[i]);
-
-                if (n == null || n.Item2 > dist)
-                    n = new Tuple<(int x, int y), double>(extinguishers[i], dist);
-            }
-
-            return n.Item1;
+            throw new NotImplementedException();
         }
 
         /* TODO: This is super buggy:
@@ -67,7 +36,6 @@ namespace Library
             - Nothing happens when a person reaches an extinguisher
             - A person does not regard a fire (just walks right into it)
             - A person does not regard walls...
-        */
         public override void Function(Block[,] grid, int x, int y)
         {
             if (!IsDead)
@@ -97,5 +65,28 @@ namespace Library
                 tryMove((newX, newY));
             }
         }
+        */
+
+        /* TODO: This could be optimized by calculating this once at start up
+        private static (int x, int y) GetNearestFireExtinguisher(Block[,] grid, (int x, int y) location)
+        {
+            double calcDist((int x, int y) person, (int x, int y) fe)
+            {
+                return Math.Sqrt(Math.Pow(person.x - fe.x, 2) + Math.Pow(person.y - fe.y, 2));
+            }
+
+            var extinguishers = getFireExtinguisers();
+            Tuple<(int x, int y), double> n = null;
+            for (int i = 0; i < extinguishers.Length; i++)
+            {
+                var dist = calcDist(location, extinguishers[i]);
+
+                if (n == null || n.Item2 > dist)
+                    n = new Tuple<(int x, int y), double>(extinguishers[i], dist);
+            }
+
+            return n.Item1;
+        }
+        */
     }
 }
