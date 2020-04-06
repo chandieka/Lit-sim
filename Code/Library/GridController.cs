@@ -153,6 +153,7 @@ namespace Library
         }
         public bool RandomizeFireExtinguishers(int amount, int? seed = null)
         {
+            fireExtinguishers.Clear();
             Random rand;
 
             if (seed.HasValue)

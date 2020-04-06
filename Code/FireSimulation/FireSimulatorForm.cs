@@ -62,6 +62,7 @@ namespace FireSimulator
             int people = gridController.GetNrOfPeople();
             int deaths = gridController.GetTotalDeaths();
             int fireExtinguishers = gridController.GetNrOfFireExtinguishers();
+            int alive = people - deaths;
 
             if (people == deaths)
             {
@@ -73,6 +74,7 @@ namespace FireSimulator
             lblPeopleTotal.Text = people.ToString();
             lblFireExTotal.Text = fireExtinguishers.ToString();
             lblDeaths.Text = deaths.ToString();
+            lblAlive.Text = alive.ToString();
         }
 
         private void switchInput()
@@ -123,13 +125,17 @@ namespace FireSimulator
 
         private void animationLoopTimer_Tick(object sender, EventArgs e)
         {
-            tbTimer.Text = time.ToString();
             TimeSpan second = new TimeSpan(0, 0, 10);
             time = time.Add(second);
+            tbTimer.Text = time.ToString();
+            
 
             // Testing purpose
             if (testingTicks)
+            {
                 gridController.Tick();
+                GetStats();
+            }
             else
             {
                 gridController.Clear();
@@ -144,7 +150,7 @@ namespace FireSimulator
             {
                 picBoxPlayPause_Click(null, null);
                 GetStats();
-                gBoxStatistics.Visible = true;
+                btnRerunSimulation.Visible = true;
             }
         }
 
@@ -284,7 +290,8 @@ namespace FireSimulator
             time = TimeSpan.Zero;
             tbTimer.Text = time.ToString();
             VisualizeSimulation();
-            gBoxStatistics.Visible = false;
+            btnRerunSimulation.Visible = false;
+            lblResult.Text = "<Success/Fail>";
         }
 
         // For shortcuts
