@@ -22,6 +22,7 @@ namespace Library
         }
 
         internal Pair[] ShortestPath { get; private set; }
+        private int pathIndex = 1;
 
         public Person() : base() { }
 
@@ -84,9 +85,19 @@ namespace Library
         public override void Function(Block[,] grid, int x, int y)
         {
             if (this.ShortestPath == null)
-                throw new Exception("'aStaPaths' is not defined. You need to execute the 'CalculatePaths' method before animating!");
+                throw new Exception("'ShortestPath' is not defined. You need to execute the 'CalculatePaths' method before animating!");
 
-            // TODO
+            if (pathIndex < this.ShortestPath.Length - 1)
+            {
+                var pathEntry = this.ShortestPath[pathIndex];
+
+                if (grid[pathEntry.X, pathEntry.Y] is Floor)
+                {
+                    grid[x, y] = GridController.Floor;
+                    grid[pathEntry.X, pathEntry.Y] = this;
+                    pathIndex++;
+                }
+            }
         }
 
         /* TODO: This is super buggy:

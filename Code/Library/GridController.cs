@@ -24,6 +24,7 @@ namespace Library
 		private Block[,] grid;
 
 		private bool ShouldDrawPaths = true;
+		private bool hasTicked = false;
 
 		private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
 		private List<Person> persons = new List<Person>();
@@ -272,6 +273,8 @@ namespace Library
 
 		public void Tick()
 		{
+			this.hasTicked = true;
+
 			// This is needed to prevent the fire form spreading rapidly
 			var gridCopy = this.grid.Clone() as Block[,];
 
@@ -349,7 +352,7 @@ namespace Library
 					}
 				}
 
-				if (this.ShouldDrawPaths)
+				if (this.ShouldDrawPaths && !this.hasTicked)
 				{
 					foreach (Person p in this.persons)
 						if (p.ShortestPath == null)
@@ -529,7 +532,6 @@ namespace Library
 					}
 					else
 					{
-						Console.WriteLine(worker.CancellationPending == false);
 						e.Cancel = true;
 						break;
 					}
