@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Library
 {
@@ -18,6 +21,8 @@ namespace Library
             }
         }
 
+        internal Pair[] ShortestPath { get; private set; }
+
         public Person() : base() { }
 
         public void Kill()
@@ -25,9 +30,63 @@ namespace Library
             this.IsDead = true;
         }
 
+        private void CalculatePaths(Block[,] grid, CancellationToken ct, Pair pos, Pair[] feLocations)
+        {
+            ct.ThrowIfCancellationRequested();
+
+            Pair[][] findPaths()
+            {
+                List<Pair[]> paths = new List<Pair[]>();
+
+                foreach (var feLoc in feLocations)
+                {
+                    if (ct.IsCancellationRequested)
+                        return paths.ToArray();
+                    else
+                    {
+                        var val = new AStar(grid, pos, feLoc).aStarSearch();
+                        paths.Add(val);
+                    }
+                }
+
+                return paths.ToArray();
+            }
+
+            Pair[] findShortest(Pair[][] paths)
+            {
+                Pair[] shortest = null;
+
+                foreach (Pair[] p in paths)
+                    if (ct.IsCancellationRequested)
+                        return null;
+                    else if (shortest == null || p.Length < shortest.Length)
+                        shortest = p;
+
+                return shortest;
+            }
+
+            this.ShortestPath = findShortest(findPaths());
+        }
+
+        internal (CancellationTokenSource token, Task task) CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations)
+        {
+            var tokenSource = new CancellationTokenSource();
+            CancellationToken ct = tokenSource.Token;
+
+            var task = Task.Run(() =>
+            {
+                this.CalculatePaths(grid, ct, pos, feLocations);
+            }, tokenSource.Token);
+
+            return (tokenSource, task);
+        }
+
         public override void Function(Block[,] grid, int x, int y)
         {
-            throw new NotImplementedException();
+            if (this.ShortestPath == null)
+                throw new Exception("'aStaPaths' is not defined. You need to execute the 'CalculatePaths' method before animating!");
+
+            // TODO
         }
 
         /* TODO: This is super buggy:

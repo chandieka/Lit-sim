@@ -5,17 +5,17 @@ using System.Collections.Generic;
 
 namespace Library
 {
-	class AStar
+	internal class AStar
 	{
-		public AStar(Block[,] grid)
+		private Block[,] grid;
+		private Pair dest;
+		private Pair src;
+
+		public AStar(Block[,] grid, Pair src, Pair dest)
 		{
-			// Source is the left-most bottom-most corner 
-			Pair src = new Pair(8, 0);
-
-			// Destination is the left-most top-most corner 
-			Pair dest = new Pair(0, 0);
-
-			aStarSearch(grid, src, dest);
+			this.grid = grid;
+			this.dest = dest;
+			this.src = src;
 		}
 
 		private bool isValid(Block[,] grid, int row, int col)
@@ -44,10 +44,8 @@ namespace Library
 			return Math.Sqrt(Math.Pow(row - dest.X, 2) + Math.Pow(col - dest.Y, 2));
 		}
 
-		private void tracePath(Cell[,] cellDetails, Pair dest)
+		private Pair[] tracePath(Cell[,] cellDetails, Pair dest)
 		{
-			Console.WriteLine("The Path is");
-
 			int row = dest.X;
 			int col = dest.Y;
 
@@ -63,44 +61,37 @@ namespace Library
 			}
 
 			path.Push(new Pair(row, col));
-			while (path.Count > 0)
-			{
-				var p = path.Peek();
-				path.Pop();
-				Console.WriteLine($"-> ({p.X},{p.Y})");
-			}
-
-			return;
+			return path.ToArray();
 		}
 
-		void aStarSearch(Block[,] grid, Pair src, Pair dest)
+		public Pair[] aStarSearch()
 		{
 			// If the source is out of range 
 			if (!isValid(grid, src.X, src.Y))
 			{
 				Console.WriteLine("Source is invalid\n");
-				return;
+				return null;
 			}
 
 			// If the destination is out of range 
 			if (!isValid(grid, dest.X, dest.Y))
 			{
 				Console.WriteLine("Destination is invalid\n");
-				return;
+				return null;
 			}
 
 			// Either the source or the destination is blocked 
 			if (!isUnBlocked(grid, src.X, src.Y) || !isUnBlocked(grid, dest.X, dest.Y))
 			{
 				Console.WriteLine("Source or the destination is blocked\n");
-				return;
+				return null;
 			}
 
 			// If the destination cell is the same as source cell 
 			if (isDestination(src.X, src.Y, dest))
 			{
 				Console.WriteLine("We are already at the destination\n");
-				return;
+				return null;
 			}
 
 			int ROW = grid.GetLength(0);
@@ -149,9 +140,6 @@ namespace Library
 			// Put the starting cell on the open list and set its 'f' as 0 
 			openList.Add(new PPair(0.0, new Pair(i, j)));
 
-			// We set this boolean value as false as initially the destination is not reached. 
-			bool foundDest = false;
-
 			while (openList.Count > 0)
 			{
 				// I think this is the same as the C++ implementation
@@ -168,13 +156,13 @@ namespace Library
 				/*
 					Generating all the 8 successor of this cell
 
-						N.W N N.E
-						\ | /
-						\ | /
+						  N.W N N.E
+							\ | /
+							\ | /
 						W----Cell----E
 							/ | \
-						/ | \
-						S.W S S.E
+							/ | \
+						  S.W S S.E
 
 					Cell-->Popped Cell (i, j)
 					N --> North	 (i-1, j)
@@ -203,9 +191,7 @@ namespace Library
 						cellDetails[i - 1, j].parent_i = i;
 						cellDetails[i - 1, j].parent_j = j;
 						Console.WriteLine("The destination cell is found");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 					// If the successor is already on the closed list or if it is blocked, then ignore it. Else do the following 
 					else if (closedList[i - 1, j] == false && isUnBlocked(grid, i - 1, j) == true)
@@ -247,9 +233,7 @@ namespace Library
 						cellDetails[i + 1, j].parent_i = i;
 						cellDetails[i + 1, j].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 					// If the successor is already on the closed 
 					// list or if it is blocked, then ignore it. 
@@ -292,9 +276,7 @@ namespace Library
 						cellDetails[i, j + 1].parent_i = i;
 						cellDetails[i, j + 1].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 
 					// If the successor is already on the closed 
@@ -339,9 +321,7 @@ namespace Library
 						cellDetails[i, j - 1].parent_i = i;
 						cellDetails[i, j - 1].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 					// If the successor is already on the closed 
 					// list or if it is blocked, then ignore it. 
@@ -386,9 +366,7 @@ namespace Library
 						cellDetails[i - 1, j + 1].parent_i = i;
 						cellDetails[i - 1, j + 1].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 					// If the successor is already on the closed 
 					// list or if it is blocked, then ignore it. 
@@ -433,9 +411,7 @@ namespace Library
 						cellDetails[i - 1, j - 1].parent_i = i;
 						cellDetails[i - 1, j - 1].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 					// If the successor is already on the closed 
 					// list or if it is blocked, then ignore it. 
@@ -478,9 +454,7 @@ namespace Library
 						cellDetails[i + 1, j + 1].parent_i = i;
 						cellDetails[i + 1, j + 1].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 
 					// If the successor is already on the closed 
@@ -526,9 +500,7 @@ namespace Library
 						cellDetails[i + 1, j - 1].parent_i = i;
 						cellDetails[i + 1, j - 1].parent_j = j;
 						Console.Write("The destination cell is found\n");
-						tracePath(cellDetails, dest);
-						foundDest = true;
-						return;
+						return tracePath(cellDetails, dest);
 					}
 
 					// If the successor is already on the closed 
@@ -567,14 +539,11 @@ namespace Library
 			// list is empty, then we conclude that we failed to 
 			// reach the destiantion cell. This may happen when the 
 			// there is no way to destination cell (due to blockages) 
-			if (!foundDest)
-				Console.Write("Failed to find the Destination Cell\n");
-
-			return;
+			return null;
 		}
 	}
 
-	class Pair
+	internal class Pair
 	{
 		public readonly int X, Y;
 
@@ -582,6 +551,12 @@ namespace Library
 		{
 			this.X = x;
 			this.Y = y;
+		}
+
+		public Pair((int x, int y) tuple)
+		{
+			this.X = tuple.x;
+			this.Y = tuple.y;
 		}
 	}
 
