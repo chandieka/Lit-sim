@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,9 +32,10 @@ namespace Library
             this.IsDead = true;
         }
 
-        private void CalculatePaths(Block[,] grid, CancellationToken ct, Pair pos, Pair[] feLocations)
+        private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
         {
-            ct.ThrowIfCancellationRequested();
+            if (worker.w.CancellationPending)
+                return;
 
             Pair[][] findPaths()
             {
@@ -41,7 +43,7 @@ namespace Library
 
                 foreach (var feLoc in feLocations)
                 {
-                    if (ct.IsCancellationRequested)
+                    if (worker.w.CancellationPending)
                         return paths.ToArray();
                     else
                     {
@@ -58,8 +60,8 @@ namespace Library
                 Pair[] shortest = null;
 
                 foreach (Pair[] p in paths)
-                    if (ct.IsCancellationRequested)
-                        return null;
+                    if (worker.w.CancellationPending)
+                        return shortest;
                     else if (shortest == null || p.Length < shortest.Length)
                         shortest = p;
 
@@ -69,17 +71,15 @@ namespace Library
             this.ShortestPath = findShortest(findPaths());
         }
 
-        internal (CancellationTokenSource token, Task task) CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations)
+        internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
         {
-            var tokenSource = new CancellationTokenSource();
-            CancellationToken ct = tokenSource.Token;
-
             var task = Task.Run(() =>
             {
-                this.CalculatePaths(grid, ct, pos, feLocations);
-            }, tokenSource.Token);
+                this.CalculatePaths(grid, pos, feLocations, worker);
+                callback();
+            });
 
-            return (tokenSource, task);
+            return task;
         }
 
         public override void Function(Block[,] grid, int x, int y)

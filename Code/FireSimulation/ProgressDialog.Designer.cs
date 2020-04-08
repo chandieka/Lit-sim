@@ -31,6 +31,7 @@
 			this.lblMessage = new System.Windows.Forms.Label();
 			this.pbMain = new System.Windows.Forms.ProgressBar();
 			this.lblPercentage = new System.Windows.Forms.Label();
+			this.btnCancel = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lblMessage
@@ -62,12 +63,24 @@
 			this.lblPercentage.TabIndex = 2;
 			this.lblPercentage.Text = "0%";
 			// 
+			// btnCancel
+			// 
+			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.Location = new System.Drawing.Point(240, 64);
+			this.btnCancel.Name = "btnCancel";
+			this.btnCancel.Size = new System.Drawing.Size(75, 23);
+			this.btnCancel.TabIndex = 3;
+			this.btnCancel.Text = "Cancel";
+			this.btnCancel.UseVisualStyleBackColor = true;
+			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+			// 
 			// ProgressDialog
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(327, 90);
 			this.ControlBox = false;
+			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.lblPercentage);
 			this.Controls.Add(this.pbMain);
 			this.Controls.Add(this.lblMessage);
@@ -89,5 +102,6 @@
 		private System.Windows.Forms.Label lblMessage;
 		private System.Windows.Forms.ProgressBar pbMain;
 		private System.Windows.Forms.Label lblPercentage;
+		private System.Windows.Forms.Button btnCancel;
 	}
 }

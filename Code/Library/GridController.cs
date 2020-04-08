@@ -539,60 +539,67 @@ namespace Library
 			return extinguishers.ToArray();
 		}
 
-		public void SetupInDifferentThread(Action callback, Action<int> progress, Action<string> progressReport = null)
+		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)
 		{
-			List<CancellationTokenSource> workerTokens = new List<CancellationTokenSource>();
 			BackgroundWorker bg = new BackgroundWorker();
 			List<Task> tasks = new List<Task>();
+			bool cancelled = false;
 
-			// TODO: Add progressReport
-			// TODO: Add these
+			bg.WorkerSupportsCancellation = true;
 			bg.WorkerReportsProgress = true;
-			bg.WorkerSupportsCancellation = false;
 
-			bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler((object o, RunWorkerCompletedEventArgs e) => callback());
+			bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler((object o, RunWorkerCompletedEventArgs e) => callback(cancelled));
 			bg.ProgressChanged += new ProgressChangedEventHandler((object o, ProgressChangedEventArgs e) => progress(e.ProgressPercentage));
 			bg.DoWork += new DoWorkEventHandler((object o, DoWorkEventArgs e) =>
 			{
 				BackgroundWorker worker = o as BackgroundWorker;
 
+				progressReport("Finding all fire extinguishers...");
 				var fes = GetFireExtinguishers(worker, e);
 
+				progressReport("Finding all persons...");
 				for (int x = 0; x < this.GridWidth; x++)
 				{
 					for (int y = 0; y < this.GridHeight; y++)
 					{
 						if (worker.CancellationPending)
-						{
-							e.Cancel = true;
-							foreach (var w in workerTokens)
-								w.Cancel();
-
 							break;
-						}
 						else
 						{
 							Block entry = this.grid[x, y];
 
 							if (entry is Person)
 							{
-								var returnVal = ((Person)entry).CalculatePaths(this.grid, new Pair(x, y), fes);
+								progressReport("Calculating path for person...");
+								var task = ((Person)entry).CalculatePaths(this.grid, new Pair(x, y), fes, (worker, e), () => 
+								{
+									if (worker.CancellationPending)
+										e.Cancel = true;
+									else
+									{
+										var allFinishedTasks = (double)(tasks.FindAll(t => t.IsCompleted).Count + 1);
+										worker.ReportProgress((int)Math.Floor(allFinishedTasks / tasks.Count * 100));
+									}
+								});
 
-								workerTokens.Add(returnVal.token);
-								tasks.Add(returnVal.task);
+								tasks.Add(task);
 							}
 						}
-
-						// TODO: This should be devided into three sections: The finding of the fire extinguishers, the looping over the grid for persons, the A* calculation
-						worker.ReportProgress((int)Math.Floor((float)x * (float)this.GridHeight / (float)this.grid.Length * 100));
 					}
 				}
 
+				progressReport("Waiting for all A* calls to finish...");
 				Task.WaitAll(tasks.ToArray());
+				progressReport("Done!");
 				e.Result = true;
 			});
 
 			bg.RunWorkerAsync();
+			return () =>
+			{
+				cancelled = true;
+				bg.CancelAsync();
+			};
 		}
 		#endregion
 		#endregion

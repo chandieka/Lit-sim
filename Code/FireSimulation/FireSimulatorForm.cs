@@ -315,16 +315,18 @@ namespace FireSimulator
         private void btnCalculatePaths_Click(object sender, EventArgs e)
         {
             var dialog = new ProgressDialog();
-
-            gridController.SetupInDifferentThread(() =>
+            var cancelMethod = gridController.SetupInDifferentThread(cancelled =>
             {
-                this.picBoxPlayPause.Enabled = true;
+                if (!cancelled)
+                    this.picBoxPlayPause.Enabled = true;
+
                 VisualizeSimulation();
 
                 dialog.Close();
                 dialog.Dispose();
-            }, dialog.SetPercentage);
+            }, dialog.SetPercentage, dialog.SetProgressReport);
 
+            dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
             dialog.ShowDialog();
         }
     }
