@@ -1,9 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Linq;
 
 namespace Library
 {
+    [Serializable]
     public class Fire : FunctionalBlock
     {
+        private static readonly Random random = new Random();
         public static new readonly Color Color = Color.Red;
 
         public Fire() : base() { }
@@ -12,32 +16,34 @@ namespace Library
         {
             void putFire(int locX, int locY)
             {
-                // Somebody needs to check this =P
-                if (locX >= 0 && locY >= 0 && locX < grid.GetLength(0) && locY < grid.GetLength(1))
-                {
-                    // Only if the space is empty, a fire can be placed
-                    if (grid[locX, locY] == GridController.Floor)
-                        grid[locX, locY] = GridController.Fire;
-                    // If the space is occupied by a person, they are dead now
-                    else if (grid[locX, locY] is Person)
-                        ((Person)grid[locX, locY]).Kill();
-                }
+                // check if the location is within the grid
+                var xMin = 0;
+                var xMax = grid.GetLength(0);
+                var yMin = 0;
+                var yMax = grid.GetLength(1);
+
+                if (locX < xMin || locX >= xMax)
+                    return;
+                if (locY < yMin || locY >= yMax)
+                    return;
+
+                // check if the unit that would be replaced is a floor or a person
+                if (grid[locX, locY] is Floor) grid[locX, locY] = new Fire();
+                if (grid[locX, locY] is Person) ((Person)grid[locX, locY]).Kill();
             }
 
-            /* Get all the blocks surrounding the block */
-            // Top row
-            putFire(x - 1, y - 1);
-            putFire(x, y - 1);
-            putFire(x + 1, y + 1);
+            // place a fire at random, the default probability of it being placed is 5%
+            void maybePutFire(int locX, int locY, double probability = .05d)
+            {
+                if (random.NextDouble() < probability)
+                    putFire(locX, locY);
+            }
 
-            // Middle row
-            putFire(x - 1, y);
-            putFire(x + 1, y);
-
-            // Bottom row
-            putFire(x - 1, y + 1);
-            putFire(x, y + 1);
-            putFire(x + 1, y + 1);
+            // cycle through the neigboring blocks of the given spot
+            foreach (var xOffset in new[] { -1, 1 })
+                maybePutFire(x + xOffset, y);
+            foreach (var yOffset in new[] { -1, 1 })
+                maybePutFire(x, y + yOffset);
         }
     }
 }

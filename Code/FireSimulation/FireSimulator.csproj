@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialog\AutoSaveLoadDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\AutoSaveLoadDialog.Designer.cs">
+      <DependentUpon>AutoSaveLoadDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FireSimulatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +66,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialog\AutoSaveLoadDialog.resx">
+      <DependentUpon>AutoSaveLoadDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FireSimulatorForm.resx">
       <DependentUpon>FireSimulatorForm.cs</DependentUpon>
     </EmbeddedResource>
