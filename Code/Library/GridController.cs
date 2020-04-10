@@ -74,15 +74,37 @@ namespace Library
             }
         }
 
+        public void ClearArea((int x, int y) topLeft, int width, int height)
+        {
+            for (int x = topLeft.x; x < topLeft.x + width; x++)
+                for (int y = topLeft.y; y < topLeft.y + height; y++)
+                    this.grid[x, y] = Block.Empty;
+        }
+
         public void PutWall((int x, int y) location)
         {
             this.grid[location.x, location.y] = new Wall();
         }
 
-        public void FillWall((int x, int y) topLeft, int width, int height)
+        public void FillWall((int x, int y) location, int length, bool horizontal)
+        {
+            if (horizontal)
+            {
+                for (int i = 0; i < length; i++)
+                    this.PutWall((location.x + i, location.y));
+            } 
+            // If not horizontal, then vertical
+            else
+            {
+                for (int i = 0; i < length; i++)
+                    this.PutWall((location.x, location.y + i));
+            }
+        }
+
+        private void FillWall((int x, int y) topLeft, int width, int height)
         {
             // Only for horizontal and vertical wall
-         
+
             for (int x = topLeft.x; x < topLeft.x + width; x++)
             {
                 for (int y = topLeft.y; y < topLeft.y + height; y++)
@@ -386,6 +408,7 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
+            return true;
             return getSavedGrid(defaultPath) != this.grid;
         }
 

@@ -16,6 +16,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface", "Interface\Interface.csproj", "{1519E548-95AC-44EB-91FC-DB09CA41FC78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FloorDesigner", "FloorDesigner\FloorDesigner.csproj", "{465A76CA-1B50-4288-AD7A-29E89BA9E882}"
+	ProjectSection(ProjectDependencies) = postProject
+		{36D5C8B1-4EA2-444F-8C67-0F0D8647DC5F} = {36D5C8B1-4EA2-444F-8C67-0F0D8647DC5F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
