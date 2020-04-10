@@ -17,7 +17,7 @@ namespace Library
 
         #region Private Fields
         // playing fields
-        private readonly Block[,] grid;
+        private Block[,] grid;
 
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
@@ -125,6 +125,9 @@ namespace Library
         {
             Random rand;
 
+            // Prevent infinite simulation
+            persons.Clear();
+
             if (seed.HasValue)
                 rand = new Random(seed.Value);
             else
@@ -150,6 +153,20 @@ namespace Library
             this.grid[location.x, location.y] = GridController.Fire;
         }
 
+        public void RandomizeFire(int amount, int? seed = null)
+        {
+            Random rand;
+            List<(int x, int y)> floorSpot = GetFloorBlocks();
+
+            if (seed.HasValue)
+                rand = new Random(seed.Value);
+            else
+                rand = new Random();
+
+            int rng = rand.Next(0, floorSpot.Count - 1);
+            grid[floorSpot[rng].x, floorSpot[rng].y] = Fire;
+        }
+
         public void PutFireExtinguisher((int x, int y) location)
         {
             FireExtinguisher f = new FireExtinguisher();
@@ -159,6 +176,7 @@ namespace Library
 
         public bool RandomizeFireExtinguishers(int amount, int? seed = null)
         {
+            fireExtinguishers.Clear();
             Random rand;
 
             if (seed.HasValue)
@@ -356,12 +374,14 @@ namespace Library
         }
         #endregion
         #region IO
-        private static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
+
+        public static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
+
         private static Block[,] getSavedGrid(string path)
         {
             try
             {
-                using (Stream stream = File.Open(path, FileMode.Open, FileAccess.Read))
+                using (FileStream stream = new FileStream(path, FileMode.Open))
                 {
                     BinaryFormatter bformatter = new BinaryFormatter();
 
@@ -379,11 +399,12 @@ namespace Library
                 return null;
             }
         }
+
         private bool setSavedGrid(string path)
         {
             try
             {
-                using (Stream stream = File.Open(path, FileMode.Create, FileAccess.Write))
+                using (FileStream stream = new FileStream(path, FileMode.Create))
                 {
                     BinaryFormatter bformatter = new BinaryFormatter();
                     bformatter.Serialize(stream, this.grid);
@@ -408,8 +429,7 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
-            return true;
-            return getSavedGrid(defaultPath) != this.grid;
+            return getSavedGrid(defaultPath) == this.grid;
         }
 
         /// <summary>
@@ -419,7 +439,6 @@ namespace Library
         public bool Save(string path)
         {
             return setSavedGrid(path ?? defaultPath);
-
         }
 
         /// <summary>
@@ -435,15 +454,17 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public static GridController Load(string path = null)
+        public void Load(string path)
         {
-            Block[,] grid = getSavedGrid(path ?? defaultPath);
+            if (string.IsNullOrEmpty(path))
+                path = defaultPath;
 
-            if (grid != null)
-                return new GridController(grid);
-
-            return null;
+            Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
+            
+            if (loadedGrid != null)
+                this.grid = loadedGrid;
         }
+
         #endregion
         #region Other methods
         public List<(int x, int y)> GetFloorBlocks()
@@ -454,7 +475,10 @@ namespace Library
             {
                 for (int y = 0; y < this.GridHeight; y++)
                 {
-                    if (this.grid[x, y].GetType() == typeof(Floor)) result.Add((x, y));
+                    if (this.grid[x, y].GetType() == typeof(Floor))
+                    {
+                        result.Add((x, y));
+                    }
                 }
             }
 
@@ -467,7 +491,7 @@ namespace Library
             {
                 for (int YOffset = -1; YOffset <= 1; YOffset++)
                 {
-                    if ((self.x + XOffset < 0) || (self.x + XOffset > grid.GetLength(0)) || (self.y + YOffset < 0) || (self.y + YOffset > grid.GetLength(1)) || (XOffset == 0 && YOffset == 0))
+                    if ((self.x + XOffset < 0) || (self.x + XOffset > grid.GetLength(0) - 1) || (self.y + YOffset < 0) || (self.y + YOffset > grid.GetLength(1) - 1) || (XOffset == 0 && YOffset == 0))
                         continue;
 
                     if (grid[(self.x + XOffset), (self.y + YOffset)].GetType() == neighbor) return true;

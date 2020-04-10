@@ -20,8 +20,8 @@ namespace TesterConsole
             //gc.Load(string.Empty);
             // add some random data to the grid
             gc.PutDefaultFloorPlan(1);
-            gc.RandomizePersons(10);
-            gc.RandomizeFireExtinguishers(10);
+            //gc.RandomizePersons(10);
+            //gc.RandomizeFireExtinguishers(10);
 
             //gc.FillWall((1, 2), 5, 1);
             //gc.PutPerson((8, 3));
@@ -31,9 +31,9 @@ namespace TesterConsole
             var bmp = gc.Paint((10, 10));
 
             // store the bimap in a file
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/mylayout.png";
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\mylayout.bmp";
 
-            bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+            bmp.Save(path, bmp.RawFormat);
 
             // report success
             Console.WriteLine("Successfully saved to " + path);

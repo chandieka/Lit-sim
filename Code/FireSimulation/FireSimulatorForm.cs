@@ -18,6 +18,7 @@ namespace FireSimulator
         public FireSimulatorForm()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
 
@@ -32,14 +33,18 @@ namespace FireSimulator
             VisualizeSimulation();
 
 
-            ////if (this.gridController.IsLoadable())
-            ////{
-            ////    //Add a messagebox or some other form of asking the user if he wants to load the last auto saved verion
-            ////    //if (yes)
-            ////    //{
-            ////    //  this.gridController.Load(string.Empty);
-            ////    //}
-            ////}
+            if (this.gridController.IsLoadable())
+            {
+                using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
+                {
+                    autoLoadDialog.ShowDialog();
+                    if (autoLoadDialog.DialogResult == DialogResult.Yes)
+                    {
+                        this.gridController.Load(GridController.defaultPath);
+                        VisualizeSimulation();
+                    }
+                }
+            }
         }
 
         #region Private Methods
@@ -47,7 +52,7 @@ namespace FireSimulator
         private void FillDefault()
         {
             animationLoopTimer.Interval = 1;
-            gridController.PutFire((1, 1));
+            gridController.RandomizeFire(1);
             gridController.RandomizePersons(10);
             gridController.RandomizeFireExtinguishers(20);
         }
@@ -57,6 +62,7 @@ namespace FireSimulator
             int people = gridController.GetNrOfPeople();
             int deaths = gridController.GetTotalDeaths();
             int fireExtinguishers = gridController.GetNrOfFireExtinguishers();
+            int alive = people - deaths;
 
             if (people == deaths)
             {
@@ -68,6 +74,7 @@ namespace FireSimulator
             lblPeopleTotal.Text = people.ToString();
             lblFireExTotal.Text = fireExtinguishers.ToString();
             lblDeaths.Text = deaths.ToString();
+            lblAlive.Text = alive.ToString();
         }
 
         private void switchInput()
@@ -118,13 +125,17 @@ namespace FireSimulator
 
         private void animationLoopTimer_Tick(object sender, EventArgs e)
         {
-            tbTimer.Text = time.ToString();
             TimeSpan second = new TimeSpan(0, 0, 10);
             time = time.Add(second);
+            tbTimer.Text = time.ToString();
+            
 
             // Testing purpose
             if (testingTicks)
+            {
                 gridController.Tick();
+                GetStats();
+            }
             else
             {
                 gridController.Clear();
@@ -139,7 +150,7 @@ namespace FireSimulator
             {
                 picBoxPlayPause_Click(null, null);
                 GetStats();
-                gBoxStatistics.Visible = true;
+                btnRerunSimulation.Visible = true;
             }
         }
 
@@ -176,11 +187,18 @@ namespace FireSimulator
         {
             if (gridController.IsSavable())
             {
-                //Ask the user if they want to autosave
-                //if (yes)
-                //{
-                //  gridController.Save(string.Empty);
-                //}
+                using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
+                {
+                    autoSaveDialog.ShowDialog();
+                    if (autoSaveDialog.DialogResult == DialogResult.Yes)
+                    {
+                        this.gridController.Save(GridController.defaultPath);
+                    }
+                    else if (autoSaveDialog.DialogResult == DialogResult.Cancel)
+                    {
+                        e.Cancel = true;
+                    }
+                }
             }
         }
 
@@ -213,10 +231,7 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string name = myDialog.FileName;
-
-                    //FileStream fs = new FileStream(name, FileMode.CreateNew, FileAccess.Write);
-                    // TODO?
+                    this.gridController.Save(myDialog.FileName);
                 }
             }
         }
@@ -230,16 +245,8 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string name = myDialog.FileName;
-                    FileStream fs = null;
-                   
-                    fs = new FileStream(name, FileMode.Open, FileAccess.Read);                   
-                    
-                    if (fs != null)
-                        fs.Close();
-
-                    lblImportFileLoc.Text = Path.GetFileName(name);
-                    // TODO?
+                    this.gridController.Load(myDialog.FileName);
+                    VisualizeSimulation();
                 }
             }
         }
@@ -250,7 +257,10 @@ namespace FireSimulator
             
             // clear the map
             gridController.Clear();
+            // get the basic floor plan
             gridController.PutDefaultFloorPlan(1);
+            // add fire to the map
+            gridController.RandomizeFire(1);
 
             if (!int.TryParse(tbPeople.Text, out int amountPeople))
                 isSuccess &= false; // TODO: show error message
@@ -265,7 +275,7 @@ namespace FireSimulator
                 isSuccess &= false; // TODO: show error message
 
             // visualize the map
-            // not wasting computing power if its not success full
+            // not wasting computing power if its not successfull
             if (isSuccess)
             {
                 VisualizeSimulation();
@@ -280,7 +290,8 @@ namespace FireSimulator
             time = TimeSpan.Zero;
             tbTimer.Text = time.ToString();
             VisualizeSimulation();
-            gBoxStatistics.Visible = false;
+            btnRerunSimulation.Visible = false;
+            lblResult.Text = "<Success/Fail>";
         }
 
         // For shortcuts
