@@ -17,7 +17,7 @@ namespace Library
 
         #region Private Fields
         // playing fields
-        private Block[,] grid;
+        private readonly Block[,] grid;
 
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
@@ -454,15 +454,17 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public void Load(string path)
+        public static GridController Load(string path)
         {
             if (string.IsNullOrEmpty(path))
                 path = defaultPath;
 
             Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
-            
-            if (loadedGrid != null)
-                this.grid = loadedGrid;
+
+            if (loadedGrid == null)
+                return null;
+            else
+                return new GridController(loadedGrid);
         }
 
         #endregion
