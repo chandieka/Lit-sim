@@ -10,9 +10,9 @@ namespace Library
 {
     public class GridController
     {
-        #region Public static propeties
-        public static Floor Floor = new Floor();
-        public static Fire Fire = new Fire() ;
+        #region Internal static propeties
+        internal static Floor Floor = new Floor();
+        internal static Fire Fire = new Fire();
         #endregion
 
         #region Private Fields
@@ -74,15 +74,37 @@ namespace Library
             }
         }
 
+        public void ClearArea((int x, int y) topLeft, int width, int height)
+        {
+            for (int x = topLeft.x; x < topLeft.x + width; x++)
+                for (int y = topLeft.y; y < topLeft.y + height; y++)
+                    this.grid[x, y] = Block.Empty;
+        }
+
         public void PutWall((int x, int y) location)
         {
             this.grid[location.x, location.y] = new Wall();
         }
 
-        public void FillWall((int x, int y) topLeft, int width, int height)
+        public void FillWall((int x, int y) location, int length, bool horizontal)
+        {
+            if (horizontal)
+            {
+                for (int i = 0; i < length; i++)
+                    this.PutWall((location.x + i, location.y));
+            } 
+            // If not horizontal, then vertical
+            else
+            {
+                for (int i = 0; i < length; i++)
+                    this.PutWall((location.x, location.y + i));
+            }
+        }
+
+        private void FillWall((int x, int y) topLeft, int width, int height)
         {
             // Only for horizontal and vertical wall
-         
+
             for (int x = topLeft.x; x < topLeft.x + width; x++)
             {
                 for (int y = topLeft.y; y < topLeft.y + height; y++)
@@ -151,6 +173,7 @@ namespace Library
             fireExtinguishers.Add(f);
             this.grid[location.x, location.y] = f;
         }
+
         public bool RandomizeFireExtinguishers(int amount, int? seed = null)
         {
             fireExtinguishers.Clear();
@@ -491,6 +514,11 @@ namespace Library
         public int GetTotalDeaths()
         {
             return persons.Count(p => p.IsDead);
+        }
+
+        public Block GetAt((int x, int y) loc)
+        {
+            return this.grid[loc.x, loc.y];
         }
         #endregion
         #endregion
