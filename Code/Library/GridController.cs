@@ -8,7 +8,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Library
 {
-    public class GridController
+    public class GridController :
+        ICloneable
     {
         #region Internal static propeties
         internal static Floor Floor = new Floor();
@@ -25,6 +26,7 @@ namespace Library
         #endregion
 
         #region Public Properties
+        public Block[,] Grid => this.grid;
         public int GridWidth => this.grid.GetLength(0);
         public int GridHeight => this.grid.GetLength(1);
         #endregion
@@ -38,7 +40,7 @@ namespace Library
             this.Clear();
         }
 
-        public GridController(Block[,] grid)
+        protected GridController(Block[,] grid)
         {
             this.grid = grid;
         }
@@ -372,6 +374,15 @@ namespace Library
             // set DPI resolution
             return UseGraphics(bitmap);
         }
+
+        // Instead of doing gridcontroller.Tick() and painting the result on the form for every time
+        // the timer goes off, you can save a copy of this object and paint the next bitmap in this
+        // every time the timer goes off. This also allows you to "go back" one tick, or "speed up"
+        // the simulation.
+        public AnimationFrames PaintAll((int xScale, int yScale) scaleSize)
+        {
+            return new AnimationFrames(this, scaleSize);
+        }
         #endregion
         #region IO
 
@@ -467,6 +478,12 @@ namespace Library
 
         #endregion
         #region Other methods
+        public object Clone()
+        {
+            var gc = new GridController(this.grid);
+            return gc;
+        }
+
         public List<(int x, int y)> GetFloorBlocks()
         {
             var result = new List<(int x, int y)>();
@@ -522,5 +539,70 @@ namespace Library
         }
         #endregion
         #endregion
+    }
+
+    /// <summary>
+    /// A class to handle what, to the outside, looks like an array of images, but in reality is a
+    /// bit more complicated because an actual array of bitmaps would take up a lot more memory.
+    /// </summary>
+    public class AnimationFrames
+    {
+        private Bitmap this[int index]
+        {
+            get
+            {
+                if (index >= lazyBitmaps.Length) return null;
+                if (index < 0) return null;
+
+                return this.lazyBitmaps[index].Value;
+            }
+        }
+
+        private readonly Lazy<Bitmap>[] lazyBitmaps;
+        private int index = 0;
+
+        public AnimationFrames(GridController gridController, (int xScale, int yScale) scaleSize)
+        {
+            var gc = (GridController)gridController.Clone();
+            var lb = new List<Lazy<Bitmap>>();
+
+            do
+            {
+                gc.Tick();
+                var gc1 = (GridController)gc.Clone();
+
+                lb.Add(new Lazy<Bitmap>(() => gc1.Paint(scaleSize)));
+            }
+            while (!gc.Ended());
+
+            this.lazyBitmaps = lb.ToArray();
+        }
+
+        public bool Forward(int amount = 1)
+        {
+            if (amount < 0) 
+                return false;
+            if (index + amount >= lazyBitmaps.Length)
+                return false;
+
+            index += amount;
+            return true;
+        }
+
+        public bool Backward(int amount = 1)
+        {
+            if (amount < 0)
+                return false;
+            if (index - amount < 0)
+                return false;
+
+            index -= amount;
+            return true;
+        }
+
+        public Image GetCurrentFrame()
+        {
+            return this[index];
+        }
     }
 }
