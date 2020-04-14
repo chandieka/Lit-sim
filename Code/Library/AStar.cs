@@ -35,10 +35,17 @@ namespace Library
 
 		private bool isValid(Block[,] grid, int row, int col)
 		{
-			return
+			if (!
 				(row >= 0 && row < grid.GetLength(0)) &&
-				(col >= 0 && col < grid.GetLength(1)) &&
-				(grid[row, col] != Block.Empty);
+				(col >= 0 && col < grid.GetLength(1))
+			)
+				return false;
+
+			var gridVal = grid[row, col];
+			return (
+				gridVal != Block.Empty &&
+				!(gridVal is Person)
+			);
 		}
 
 		/// <summary>
@@ -95,7 +102,7 @@ namespace Library
 				throw new Exception("Source is invalid");
 
 			// If the destination is out of range 
-			if (!isValid(grid, dest.X, dest.Y, typeof(FireExtinguisher)))
+			if (!isValid(grid, dest.X, dest.Y))
 				throw new Exception("Destination is invalid");
 
 			// If the destination cell is the same as source cell 
