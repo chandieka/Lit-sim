@@ -20,7 +20,7 @@ namespace Library
 
 		#region Private Fields
 		// playing fields
-		private Block[,] grid;
+		private readonly Block[,] grid;
 
 		private bool ShouldDrawPaths = true;
 		private bool hasTicked = false;
@@ -47,6 +47,7 @@ namespace Library
 		public GridController(Block[,] grid)
 		{
 			this.grid = grid;
+			fillLists();
 		}
 		#endregion
 
@@ -374,7 +375,6 @@ namespace Library
 		}
 		#endregion
 		#region IO
-
 		public static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
 
 		private static Block[,] getSavedGrid(string path)
@@ -454,7 +454,7 @@ namespace Library
 		/// Loading the grid
 		/// </summary>
 		/// <param name="path"></param>
-		public void Load(string path)
+		public static GridController Load(string path)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = defaultPath;
@@ -462,7 +462,9 @@ namespace Library
 			Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
 
 			if (loadedGrid != null)
-				this.grid = loadedGrid;
+				return new GridController(loadedGrid);
+
+			return null;
 		}
 
 		#endregion
@@ -512,6 +514,25 @@ namespace Library
 		public int GetTotalDeaths()
 		{
 			return persons.Count(p => p.IsDead);
+		}
+
+		private void fillLists()
+		{
+			this.fireExtinguishers.Clear();
+			this.persons.Clear();
+
+			for (int x = 0; x < this.GridWidth; x++)
+			{
+				for (int y = 0; y < this.GridHeight; y++)
+				{
+					var val = grid[x, y];
+
+					if (val is Person)
+						this.persons.Add((Person)val);
+					else if (val is FireExtinguisher)
+						this.fireExtinguishers.Add((FireExtinguisher)val);
+				}
+			}
 		}
 
 		private Pair[] GetFireExtinguishers(BackgroundWorker worker, DoWorkEventArgs e)

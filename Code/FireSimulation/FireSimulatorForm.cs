@@ -11,7 +11,7 @@ namespace FireSimulator
         private TimeSpan time = new TimeSpan(0, 0, 0);
         private bool running;
         private bool building = true;
-        private readonly GridController gridController;
+        private GridController gridController;
 
         private bool testingTicks = true;
 
@@ -41,7 +41,7 @@ namespace FireSimulator
                     autoLoadDialog.ShowDialog();
                     if (autoLoadDialog.DialogResult == DialogResult.Yes)
                     {
-                        this.gridController.Load(GridController.defaultPath);
+                        this.gridController = GridController.Load(GridController.defaultPath);
                         VisualizeSimulation();
                     }
                 }
@@ -249,7 +249,7 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    this.gridController.Load(myDialog.FileName);
+                    this.gridController = GridController.Load(myDialog.FileName);
                     VisualizeSimulation();
                 }
             }

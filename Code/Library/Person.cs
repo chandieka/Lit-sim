@@ -51,6 +51,8 @@ namespace Library
                 grid[pathEntry.X, pathEntry.Y] = this;
                 pathIndex++;
             }
+            else if (grid[pathEntry.X, pathEntry.Y] is Person)
+                pathIndex++;
         }
 
         private Pair[] findShortestPath(Pair[][] paths, BackgroundWorker worker)
