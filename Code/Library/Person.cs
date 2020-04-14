@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Library
 {
@@ -19,46 +22,82 @@ namespace Library
             }
         }
 
-        public Person()
-            : base()
-        { }
+        internal Pair[] ShortestPath { get; private set; }
+        private int pathIndex = 1;
+
+        public Person() : base() { }
 
         public void Kill()
         {
             this.IsDead = true;
         }
 
-        // This could be optimized by calculating this once at start up
-        private static (int x, int y) GetNearestFireExtinguisher(Block[,] grid, (int x, int y) location)
+        private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
         {
-            // This should be optimized by calculating this only once every loop
-            (int x, int y)[] getFireExtinguisers()
+            if (worker.w.CancellationPending)
+                return;
+
+            Pair[][] findPaths()
             {
-                List<(int x, int y)> list = new List<(int x, int y)>();
+                List<Pair[]> paths = new List<Pair[]>();
 
-                for (int x = 0; x < grid.GetLength(0); x++)
-                    for (int y = 0; y < grid.GetLength(1); y++)
-                        if (grid[x, y] is FireExtinguisher)
-                            list.Add((x, y));
+                foreach (var feLoc in feLocations)
+                {
+                    if (worker.w.CancellationPending)
+                        return paths.ToArray();
+                    else
+                    {
+                        var val = new AStar(grid, pos, feLoc).aStarSearch();
+                        paths.Add(val);
+                    }
+                }
 
-                return list.ToArray();
-            }
-            double calcDist((int x, int y) person, (int x, int y) fe)
-            {
-                return Math.Sqrt(Math.Pow(person.x - fe.x, 2) + Math.Pow(person.y - fe.y, 2));
-            }
-
-            var extinguishers = getFireExtinguisers();
-            Tuple<(int x, int y), double> n = null;
-            for (int i = 0; i < extinguishers.Length; i++)
-            {
-                var dist = calcDist(location, extinguishers[i]);
-
-                if (n == null || n.Item2 > dist)
-                    n = new Tuple<(int x, int y), double>(extinguishers[i], dist);
+                return paths.ToArray();
             }
 
-            return n.Item1;
+            Pair[] findShortest(Pair[][] paths)
+            {
+                Pair[] shortest = null;
+
+                foreach (Pair[] p in paths)
+                    if (worker.w.CancellationPending)
+                        return shortest;
+                    else if (shortest == null || p.Length < shortest.Length)
+                        shortest = p;
+
+                return shortest;
+            }
+
+            this.ShortestPath = findShortest(findPaths());
+        }
+
+        internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
+        {
+            var task = Task.Run(() =>
+            {
+                this.CalculatePaths(grid, pos, feLocations, worker);
+                callback();
+            });
+
+            return task;
+        }
+
+        public override void Function(Block[,] grid, int x, int y)
+        {
+            if (this.ShortestPath == null)
+                throw new Exception("'ShortestPath' is not defined. You need to execute the 'CalculatePaths' method before animating!");
+
+            if (pathIndex < this.ShortestPath.Length - 1)
+            {
+                var pathEntry = this.ShortestPath[pathIndex];
+
+                if (grid[pathEntry.X, pathEntry.Y] is Floor)
+                {
+                    grid[x, y] = GridController.Floor;
+                    grid[pathEntry.X, pathEntry.Y] = this;
+                    pathIndex++;
+                }
+            }
         }
 
         /* TODO: This is super buggy:
@@ -67,7 +106,6 @@ namespace Library
             - Nothing happens when a person reaches an extinguisher
             - A person does not regard a fire (just walks right into it)
             - A person does not regard walls...
-        */
         public override void Function(Block[,] grid, int x, int y)
         {
             if (!IsDead)
@@ -97,5 +135,28 @@ namespace Library
                 tryMove((newX, newY));
             }
         }
+        */
+
+        /* TODO: This could be optimized by calculating this once at start up
+        private static (int x, int y) GetNearestFireExtinguisher(Block[,] grid, (int x, int y) location)
+        {
+            double calcDist((int x, int y) person, (int x, int y) fe)
+            {
+                return Math.Sqrt(Math.Pow(person.x - fe.x, 2) + Math.Pow(person.y - fe.y, 2));
+            }
+
+            var extinguishers = getFireExtinguisers();
+            Tuple<(int x, int y), double> n = null;
+            for (int i = 0; i < extinguishers.Length; i++)
+            {
+                var dist = calcDist(location, extinguishers[i]);
+
+                if (n == null || n.Item2 > dist)
+                    n = new Tuple<(int x, int y), double>(extinguishers[i], dist);
+            }
+
+            return n.Item1;
+        }
+        */
     }
 }

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Library
 {
@@ -19,7 +22,8 @@ namespace Library
         #region Private Fields
         // playing fields
         private Block[,] grid;
-
+        private bool ShouldDrawPaths = true;
+		private bool hasTicked = false;
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
         // others 
@@ -58,6 +62,8 @@ namespace Library
                     this.grid[x, y] = Block.Empty;
                 }
             }
+
+            this.hasTicked = false;
         }
 
         public void PutFloor((int x, int y) location)
@@ -289,6 +295,8 @@ namespace Library
 
         public void Tick()
         {
+            this.hasTicked = true;
+
             // This is needed to prevent the fire form spreading rapidly
             var gridCopy = this.grid.Clone() as Block[,];
 
@@ -365,6 +373,21 @@ namespace Library
                         gr.FillRectangle(br, x * scaleSize.xScale, y * scaleSize.yScale, 1 * scaleSize.xScale, 1 * scaleSize.xScale);
                     }
                 }
+
+                if (this.ShouldDrawPaths && !this.hasTicked)
+				{
+					foreach (Person p in this.persons)
+						if (p.ShortestPath == null)
+							break;
+						else
+						{
+							for (int i = 1; i < p.ShortestPath.Length - 1; i++)
+							{
+								var pair = p.ShortestPath[i];
+								gr.FillRectangle(Brushes.Coral, pair.X * scaleSize.xScale, pair.Y * scaleSize.yScale, scaleSize.xScale, scaleSize.xScale);
+							}
+						}
+				}
 
                 return bmp;
             }
@@ -537,6 +560,94 @@ namespace Library
         {
             return this.grid[loc.x, loc.y];
         }
+
+        private Pair[] GetFireExtinguishers(BackgroundWorker worker, DoWorkEventArgs e)
+		{
+			List<Pair> extinguishers = new List<Pair>();
+
+			for (int x = 0; x < this.GridWidth; x++)
+			{
+				for (int y = 0; y < this.GridHeight; y++)
+				{
+					if (worker.CancellationPending == false)
+					{
+						if (this.grid[x, y] is FireExtinguisher)
+							extinguishers.Add(new Pair(x, y));
+					}
+					else
+					{
+						e.Cancel = true;
+						break;
+					}
+				}
+			}
+
+			return extinguishers.ToArray();
+		}
+
+		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)
+		{
+			BackgroundWorker bg = new BackgroundWorker();
+			List<Task> tasks = new List<Task>();
+			bool cancelled = false;
+
+			bg.WorkerSupportsCancellation = true;
+			bg.WorkerReportsProgress = true;
+
+			bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler((object o, RunWorkerCompletedEventArgs e) => callback(cancelled));
+			bg.ProgressChanged += new ProgressChangedEventHandler((object o, ProgressChangedEventArgs e) => progress(e.ProgressPercentage));
+			bg.DoWork += new DoWorkEventHandler((object o, DoWorkEventArgs e) =>
+			{
+				BackgroundWorker worker = o as BackgroundWorker;
+
+				progressReport("Finding all fire extinguishers...");
+				var fes = GetFireExtinguishers(worker, e);
+
+				progressReport("Finding all persons...");
+				for (int x = 0; x < this.GridWidth; x++)
+				{
+					for (int y = 0; y < this.GridHeight; y++)
+					{
+						if (worker.CancellationPending)
+							break;
+						else
+						{
+							Block entry = this.grid[x, y];
+
+							if (entry is Person)
+							{
+								progressReport("Calculating path for person...");
+								var task = ((Person)entry).CalculatePaths(this.grid, new Pair(x, y), fes, (worker, e), () => 
+								{
+									if (worker.CancellationPending)
+										e.Cancel = true;
+									else
+									{
+										var allFinishedTasks = (double)(tasks.FindAll(t => t.IsCompleted).Count + 1);
+										worker.ReportProgress((int)Math.Floor(allFinishedTasks / tasks.Count * 100));
+									}
+								});
+
+								tasks.Add(task);
+							}
+						}
+					}
+				}
+
+				progressReport("Waiting for all A* calls to finish...");
+				Task.WaitAll(tasks.ToArray());
+				progressReport("Done!");
+				e.Result = true;
+			});
+
+			bg.RunWorkerAsync();
+			return () =>
+			{
+				cancelled = true;
+				bg.CancelAsync();
+			};
+		}
+
         #endregion
         #endregion
     }

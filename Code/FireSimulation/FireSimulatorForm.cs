@@ -18,6 +18,7 @@ namespace FireSimulator
         public FireSimulatorForm()
         {
             InitializeComponent();
+
             WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
@@ -157,6 +158,9 @@ namespace FireSimulator
 
         private void picBoxPlayPause_Click(object sender, EventArgs e)
         {
+            if (!picBoxPlayPause.Enabled)
+                return;
+
             if (running == false)
             {
                 animationLoopTimer.Start();
@@ -300,8 +304,6 @@ namespace FireSimulator
         // For shortcuts
         private void FireSimulatorForm_KeyUp(object sender, KeyEventArgs e)
         {
-            Console.WriteLine("KEYEYYEYE");
-
             if (e.KeyCode == Keys.Space)
                 picBoxPlayPause_Click(null, null);
             else if (e.Control)
@@ -331,6 +333,22 @@ namespace FireSimulator
             {
                //does nothing
             }
+        private void btnCalculatePaths_Click(object sender, EventArgs e)
+        {
+            var dialog = new ProgressDialog();
+            var cancelMethod = gridController.SetupInDifferentThread(cancelled =>
+            {
+                if (!cancelled)
+                    this.picBoxPlayPause.Enabled = true;
+
+                VisualizeSimulation();
+
+                dialog.Close();
+                dialog.Dispose();
+            }, dialog.SetPercentage, dialog.SetProgressReport);
+
+            dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
+            dialog.ShowDialog();
         }
     }
 }

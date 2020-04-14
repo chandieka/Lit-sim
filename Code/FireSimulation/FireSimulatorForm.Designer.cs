@@ -78,6 +78,7 @@
             this.toolTipImport = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipSave = new System.Windows.Forms.ToolTip(this.components);
             this.btnTerminate = new System.Windows.Forms.Button();
+            this.btnCalculatePaths = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWall)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFireExtinguisher)).BeginInit();
@@ -278,6 +279,7 @@
             // picBoxPlayPause
             // 
             this.picBoxPlayPause.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBoxPlayPause.Enabled = false;
             this.picBoxPlayPause.Image = global::FireSimulator.Icons.Play;
             this.picBoxPlayPause.Location = new System.Drawing.Point(26, 9);
             this.picBoxPlayPause.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -548,6 +550,17 @@
             this.btnTerminate.Visible = false;
             this.btnTerminate.Click += new System.EventHandler(this.btnTerminate_Click);
             // 
+			// btnCalculatePaths
+			// 
+			this.btnCalculatePaths.Location = new System.Drawing.Point(37, 533);
+			this.btnCalculatePaths.Name = "btnCalculatePaths";
+			this.btnCalculatePaths.Size = new System.Drawing.Size(75, 23);
+			this.btnCalculatePaths.TabIndex = 18;
+			this.btnCalculatePaths.Text = "Calculate paths";
+			this.btnCalculatePaths.UseVisualStyleBackColor = true;
+			this.btnCalculatePaths.Click += new System.EventHandler(this.btnCalculatePaths_Click);
+
+            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -555,6 +568,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1028, 668);
+            this.Controls.Add(this.btnCalculatePaths);
             this.Controls.Add(this.btnTerminate);
             this.Controls.Add(this.gBoxStatistics);
             this.Controls.Add(this.pbSimulation);
@@ -638,6 +652,7 @@
         private System.Windows.Forms.Label lblAlive;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnTerminate;
+        private System.Windows.Forms.Button btnCalculatePaths;
     }
 }
 
