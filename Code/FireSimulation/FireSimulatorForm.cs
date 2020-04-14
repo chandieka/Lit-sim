@@ -130,7 +130,7 @@ namespace FireSimulator
             TimeSpan second = new TimeSpan(0, 0, 10);
             time = time.Add(second);
             tbTimer.Text = time.ToString();
-            
+
 
             // Testing purpose
             if (testingTicks)
@@ -175,7 +175,7 @@ namespace FireSimulator
                 running = false;
                 picBoxPlayPause.Image = Icons.Play;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
-                btnTerminate.Visible = true; 
+                btnTerminate.Visible = true;
             }
         }
 
@@ -189,7 +189,7 @@ namespace FireSimulator
         {
             switchInput();
         }
-        
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (gridController.IsSavable())
@@ -261,7 +261,7 @@ namespace FireSimulator
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             bool isSuccess = true;
-            
+
             // clear the map
             gridController.Clear();
             // get the basic floor plan
@@ -331,8 +331,10 @@ namespace FireSimulator
             }
             else if (dialogResult == DialogResult.No)
             {
-               //does nothing
+                //does nothing
             }
+
+        }
         private void btnCalculatePaths_Click(object sender, EventArgs e)
         {
             var dialog = new ProgressDialog();

@@ -93,6 +93,18 @@ namespace Library
         {
             this.grid[location.x, location.y] = new Wall();
         }
+        private void FillWall((int x, int y) topLeft, int width, int height)
+        {
+            // Only for horizontal and vertical wall
+
+            for (int x = topLeft.x; x < topLeft.x + width; x++)
+            {
+                for (int y = topLeft.y; y < topLeft.y + height; y++)
+                {
+                    this.PutWall((x, y));
+                }
+            }
+        }
 
         public void FillWall((int x, int y) location, int length, bool horizontal)
         {
@@ -106,19 +118,6 @@ namespace Library
             {
                 for (int i = 0; i < length; i++)
                     this.PutWall((location.x, location.y + i));
-            }
-        }
-
-        private void FillWall((int x, int y) topLeft, int width, int height)
-        {
-            // Only for horizontal and vertical wall
-
-            for (int x = topLeft.x; x < topLeft.x + width; x++)
-            {
-                for (int y = topLeft.y; y < topLeft.y + height; y++)
-                {
-                    this.PutWall((x, y));
-                }
             }
         }
 

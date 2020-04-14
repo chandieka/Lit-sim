@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Library
 {
-	internal class AStar
+	public class AStar
 	{
 		private Block[,] grid;
 		private Pair dest;
@@ -543,7 +543,7 @@ namespace Library
 		}
 	}
 
-	internal class Pair
+	public class Pair
 	{
 		public readonly int X, Y;
 
