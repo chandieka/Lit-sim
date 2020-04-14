@@ -1,7 +1,6 @@
 ﻿using Library;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace FireSimulator
@@ -162,6 +161,14 @@ namespace FireSimulator
 
             if (running == false)
             {
+                if (gridController.GetNrOfPeople() > 15 && gridController.GridWidth * gridController.GridHeight > 5000)
+                    if (MessageBox.Show(
+                        "This is gonna be fun when all the persons try to find the fire... =P\nAre you sure you want to continue?",
+                        "Warning",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning) != DialogResult.Yes)
+                    return;
+
                 animationLoopTimer.Start();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
@@ -204,6 +211,8 @@ namespace FireSimulator
                     }
                 }
             }
+
+            gridController.Stop();
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 /* https://www.geeksforgeeks.org/a-search-algorithm/ */
 
@@ -156,7 +157,7 @@ namespace Library
 			// Put the starting cell on the open list and set its 'f' as 0 
 			openList.Add(new PPair(0.0, new Pair(i, j)));
 
-			while (openList.Count > 0)
+			while (openList.Count > 0 && Thread.CurrentThread.IsAlive)
 			{
 				// I think this is the same as the C++ implementation
 				PPair p = openList[0];
@@ -255,6 +256,9 @@ namespace Library
 
 				foreach (var a in areas)
 				{
+					if (!Thread.CurrentThread.IsAlive)
+						return null;
+
 					var returnVal = generateCellSuccessors(a.Item1, a.Item2, a.Item3);
 
 					if (returnVal != null)

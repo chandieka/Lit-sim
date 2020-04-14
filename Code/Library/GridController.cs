@@ -292,6 +292,12 @@ namespace Library
 				}
 			}
 		}
+
+		public void Stop()
+		{
+			foreach (Person p in this.persons)
+				p.Kill();
+		}
 		#endregion
 		#region Grid Visualization
 		public Bitmap Paint((int xScale, int yScale) scaleSize)

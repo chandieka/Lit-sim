@@ -26,6 +26,7 @@ namespace Library
         private int pathIndex = 1;
 
         private Pair[] nearestFirePath = null;
+        private Thread firePathThread = null;
 
         public Boolean HasFireExtinguisher { get
             {
@@ -38,9 +39,9 @@ namespace Library
         public void Kill()
         {
             this.IsDead = true;
+            this.firePathThread?.Interrupt();
         }
 
-        // TODO: This does not work if a Person is in the way...
         private void move(Block[,] grid, Pair from, Pair[] pathArr)
         {
             var pathEntry = pathArr[pathIndex];
@@ -106,7 +107,6 @@ namespace Library
             return null;
         }
 
-        // TODO: Optimize this!
         private Pair[] findNearestFirePath(Block[,] grid, Pair pos)
         {
             Pair[] findFire()
@@ -115,16 +115,27 @@ namespace Library
 
                 for (int x = 0; x < grid.GetLength(0); x++)
                     for (int y = 0; y < grid.GetLength(1); y++)
-                        if (grid[x, y] is Fire)
+                        if (!Thread.CurrentThread.IsAlive)
+                            return positions.ToArray();
+                        else if (grid[x, y] is Fire)
                             positions.Add(new Pair(x, y));
 
                 return positions.ToArray();
             }
 
             List<Pair[]> paths = new List<Pair[]>();
+            var fires = findFire();
 
-            foreach (Pair p in findFire())
+            if (fires.Length > 20)
+                Console.WriteLine("There are more than 20 fire blocks. All of these need to be checked... Good luck");
+
+            // TODO: You only need to find the path to the outer most fire blocks
+            foreach (Pair p in fires)
             {
+                if (!Thread.CurrentThread.IsAlive)
+                    return null;
+
+                // TODO: This could be faster by giving all searchers their own thread...
                 var path = new AStar(grid, pos, p).aStarSearch();
 
                 if (path != null)
@@ -157,6 +168,7 @@ namespace Library
 
                         try
                         {
+                            // TODO: This could be faster by giving all searchers their own thead...
                             val = new AStar(grid, pos, feLoc).aStarSearch();
                         } catch (Exception e)
                         {
@@ -194,7 +206,7 @@ namespace Library
                 move(grid, new Pair(x, y), this.nearestFirePath);
             else if (pathIndex < this.ShortestPath.Length - 1)
                 move(grid, new Pair(x, y), this.ShortestPath);
-            else
+            else if (firePathThread == null)
             {
                 var myPosPair = new Pair(x, y);
                 var pos = findFireExtinguisherAround(grid, myPosPair);
@@ -203,9 +215,13 @@ namespace Library
                 {
                     grid[pos.X, pos.Y] = GridController.Floor;
 
-                    // TODO: Optimize this more!!
-                    this.nearestFirePath = findNearestFirePath(grid, myPosPair);
-                    pathIndex = 1;
+                    firePathThread = new Thread(() =>
+                    {
+                        Thread.Sleep(10000); // Srtificially let fire grow to test the stress on your system
+                        this.nearestFirePath = findNearestFirePath(grid, myPosPair);
+                        pathIndex = 1;
+                    });
+                    firePathThread.Start();
                 }
             }
         }
