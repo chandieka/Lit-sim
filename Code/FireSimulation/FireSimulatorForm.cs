@@ -55,6 +55,7 @@ namespace FireSimulator
             gridController.RandomizeFire(1);
             gridController.RandomizePersons(10);
             gridController.RandomizeFireExtinguishers(20);
+            GetStats();
         }
 
         private void GetStats()
@@ -162,6 +163,7 @@ namespace FireSimulator
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
+                btnTerminate.Visible = false;
             }
             else
             {
@@ -169,6 +171,7 @@ namespace FireSimulator
                 running = false;
                 picBoxPlayPause.Image = Icons.Play;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
+                btnTerminate.Visible = true; 
             }
         }
 
@@ -307,6 +310,26 @@ namespace FireSimulator
                     btnUploadFile_Click(null, null);
                 else if (e.KeyCode == Keys.S)
                     btnSaveLayout_Click(null, null);
+            }
+        }
+
+        private void btnTerminate_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to terminate the simulation?", "Terminate Simulation", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                gridController.Clear();
+                gridController.PutDefaultFloorPlan(1);
+                FillDefault();
+                time = TimeSpan.Zero;
+                tbTimer.Text = time.ToString();
+                VisualizeSimulation();
+                GetStats();
+                btnTerminate.Visible = false;
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+               //does nothing
             }
         }
     }
