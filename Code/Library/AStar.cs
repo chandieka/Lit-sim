@@ -18,18 +18,41 @@ namespace Library
 			this.src = src;
 		}
 
-		private bool isValid(Block[,] grid, int row, int col)
+		/// <summary>
+		/// Checks if the row and column number is within range and if it is a valid type
+		/// </summary>
+		/// <param name="grid"></param>
+		/// <param name="row"></param>
+		/// <param name="col"></param>
+		/// <returns></returns>
+		private bool isValid(Block[,] grid, int row, int col, Type type)
 		{
-			// TODO: This is not correct!
-			// Returns true if row number and column number is in range 
-			return (row >= 0) && (row < grid.GetLength(0)) && (col >= 0) && (col < grid.GetLength(1));
+			return
+				(row >= 0 && row < grid.GetLength(0)) &&
+				(col >= 0 && col < grid.GetLength(1)) &&
+				grid[row, col].GetType() == type;
 		}
 
-		//bool isUnBlocked(int grid[][COL], int row, int col)
+		private bool isValid(Block[,] grid, int row, int col)
+		{
+			return
+				(row >= 0 && row < grid.GetLength(0)) &&
+				(col >= 0 && col < grid.GetLength(1));
+		}
+
+		/// <summary>
+		/// Checks if the target is accessible
+		/// </summary>
+		/// <param name="grid"></param>
+		/// <param name="row"></param>
+		/// <param name="col"></param>
+		/// <returns></returns>
 		private bool isUnBlocked(Block[,] grid, int row, int col)
 		{
-			var gridVal = grid.GetValue(row, col);
+			return grid[row, col] is Floor;
 
+			// This overrides Person entries...
+			var gridVal = grid[row, col];
 			return !(gridVal is Fire || gridVal is Wall);
 		}
 
@@ -67,39 +90,23 @@ namespace Library
 		public Pair[] aStarSearch()
 		{
 			// If the source is out of range 
-			if (!isValid(grid, src.X, src.Y))
-			{
-				Console.WriteLine("Source is invalid\n");
-				return null;
-			}
+			if (!isValid(grid, src.X, src.Y, typeof(Person)))
+				throw new Exception("Source is invalid");
 
 			// If the destination is out of range 
-			if (!isValid(grid, dest.X, dest.Y))
-			{
-				Console.WriteLine("Destination is invalid\n");
-				return null;
-			}
-
-			// Either the source or the destination is blocked 
-			if (!isUnBlocked(grid, src.X, src.Y) || !isUnBlocked(grid, dest.X, dest.Y))
-			{
-				Console.WriteLine("Source or the destination is blocked\n");
-				return null;
-			}
+			if (!isValid(grid, dest.X, dest.Y, typeof(FireExtinguisher)))
+				throw new Exception("Destination is invalid");
 
 			// If the destination cell is the same as source cell 
 			if (isDestination(src.X, src.Y, dest))
-			{
-				Console.WriteLine("We are already at the destination\n");
-				return null;
-			}
+				throw new Exception("We are already at the destination");
+
 
 			int ROW = grid.GetLength(0);
 			int COL = grid.GetLength(1);
 
-			// Create a closed list and initialise it to false which means 
-			// that no cell has been included yet 
-			// This closed list is implemented as a boolean 2D array 
+			// Create a closed list and initialise it to false which means that no cell has been included yet
+			// This closed list is implemented as a boolean 2D array
 			bool[,] closedList = new bool[ROW, COL];
 
 			// Declare a 2D array of structure to hold the details of that cell 
@@ -122,6 +129,7 @@ namespace Library
 			// Initialising the parameters of the starting node 
 			i = src.X;
 			j = src.Y;
+
 			cellDetails[i, j].f = 0.0;
 			cellDetails[i, j].g = 0.0;
 			cellDetails[i, j].h = 0.0;
@@ -153,16 +161,67 @@ namespace Library
 				j = p.Second.Y;
 				closedList[i, j] = true;
 
+				// To store the 'g', 'h' and 'f' of the 8 successors 
+				double gNew, hNew, fNew;
+
+				Pair[] generateCellSuccessors(int x, int y, double addG)
+				{
+					if (isValid(grid, x, y))
+					{
+						// If the destination cell is the same as the 
+						// current successor 
+						if (isDestination(x, y, dest))
+						{
+							// Set the Parent of the destination cell 
+							cellDetails[x, y].parent_i = i;
+							cellDetails[x, y].parent_j = j;
+
+							Console.WriteLine("The destination cell is found");
+
+							return tracePath(cellDetails, dest);
+						}
+						// If the successor is already on the closed list or if it is blocked, then ignore it. Else do the following 
+						else if (!closedList[x, y] && isUnBlocked(grid, x, y))
+						{
+							gNew = cellDetails[i, j].g + addG;
+							hNew = calculateHValue(x, y, dest);
+							fNew = gNew + hNew;
+
+							// If it isn’t on the open list, add it to 
+							// the open list. Make the current square 
+							// the parent of this square. Record the 
+							// f, g, and h costs of the square cell 
+							//			 OR 
+							// If it is on the open list already, check 
+							// to see if this path to that square is better, 
+							// using 'f' cost as the measure. 
+							if (cellDetails[x, y].f == float.MaxValue || cellDetails[x, y].f > fNew)
+							{
+								openList.Add(new PPair(fNew, new Pair(x, y)));
+
+								// Update the details of this cell 
+								cellDetails[x, y].f = fNew;
+								cellDetails[x, y].g = gNew;
+								cellDetails[x, y].h = hNew;
+								cellDetails[x, y].parent_i = i;
+								cellDetails[x, y].parent_j = j;
+							}
+						}
+					}
+
+					return null;
+				}
+
 				/*
 					Generating all the 8 successor of this cell
 
-						  N.W N N.E
+							N.W N N.E
 							\ | /
 							\ | /
 						W----Cell----E
 							/ | \
 							/ | \
-						  S.W S S.E
+							S.W S S.E
 
 					Cell-->Popped Cell (i, j)
 					N --> North	 (i-1, j)
@@ -174,364 +233,24 @@ namespace Library
 					S.E--> South-East (i+1, j+1)
 					S.W--> South-West (i+1, j-1)
 				*/
+				Tuple<int, int, double>[] areas = new Tuple<int, int, double>[] {
+					new Tuple<int, int, double>(i - 1, j, 1.0),
+					new Tuple<int, int, double>(i + 1, j, 1.0),
+					new Tuple<int, int, double>(i, j + 1, 1.0),
+					new Tuple<int, int, double>(i, j - 1, 1.0),
 
-				// TODO: All these successor thingies could easily be one method
+					new Tuple<int, int, double>(i - 1, j + 1, 1.414),
+					new Tuple<int, int, double>(i - 1, j - 1, 1.414),
+					new Tuple<int, int, double>(i + 1, j + 1, 1.414),
+					new Tuple<int, int, double>(i + 1, j - 1, 1.414),
+				};
 
-				// To store the 'g', 'h' and 'f' of the 8 successors 
-				double gNew, hNew, fNew;
-
-				//----------- 1st Successor (North) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i - 1, j))
+				foreach (var a in areas)
 				{
-					// If the destination cell is the same as the current successor 
-					if (isDestination(i - 1, j, dest) == true)
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i - 1, j].parent_i = i;
-						cellDetails[i - 1, j].parent_j = j;
-						Console.WriteLine("The destination cell is found");
-						return tracePath(cellDetails, dest);
-					}
-					// If the successor is already on the closed list or if it is blocked, then ignore it. Else do the following 
-					else if (closedList[i - 1, j] == false && isUnBlocked(grid, i - 1, j) == true)
-					{
-						gNew = cellDetails[i, j].g + 1.0;
-						hNew = calculateHValue(i - 1, j, dest);
-						fNew = gNew + hNew;
+					var returnVal = generateCellSuccessors(a.Item1, a.Item2, a.Item3);
 
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i - 1, j].f == float.MaxValue || cellDetails[i - 1, j].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i - 1, j)));
-
-							// Update the details of this cell 
-							cellDetails[i - 1, j].f = fNew;
-							cellDetails[i - 1, j].g = gNew;
-							cellDetails[i - 1, j].h = hNew;
-							cellDetails[i - 1, j].parent_i = i;
-							cellDetails[i - 1, j].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 2nd Successor (South) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i + 1, j))
-				{
-					// If the destination cell is the same as the current successor 
-					if (isDestination(i + 1, j, dest))
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i + 1, j].parent_i = i;
-						cellDetails[i + 1, j].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i + 1, j] && isUnBlocked(grid, i + 1, j))
-					{
-						gNew = cellDetails[i, j].g + 1.0;
-						hNew = calculateHValue(i + 1, j, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i + 1, j].f == float.MaxValue|| cellDetails[i + 1, j].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i + 1, j)));
-							// Update the details of this cell 
-							cellDetails[i + 1, j].f = fNew;
-							cellDetails[i + 1, j].g = gNew;
-							cellDetails[i + 1, j].h = hNew;
-							cellDetails[i + 1, j].parent_i = i;
-							cellDetails[i + 1, j].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 3rd Successor (East) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i, j + 1))
-				{
-					// If the destination cell is the same as the current successor 
-					if (isDestination(i, j + 1, dest))
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i, j + 1].parent_i = i;
-						cellDetails[i, j + 1].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i, j + 1] && isUnBlocked(grid, i, j + 1))
-					{
-						gNew = cellDetails[i, j].g + 1.0;
-						hNew = calculateHValue(i, j + 1, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i, j + 1].f == float.MaxValue || cellDetails[i, j + 1].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i, j + 1)));
-
-							// Update the details of this cell 
-							cellDetails[i, j + 1].f = fNew;
-							cellDetails[i, j + 1].g = gNew;
-							cellDetails[i, j + 1].h = hNew;
-							cellDetails[i, j + 1].parent_i = i;
-							cellDetails[i, j + 1].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 4th Successor (West) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i, j - 1))
-				{
-					// If the destination cell is the same as the current successor 
-					if (isDestination(i, j - 1, dest))
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i, j - 1].parent_i = i;
-						cellDetails[i, j - 1].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i, j - 1] && isUnBlocked(grid, i, j - 1))
-					{
-						gNew = cellDetails[i, j].g + 1.0;
-						hNew = calculateHValue(i, j - 1, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i, j - 1].f == float.MaxValue || cellDetails[i, j - 1].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i, j - 1)));
-
-							// Update the details of this cell 
-							cellDetails[i, j - 1].f = fNew;
-							cellDetails[i, j - 1].g = gNew;
-							cellDetails[i, j - 1].h = hNew;
-							cellDetails[i, j - 1].parent_i = i;
-							cellDetails[i, j - 1].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 5th Successor (North-East) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i - 1, j + 1))
-				{
-					// If the destination cell is the same as the 
-					// current successor 
-					if (isDestination(i - 1, j + 1, dest) == true)
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i - 1, j + 1].parent_i = i;
-						cellDetails[i - 1, j + 1].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i - 1, j + 1] && isUnBlocked(grid, i - 1, j + 1))
-					{
-						gNew = cellDetails[i, j].g + 1.414;
-						hNew = calculateHValue(i - 1, j + 1, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i - 1, j + 1].f == float.MaxValue|| cellDetails[i - 1, j + 1].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i - 1, j + 1)));
-
-							// Update the details of this cell 
-							cellDetails[i - 1, j + 1].f = fNew;
-							cellDetails[i - 1, j + 1].g = gNew;
-							cellDetails[i - 1, j + 1].h = hNew;
-							cellDetails[i - 1, j + 1].parent_i = i;
-							cellDetails[i - 1, j + 1].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 6th Successor (North-West) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i - 1, j - 1))
-				{
-					// If the destination cell is the same as the 
-					// current successor 
-					if (isDestination(i - 1, j - 1, dest))
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i - 1, j - 1].parent_i = i;
-						cellDetails[i - 1, j - 1].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i - 1, j - 1] && isUnBlocked(grid, i - 1, j - 1))
-					{
-						gNew = cellDetails[i, j].g + 1.414;
-						hNew = calculateHValue(i - 1, j - 1, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i - 1, j - 1].f == float.MaxValue || cellDetails[i - 1, j - 1].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i - 1, j - 1)));
-							// Update the details of this cell 
-							cellDetails[i - 1, j - 1].f = fNew;
-							cellDetails[i - 1, j - 1].g = gNew;
-							cellDetails[i - 1, j - 1].h = hNew;
-							cellDetails[i - 1, j - 1].parent_i = i;
-							cellDetails[i - 1, j - 1].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 7th Successor (South-East) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i + 1, j + 1))
-				{
-					// If the destination cell is the same as the current successor 
-					if (isDestination(i + 1, j + 1, dest))
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i + 1, j + 1].parent_i = i;
-						cellDetails[i + 1, j + 1].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i + 1, j + 1] && isUnBlocked(grid, i + 1, j + 1))
-					{
-						gNew = cellDetails[i, j].g + 1.414;
-						hNew = calculateHValue(i + 1, j + 1, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i + 1, j + 1].f == float.MaxValue || cellDetails[i + 1, j + 1].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i + 1, j + 1)));
-
-							// Update the details of this cell 
-							cellDetails[i + 1, j + 1].f = fNew;
-							cellDetails[i + 1, j + 1].g = gNew;
-							cellDetails[i + 1, j + 1].h = hNew;
-							cellDetails[i + 1, j + 1].parent_i = i;
-							cellDetails[i + 1, j + 1].parent_j = j;
-						}
-					}
-				}
-
-				//----------- 8th Successor (South-West) ------------ 
-				// Only process this cell if this is a valid one 
-				if (isValid(grid, i + 1, j - 1))
-				{
-					// If the destination cell is the same as the 
-					// current successor 
-					if (isDestination(i + 1, j - 1, dest))
-					{
-						// Set the Parent of the destination cell 
-						cellDetails[i + 1, j - 1].parent_i = i;
-						cellDetails[i + 1, j - 1].parent_j = j;
-						Console.Write("The destination cell is found\n");
-						return tracePath(cellDetails, dest);
-					}
-
-					// If the successor is already on the closed 
-					// list or if it is blocked, then ignore it. 
-					// Else do the following 
-					else if (!closedList[i + 1, j - 1] && isUnBlocked(grid, i + 1, j - 1))
-					{
-						gNew = cellDetails[i, j].g + 1.414;
-						hNew = calculateHValue(i + 1, j - 1, dest);
-						fNew = gNew + hNew;
-
-						// If it isn’t on the open list, add it to 
-						// the open list. Make the current square 
-						// the parent of this square. Record the 
-						// f, g, and h costs of the square cell 
-						//			 OR 
-						// If it is on the open list already, check 
-						// to see if this path to that square is better, 
-						// using 'f' cost as the measure. 
-						if (cellDetails[i + 1, j - 1].f == float.MaxValue || cellDetails[i + 1, j - 1].f > fNew)
-						{
-							openList.Add(new PPair(fNew, new Pair(i + 1, j - 1)));
-
-							// Update the details of this cell 
-							cellDetails[i + 1, j - 1].f = fNew;
-							cellDetails[i + 1, j - 1].g = gNew;
-							cellDetails[i + 1, j - 1].h = hNew;
-							cellDetails[i + 1, j - 1].parent_i = i;
-							cellDetails[i + 1, j - 1].parent_j = j;
-						}
-					}
+					if (returnVal != null)
+						return returnVal;
 				}
 			}
 
