@@ -37,7 +37,8 @@ namespace Library
 		{
 			return
 				(row >= 0 && row < grid.GetLength(0)) &&
-				(col >= 0 && col < grid.GetLength(1));
+				(col >= 0 && col < grid.GetLength(1)) &&
+				(grid[row, col] != Block.Empty);
 		}
 
 		/// <summary>
