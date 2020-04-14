@@ -336,7 +336,8 @@ namespace FireSimulator
         private void trackBarSpeed_Scroll(object sender, EventArgs e)
         {
             lblSpeed.Text = trackBarSpeed.Value.ToString();
-            animationLoopTimer.Interval = 1000 - (9 * trackBarSpeed.Value);
+            animationLoopTimer.Interval = 100 + (100 - trackBarSpeed.Value) * 10;
+            // animationLoopTimer.Interval = 1000 - (9 * trackBarSpeed.Value);
         }
     }
 }

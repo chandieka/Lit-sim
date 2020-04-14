@@ -126,7 +126,7 @@
             // btnGenerate
             // 
             this.btnGenerate.Location = new System.Drawing.Point(19, 410);
-            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(101, 44);
             this.btnGenerate.TabIndex = 14;
@@ -309,9 +309,9 @@
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSaveLayout);
             this.gBoxSettings.Location = new System.Drawing.Point(1081, 62);
-            this.gBoxSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gBoxSettings.Margin = new System.Windows.Forms.Padding(4);
             this.gBoxSettings.Name = "gBoxSettings";
-            this.gBoxSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gBoxSettings.Padding = new System.Windows.Forms.Padding(4);
             this.gBoxSettings.Size = new System.Drawing.Size(267, 288);
             this.gBoxSettings.TabIndex = 15;
             this.gBoxSettings.TabStop = false;
@@ -330,7 +330,7 @@
             // 
             this.btnUploadFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnUploadFile.Location = new System.Drawing.Point(8, 183);
-            this.btnUploadFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUploadFile.Margin = new System.Windows.Forms.Padding(4);
             this.btnUploadFile.Name = "btnUploadFile";
             this.btnUploadFile.Size = new System.Drawing.Size(247, 44);
             this.btnUploadFile.TabIndex = 17;
@@ -354,7 +354,7 @@
             // 
             this.btnSaveLayout.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSaveLayout.Location = new System.Drawing.Point(12, 78);
-            this.btnSaveLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveLayout.Margin = new System.Windows.Forms.Padding(4);
             this.btnSaveLayout.Name = "btnSaveLayout";
             this.btnSaveLayout.Size = new System.Drawing.Size(247, 44);
             this.btnSaveLayout.TabIndex = 16;
@@ -382,9 +382,9 @@
             this.gBoxStatistics.Controls.Add(this.btnCloseStatistics);
             this.gBoxStatistics.Controls.Add(this.label3);
             this.gBoxStatistics.Location = new System.Drawing.Point(1081, 367);
-            this.gBoxStatistics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gBoxStatistics.Margin = new System.Windows.Forms.Padding(4);
             this.gBoxStatistics.Name = "gBoxStatistics";
-            this.gBoxStatistics.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gBoxStatistics.Padding = new System.Windows.Forms.Padding(4);
             this.gBoxStatistics.Size = new System.Drawing.Size(267, 372);
             this.gBoxStatistics.TabIndex = 16;
             this.gBoxStatistics.TabStop = false;
@@ -523,7 +523,7 @@
             // btnRerunSimulation
             // 
             this.btnRerunSimulation.Location = new System.Drawing.Point(57, 304);
-            this.btnRerunSimulation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRerunSimulation.Margin = new System.Windows.Forms.Padding(4);
             this.btnRerunSimulation.Name = "btnRerunSimulation";
             this.btnRerunSimulation.Size = new System.Drawing.Size(151, 44);
             this.btnRerunSimulation.TabIndex = 2;
@@ -535,7 +535,7 @@
             // btnCloseStatistics
             // 
             this.btnCloseStatistics.Location = new System.Drawing.Point(469, 22);
-            this.btnCloseStatistics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCloseStatistics.Margin = new System.Windows.Forms.Padding(4);
             this.btnCloseStatistics.Name = "btnCloseStatistics";
             this.btnCloseStatistics.Size = new System.Drawing.Size(32, 26);
             this.btnCloseStatistics.TabIndex = 1;
@@ -557,7 +557,7 @@
             // pbSimulation
             // 
             this.pbSimulation.Location = new System.Drawing.Point(257, 69);
-            this.pbSimulation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pbSimulation.Margin = new System.Windows.Forms.Padding(4);
             this.pbSimulation.Name = "pbSimulation";
             this.pbSimulation.Size = new System.Drawing.Size(800, 738);
             this.pbSimulation.TabIndex = 17;
@@ -566,7 +566,7 @@
             // btnTerminate
             // 
             this.btnTerminate.Location = new System.Drawing.Point(31, 687);
-            this.btnTerminate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTerminate.Margin = new System.Windows.Forms.Padding(4);
             this.btnTerminate.Name = "btnTerminate";
             this.btnTerminate.Size = new System.Drawing.Size(149, 52);
             this.btnTerminate.TabIndex = 18;
