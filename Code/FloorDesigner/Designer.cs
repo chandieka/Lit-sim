@@ -233,6 +233,8 @@ namespace FloorDesigner
 							grid.PutFire(posTuple);
 						else if (rbPerson.Checked)
 							grid.PutPerson(posTuple);
+						else if (rbFireExtinguisher.CanFocus)
+							grid.PutFireExtinguisher(posTuple);
 					}
 				}
 
