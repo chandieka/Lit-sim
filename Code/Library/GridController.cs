@@ -45,6 +45,7 @@ namespace Library
         protected GridController(Block[,] grid)
         {
             this.grid = grid;
+			fillLists();
         }
         #endregion
 
@@ -314,6 +315,13 @@ namespace Library
                 }
             }
         }
+
+		public void Stop()
+		{
+			foreach (Person p in this.persons)
+				p.Kill();
+		}
+
         #endregion
         #region Grid Visualization
         public Bitmap Paint((int xScale, int yScale)scaleSize)
@@ -555,6 +563,25 @@ namespace Library
         {
             return persons.Count(p => p.IsDead);
         }
+		
+		private void fillLists()
+		{
+			this.fireExtinguishers.Clear();
+			this.persons.Clear();
+
+			for (int x = 0; x < this.GridWidth; x++)
+			{
+				for (int y = 0; y < this.GridHeight; y++)
+				{
+					var val = grid[x, y];
+
+					if (val is Person)
+						this.persons.Add((Person)val);
+					else if (val is FireExtinguisher)
+						this.fireExtinguishers.Add((FireExtinguisher)val);
+				}
+			}
+		}
 
         public Block GetAt((int x, int y) loc)
         {
