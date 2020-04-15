@@ -167,6 +167,18 @@ namespace FireSimulator
 
             if (running == false)
             {
+                if (gridController.IsSavable())
+                {
+                    using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
+                    {
+                        autoSaveDialog.ShowDialog();
+                        if (autoSaveDialog.DialogResult == DialogResult.Yes)
+                        {
+                            this.gridController.Save(GridController.defaultPath);
+                        }
+                    }
+                }
+
                 animationLoopTimer.Start();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
@@ -245,6 +257,7 @@ namespace FireSimulator
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
                     this.gridController.Save(myDialog.FileName);
+                    this.gridController.Save(GridController.defaultPath);
                 }
             }
         }
