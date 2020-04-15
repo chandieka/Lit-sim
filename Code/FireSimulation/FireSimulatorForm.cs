@@ -258,8 +258,9 @@ namespace FireSimulator
                 {
                     var grid = GridController.Load(myDialog.FileName);
 
-                    if (grid != null)
-                    {
+                    if (grid == null)
+                        MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else {
                         this.gridController = grid;
                         VisualizeSimulation();
                     }
