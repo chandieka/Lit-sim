@@ -1,7 +1,6 @@
 ﻿using Library;
 using System;
 using System.Drawing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace FireSimulator
@@ -11,7 +10,7 @@ namespace FireSimulator
         private TimeSpan time = new TimeSpan(0, 0, 0);
         private bool running;
         private bool building = true;
-        private readonly GridController gridController;
+        private GridController gridController;
 
         private bool testingTicks = true;
 
@@ -41,8 +40,13 @@ namespace FireSimulator
                     autoLoadDialog.ShowDialog();
                     if (autoLoadDialog.DialogResult == DialogResult.Yes)
                     {
-                        this.gridController.Load(GridController.defaultPath);
-                        VisualizeSimulation();
+                        var grid = GridController.Load(GridController.defaultPath);
+
+                        if (grid != null)
+                        {
+                            this.gridController = grid;
+                            VisualizeSimulation();
+                        }
                     }
                 }
             }
@@ -252,8 +256,13 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    this.gridController.Load(myDialog.FileName);
-                    VisualizeSimulation();
+                    var grid = GridController.Load(myDialog.FileName);
+
+                    if (grid != null)
+                    {
+                        this.gridController = grid;
+                        VisualizeSimulation();
+                    }
                 }
             }
         }
