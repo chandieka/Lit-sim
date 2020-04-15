@@ -25,6 +25,9 @@ namespace Library
 		private bool hasTicked = false;
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
+
+        private int personDelayCounter = 0;
+        private int personDelay = 3;
         // others 
         #endregion
 
@@ -306,6 +309,10 @@ namespace Library
                     switch (gridCopy[x, y])
                     {
                         case FunctionalBlock fb:
+                            if (fb is Person)
+                                if (personDelayCounter < personDelay)
+                                    continue;
+
                             fb.Function(this.grid, x, y);
                             break;
                         //case Block bl:
@@ -314,6 +321,10 @@ namespace Library
                     }
                 }
             }
+
+            personDelayCounter++;
+            if (personDelayCounter > personDelay)
+                personDelayCounter = 0;
         }
 
 		public void Stop()

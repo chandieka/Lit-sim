@@ -60,6 +60,49 @@ namespace Library
 				pathIndex++;
 		}
 
+		private Pair[] getSurrounding(Block[,] grid, Pair pos, Type typeToCheck = null)
+		{
+			Block getAt(int x, int y)
+			{
+				if (
+					x < 0 ||
+					y < 0 ||
+					x >= grid.GetLength(0) ||
+					y >= grid.GetLength(1)
+				)
+					return null;
+				else
+					return grid[x, y];
+			}
+
+			Pair[] positions = new Pair[] {
+					new Pair(pos.X - 1, pos.Y - 1),
+					new Pair(pos.X, pos.Y - 1),
+					new Pair(pos.X + 1, pos.Y - 1),
+
+					new Pair(pos.X - 1, pos.Y),
+					new Pair(pos.X + 1, pos.Y),
+
+					new Pair(pos.X - 1, pos.Y + 1),
+					new Pair(pos.X, pos.Y + 1),
+					new Pair(pos.X + 1, pos.Y + 1),
+				};
+
+			List<Pair> pairs = new List<Pair>();
+			foreach (Pair p in positions)
+			{
+				var returnVal = getAt(p.X, p.Y);
+
+				if (returnVal != null)
+				{
+					if (typeToCheck != null && returnVal.GetType() == typeToCheck)
+						pairs.Add(p);
+				}
+			}
+
+			return pairs.ToArray();
+		}
+
 		private Pair[] findShortestPath(Pair[][] paths, BackgroundWorker worker)
 		{
 			Pair[] shortest = null;
@@ -77,6 +120,8 @@ namespace Library
 		{
 			bool hasAtLeastOneFloorSurrounding(Pair position)
 			{
+				return getSurrounding(grid, position, typeof(Floor)).Length > 0;
+
 				Block getAt(int x, int y)
 				{
 					if (
@@ -221,7 +266,7 @@ namespace Library
 			else if (firePathThread == null)
 			{
 				var pos = this.ShortestPath[this.ShortestPath.Length - 1];
-				
+
 				if (grid[pos.X, pos.Y] is FireExtinguisher)
 				{
 					var myPosPair = new Pair(x, y);
