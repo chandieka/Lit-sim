@@ -221,17 +221,21 @@ namespace Library
 			else if (firePathThread == null)
 			{
 				var pos = this.ShortestPath[this.ShortestPath.Length - 1];
-				var myPosPair = new Pair(x, y);
-
-				grid[pos.X, pos.Y] = GridController.Floor;
-				firePathThread = new Thread(() =>
+				
+				if (grid[pos.X, pos.Y] is FireExtinguisher)
 				{
-					this.nearestFirePath = findNearestFirePath(grid, myPosPair);
-					pathIndex = 1;
+					var myPosPair = new Pair(x, y);
 
-					firePathThread = Thread.CurrentThread;// Set to something not null
-				});
-				firePathThread.Start();
+					grid[pos.X, pos.Y] = GridController.Floor;
+					firePathThread = new Thread(() =>
+					{
+						this.nearestFirePath = findNearestFirePath(grid, myPosPair);
+						pathIndex = 1;
+
+						firePathThread = Thread.CurrentThread;// Set to something not null
+					});
+					firePathThread.Start();
+				}
 			}
 		}
 	}
