@@ -17,6 +17,8 @@ namespace Library
 			{
 				if (this.IsDead)
 					return Color.Orange;
+				else if (this.HasFireExtinguisher)
+					return Color.DeepPink;
 				else
 					return Color.Blue;
 			}
