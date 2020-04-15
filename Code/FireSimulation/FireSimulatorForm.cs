@@ -167,6 +167,18 @@ namespace FireSimulator
 
             if (running == false)
             {
+                if (gridController.IsSavable())
+                {
+                    using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
+                    {
+                        autoSaveDialog.ShowDialog();
+                        if (autoSaveDialog.DialogResult == DialogResult.Yes)
+                        {
+                            this.gridController.Save(GridController.defaultPath);
+                        }
+                    }
+                }
+
                 animationLoopTimer.Start();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
@@ -211,6 +223,8 @@ namespace FireSimulator
                     }
                 }
             }
+
+            gridController.Stop();
         }
 
         #endregion
@@ -243,6 +257,7 @@ namespace FireSimulator
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
                     this.gridController.Save(myDialog.FileName);
+                    this.gridController.Save(GridController.defaultPath);
                 }
             }
         }
@@ -271,13 +286,14 @@ namespace FireSimulator
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             bool isSuccess = true;
-
+            Random r = new Random();
+            
             // clear the map
             gridController.Clear();
             // get the basic floor plan
             gridController.PutDefaultFloorPlan(1);
             // add fire to the map
-            gridController.RandomizeFire(1);
+            gridController.RandomizeFire(1, r.Next());
 
             if (!int.TryParse(tbPeople.Text, out int amountPeople))
                 isSuccess &= false; // TODO: show error message
@@ -285,18 +301,16 @@ namespace FireSimulator
             if (!int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
                 isSuccess &= false; // TODO: show error message
 
-            if (!this.gridController.RandomizePersons(amountPeople))
+            if (!this.gridController.RandomizePersons(amountPeople, r.Next()))
                 isSuccess &= false; // TODO: show error message
 
-            if (!this.gridController.RandomizeFireExtinguishers(amountFireEx))
+            if (!this.gridController.RandomizeFireExtinguishers(amountFireEx, r.Next()))
                 isSuccess &= false; // TODO: show error message
 
             // visualize the map
             // not wasting computing power if its not successfull
             if (isSuccess)
-            {
                 VisualizeSimulation();
-            }
         }
 
         private void btnRerunSimulation_Click(object sender, EventArgs e)
@@ -347,6 +361,9 @@ namespace FireSimulator
         }
         private void btnCalculatePaths_Click(object sender, EventArgs e)
         {
+            if (running)
+                return;
+
             var dialog = new ProgressDialog();
             var cancelMethod = gridController.SetupInDifferentThread(cancelled =>
             {
@@ -361,6 +378,13 @@ namespace FireSimulator
 
             dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
             dialog.ShowDialog();
+        }
+
+        private void trackBarSpeed_Scroll(object sender, EventArgs e)
+        {
+            lblSpeed.Text = trackBarSpeed.Value.ToString();
+            animationLoopTimer.Interval = 100 + (100 - trackBarSpeed.Value) * 10;
+            // animationLoopTimer.Interval = 1000 - (9 * trackBarSpeed.Value);
         }
     }
 }

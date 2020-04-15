@@ -79,6 +79,9 @@
             this.toolTipSave = new System.Windows.Forms.ToolTip(this.components);
             this.btnTerminate = new System.Windows.Forms.Button();
             this.btnCalculatePaths = new System.Windows.Forms.Button();
+            this.trackBarSpeed = new System.Windows.Forms.TrackBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblSpeed = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWall)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFireExtinguisher)).BeginInit();
@@ -90,6 +93,7 @@
             this.gBoxSettings.SuspendLayout();
             this.gBoxStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.SuspendLayout();
             // 
             // animationLoopTimer
@@ -295,7 +299,7 @@
             // 
             this.tbTimer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTimer.Location = new System.Drawing.Point(664, 35);
+            this.tbTimer.Location = new System.Drawing.Point(882, 29);
             this.tbTimer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tbTimer.Name = "tbTimer";
             this.tbTimer.ReadOnly = true;
@@ -550,16 +554,48 @@
             this.btnTerminate.Visible = false;
             this.btnTerminate.Click += new System.EventHandler(this.btnTerminate_Click);
             // 
-			// btnCalculatePaths
-			// 
-			this.btnCalculatePaths.Location = new System.Drawing.Point(37, 533);
-			this.btnCalculatePaths.Name = "btnCalculatePaths";
-			this.btnCalculatePaths.Size = new System.Drawing.Size(75, 23);
-			this.btnCalculatePaths.TabIndex = 18;
-			this.btnCalculatePaths.Text = "Calculate paths";
-			this.btnCalculatePaths.UseVisualStyleBackColor = true;
-			this.btnCalculatePaths.Click += new System.EventHandler(this.btnCalculatePaths_Click);
-
+            // btnCalculatePaths
+            // 
+            this.btnCalculatePaths.Location = new System.Drawing.Point(40, 532);
+            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCalculatePaths.Name = "btnCalculatePaths";
+            this.btnCalculatePaths.Size = new System.Drawing.Size(73, 19);
+            this.btnCalculatePaths.TabIndex = 18;
+            this.btnCalculatePaths.Text = "Calculate paths";
+            this.btnCalculatePaths.UseVisualStyleBackColor = true;
+            this.btnCalculatePaths.Click += new System.EventHandler(this.btnCalculatePaths_Click);
+            // 
+            // trackBarSpeed
+            // 
+            this.trackBarSpeed.Location = new System.Drawing.Point(193, 10);
+            this.trackBarSpeed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.trackBarSpeed.Maximum = 100;
+            this.trackBarSpeed.Minimum = 1;
+            this.trackBarSpeed.Name = "trackBarSpeed";
+            this.trackBarSpeed.Size = new System.Drawing.Size(600, 45);
+            this.trackBarSpeed.TabIndex = 1;
+            this.trackBarSpeed.Value = 50;
+            this.trackBarSpeed.Scroll += new System.EventHandler(this.trackBarSpeed_Scroll);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(68, 11);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Speed:";
+            // 
+            // lblSpeed
+            // 
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Location = new System.Drawing.Point(112, 11);
+            this.lblSpeed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(19, 13);
+            this.lblSpeed.TabIndex = 20;
+            this.lblSpeed.Text = "50";
             // 
             // FireSimulatorForm
             // 
@@ -569,6 +605,9 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1028, 668);
             this.Controls.Add(this.btnCalculatePaths);
+            this.Controls.Add(this.lblSpeed);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.trackBarSpeed);
             this.Controls.Add(this.btnTerminate);
             this.Controls.Add(this.gBoxStatistics);
             this.Controls.Add(this.pbSimulation);
@@ -597,6 +636,7 @@
             this.gBoxStatistics.ResumeLayout(false);
             this.gBoxStatistics.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -653,6 +693,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnTerminate;
         private System.Windows.Forms.Button btnCalculatePaths;
+        private System.Windows.Forms.TrackBar trackBarSpeed;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblSpeed;
     }
 }
 
