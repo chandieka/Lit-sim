@@ -161,14 +161,6 @@ namespace FireSimulator
 
             if (running == false)
             {
-                if (gridController.GetNrOfPeople() > 15 && gridController.GridWidth * gridController.GridHeight > 5000)
-                    if (MessageBox.Show(
-                        "This is gonna be fun when all the persons try to find the fire... =P\nAre you sure you want to continue?",
-                        "Warning",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning) != DialogResult.Yes)
-                    return;
-
                 animationLoopTimer.Start();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
@@ -322,6 +314,9 @@ namespace FireSimulator
 
         private void btnCalculatePaths_Click(object sender, EventArgs e)
         {
+            if (running)
+                return;
+
             var dialog = new ProgressDialog();
             var cancelMethod = gridController.SetupInDifferentThread(cancelled =>
             {

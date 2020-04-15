@@ -7,223 +7,230 @@ using System.Threading.Tasks;
 
 namespace Library
 {
-    [Serializable]
-    public class Person : FunctionalBlock
-    {
-        public bool IsDead { get; private set; }
-        new public Color Color
-        {
-            get
-            {
-                if (this.IsDead)
-                    return Color.Orange;
-                else
-                    return Color.Blue;
-            }
-        }
+	[Serializable]
+	public class Person : FunctionalBlock
+	{
+		public bool IsDead { get; private set; }
+		new public Color Color
+		{
+			get
+			{
+				if (this.IsDead)
+					return Color.Orange;
+				else
+					return Color.Blue;
+			}
+		}
 
-        internal Pair[] ShortestPath { get; private set; }
-        private int pathIndex = 1;
+		internal Pair[] ShortestPath { get; private set; }
+		private int pathIndex = 1;
 
-        private Pair[] nearestFirePath = null;
-        private Thread firePathThread = null;
+		private Pair[] nearestFirePath = null;
+		private Thread firePathThread = null;
 
-        public Boolean HasFireExtinguisher { get
-            {
-                return this.nearestFirePath != null;
-            } 
-        }
+		public bool HasFireExtinguisher
+		{
+			get
+			{
+				return this.nearestFirePath != null;
+			}
+		}
 
-        public Person() : base() { }
+		public Person() : base() { }
 
-        public void Kill()
-        {
-            this.IsDead = true;
-            this.firePathThread?.Interrupt();
-        }
+		public void Kill()
+		{
+			this.IsDead = true;
+			this.firePathThread?.Interrupt();
+		}
 
-        private void move(Block[,] grid, Pair from, Pair[] pathArr)
-        {
-            var pathEntry = pathArr[pathIndex];
+		private void move(Block[,] grid, Pair from, Pair[] pathArr)
+		{
+			var pathEntry = pathArr[pathIndex];
 
-            if (grid[pathEntry.X, pathEntry.Y] is Floor)
-            {
-                grid[from.X, from.Y] = GridController.Floor;
-                grid[pathEntry.X, pathEntry.Y] = this;
-                pathIndex++;
-            }
-            else if (grid[pathEntry.X, pathEntry.Y] is Person)
-                pathIndex++;
-        }
+			if (grid[pathEntry.X, pathEntry.Y] is Floor)
+			{
+				grid[from.X, from.Y] = GridController.Floor;
+				grid[pathEntry.X, pathEntry.Y] = this;
+				pathIndex++;
+			}
+			else if (grid[pathEntry.X, pathEntry.Y] is Person)
+				pathIndex++;
+		}
 
-        private Pair[] findShortestPath(Pair[][] paths, BackgroundWorker worker)
-        {
-            Pair[] shortest = null;
+		private Pair[] findShortestPath(Pair[][] paths, BackgroundWorker worker)
+		{
+			Pair[] shortest = null;
 
-            foreach (Pair[] p in paths)
-                if (worker != null && worker.CancellationPending)
-                    return shortest;
-                else if (shortest == null || p.Length < shortest.Length)
-                    shortest = p;
+			foreach (Pair[] p in paths)
+				if (worker != null && worker.CancellationPending)
+					return shortest;
+				else if (shortest == null || p.Length < shortest.Length)
+					shortest = p;
 
-            return shortest;
-        }
+			return shortest;
+		}
 
-        /// <summary>
-        /// Searches for a fire extinguisher within a square around the current position
-        /// </summary>
-        /// <returns></returns>
-        private Pair findFireExtinguisherAround(Block[,] grid, Pair pos)
-        {
-            Block getAt(int x, int y)
-            {
-                if (x < 0 || x >= grid.GetLength(0) || y < 0 || y >= grid.GetLength(1))
-                    return null;
-                else
-                    return grid[x, y];
-            }
+		private Pair[] findNearestFirePath(Block[,] grid, Pair pos)
+		{
+			bool hasAtLeastOneFloorSurrounding(Pair position)
+			{
+				Block getAt(int x, int y)
+				{
+					if (
+						x < 0 ||
+						y < 0 ||
+						x >= grid.GetLength(0) ||
+						y >= grid.GetLength(1)
+					)
+						return null;
+					else
+						return grid[x, y];
+				}
 
-            Pair[] positions = new Pair[] {
-                new Pair(pos.X - 1, pos.Y - 1),
-                new Pair(pos.X, pos.Y - 1),
-                new Pair(pos.X + 1, pos.Y - 1),
+				Pair[] positions = new Pair[] {
+					new Pair(position.X - 1, position.Y - 1),
+					new Pair(position.X, position.Y - 1),
+					new Pair(position.X + 1, position.Y - 1),
 
-                new Pair(pos.X - 1, pos.Y),
-                new Pair(pos.X + 1, pos.Y),
+					new Pair(position.X - 1, position.Y),
+					new Pair(position.X + 1, position.Y),
 
-                new Pair(pos.X - 1, pos.Y + 1),
-                new Pair(pos.X, pos.Y + 1),
-                new Pair(pos.X + 1, pos.Y + 1),
-            };
+					new Pair(position.X - 1, position.Y + 1),
+					new Pair(position.X, position.Y + 1),
+					new Pair(position.X + 1, position.Y + 1),
+				};
 
-            foreach (Pair p in positions)
-            {
-                var returnVal = getAt(p.X, p.Y);
+				foreach (Pair p in positions)
+				{
+					var returnVal = getAt(p.X, p.Y);
 
-                if (returnVal != null && returnVal is FireExtinguisher)
-                    return p;
-            }
+					if (returnVal != null && returnVal is Floor)
+						return true;
+				}
 
-            return null;
-        }
+				return false;
+			}
 
-        private Pair[] findNearestFirePath(Block[,] grid, Pair pos)
-        {
-            Pair[] findFire()
-            {
-                List<Pair> positions = new List<Pair>();
+			Pair[] findFire(bool doCheck = true)
+			{
+				List<Pair> positions = new List<Pair>();
 
-                for (int x = 0; x < grid.GetLength(0); x++)
-                    for (int y = 0; y < grid.GetLength(1); y++)
-                        if (!Thread.CurrentThread.IsAlive)
-                            return positions.ToArray();
-                        else if (grid[x, y] is Fire)
-                            positions.Add(new Pair(x, y));
+				for (int x = 0; x < grid.GetLength(0); x++)
+					for (int y = 0; y < grid.GetLength(1); y++)
+						if (!Thread.CurrentThread.IsAlive)
+							return positions.ToArray();
+						else if (grid[x, y] is Fire)
+						{
+							Pair p = new Pair(x, y);
 
-                return positions.ToArray();
-            }
+							if (doCheck == false || hasAtLeastOneFloorSurrounding(p))
+								positions.Add(p);
+						}
 
-            List<Pair[]> paths = new List<Pair[]>();
-            var fires = findFire();
+				return positions.ToArray();
+			}
 
-            if (fires.Length > 20)
-                Console.WriteLine("There are more than 20 fire blocks. All of these need to be checked... Good luck");
+			List<Pair[]> paths = new List<Pair[]>();
+			var fires = findFire();
 
-            // TODO: You only need to find the path to the outer most fire blocks
-            foreach (Pair p in fires)
-            {
-                if (!Thread.CurrentThread.IsAlive)
-                    return null;
+			foreach (Pair p in fires)
+			{
+				if (!Thread.CurrentThread.IsAlive)
+					return null;
 
-                // TODO: This could be faster by giving all searchers their own thread...
-                var path = new AStar(grid, pos, p).aStarSearch();
+				Pair[] path = null;
 
-                if (path != null)
-                    paths.Add(path);
-            }
+				try
+				{
+					path = new AStar(grid, pos, p).aStarSearch();
+				} catch (Exception e) {
+					Console.WriteLine(e.Message);
+				}
 
-            if (paths.Count > 0)
-                return findShortestPath(paths.ToArray(), null);
+				if (path != null)
+					paths.Add(path);
+			}
 
-            Console.WriteLine("For some reason there is no path to the fire???");
-            return null;
-        }
+			if (paths.Count > 0)
+				return findShortestPath(paths.ToArray(), null);
 
-        private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
-        {
-            if (worker.w.CancellationPending)
-                return;
+			Console.WriteLine("For some reason there is no path to the fire???");
+			return null;
+		}
 
-            Pair[][] findPaths()
-            {
-                List<Pair[]> paths = new List<Pair[]>();
+		private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
+		{
+			if (worker.w.CancellationPending)
+				return;
 
-                foreach (var feLoc in feLocations)
-                {
-                    if (worker.w.CancellationPending)
-                        return paths.ToArray();
-                    else
-                    {
-                        Pair[] val = null;
+			Pair[][] findPaths()
+			{
+				List<Pair[]> paths = new List<Pair[]>();
 
-                        try
-                        {
-                            // TODO: This could be faster by giving all searchers their own thead...
-                            val = new AStar(grid, pos, feLoc).aStarSearch();
-                        } catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+				foreach (var feLoc in feLocations)
+				{
+					if (worker.w.CancellationPending)
+						return paths.ToArray();
+					else
+					{
+						Pair[] val = null;
 
-                        if (val != null)
-                            paths.Add(val);
-                    }
-                }
+						try
+						{
+							val = new AStar(grid, pos, feLoc).aStarSearch();
+						}
+						catch (Exception e)
+						{
+							Console.WriteLine(e.Message);
+						}
 
-                return paths.ToArray();
-            }
+						if (val != null)
+							paths.Add(val);
+					}
+				}
 
-            this.ShortestPath = findShortestPath(findPaths(), worker.w);
-        }
+				return paths.ToArray();
+			}
 
-        internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
-        {
-            var task = Task.Run(() =>
-            {
-                this.CalculatePaths(grid, pos, feLocations, worker);
-                callback();
-            });
+			this.ShortestPath = findShortestPath(findPaths(), worker.w);
+		}
 
-            return task;
-        }
+		internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
+		{
+			var task = Task.Run(() =>
+			{
+				this.CalculatePaths(grid, pos, feLocations, worker);
+				callback();
+			});
 
-        public override void Function(Block[,] grid, int x, int y)
-        {
-            if (this.ShortestPath == null)
-                throw new Exception("'ShortestPath' is not defined. You need to execute the 'CalculatePaths' method before animating!");
+			return task;
+		}
 
-            if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length - 1)
-                move(grid, new Pair(x, y), this.nearestFirePath);
-            else if (pathIndex < this.ShortestPath.Length - 1)
-                move(grid, new Pair(x, y), this.ShortestPath);
-            else if (firePathThread == null)
-            {
-                var myPosPair = new Pair(x, y);
-                var pos = findFireExtinguisherAround(grid, myPosPair);
+		public override void Function(Block[,] grid, int x, int y)
+		{
+			if (this.ShortestPath == null)
+				throw new Exception("'ShortestPath' is not defined. You need to execute the 'CalculatePaths' method before animating!");
 
-                if (pos != null)
-                {
-                    grid[pos.X, pos.Y] = GridController.Floor;
+			if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length - 1)
+				move(grid, new Pair(x, y), this.nearestFirePath);
+			else if (pathIndex < this.ShortestPath.Length - 1)
+				move(grid, new Pair(x, y), this.ShortestPath);
+			else if (firePathThread == null)
+			{
+				var pos = this.ShortestPath[this.ShortestPath.Length - 1];
+				var myPosPair = new Pair(x, y);
 
-                    firePathThread = new Thread(() =>
-                    {
-                        Thread.Sleep(10000); // Srtificially let fire grow to test the stress on your system
-                        this.nearestFirePath = findNearestFirePath(grid, myPosPair);
-                        pathIndex = 1;
-                    });
-                    firePathThread.Start();
-                }
-            }
-        }
-    }
+				grid[pos.X, pos.Y] = GridController.Floor;
+				firePathThread = new Thread(() =>
+				{
+					this.nearestFirePath = findNearestFirePath(grid, myPosPair);
+					pathIndex = 1;
+
+					firePathThread = Thread.CurrentThread;// Set to something not null
+				});
+				firePathThread.Start();
+			}
+		}
+	}
 }
