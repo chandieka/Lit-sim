@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Library
@@ -21,7 +20,7 @@ namespace Library
 
         #region Private Fields
         // playing fields
-        private Block[,] grid;
+        private readonly Block[,] grid;
         private bool ShouldDrawPaths = true;
 		private bool hasTicked = false;
         private List<Person> persons = new List<Person>();
@@ -30,7 +29,6 @@ namespace Library
         #endregion
 
         #region Public Properties
-        public Block[,] Grid => this.grid;
         public int GridWidth => this.grid.GetLength(0);
         public int GridHeight => this.grid.GetLength(1);
         #endregion
@@ -93,7 +91,8 @@ namespace Library
         {
             this.grid[location.x, location.y] = new Wall();
         }
-        private void FillWall((int x, int y) topLeft, int width, int height)
+
+        public void FillWall((int x, int y) topLeft, int width, int height)
         {
             // Only for horizontal and vertical wall
 
@@ -487,15 +486,17 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public void Load(string path)
+        public static GridController Load(string path)
         {
             if (string.IsNullOrEmpty(path))
                 path = defaultPath;
 
             Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
-            
+
             if (loadedGrid != null)
-                this.grid = loadedGrid;
+                return new GridController(loadedGrid);
+            else
+                return null;
         }
 
         #endregion
