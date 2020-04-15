@@ -234,7 +234,7 @@ namespace FireSimulator
                 myDialog.AddExtension = true;
                 myDialog.Filter = "Binary|.bin";
                 myDialog.CheckPathExists = true;
-                myDialog.FileName = $"Lit export [{fomatNum(time.Hour)}:{fomatNum(time.Minute)}:{fomatNum(time.Second)} {time.Year}-{fomatNum(time.Month)}-{fomatNum(time.Day)}].bin";
+                myDialog.FileName = $"Lit export [{fomatNum(time.Hour)}.{fomatNum(time.Minute)}.{fomatNum(time.Second)} {time.Year}-{fomatNum(time.Month)}-{fomatNum(time.Day)}].bin";
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
