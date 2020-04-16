@@ -19,6 +19,7 @@ namespace Library
         #region Private Fields
         // playing fields
         private Block[,] grid;
+        private List<History> gridHistory;
 
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
@@ -35,6 +36,7 @@ namespace Library
         public GridController((int width, int height) gridSize)
         {
             this.grid = new Block[gridSize.width, gridSize.height];
+            this.gridHistory = new List<History>();
 
             // fill the grid with empty blocks.
             this.Clear();
@@ -45,6 +47,11 @@ namespace Library
             this.grid = grid;
         }
         #endregion
+
+        public void SetGrid(Block[,] grid)
+        {
+            this.grid = grid;
+        }
 
         #region Methods
         #region Grid Manipulation
@@ -383,6 +390,19 @@ namespace Library
         {
             return new AnimationFrames(this, scaleSize);
         }
+        #endregion
+        #region History
+
+        public void AddToHistory(string reason)
+        {
+            this.gridHistory.Add(new History(reason, this.grid));
+        }
+
+        public List<History> GetHistory()
+        {
+            return this.gridHistory;
+        }
+
         #endregion
         #region IO
 

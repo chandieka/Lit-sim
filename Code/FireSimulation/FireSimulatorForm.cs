@@ -49,6 +49,13 @@ namespace FireSimulator
 
         #region Private Methods
 
+        private void UpdateHistory()
+        {
+            this.lbHistory.Items.Clear();
+
+            this.lbHistory.Items.AddRange(this.gridController.GetHistory().ToArray());
+        }
+
         private void FillDefault()
         {
             animationLoopTimer.Interval = 1;
@@ -158,18 +165,6 @@ namespace FireSimulator
         {
             if (running == false)
             {
-                if (gridController.IsSavable())
-                {
-                    using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
-                    {
-                        autoSaveDialog.ShowDialog();
-                        if (autoSaveDialog.DialogResult == DialogResult.Yes)
-                        {
-                            this.gridController.Save(GridController.defaultPath);
-                        }
-                    }
-                }
-
                 animationLoopTimer.Start();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
@@ -292,6 +287,8 @@ namespace FireSimulator
             if (isSuccess)
             {
                 VisualizeSimulation();
+                this.gridController.AddToHistory("Random generated");
+                UpdateHistory();
             }
         }
 
@@ -320,6 +317,16 @@ namespace FireSimulator
                     btnUploadFile_Click(null, null);
                 else if (e.KeyCode == Keys.S)
                     btnSaveLayout_Click(null, null);
+            }
+        }
+
+        private void lbHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.lbHistory.SelectedItem != null)
+            {
+                History grid = (History)this.lbHistory.SelectedItem;
+                this.gridController.SetGrid(grid.Grid);
+                VisualizeSimulation();
             }
         }
     }
