@@ -24,6 +24,8 @@ namespace FireSimulator
 
             this.gridController = new GridController((100, 100));
 
+            gridController.Finished += this.handleFinished;
+
             gridController.PutDefaultFloorPlan(1);
 
             if (testingTicks)
@@ -52,6 +54,14 @@ namespace FireSimulator
             }
         }
 
+        private void handleFinished(object sender, EventArgs e)
+        {
+            picBoxPlayPause_Click(null, null);
+            GetStats();
+
+            MessageBox.Show("The simulation finished", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         #region Private Methods
 
         private void FillDefault()
@@ -71,9 +81,7 @@ namespace FireSimulator
             int alive = people - deaths;
 
             if (people == deaths)
-            {
                 lblResult.Text = "Fail";
-            }
 
             lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
             lblElapsedTime.Text = time.ToString();
