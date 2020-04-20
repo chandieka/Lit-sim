@@ -261,6 +261,11 @@ namespace FloorDesigner
 					this.open();
 			}
 		}
+
+		private void groupBoxItems_Enter(object sender, EventArgs e)
+		{
+
+		}
 	}
 
 	internal class Pair

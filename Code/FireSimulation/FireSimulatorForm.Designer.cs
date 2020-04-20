@@ -82,6 +82,7 @@
             this.trackBarSpeed = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
             this.lblSpeed = new System.Windows.Forms.Label();
+            this.pbFloor = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWall)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFireExtinguisher)).BeginInit();
@@ -94,6 +95,7 @@
             this.gBoxStatistics.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFloor)).BeginInit();
             this.SuspendLayout();
             // 
             // animationLoopTimer
@@ -104,6 +106,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.pbFloor);
             this.groupBox1.Controls.Add(this.btnGenerate);
             this.groupBox1.Controls.Add(this.tbFireExtinguishers);
             this.groupBox1.Controls.Add(this.tbPeople);
@@ -116,20 +119,19 @@
             this.groupBox1.Controls.Add(this.lblBuild);
             this.groupBox1.Controls.Add(this.picBoxPerson);
             this.groupBox1.Controls.Add(this.picBoxFire);
-            this.groupBox1.Location = new System.Drawing.Point(31, 69);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Location = new System.Drawing.Point(23, 56);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(149, 476);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(112, 452);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Location = new System.Drawing.Point(19, 410);
-            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGenerate.Location = new System.Drawing.Point(14, 333);
             this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(101, 44);
+            this.btnGenerate.Size = new System.Drawing.Size(76, 36);
             this.btnGenerate.TabIndex = 14;
             this.btnGenerate.Text = "Generate";
             this.btnGenerate.UseVisualStyleBackColor = true;
@@ -138,28 +140,29 @@
             // 
             // tbFireExtinguishers
             // 
-            this.tbFireExtinguishers.Location = new System.Drawing.Point(19, 298);
-            this.tbFireExtinguishers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbFireExtinguishers.Location = new System.Drawing.Point(14, 242);
+            this.tbFireExtinguishers.Margin = new System.Windows.Forms.Padding(2);
             this.tbFireExtinguishers.Name = "tbFireExtinguishers";
-            this.tbFireExtinguishers.Size = new System.Drawing.Size(100, 22);
+            this.tbFireExtinguishers.Size = new System.Drawing.Size(76, 20);
             this.tbFireExtinguishers.TabIndex = 17;
             this.tbFireExtinguishers.Visible = false;
             // 
             // tbPeople
             // 
-            this.tbPeople.Location = new System.Drawing.Point(19, 177);
-            this.tbPeople.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbPeople.Location = new System.Drawing.Point(14, 144);
+            this.tbPeople.Margin = new System.Windows.Forms.Padding(2);
             this.tbPeople.Name = "tbPeople";
-            this.tbPeople.Size = new System.Drawing.Size(100, 22);
+            this.tbPeople.Size = new System.Drawing.Size(76, 20);
             this.tbPeople.TabIndex = 15;
             this.tbPeople.Visible = false;
             // 
             // lblFireExtinguishers
             // 
             this.lblFireExtinguishers.AutoSize = true;
-            this.lblFireExtinguishers.Location = new System.Drawing.Point(15, 276);
+            this.lblFireExtinguishers.Location = new System.Drawing.Point(11, 224);
+            this.lblFireExtinguishers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblFireExtinguishers.Name = "lblFireExtinguishers";
-            this.lblFireExtinguishers.Size = new System.Drawing.Size(119, 17);
+            this.lblFireExtinguishers.Size = new System.Drawing.Size(88, 13);
             this.lblFireExtinguishers.TabIndex = 16;
             this.lblFireExtinguishers.Text = "Fire extinguishers";
             this.lblFireExtinguishers.Visible = false;
@@ -167,9 +170,10 @@
             // lblPeople
             // 
             this.lblPeople.AutoSize = true;
-            this.lblPeople.Location = new System.Drawing.Point(15, 158);
+            this.lblPeople.Location = new System.Drawing.Point(11, 128);
+            this.lblPeople.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblPeople.Name = "lblPeople";
-            this.lblPeople.Size = new System.Drawing.Size(52, 17);
+            this.lblPeople.Size = new System.Drawing.Size(40, 13);
             this.lblPeople.TabIndex = 15;
             this.lblPeople.Text = "People";
             this.lblPeople.Visible = false;
@@ -178,36 +182,39 @@
             // 
             this.picBoxWall.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxWall.Image = global::FireSimulator.Icons.Wall;
-            this.picBoxWall.Location = new System.Drawing.Point(35, 55);
-            this.picBoxWall.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picBoxWall.Location = new System.Drawing.Point(26, 45);
+            this.picBoxWall.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxWall.Name = "picBoxWall";
-            this.picBoxWall.Size = new System.Drawing.Size(75, 75);
+            this.picBoxWall.Size = new System.Drawing.Size(56, 61);
             this.picBoxWall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxWall.TabIndex = 2;
             this.picBoxWall.TabStop = false;
             this.toolTipWall.SetToolTip(this.picBoxWall, "Build wall");
+            this.picBoxWall.Click += new System.EventHandler(this.picBoxWall_Click);
             // 
             // picBoxFireExtinguisher
             // 
             this.picBoxFireExtinguisher.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFireExtinguisher.Image = global::FireSimulator.Icons.Fire_extinguisher;
-            this.picBoxFireExtinguisher.Location = new System.Drawing.Point(35, 137);
-            this.picBoxFireExtinguisher.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picBoxFireExtinguisher.Location = new System.Drawing.Point(26, 111);
+            this.picBoxFireExtinguisher.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxFireExtinguisher.Name = "picBoxFireExtinguisher";
-            this.picBoxFireExtinguisher.Size = new System.Drawing.Size(75, 75);
+            this.picBoxFireExtinguisher.Size = new System.Drawing.Size(56, 61);
             this.picBoxFireExtinguisher.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxFireExtinguisher.TabIndex = 5;
             this.picBoxFireExtinguisher.TabStop = false;
             this.toolTipFireExtinguisher.SetToolTip(this.picBoxFireExtinguisher, "Place fire extinguisher");
+            this.picBoxFireExtinguisher.Click += new System.EventHandler(this.picBoxFireExtinguisher_Click);
             // 
             // lblGenerate
             // 
             this.lblGenerate.BackColor = System.Drawing.Color.Transparent;
             this.lblGenerate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGenerate.Location = new System.Drawing.Point(55, 18);
+            this.lblGenerate.Location = new System.Drawing.Point(41, 15);
+            this.lblGenerate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGenerate.Name = "lblGenerate";
-            this.lblGenerate.Size = new System.Drawing.Size(89, 20);
+            this.lblGenerate.Size = new System.Drawing.Size(67, 16);
             this.lblGenerate.TabIndex = 12;
             this.lblGenerate.Text = "Generate";
             this.lblGenerate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -217,23 +224,25 @@
             // 
             this.picBoxEraser.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxEraser.Image = global::FireSimulator.Icons.Eraser;
-            this.picBoxEraser.Location = new System.Drawing.Point(35, 379);
-            this.picBoxEraser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picBoxEraser.Location = new System.Drawing.Point(26, 308);
+            this.picBoxEraser.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxEraser.Name = "picBoxEraser";
-            this.picBoxEraser.Size = new System.Drawing.Size(75, 75);
+            this.picBoxEraser.Size = new System.Drawing.Size(56, 61);
             this.picBoxEraser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxEraser.TabIndex = 7;
             this.picBoxEraser.TabStop = false;
             this.toolTipEraser.SetToolTip(this.picBoxEraser, "Erase");
+            this.picBoxEraser.Click += new System.EventHandler(this.picBoxEraser_Click);
             // 
             // lblBuild
             // 
             this.lblBuild.BackColor = System.Drawing.Color.White;
             this.lblBuild.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblBuild.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBuild.Location = new System.Drawing.Point(4, 18);
+            this.lblBuild.Location = new System.Drawing.Point(3, 15);
+            this.lblBuild.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBuild.Name = "lblBuild";
-            this.lblBuild.Size = new System.Drawing.Size(56, 20);
+            this.lblBuild.Size = new System.Drawing.Size(42, 16);
             this.lblBuild.TabIndex = 11;
             this.lblBuild.Text = "Build";
             this.lblBuild.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -243,37 +252,39 @@
             // 
             this.picBoxPerson.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxPerson.Image = global::FireSimulator.Icons.Person;
-            this.picBoxPerson.Location = new System.Drawing.Point(35, 298);
-            this.picBoxPerson.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picBoxPerson.Location = new System.Drawing.Point(26, 242);
+            this.picBoxPerson.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxPerson.Name = "picBoxPerson";
-            this.picBoxPerson.Size = new System.Drawing.Size(75, 75);
+            this.picBoxPerson.Size = new System.Drawing.Size(56, 61);
             this.picBoxPerson.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxPerson.TabIndex = 8;
             this.picBoxPerson.TabStop = false;
             this.toolTipPerson.SetToolTip(this.picBoxPerson, "Place a person");
+            this.picBoxPerson.Click += new System.EventHandler(this.picBoxPerson_Click);
             // 
             // picBoxFire
             // 
             this.picBoxFire.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFire.Image = global::FireSimulator.Icons.Fire;
-            this.picBoxFire.Location = new System.Drawing.Point(35, 218);
-            this.picBoxFire.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picBoxFire.Location = new System.Drawing.Point(26, 177);
+            this.picBoxFire.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxFire.Name = "picBoxFire";
-            this.picBoxFire.Size = new System.Drawing.Size(75, 75);
+            this.picBoxFire.Size = new System.Drawing.Size(56, 61);
             this.picBoxFire.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxFire.TabIndex = 6;
             this.picBoxFire.TabStop = false;
             this.toolTipFire.SetToolTip(this.picBoxFire, "Place fire");
+            this.picBoxFire.Click += new System.EventHandler(this.picBoxFire_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
             this.groupBox2.Controls.Add(this.picBoxPlayPause);
-            this.groupBox2.Location = new System.Drawing.Point(31, 559);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox2.Location = new System.Drawing.Point(29, 526);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox2.Size = new System.Drawing.Size(149, 91);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(112, 74);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             // 
@@ -282,10 +293,10 @@
             this.picBoxPlayPause.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxPlayPause.Enabled = false;
             this.picBoxPlayPause.Image = global::FireSimulator.Icons.Play;
-            this.picBoxPlayPause.Location = new System.Drawing.Point(35, 11);
-            this.picBoxPlayPause.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.picBoxPlayPause.Location = new System.Drawing.Point(26, 9);
+            this.picBoxPlayPause.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxPlayPause.Name = "picBoxPlayPause";
-            this.picBoxPlayPause.Size = new System.Drawing.Size(75, 75);
+            this.picBoxPlayPause.Size = new System.Drawing.Size(56, 61);
             this.picBoxPlayPause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxPlayPause.TabIndex = 9;
             this.picBoxPlayPause.TabStop = false;
@@ -296,11 +307,11 @@
             // 
             this.tbTimer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTimer.Location = new System.Drawing.Point(1176, 36);
-            this.tbTimer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbTimer.Location = new System.Drawing.Point(882, 29);
+            this.tbTimer.Margin = new System.Windows.Forms.Padding(2);
             this.tbTimer.Name = "tbTimer";
             this.tbTimer.ReadOnly = true;
-            this.tbTimer.Size = new System.Drawing.Size(172, 20);
+            this.tbTimer.Size = new System.Drawing.Size(129, 16);
             this.tbTimer.TabIndex = 14;
             this.tbTimer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -310,11 +321,9 @@
             this.gBoxSettings.Controls.Add(this.btnUploadFile);
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSaveLayout);
-            this.gBoxSettings.Location = new System.Drawing.Point(1081, 62);
-            this.gBoxSettings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gBoxSettings.Location = new System.Drawing.Point(811, 56);
             this.gBoxSettings.Name = "gBoxSettings";
-            this.gBoxSettings.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gBoxSettings.Size = new System.Drawing.Size(267, 288);
+            this.gBoxSettings.Size = new System.Drawing.Size(200, 234);
             this.gBoxSettings.TabIndex = 15;
             this.gBoxSettings.TabStop = false;
             // 
@@ -322,19 +331,18 @@
             // 
             this.lblImportFileLoc.AutoSize = true;
             this.lblImportFileLoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportFileLoc.Location = new System.Drawing.Point(8, 164);
-            this.lblImportFileLoc.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblImportFileLoc.Location = new System.Drawing.Point(6, 133);
             this.lblImportFileLoc.Name = "lblImportFileLoc";
-            this.lblImportFileLoc.Size = new System.Drawing.Size(0, 17);
+            this.lblImportFileLoc.Size = new System.Drawing.Size(0, 13);
             this.lblImportFileLoc.TabIndex = 18;
             // 
             // btnUploadFile
             // 
             this.btnUploadFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnUploadFile.Location = new System.Drawing.Point(8, 183);
-            this.btnUploadFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUploadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUploadFile.Location = new System.Drawing.Point(6, 149);
             this.btnUploadFile.Name = "btnUploadFile";
-            this.btnUploadFile.Size = new System.Drawing.Size(247, 44);
+            this.btnUploadFile.Size = new System.Drawing.Size(185, 50);
             this.btnUploadFile.TabIndex = 17;
             this.btnUploadFile.Text = "Import Session File";
             this.toolTipImport.SetToolTip(this.btnUploadFile, "Import file (CTRL+O)");
@@ -345,20 +353,19 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(8, 21);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(6, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 20);
+            this.label1.Size = new System.Drawing.Size(56, 16);
             this.label1.TabIndex = 0;
             this.label1.Text = "Settings";
             // 
             // btnSaveLayout
             // 
             this.btnSaveLayout.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSaveLayout.Location = new System.Drawing.Point(12, 78);
-            this.btnSaveLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSaveLayout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveLayout.Location = new System.Drawing.Point(9, 63);
             this.btnSaveLayout.Name = "btnSaveLayout";
-            this.btnSaveLayout.Size = new System.Drawing.Size(247, 44);
+            this.btnSaveLayout.Size = new System.Drawing.Size(185, 49);
             this.btnSaveLayout.TabIndex = 16;
             this.btnSaveLayout.Text = "Save Session Layout";
             this.toolTipSave.SetToolTip(this.btnSaveLayout, "Save (CTRL+S)");
@@ -383,41 +390,38 @@
             this.gBoxStatistics.Controls.Add(this.btnRerunSimulation);
             this.gBoxStatistics.Controls.Add(this.btnCloseStatistics);
             this.gBoxStatistics.Controls.Add(this.label3);
-            this.gBoxStatistics.Location = new System.Drawing.Point(1081, 367);
-            this.gBoxStatistics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gBoxStatistics.Location = new System.Drawing.Point(811, 309);
             this.gBoxStatistics.Name = "gBoxStatistics";
-            this.gBoxStatistics.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gBoxStatistics.Size = new System.Drawing.Size(267, 372);
+            this.gBoxStatistics.Size = new System.Drawing.Size(200, 320);
             this.gBoxStatistics.TabIndex = 16;
             this.gBoxStatistics.TabStop = false;
             // 
             // lblAlive
             // 
             this.lblAlive.AutoSize = true;
-            this.lblAlive.Location = new System.Drawing.Point(165, 266);
-            this.lblAlive.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblAlive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAlive.Location = new System.Drawing.Point(124, 216);
             this.lblAlive.Name = "lblAlive";
-            this.lblAlive.Size = new System.Drawing.Size(53, 17);
+            this.lblAlive.Size = new System.Drawing.Size(46, 15);
             this.lblAlive.TabIndex = 15;
             this.lblAlive.Text = "<alive>";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 266);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(7, 216);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 17);
+            this.label2.Size = new System.Drawing.Size(35, 15);
             this.label2.TabIndex = 14;
             this.label2.Text = "Alive:";
             // 
             // lblResult
             // 
             this.lblResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblResult.Location = new System.Drawing.Point(53, 64);
-            this.lblResult.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblResult.Location = new System.Drawing.Point(40, 52);
             this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(165, 25);
+            this.lblResult.Size = new System.Drawing.Size(124, 20);
             this.lblResult.TabIndex = 13;
             this.lblResult.Text = "<Success/Fail>";
             this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -425,109 +429,109 @@
             // lblDeaths
             // 
             this.lblDeaths.AutoSize = true;
-            this.lblDeaths.Location = new System.Drawing.Point(165, 242);
-            this.lblDeaths.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDeaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDeaths.Location = new System.Drawing.Point(124, 197);
             this.lblDeaths.Name = "lblDeaths";
-            this.lblDeaths.Size = new System.Drawing.Size(67, 17);
+            this.lblDeaths.Size = new System.Drawing.Size(58, 15);
             this.lblDeaths.TabIndex = 12;
             this.lblDeaths.Text = "<deaths>";
             // 
             // lblPeopleTotal
             // 
             this.lblPeopleTotal.AutoSize = true;
-            this.lblPeopleTotal.Location = new System.Drawing.Point(165, 187);
-            this.lblPeopleTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPeopleTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPeopleTotal.Location = new System.Drawing.Point(124, 152);
             this.lblPeopleTotal.Name = "lblPeopleTotal";
-            this.lblPeopleTotal.Size = new System.Drawing.Size(67, 17);
+            this.lblPeopleTotal.Size = new System.Drawing.Size(59, 15);
             this.lblPeopleTotal.TabIndex = 11;
             this.lblPeopleTotal.Text = "<people>";
             // 
             // lblFireExTotal
             // 
             this.lblFireExTotal.AutoSize = true;
-            this.lblFireExTotal.Location = new System.Drawing.Point(165, 213);
-            this.lblFireExTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFireExTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFireExTotal.Location = new System.Drawing.Point(124, 173);
             this.lblFireExTotal.Name = "lblFireExTotal";
-            this.lblFireExTotal.Size = new System.Drawing.Size(62, 17);
+            this.lblFireExTotal.Size = new System.Drawing.Size(54, 15);
             this.lblFireExTotal.TabIndex = 10;
             this.lblFireExTotal.Text = "<fire ex>";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 213);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(7, 173);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(120, 17);
+            this.label10.Size = new System.Drawing.Size(104, 15);
             this.label10.TabIndex = 9;
             this.label10.Text = "Number of fire ex:";
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
-            this.lblDate.Location = new System.Drawing.Point(165, 135);
-            this.lblDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDate.Location = new System.Drawing.Point(124, 110);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(52, 17);
+            this.lblDate.Size = new System.Drawing.Size(45, 15);
             this.lblDate.TabIndex = 8;
             this.lblDate.Text = "<date>";
             // 
             // lblElapsedTime
             // 
             this.lblElapsedTime.AutoSize = true;
-            this.lblElapsedTime.Location = new System.Drawing.Point(165, 161);
-            this.lblElapsedTime.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblElapsedTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblElapsedTime.Location = new System.Drawing.Point(124, 131);
             this.lblElapsedTime.Name = "lblElapsedTime";
-            this.lblElapsedTime.Size = new System.Drawing.Size(50, 17);
+            this.lblElapsedTime.Size = new System.Drawing.Size(45, 15);
             this.lblElapsedTime.TabIndex = 7;
             this.lblElapsedTime.Text = "<time>";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 242);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(7, 197);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(57, 17);
+            this.label7.Size = new System.Drawing.Size(49, 15);
             this.label7.TabIndex = 6;
             this.label7.Text = "Deaths:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 187);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(6, 152);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(125, 17);
+            this.label6.Size = new System.Drawing.Size(109, 15);
             this.label6.TabIndex = 5;
             this.label6.Text = "Number of people:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 161);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(7, 131);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 17);
+            this.label5.Size = new System.Drawing.Size(86, 15);
             this.label5.TabIndex = 4;
             this.label5.Text = "Elapsed Time:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 135);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(7, 110);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 17);
+            this.label4.Size = new System.Drawing.Size(36, 15);
             this.label4.TabIndex = 3;
             this.label4.Text = "Date:";
             // 
             // btnRerunSimulation
             // 
-            this.btnRerunSimulation.Location = new System.Drawing.Point(57, 304);
-            this.btnRerunSimulation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRerunSimulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRerunSimulation.Location = new System.Drawing.Point(43, 261);
             this.btnRerunSimulation.Name = "btnRerunSimulation";
-            this.btnRerunSimulation.Size = new System.Drawing.Size(151, 44);
+            this.btnRerunSimulation.Size = new System.Drawing.Size(113, 44);
             this.btnRerunSimulation.TabIndex = 2;
             this.btnRerunSimulation.Text = "Rerun Simulation";
             this.btnRerunSimulation.UseVisualStyleBackColor = true;
@@ -536,10 +540,9 @@
             // 
             // btnCloseStatistics
             // 
-            this.btnCloseStatistics.Location = new System.Drawing.Point(469, 22);
-            this.btnCloseStatistics.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCloseStatistics.Location = new System.Drawing.Point(352, 18);
             this.btnCloseStatistics.Name = "btnCloseStatistics";
-            this.btnCloseStatistics.Size = new System.Drawing.Size(32, 26);
+            this.btnCloseStatistics.Size = new System.Drawing.Size(24, 21);
             this.btnCloseStatistics.TabIndex = 1;
             this.btnCloseStatistics.Text = "x";
             this.btnCloseStatistics.UseVisualStyleBackColor = true;
@@ -549,28 +552,29 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(52, 23);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(39, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 25);
+            this.label3.Size = new System.Drawing.Size(135, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "Session Statistics";
             // 
             // pbSimulation
             // 
-            this.pbSimulation.Location = new System.Drawing.Point(257, 69);
-            this.pbSimulation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pbSimulation.Location = new System.Drawing.Point(174, 61);
             this.pbSimulation.Name = "pbSimulation";
-            this.pbSimulation.Size = new System.Drawing.Size(800, 738);
+            this.pbSimulation.Size = new System.Drawing.Size(600, 600);
             this.pbSimulation.TabIndex = 17;
             this.pbSimulation.TabStop = false;
+            this.pbSimulation.Paint += new System.Windows.Forms.PaintEventHandler(this.pbSimulation_Paint);
+            this.pbSimulation.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbSimulation_MouseClick);
+            this.pbSimulation.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSimulation_MouseMove);
+            this.pbSimulation.Resize += new System.EventHandler(this.pbSimulation_Resize);
             // 
             // btnTerminate
             // 
-            this.btnTerminate.Location = new System.Drawing.Point(31, 755);
-            this.btnTerminate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTerminate.Location = new System.Drawing.Point(29, 658);
             this.btnTerminate.Name = "btnTerminate";
-            this.btnTerminate.Size = new System.Drawing.Size(149, 52);
+            this.btnTerminate.Size = new System.Drawing.Size(112, 42);
             this.btnTerminate.TabIndex = 18;
             this.btnTerminate.Text = "Terminate Simulation";
             this.btnTerminate.UseVisualStyleBackColor = true;
@@ -579,10 +583,10 @@
             // 
             // btnCalculatePaths
             // 
-            this.btnCalculatePaths.Location = new System.Drawing.Point(31, 667);
-            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnCalculatePaths.Location = new System.Drawing.Point(29, 611);
+            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalculatePaths.Name = "btnCalculatePaths";
-            this.btnCalculatePaths.Size = new System.Drawing.Size(149, 52);
+            this.btnCalculatePaths.Size = new System.Drawing.Size(112, 42);
             this.btnCalculatePaths.TabIndex = 18;
             this.btnCalculatePaths.Text = "Calculate paths";
             this.btnCalculatePaths.UseVisualStyleBackColor = true;
@@ -590,12 +594,12 @@
             // 
             // trackBarSpeed
             // 
-            this.trackBarSpeed.Location = new System.Drawing.Point(257, 12);
-            this.trackBarSpeed.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.trackBarSpeed.Location = new System.Drawing.Point(189, 11);
+            this.trackBarSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.trackBarSpeed.Maximum = 100;
             this.trackBarSpeed.Minimum = 1;
             this.trackBarSpeed.Name = "trackBarSpeed";
-            this.trackBarSpeed.Size = new System.Drawing.Size(800, 56);
+            this.trackBarSpeed.Size = new System.Drawing.Size(600, 45);
             this.trackBarSpeed.TabIndex = 1;
             this.trackBarSpeed.Value = 50;
             this.trackBarSpeed.Scroll += new System.EventHandler(this.trackBarSpeed_Scroll);
@@ -603,28 +607,43 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(91, 14);
+            this.label8.Location = new System.Drawing.Point(68, 11);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 17);
+            this.label8.Size = new System.Drawing.Size(41, 13);
             this.label8.TabIndex = 19;
             this.label8.Text = "Speed:";
             // 
             // lblSpeed
             // 
             this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(149, 14);
+            this.lblSpeed.Location = new System.Drawing.Point(112, 11);
+            this.lblSpeed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSpeed.Name = "lblSpeed";
-            this.lblSpeed.Size = new System.Drawing.Size(24, 17);
+            this.lblSpeed.Size = new System.Drawing.Size(19, 13);
             this.lblSpeed.TabIndex = 20;
             this.lblSpeed.Text = "50";
             // 
+            // pbFloor
+            // 
+            this.pbFloor.BackColor = System.Drawing.Color.Transparent;
+            this.pbFloor.Image = global::FireSimulator.Icons.fabric;
+            this.pbFloor.InitialImage = null;
+            this.pbFloor.Location = new System.Drawing.Point(27, 371);
+            this.pbFloor.Name = "pbFloor";
+            this.pbFloor.Size = new System.Drawing.Size(61, 57);
+            this.pbFloor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFloor.TabIndex = 21;
+            this.pbFloor.TabStop = false;
+            this.pbFloor.Click += new System.EventHandler(this.pbFloor_Click);
+            // 
             // FireSimulatorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1371, 822);
+            this.ClientSize = new System.Drawing.Size(1028, 668);
             this.Controls.Add(this.btnCalculatePaths);
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.label8);
@@ -637,7 +656,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FireSimulatorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fire simulation";
@@ -658,6 +677,7 @@
             this.gBoxStatistics.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFloor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -717,6 +737,7 @@
         private System.Windows.Forms.TrackBar trackBarSpeed;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblSpeed;
+        private System.Windows.Forms.PictureBox pbFloor;
     }
 }
 
