@@ -16,7 +16,7 @@ namespace FireSimulator
 
         private bool running;
 
-        private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
+        private readonly Brush eraserBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
         // private GridController lastGrid;
 
         private bool testingTicks = true;
@@ -27,8 +27,9 @@ namespace FireSimulator
           //  WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
-            this.gridController = new GridController((100, 100));   
-        
+            this.gridController = new GridController((100, 100));
+
+            // initialize buttons to play forwards/backwards, and to got to previous/next frame
         }
 
         #region Private Methods
@@ -610,7 +611,7 @@ namespace FireSimulator
                     if (element == GUIElement.FLOOR)
                         brush = new SolidBrush(Color.FromArgb(190, Floor.Color));
                     else
-                        brush = this.erasorBrush;
+                        brush = this.eraserBrush;
 
                     g.FillRectangle(brush, orderPoints(prevCurPos, curCurPos, sizePerPixel));
                     g.FillRectangle(Brushes.Gray, prevCurPos.X * sizePerPixel.Width, prevCurPos.Y * sizePerPixel.Height, sizePerPixel.Width, sizePerPixel.Height);

@@ -101,6 +101,10 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.pbSimulator = new System.Windows.Forms.PictureBox();
+            this.btFramePrevious = new System.Windows.Forms.Button();
+            this.btFrameNext = new System.Windows.Forms.Button();
+            this.rbPlayForward = new System.Windows.Forms.RadioButton();
+            this.rbPlayBackward = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbReset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFloor)).BeginInit();
@@ -390,7 +394,7 @@
             // 
             this.tbTimer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTimer.Location = new System.Drawing.Point(843, 29);
+            this.tbTimer.Location = new System.Drawing.Point(827, 35);
             this.tbTimer.Margin = new System.Windows.Forms.Padding(2);
             this.tbTimer.Name = "tbTimer";
             this.tbTimer.ReadOnly = true;
@@ -847,12 +851,58 @@
             this.pbSimulator.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSimulation_MouseMove);
             this.pbSimulator.Resize += new System.EventHandler(this.pbSimulation_Resize);
             // 
+            // btFramePrevious
+            // 
+            this.btFramePrevious.Location = new System.Drawing.Point(852, 6);
+            this.btFramePrevious.Name = "btFramePrevious";
+            this.btFramePrevious.Size = new System.Drawing.Size(32, 23);
+            this.btFramePrevious.TabIndex = 23;
+            this.btFramePrevious.Text = "<";
+            this.btFramePrevious.UseVisualStyleBackColor = true;
+            // 
+            // btFrameNext
+            // 
+            this.btFrameNext.Location = new System.Drawing.Point(899, 6);
+            this.btFrameNext.Name = "btFrameNext";
+            this.btFrameNext.Size = new System.Drawing.Size(32, 23);
+            this.btFrameNext.TabIndex = 24;
+            this.btFrameNext.Text = ">";
+            this.btFrameNext.UseVisualStyleBackColor = true;
+            // 
+            // rbPlayForward
+            // 
+            this.rbPlayForward.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbPlayForward.Checked = true;
+            this.rbPlayForward.Location = new System.Drawing.Point(937, 6);
+            this.rbPlayForward.Name = "rbPlayForward";
+            this.rbPlayForward.Size = new System.Drawing.Size(32, 23);
+            this.rbPlayForward.TabIndex = 25;
+            this.rbPlayForward.TabStop = true;
+            this.rbPlayForward.Text = ">>";
+            this.rbPlayForward.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbPlayForward.UseVisualStyleBackColor = true;
+            // 
+            // rbPlayBackward
+            // 
+            this.rbPlayBackward.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbPlayBackward.Location = new System.Drawing.Point(815, 6);
+            this.rbPlayBackward.Name = "rbPlayBackward";
+            this.rbPlayBackward.Size = new System.Drawing.Size(32, 23);
+            this.rbPlayBackward.TabIndex = 26;
+            this.rbPlayBackward.Text = "<<";
+            this.rbPlayBackward.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbPlayBackward.UseVisualStyleBackColor = true;
+            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1217, 754);
+            this.Controls.Add(this.rbPlayBackward);
+            this.Controls.Add(this.rbPlayForward);
+            this.Controls.Add(this.btFrameNext);
+            this.Controls.Add(this.btFramePrevious);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.label8);
@@ -967,6 +1017,10 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox pbReset;
+        private System.Windows.Forms.Button btFramePrevious;
+        private System.Windows.Forms.Button btFrameNext;
+        private System.Windows.Forms.RadioButton rbPlayForward;
+        private System.Windows.Forms.RadioButton rbPlayBackward;
     }
 }
 

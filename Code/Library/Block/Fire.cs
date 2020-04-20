@@ -14,6 +14,11 @@ namespace Library
 
         public override void Function(Block[,] grid, int x, int y)
         {
+            SpreadToNeighbors(grid, x, y);
+        }
+
+        public static void SpreadToNeighbors(Block[,] grid, int x, int y)
+        {
             void putFire(int locX, int locY)
             {
                 // check if the location is within the grid

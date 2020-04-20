@@ -282,6 +282,8 @@ namespace Library
 					firePathThread.Start();
 				}
 			}
+
+			if (this.IsDead) Fire.SpreadToNeighbors(grid, x, y);
 		}
 	}
 }
