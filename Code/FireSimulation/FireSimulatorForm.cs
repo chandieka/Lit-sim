@@ -101,7 +101,7 @@ namespace FireSimulator
                 // paint the grid to the picturebox
                 VisualizeSimulation();
 
-
+                // meed to be place differently
                 if (this.gridController.IsLoadable())
                 {
                     using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
@@ -151,7 +151,7 @@ namespace FireSimulator
         private void VisualizeSimulation()
         {
             Bitmap bmp = gridController.Paint((6, 6));
-            pbSimulation.Image = bmp;
+            pbSimulator.Image = bmp;
         }
 
         #endregion
@@ -532,7 +532,7 @@ namespace FireSimulator
 
         private (int Width, int Height) getSizePerPixel()
         {
-            return (pbSimulation.Width / gridController.GridWidth, pbSimulation.Height / gridController.GridHeight);
+            return (pbSimulator.Width / gridController.GridWidth, pbSimulator.Height / gridController.GridHeight);
         }
 
         private (int Width, int Height) getMaxSize()
@@ -690,7 +690,7 @@ namespace FireSimulator
        
         private void pbSimulation_Resize(object sender, EventArgs e)
         {
-            pbSimulation.Invalidate();
+            pbSimulator.Invalidate();
         }
 
         
@@ -704,7 +704,7 @@ namespace FireSimulator
                 {
                     if (prevCurPos == null)
                     {
-                        this.pbSimulation.MouseMove += new MouseEventHandler(this.pbSimulation_MouseMove);
+                        this.pbSimulator.MouseMove += new MouseEventHandler(this.pbSimulation_MouseMove);
                         //lblEscMessage.Visible = true;
                         prevCurPos = pos;
                     }
@@ -743,7 +743,7 @@ namespace FireSimulator
                     }
                 }
 
-                pbSimulation.Invalidate();
+                pbSimulator.Invalidate();
             }
         }
 
@@ -753,17 +753,17 @@ namespace FireSimulator
             curCurPos = getGridPosFromPbPos(e.X, e.Y);
 
             if (curCurPos != null)
-                pbSimulation.Invalidate();
+                pbSimulator.Invalidate();
         }
 
         private void rb_CheckedChanged_Reset(object sender, EventArgs e)
         {
-            this.pbSimulation.MouseMove -= new MouseEventHandler(this.pbSimulation_MouseMove);
+            this.pbSimulator.MouseMove -= new MouseEventHandler(this.pbSimulation_MouseMove);
             //lblEscMessage.Visible = false;
             prevCurPos = null;
             curCurPos = null;
 
-            pbSimulation.Invalidate();
+            pbSimulator.Invalidate();
         }
 
         //private void Designer_KeyUp(object sender, KeyEventArgs e)
@@ -816,6 +816,10 @@ namespace FireSimulator
             }
         }
 
-       
+        private void pbReset_Click(object sender, EventArgs e)
+        {
+            gridController.Clear();
+            VisualizeSimulation();
+        }
     }
 }
