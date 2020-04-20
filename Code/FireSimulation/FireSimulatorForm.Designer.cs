@@ -655,14 +655,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Session Statistics";
             // 
-            // pbSimulation
-            // 
-            this.pbSimulation.Location = new System.Drawing.Point(193, 56);
-            this.pbSimulation.Name = "pbSimulation";
-            this.pbSimulation.Size = new System.Drawing.Size(600, 600);
-            this.pbSimulation.TabIndex = 17;
-            this.pbSimulation.TabStop = false;
-            // 
             // lbHistory
             // 
             this.lbHistory.FormattingEnabled = true;

@@ -164,9 +164,9 @@ namespace FloorDesigner
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					GridController grid = GridController.Load(dialog.FileName);
+                    GridController grid = GridController.Load(dialog.FileName);
 
-					if (grid == null)
+                    if (grid == null)
 						MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					else
 					{

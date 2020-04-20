@@ -20,7 +20,7 @@ namespace Library
 
         #region Private Fields
         // playing fields
-        private readonly Block[,] grid;
+        private Block[,] grid;
         private List<History> gridHistory;
 
         private bool ShouldDrawPaths = true;

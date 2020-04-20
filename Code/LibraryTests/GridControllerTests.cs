@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Drawing;
-<<<<<<< HEAD
-=======
 using System.IO;
->>>>>>> origin/feature-designer
 using System.Linq;
 
 namespace Library.Tests
