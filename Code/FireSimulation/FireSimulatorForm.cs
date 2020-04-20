@@ -377,7 +377,6 @@ namespace FireSimulator
                 this.gridController.AddToHistory("Random generated");
                 UpdateHistory();
             }
-        }
 
         private void btnRerunSimulation_Click(object sender, EventArgs e)
         {
@@ -418,6 +417,8 @@ namespace FireSimulator
                 this.gridController.SetGrid(grid.Grid);
                 VisualizeSimulation();
             }
+        }
+
         private void btnTerminate_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to terminate the simulation?", "Terminate Simulation", MessageBoxButtons.YesNo);
