@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 
 namespace Library
 {
@@ -18,16 +20,20 @@ namespace Library
 
         #region Private Fields
         // playing fields
-        private Block[,] grid;
+        private readonly Block[,] grid;
         private List<History> gridHistory;
 
+        private bool ShouldDrawPaths = true;
+		private bool hasTicked = false;
         private List<Person> persons = new List<Person>();
         private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
+
+        private int personDelayCounter = 0;
+        private int personDelay = 3;
         // others 
         #endregion
 
         #region Public Properties
-        public Block[,] Grid => this.grid;
         public int GridWidth => this.grid.GetLength(0);
         public int GridHeight => this.grid.GetLength(1);
         #endregion
@@ -45,6 +51,7 @@ namespace Library
         protected GridController(Block[,] grid)
         {
             this.grid = grid;
+			fillLists();
         }
         #endregion
 
@@ -65,6 +72,8 @@ namespace Library
                     this.grid[x, y] = Block.Empty;
                 }
             }
+
+            this.hasTicked = false;
         }
 
         public void PutFloor((int x, int y) location)
@@ -95,6 +104,19 @@ namespace Library
             this.grid[location.x, location.y] = new Wall();
         }
 
+        public void FillWall((int x, int y) topLeft, int width, int height)
+        {
+            // Only for horizontal and vertical wall
+
+            for (int x = topLeft.x; x < topLeft.x + width; x++)
+            {
+                for (int y = topLeft.y; y < topLeft.y + height; y++)
+                {
+                    this.PutWall((x, y));
+                }
+            }
+        }
+
         public void FillWall((int x, int y) location, int length, bool horizontal)
         {
             if (horizontal)
@@ -107,19 +129,6 @@ namespace Library
             {
                 for (int i = 0; i < length; i++)
                     this.PutWall((location.x, location.y + i));
-            }
-        }
-
-        private void FillWall((int x, int y) topLeft, int width, int height)
-        {
-            // Only for horizontal and vertical wall
-
-            for (int x = topLeft.x; x < topLeft.x + width; x++)
-            {
-                for (int y = topLeft.y; y < topLeft.y + height; y++)
-                {
-                    this.PutWall((x, y));
-                }
             }
         }
 
@@ -296,6 +305,8 @@ namespace Library
 
         public void Tick()
         {
+            this.hasTicked = true;
+
             // This is needed to prevent the fire form spreading rapidly
             var gridCopy = this.grid.Clone() as Block[,];
 
@@ -306,6 +317,10 @@ namespace Library
                     switch (gridCopy[x, y])
                     {
                         case FunctionalBlock fb:
+                            if (fb is Person)
+                                if (personDelayCounter < personDelay)
+                                    continue;
+
                             fb.Function(this.grid, x, y);
                             break;
                         //case Block bl:
@@ -314,7 +329,18 @@ namespace Library
                     }
                 }
             }
+
+            personDelayCounter++;
+            if (personDelayCounter > personDelay)
+                personDelayCounter = 0;
         }
+
+		public void Stop()
+		{
+			foreach (Person p in this.persons)
+				p.Kill();
+		}
+
         #endregion
         #region Grid Visualization
         public Bitmap Paint((int xScale, int yScale)scaleSize)
@@ -372,6 +398,21 @@ namespace Library
                         gr.FillRectangle(br, x * scaleSize.xScale, y * scaleSize.yScale, 1 * scaleSize.xScale, 1 * scaleSize.xScale);
                     }
                 }
+
+                if (this.ShouldDrawPaths && !this.hasTicked)
+				{
+					foreach (Person p in this.persons)
+						if (p.ShortestPath == null)
+							break;
+						else
+						{
+							for (int i = 1; i < p.ShortestPath.Length - 1; i++)
+							{
+								var pair = p.ShortestPath[i];
+								gr.FillRectangle(Brushes.Coral, pair.X * scaleSize.xScale, pair.Y * scaleSize.yScale, scaleSize.xScale, scaleSize.xScale);
+							}
+						}
+				}
 
                 return bmp;
             }
@@ -460,7 +501,8 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
-            return getSavedGrid(defaultPath) != this.grid;
+            // return getSavedGrid(defaultPath) != this.grid;
+            return getSavedGrid(defaultPath) == this.grid;
         }
 
         /// <summary>
@@ -485,15 +527,17 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public void Load(string path)
+        public static GridController Load(string path)
         {
             if (string.IsNullOrEmpty(path))
                 path = defaultPath;
 
             Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
-            
+
             if (loadedGrid != null)
-                this.grid = loadedGrid;
+                return new GridController(loadedGrid);
+            else
+                return null;
         }
 
         #endregion
@@ -502,6 +546,14 @@ namespace Library
         {
             var gc = new GridController(this.grid);
             return gc;
+        }
+
+        public int GetFireExtinguisherSpot()
+        {
+            var floorSpots = this.GetFloorBlocks();
+            var filteredSpots = floorSpots.Where(_ => this.HasNeighbor(_, this.grid, typeof(Wall))).ToList();
+
+            return filteredSpots.Count;
         }
 
         public List<(int x, int y)> GetFloorBlocks()
@@ -552,11 +604,118 @@ namespace Library
         {
             return persons.Count(p => p.IsDead);
         }
+		
+		private void fillLists()
+		{
+			this.fireExtinguishers.Clear();
+			this.persons.Clear();
+
+			for (int x = 0; x < this.GridWidth; x++)
+			{
+				for (int y = 0; y < this.GridHeight; y++)
+				{
+					var val = grid[x, y];
+
+					if (val is Person)
+						this.persons.Add((Person)val);
+					else if (val is FireExtinguisher)
+						this.fireExtinguishers.Add((FireExtinguisher)val);
+				}
+			}
+		}
 
         public Block GetAt((int x, int y) loc)
         {
             return this.grid[loc.x, loc.y];
         }
+
+        private Pair[] GetFireExtinguishers(BackgroundWorker worker, DoWorkEventArgs e)
+		{
+			List<Pair> extinguishers = new List<Pair>();
+
+			for (int x = 0; x < this.GridWidth; x++)
+			{
+				for (int y = 0; y < this.GridHeight; y++)
+				{
+					if (worker.CancellationPending == false)
+					{
+						if (this.grid[x, y] is FireExtinguisher)
+							extinguishers.Add(new Pair(x, y));
+					}
+					else
+					{
+						e.Cancel = true;
+						break;
+					}
+				}
+			}
+
+			return extinguishers.ToArray();
+		}
+
+		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)
+		{
+			BackgroundWorker bg = new BackgroundWorker();
+			List<Task> tasks = new List<Task>();
+			bool cancelled = false;
+
+			bg.WorkerSupportsCancellation = true;
+			bg.WorkerReportsProgress = true;
+
+			bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler((object o, RunWorkerCompletedEventArgs e) => callback(cancelled));
+			bg.ProgressChanged += new ProgressChangedEventHandler((object o, ProgressChangedEventArgs e) => progress(e.ProgressPercentage));
+			bg.DoWork += new DoWorkEventHandler((object o, DoWorkEventArgs e) =>
+			{
+				BackgroundWorker worker = o as BackgroundWorker;
+
+				progressReport("Finding all fire extinguishers...");
+				var fes = GetFireExtinguishers(worker, e);
+
+				progressReport("Finding all persons...");
+				for (int x = 0; x < this.GridWidth; x++)
+				{
+					for (int y = 0; y < this.GridHeight; y++)
+					{
+						if (worker.CancellationPending)
+							break;
+						else
+						{
+							Block entry = this.grid[x, y];
+
+							if (entry is Person)
+							{
+								progressReport("Calculating path for person...");
+								var task = ((Person)entry).CalculatePaths(this.grid, new Pair(x, y), fes, (worker, e), () => 
+								{
+									if (worker.CancellationPending)
+										e.Cancel = true;
+									else
+									{
+										var allFinishedTasks = (double)(tasks.FindAll(t => t.IsCompleted).Count + 1);
+										worker.ReportProgress((int)Math.Floor(allFinishedTasks / tasks.Count * 100));
+									}
+								});
+
+								tasks.Add(task);
+							}
+						}
+					}
+				}
+
+				progressReport("Waiting for all A* calls to finish...");
+				Task.WaitAll(tasks.ToArray());
+				progressReport("Done!");
+				e.Result = true;
+			});
+
+			bg.RunWorkerAsync();
+			return () =>
+			{
+				cancelled = true;
+				bg.CancelAsync();
+			};
+		}
+
         #endregion
         #endregion
     }

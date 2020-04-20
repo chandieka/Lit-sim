@@ -65,6 +65,12 @@
       <DependentUpon>Icons.resx</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Dialog\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Dialog\AutoSaveLoadDialog.resx">
       <DependentUpon>AutoSaveLoadDialog.cs</DependentUpon>
@@ -75,6 +81,9 @@
     <EmbeddedResource Include="Icons.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -108,13 +117,7 @@
     <None Include="Resources\Play.jpeg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Wall.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Door.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Eraser.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Exit.jpeg" />
@@ -133,6 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Pause.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fabric.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reset.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
