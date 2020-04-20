@@ -356,6 +356,7 @@
             this.groupBox2.BackColor = System.Drawing.Color.White;
             this.groupBox2.Controls.Add(this.picBoxPlayPause);
             this.groupBox2.Controls.Add(this.btnCalculatePaths);
+            this.groupBox2.Controls.Add(this.btnTerminate);
             this.groupBox2.Location = new System.Drawing.Point(193, 661);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
@@ -381,10 +382,10 @@
             // 
             // btnCalculatePaths
             // 
-            this.btnCalculatePaths.Location = new System.Drawing.Point(198, 13);
+            this.btnCalculatePaths.Location = new System.Drawing.Point(166, 13);
             this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalculatePaths.Name = "btnCalculatePaths";
-            this.btnCalculatePaths.Size = new System.Drawing.Size(70, 61);
+            this.btnCalculatePaths.Size = new System.Drawing.Size(102, 61);
             this.btnCalculatePaths.TabIndex = 18;
             this.btnCalculatePaths.Text = "Calculate paths";
             this.btnCalculatePaths.UseVisualStyleBackColor = true;
@@ -408,7 +409,6 @@
             this.gBoxSettings.Controls.Add(this.btnUploadFile);
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSaveLayout);
-            this.gBoxSettings.Controls.Add(this.btnTerminate);
             this.gBoxSettings.Location = new System.Drawing.Point(804, 56);
             this.gBoxSettings.Name = "gBoxSettings";
             this.gBoxSettings.Size = new System.Drawing.Size(200, 262);
@@ -463,9 +463,9 @@
             // btnTerminate
             // 
             this.btnTerminate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTerminate.Location = new System.Drawing.Point(23, 499);
+            this.btnTerminate.Location = new System.Drawing.Point(333, 13);
             this.btnTerminate.Name = "btnTerminate";
-            this.btnTerminate.Size = new System.Drawing.Size(182, 50);
+            this.btnTerminate.Size = new System.Drawing.Size(112, 61);
             this.btnTerminate.TabIndex = 18;
             this.btnTerminate.Text = "Terminate Simulation";
             this.btnTerminate.UseVisualStyleBackColor = true;

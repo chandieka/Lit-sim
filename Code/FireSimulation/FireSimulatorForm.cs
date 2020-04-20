@@ -16,20 +16,60 @@ namespace FireSimulator
 
         private bool running;
 
-        private readonly Brush eraserBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
-        // private GridController lastGrid;
+        private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
+        private GridController lastGrid;
 
         private bool testingTicks = true;
 
         public FireSimulatorForm()
         {
             InitializeComponent();
-          //  WindowState = FormWindowState.Maximized;
+            WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
-            this.gridController = new GridController((100, 100));
 
-            // initialize buttons to play forwards/backwards, and to got to previous/next frame
+            var newGrid = new GridController((100, 100));
+            newGrid.PutDefaultFloorPlan(1);
+            this.setupGrid(newGrid);
+
+            if (testingTicks)
+            {
+                FillDefault();
+                VisualizeSimulation();
+            }
+
+            if (this.gridController.IsLoadable())
+            {
+                using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
+                {
+                    autoLoadDialog.ShowDialog();
+                    if (autoLoadDialog.DialogResult == DialogResult.Yes)
+                    {
+                        var grid = GridController.Load(GridController.defaultPath);
+
+                        if (grid != null)
+                            setupGrid(grid);
+                    }
+                }
+            }
+        }
+
+        private void setupGrid(GridController newGrid)
+        {
+            if (this.gridController != null)
+                this.gridController.Finished -= this.handleFinished;
+
+            newGrid.Finished += this.handleFinished;
+            this.gridController = newGrid;
+            VisualizeSimulation();
+        }
+
+        private void handleFinished(object sender, EventArgs e)
+        {
+            picBoxPlayPause_Click(null, null);
+            GetStats();
+
+            MessageBox.Show("The simulation finished", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #region Private Methods
@@ -50,9 +90,7 @@ namespace FireSimulator
             int alive = people - deaths;
 
             if (people == deaths)
-            {
                 lblResult.Text = "Fail";
-            }
 
             lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
             lblElapsedTime.Text = time.ToString();
@@ -64,20 +102,23 @@ namespace FireSimulator
 
         private void switchInput()
         {
+            
+
             if (building == true)
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Regular);
 
-                // building icon turn on
+                // building icon turn of
 
                 picBoxWall.Visible = false;
                 picBoxFireExtinguisher.Visible = false;
                 picBoxFire.Visible = false;
                 picBoxPerson.Visible = false;
                 picBoxEraser.Visible = false;
+                pbReset.Visible = false;
 
-                // generating icon turn off
+                // generating icon turn on
                 tbPeople.Visible = true;
                 tbFireExtinguishers.Visible = true;
                 lblPeople.Visible = true;
@@ -85,11 +126,6 @@ namespace FireSimulator
                 btnGenerate.Visible = true;
                 lblMaxFireEx.Visible = true;
                 lblMaxPeople.Visible = true;
-
-                int personSpots = gridController.GetFloorBlocks().Count - gridController.GetFireExtinguisherSpot();
-                int fireSpots = gridController.GetFireExtinguisherSpot();
-                lblMaxPeople.Text = "Max: " + personSpots.ToString();
-                lblMaxFireEx.Text = "Max: " + fireSpots.ToString();
 
                 building = false;
                 pbFloor.Visible = false;
@@ -126,14 +162,15 @@ namespace FireSimulator
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Regular);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Underline);
 
-                // building icon turn off
+                // building icon turn on
                 picBoxWall.Visible = true;
                 picBoxFireExtinguisher.Visible = true;
                 picBoxFire.Visible = true;
                 picBoxPerson.Visible = true;
                 picBoxEraser.Visible = true;
+                pbReset.Visible = true;
 
-                // generating icon turn on
+                // generating icon turn off
                 tbPeople.Visible = false;
                 tbFireExtinguishers.Visible = false;
                 lblPeople.Visible = false;
@@ -147,6 +184,11 @@ namespace FireSimulator
                 gridController.Clear();
                 VisualizeSimulation();
             }
+
+            int personSpots = gridController.GetFloorBlocks().Count - gridController.GetFireExtinguisherSpot();
+            int fireSpots = gridController.GetFireExtinguisherSpot();
+            lblMaxPeople.Text = "Max: " + personSpots.ToString();
+            lblMaxFireEx.Text = "Max: " + fireSpots.ToString();
         }
 
         private void VisualizeSimulation()
@@ -304,12 +346,9 @@ namespace FireSimulator
                     var grid = GridController.Load(myDialog.FileName);
 
                     if (grid == null)
-                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                    {
-                        this.gridController = grid;
-                        VisualizeSimulation();
-                    }
+                        setupGrid(grid);
                 }
             }
         }
@@ -318,7 +357,7 @@ namespace FireSimulator
         {
             bool isSuccess = true;
             Random r = new Random();
-           // lastGrid = gridController;
+            // lastGrid = gridController;
 
             btnTerminate.Visible = false;
             btnRerunSimulation.Visible = false;
@@ -334,12 +373,10 @@ namespace FireSimulator
                 if (amountPeople < 0)
                 {
                     MessageBox.Show("Please enter more than 1 in the person field");
-
                 }
                 else
                 {
                     MessageBox.Show("Please enter number in the fields!");
-
                 }
                 isSuccess &= false;
             }
@@ -767,6 +804,7 @@ namespace FireSimulator
             pbSimulator.Invalidate();
         }
 
+        // TODO
         //private void Designer_KeyUp(object sender, KeyEventArgs e)
         //{
         //    if (e.KeyCode == Keys.Escape)
@@ -774,9 +812,13 @@ namespace FireSimulator
         //    else if (e.Control)
         //    {
         //        if (e.KeyCode == Keys.S)
-        //            this.save();
+        //        {
+        //            //this.save();
+        //        }
         //        else if (e.KeyCode == Keys.O)
-        //            this.open();
+        //        {
+        //            //this.open();
+        //        }
         //    }
         //}
 
