@@ -526,6 +526,14 @@ namespace Library
             return gc;
         }
 
+        public int GetFireExtinguisherSpot()
+        {
+            var floorSpots = this.GetFloorBlocks();
+            var filteredSpots = floorSpots.Where(_ => this.HasNeighbor(_, this.grid, typeof(Wall))).ToList();
+
+            return filteredSpots.Count;
+        }
+
         public List<(int x, int y)> GetFloorBlocks()
         {
             var result = new List<(int x, int y)>();
