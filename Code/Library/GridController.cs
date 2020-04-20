@@ -395,7 +395,7 @@ namespace Library
 
         public void AddToHistory(string reason)
         {
-            this.gridHistory.Add(new History(reason, this.grid));
+            this.gridHistory.Add(new History(reason, (Block[,])this.grid.Clone()));
         }
 
         public List<History> GetHistory()
