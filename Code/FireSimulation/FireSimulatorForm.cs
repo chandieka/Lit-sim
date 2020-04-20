@@ -11,6 +11,7 @@ namespace FireSimulator
         private bool running;
         private bool building = true;
         private GridController gridController;
+        // private GridController lastGrid;
 
         private bool testingTicks = true;
 
@@ -56,7 +57,6 @@ namespace FireSimulator
 
         private void FillDefault()
         {
-            animationLoopTimer.Interval = 1;
             gridController.RandomizeFire(1);
             gridController.RandomizePersons(10);
             gridController.RandomizeFireExtinguishers(20);
@@ -180,6 +180,7 @@ namespace FireSimulator
                 }
 
                 animationLoopTimer.Start();
+                // lastGrid = (GridController)gridController.Clone();
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
@@ -287,7 +288,10 @@ namespace FireSimulator
         {
             bool isSuccess = true;
             Random r = new Random();
-            
+           // lastGrid = gridController;
+
+            btnTerminate.Visible = false;
+            btnRerunSimulation.Visible = false;
             // clear the map
             gridController.Clear();
             // get the basic floor plan
@@ -316,13 +320,18 @@ namespace FireSimulator
         private void btnRerunSimulation_Click(object sender, EventArgs e)
         {
             gridController.Clear();
+            // this.gridController = lastGrid;
             gridController.PutDefaultFloorPlan(1);
             FillDefault();
+            VisualizeSimulation();
             time = TimeSpan.Zero;
             tbTimer.Text = time.ToString();
-            VisualizeSimulation();
             btnRerunSimulation.Visible = false;
+            btnTerminate.Visible = false;
             lblResult.Text = "<Success/Fail>";
+            trackBarSpeed.Value = 50;
+            animationLoopTimer.Interval = 60;
+            this.picBoxPlayPause.Enabled = false;
         }
 
         // For shortcuts
@@ -345,13 +354,17 @@ namespace FireSimulator
             if (dialogResult == DialogResult.Yes)
             {
                 gridController.Clear();
+                // this.gridController = lastGrid;
                 gridController.PutDefaultFloorPlan(1);
                 FillDefault();
+                VisualizeSimulation();
                 time = TimeSpan.Zero;
                 tbTimer.Text = time.ToString();
-                VisualizeSimulation();
                 GetStats();
                 btnTerminate.Visible = false;
+                trackBarSpeed.Value = 50;
+                animationLoopTimer.Interval = 60;
+                this.picBoxPlayPause.Enabled = false;
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -383,8 +396,7 @@ namespace FireSimulator
         private void trackBarSpeed_Scroll(object sender, EventArgs e)
         {
             lblSpeed.Text = trackBarSpeed.Value.ToString();
-            animationLoopTimer.Interval = 100 + (100 - trackBarSpeed.Value) * 10;
-            // animationLoopTimer.Interval = 1000 - (9 * trackBarSpeed.Value);
+            animationLoopTimer.Interval = 10 + (100 - trackBarSpeed.Value);
         }
     }
 }
