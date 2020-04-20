@@ -27,6 +27,7 @@ namespace Library
 		internal Pair[] ShortestPath { get; private set; }
 		private int pathIndex = 1;
 
+		private bool hasReachedFireBefore = false;
 		private Pair[] nearestFirePath = null;
 		private Thread firePathThread = null;
 		private const int safeDistance = 5;
@@ -80,7 +81,7 @@ namespace Library
 
 			for (int x = pos.X - radius; x <= pos.X + radius; x++)
 			{
-				for (int y = pos.Y - radius; y <= pos.X + radius; y++)
+				for (int y = pos.Y - radius; y <= pos.Y + radius; y++)
 				{
 					if (!(pos.X == x && pos.Y == y))
 					{
@@ -222,48 +223,127 @@ namespace Library
 				return;
 
 			if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
+				Move2Fire(grid, new Pair(x, y));
+			else if (HasFireExtinguisher)
+				ReachedFire(grid, new Pair(x, y));
+			else if (pathIndex < this.ShortestPath.Length - 1)
+				Move2FE(grid, new Pair(x, y));
+			else if (firePathThread == null)
+				CalculateFirePath(grid, new Pair(x, y));
+		}
+
+		// Move algos
+		private void Move2Fire(Block[,] grid, Pair pos)
+		{
+			if (getSurrounding(grid, pos, typeof(Fire), safeDistance).Length <= 0)
 			{
-				var nextPos = nearestFirePath[this.pathIndex];
-				var p = new Pair(x, y);
+				move(grid, pos, this.nearestFirePath);
 
-				if (getSurrounding(grid, p, typeof(Fire), safeDistance).Length <= 0)
-					move(grid, p, this.nearestFirePath);
-				else
+				if (hasReachedFireBefore)
+					ReachedFire(grid, pos);
+			}
+			else
+			{
+				this.pathIndex = this.nearestFirePath.Length;
+				hasReachedFireBefore = true;
+
+				// Call self again, because otherwise this tick gets wasted
+				this.Function(grid, pos.X, pos.Y);
+			}
+		}
+
+		public Pair ReachedFire(Block[,] grid, Pair pos)
+		{
+			Pair[] tracePath(Pair start, Pair end)
+			{
+				List<Pair> paths = new List<Pair>();
+
+				Pair findNext(Pair s)
 				{
-					this.pathIndex = this.nearestFirePath.Length;
+					int newX = s.X;
+					int newY = s.Y;
 
-					// Call self again, because otherwise this tick gets wasted
-					this.Function(grid, x, y);
+					if (end.X > s.X)
+						newX++;
+					else if (end.X < s.X)
+						newX--;
+					if (end.Y > s.Y)
+						newY++;
+					if (end.Y < s.Y)
+						newY--;
+
+					return new Pair(newX, newY);
+				}
+
+				var next = findNext(start);
+				while (next.X != end.X && next.Y != end.Y && !(grid[next.X, next.Y] is Fire))
+				{
+					paths.Add(next);
+					next = findNext(next);
+				}
+
+				return paths.ToArray();
+			}
+			Pair averagePoint(Pair[] points)
+			{
+				int x = -1;
+				int y = -1;
+
+				for (int i = 0; i < points.Length; i++)
+				{
+					x += points[i].X;
+					y += points[i].Y;
+				}
+
+				if (x < 0 || y < 0)
+					return null;
+
+				return new Pair(x / points.Length, y / points.Length);
+			}
+
+			var fires = getSurrounding(grid, pos, typeof(Fire), FireExtinguisher.SpreadRadius);
+
+			foreach (Pair p in fires)
+				grid[p.X, p.Y] = GridController.Floor;
+
+			/*if (fires.Length < 1) // Perform A*
+			else*/ if (fires.Length < 10)
+			{
+				var avgPoint = averagePoint(fires);
+
+				if (avgPoint != null)
+				{
+					this.nearestFirePath = tracePath(pos, avgPoint);
+					this.pathIndex = 0;
+					return avgPoint;
 				}
 			}
-			else if (HasFireExtinguisher)
-				foreach (Pair p in getSurrounding(grid, new Pair(x, y), typeof(Fire), FireExtinguisher.SpreadRadius))
-					grid[p.X, p.Y] = GridController.Floor;
-			else if (pathIndex < this.ShortestPath.Length - 1)
-				move(grid, new Pair(x, y), this.ShortestPath);
-			else if (firePathThread == null)
+
+			return null;
+		}
+		
+		private void Move2FE(Block[,] grid, Pair pos) => move(grid, pos, this.ShortestPath);
+
+		private void CalculateFirePath(Block[,] grid, Pair myPosPair)
+		{
+			var pos = this.ShortestPath[this.ShortestPath.Length - 1];
+
+			if (grid[pos.X, pos.Y] is FireExtinguisher)
 			{
-				var pos = this.ShortestPath[this.ShortestPath.Length - 1];
-
-				if (grid[pos.X, pos.Y] is FireExtinguisher)
+				grid[pos.X, pos.Y] = GridController.Floor;
+				firePathThread = new Thread(() =>
 				{
-					var myPosPair = new Pair(x, y);
+					var result = findNearestFirePath(grid, myPosPair);
 
-					grid[pos.X, pos.Y] = GridController.Floor;
-					firePathThread = new Thread(() =>
+					if (result != null)
 					{
-						var result = findNearestFirePath(grid, myPosPair);
+						this.nearestFirePath = result;
+						pathIndex = 1;
+					}
 
-						if (result != null)
-						{
-							this.nearestFirePath = result;
-							pathIndex = 1;
-						}
-
-						firePathThread = Thread.CurrentThread;// Set to something not null
-					});
-					firePathThread.Start();
-				}
+					firePathThread = Thread.CurrentThread;// Set to something not null
+				});
+				firePathThread.Start();
 			}
 		}
 	}

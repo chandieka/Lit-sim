@@ -22,18 +22,15 @@ namespace FireSimulator
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
 
-            this.gridController = new GridController((100, 100));
-
-            gridController.Finished += this.handleFinished;
-
-            gridController.PutDefaultFloorPlan(1);
+            var newGrid = new GridController((100, 100));
+            newGrid.PutDefaultFloorPlan(1);
+            this.setupGrid(newGrid);
 
             if (testingTicks)
+            {
                 FillDefault();
-
-            // paint the grid to the picturebox
-            VisualizeSimulation();
-
+                VisualizeSimulation();
+            }
 
             if (this.gridController.IsLoadable())
             {
@@ -45,13 +42,20 @@ namespace FireSimulator
                         var grid = GridController.Load(GridController.defaultPath);
 
                         if (grid != null)
-                        {
-                            this.gridController = grid;
-                            VisualizeSimulation();
-                        }
+                            setupGrid(grid);
                     }
                 }
             }
+        }
+
+        private void setupGrid(GridController newGrid)
+        {
+            if (this.gridController != null)
+                this.gridController.Finished -= this.handleFinished;
+
+            newGrid.Finished += this.handleFinished;
+            this.gridController = newGrid;
+            VisualizeSimulation();
         }
 
         private void handleFinished(object sender, EventArgs e)
@@ -283,10 +287,8 @@ namespace FireSimulator
 
                     if (grid == null)
                         MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else {
-                        this.gridController = grid;
-                        VisualizeSimulation();
-                    }
+                    else
+                        setupGrid(grid);
                 }
             }
         }
@@ -391,8 +393,8 @@ namespace FireSimulator
         private void trackBarSpeed_Scroll(object sender, EventArgs e)
         {
             lblSpeed.Text = trackBarSpeed.Value.ToString();
-            animationLoopTimer.Interval = 100 + (100 - trackBarSpeed.Value) * 10;
-            // animationLoopTimer.Interval = 1000 - (9 * trackBarSpeed.Value);
+            //animationLoopTimer.Interval = 100 + (100 - trackBarSpeed.Value) * 10;
+            animationLoopTimer.Interval = 100 - (9 * trackBarSpeed.Value);
         }
     }
 }

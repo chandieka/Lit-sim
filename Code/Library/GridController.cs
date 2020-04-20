@@ -307,7 +307,7 @@ namespace Library
 			this.hasFoundFireInPreviusTick = false;
 			this.hasTicked = true;
 
-			// This is needed to prevent the fire form spreading rapidly
+			// This is needed to prevent the fire from spreading rapidly
 			var gridCopy = this.grid.Clone() as Block[,];
 
 			for (int x = 0; x < gridCopy.GetLength(0); x++)
@@ -333,7 +333,6 @@ namespace Library
 			if (personDelayCounter > personDelay)
 				personDelayCounter = 0;
 
-			Console.WriteLine(hasFoundFireInPreviusTick);
 			if (!hasFoundFireInPreviusTick)
 				this.Finished?.Invoke(this, new EventArgs());
 		}
@@ -348,7 +347,7 @@ namespace Library
 		#region Grid Visualization
 		public Bitmap Paint((int xScale, int yScale) scaleSize)
 		{
-#pragma warning disable CS8321 // disable the warning about the un-used method.
+			#pragma warning disable CS8321 // disable the warning about the un-used method.
 			Bitmap UseLockbits(Bitmap bmp)
 			{
 				var bmpdata = bmp.LockBits(new Rectangle(0, 0, GridWidth, GridHeight), System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -404,6 +403,8 @@ namespace Library
 
 				if (this.ShouldDrawPaths && !this.hasTicked)
 				{
+					Brush brush = new SolidBrush(Color.FromArgb(120, Color.Coral));
+
 					foreach (Person p in this.persons)
 						if (p.ShortestPath == null)
 							break;
@@ -412,7 +413,7 @@ namespace Library
 							for (int i = 1; i < p.ShortestPath.Length - 1; i++)
 							{
 								var pair = p.ShortestPath[i];
-								gr.FillRectangle(Brushes.Coral, pair.X * scaleSize.xScale, pair.Y * scaleSize.yScale, scaleSize.xScale, scaleSize.xScale);
+								gr.FillRectangle(brush, pair.X * scaleSize.xScale, pair.Y * scaleSize.yScale, scaleSize.xScale, scaleSize.xScale);
 							}
 						}
 				}
@@ -436,7 +437,6 @@ namespace Library
 		}
 		#endregion
 		#region IO
-
 		public static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
 
 		private static Block[,] getSavedGrid(string path)
@@ -728,7 +728,7 @@ namespace Library
 
 			do
 			{
-				gc.Tick();
+				//gc.Tick();
 				var gc1 = (GridController)gc.Clone();
 
 				lb.Add(new Lazy<Bitmap>(() => gc1.Paint(scaleSize)));
