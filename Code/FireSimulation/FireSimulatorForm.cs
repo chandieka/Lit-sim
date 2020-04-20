@@ -169,6 +169,9 @@ namespace FireSimulator
                 running = true;
                 picBoxPlayPause.Image = Icons.Pause;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
+                this.gridController.AddToHistory("Simulation started");
+                UpdateHistory();
+                this.lbHistory.Enabled = false;
             }
             else
             {
@@ -176,6 +179,9 @@ namespace FireSimulator
                 running = false;
                 picBoxPlayPause.Image = Icons.Play;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
+                this.gridController.AddToHistory("Simulation paused");
+                UpdateHistory();
+                this.lbHistory.Enabled = true;
             }
         }
 
@@ -241,6 +247,7 @@ namespace FireSimulator
                     this.gridController.Save(myDialog.FileName);
                     this.gridController.Save(GridController.defaultPath);
                 }
+
             }
         }
 

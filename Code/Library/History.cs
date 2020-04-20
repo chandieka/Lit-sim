@@ -9,12 +9,14 @@ namespace Library
     public class History
     {
         private string reason;
+        private DateTime time;
         private Block[,] grid;
 
         public History(string reason, Block[,] grid)
         {
             this.reason = reason;
             this.Grid = grid;
+            this.time = DateTime.Now;
         }
 
         public Block[,] Grid
@@ -31,7 +33,7 @@ namespace Library
 
         public override string ToString()
         {
-            return reason;
+            return reason + " - " + this.time.ToShortTimeString();
         }
     }
 }
