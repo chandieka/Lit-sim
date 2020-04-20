@@ -250,12 +250,19 @@ namespace FireSimulator
                     }
                 }
 
-                animationLoopTimer.Start();
+                try
+                {
+                    animationLoopTimer.Start();
+                    running = true;
+                    picBoxPlayPause.Image = Icons.Pause;
+                    toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
+                    btnTerminate.Visible = false;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.GetType().FullName);
+                }
                 // lastGrid = (GridController)gridController.Clone();
-                running = true;
-                picBoxPlayPause.Image = Icons.Pause;
-                toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
-                btnTerminate.Visible = false;
             }
             else
             {
@@ -358,6 +365,8 @@ namespace FireSimulator
             bool isSuccess = true;
             Random r = new Random();
             // lastGrid = gridController;
+
+            this.picBoxPlayPause.Enabled = false;
 
             btnTerminate.Visible = false;
             btnRerunSimulation.Visible = false;

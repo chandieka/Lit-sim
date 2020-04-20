@@ -166,6 +166,83 @@ namespace Library
 			return null;
 		}
 
+		private Pair[] FindFurthestFirePath(Block[,] grid, Pair pos)
+		{
+			Pair[] findFire(bool doCheck = true)
+			{
+				List<Pair> positions = new List<Pair>();
+				Type floorType = typeof(Floor);
+
+				for (int x = 0; x < grid.GetLength(0); x++)
+					for (int y = 0; y < grid.GetLength(1); y++)
+						if (!Thread.CurrentThread.IsAlive)
+							return positions.ToArray();
+						else if (grid[x, y] is Fire)
+						{
+							Pair p = new Pair(x, y);
+
+							if (doCheck == true && getSurrounding(grid, p, floorType, 1).Length <= 0)
+								continue;
+
+							positions.Add(p);
+						}
+
+				return positions.ToArray();
+			}
+
+			Pair[] findEmpty(bool doCheck = true)
+			{
+				List<Pair> positions = new List<Pair>();
+				Type floorType = typeof(Floor);
+
+				for (int x = 0; x < grid.GetLength(0); x++)
+					for (int y = 0; y < grid.GetLength(1); y++)
+						if (!Thread.CurrentThread.IsAlive)
+							return positions.ToArray();
+						else if (grid[x, y] is Floor)
+						{
+							Pair p = new Pair(x, y);
+
+							if (doCheck == true && getSurrounding(grid, p, floorType, 1).Length <= 0)
+								continue;
+
+							positions.Add(p);
+						}
+
+				return positions.ToArray();
+			}
+
+			List<Pair[]> paths = new List<Pair[]>();
+			var fires = findFire();
+			var floors = findEmpty();
+
+			(Pair block, int distance)? destination = null;
+			foreach (Pair p in floors)
+			{
+				int shortestDistance = 0;
+
+				foreach (Pair pf in fires)
+				{
+					var distance = new AStar(grid, p, pf).aStarSearch().Length;
+					if (distance < shortestDistance) shortestDistance = distance;
+				}
+
+				if (destination == null)
+					destination = (p, shortestDistance);
+				else
+					if (shortestDistance > destination.Value.distance)
+					destination = (p, shortestDistance);
+			}
+
+			var path = new AStar(grid, pos, destination.Value.block).aStarSearch();
+
+			if (path.Length > 0)
+				return findShortestPath(paths.ToArray(), null);
+
+			Console.WriteLine("For some reason there is no path to the fire???");
+			return null;
+		}
+
 		private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
 		{
 			if (worker.w.CancellationPending)
@@ -346,7 +423,7 @@ namespace Library
 				firePathThread.Start();
 			}
 
-			if (this.IsDead) Fire.SpreadToNeighbors(grid, x, y);
+			if (this.IsDead) Fire.SpreadToNeighbors(grid, myPosPair.X, myPosPair.Y);
 		}
 	}
 }
