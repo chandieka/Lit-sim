@@ -648,7 +648,7 @@ namespace FireSimulator
                     if (element == GUIElement.FLOOR)
                         brush = new SolidBrush(Color.FromArgb(190, Floor.Color));
                     else
-                        brush = this.eraserBrush;
+                        brush = this.erasorBrush;
 
                     g.FillRectangle(brush, orderPoints(prevCurPos, curCurPos, sizePerPixel));
                     g.FillRectangle(Brushes.Gray, prevCurPos.X * sizePerPixel.Width, prevCurPos.Y * sizePerPixel.Height, sizePerPixel.Width, sizePerPixel.Height);
