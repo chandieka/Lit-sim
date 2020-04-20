@@ -117,13 +117,7 @@
     <None Include="Resources\Play.jpeg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Wall.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Door.jpeg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Eraser.jpeg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Exit.jpeg" />
@@ -142,6 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Pause.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fabric.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reset.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

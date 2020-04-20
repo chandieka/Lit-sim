@@ -29,13 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.groupBoxItems = new System.Windows.Forms.GroupBox();
+			this.rbErase = new System.Windows.Forms.RadioButton();
 			this.rbWall = new System.Windows.Forms.RadioButton();
 			this.rbFloor = new System.Windows.Forms.RadioButton();
 			this.rbFire = new System.Windows.Forms.RadioButton();
 			this.rbPerson = new System.Windows.Forms.RadioButton();
 			this.pictureBoxGrid = new System.Windows.Forms.PictureBox();
 			this.lblEscMessage = new System.Windows.Forms.Label();
-			this.rbErase = new System.Windows.Forms.RadioButton();
+			this.rbFireExtinguisher = new System.Windows.Forms.RadioButton();
 			this.groupBoxItems.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxGrid)).BeginInit();
 			this.SuspendLayout();
@@ -44,6 +45,7 @@
 			// 
 			this.groupBoxItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+			this.groupBoxItems.Controls.Add(this.rbFireExtinguisher);
 			this.groupBoxItems.Controls.Add(this.rbErase);
 			this.groupBoxItems.Controls.Add(this.rbWall);
 			this.groupBoxItems.Controls.Add(this.rbFloor);
@@ -55,6 +57,17 @@
 			this.groupBoxItems.TabIndex = 0;
 			this.groupBoxItems.TabStop = false;
 			this.groupBoxItems.Text = "Items";
+			// 
+			// rbErase
+			// 
+			this.rbErase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.rbErase.AutoSize = true;
+			this.rbErase.Location = new System.Drawing.Point(7, 375);
+			this.rbErase.Name = "rbErase";
+			this.rbErase.Size = new System.Drawing.Size(52, 17);
+			this.rbErase.TabIndex = 9;
+			this.rbErase.Text = "Erase";
+			this.rbErase.UseVisualStyleBackColor = true;
 			// 
 			// rbWall
 			// 
@@ -129,16 +142,15 @@
 			this.lblEscMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.lblEscMessage.Visible = false;
 			// 
-			// rbErase
+			// rbFireExtinguisher
 			// 
-			this.rbErase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.rbErase.AutoSize = true;
-			this.rbErase.Location = new System.Drawing.Point(7, 375);
-			this.rbErase.Name = "rbErase";
-			this.rbErase.Size = new System.Drawing.Size(52, 17);
-			this.rbErase.TabIndex = 4;
-			this.rbErase.Text = "Erase";
-			this.rbErase.UseVisualStyleBackColor = true;
+			this.rbFireExtinguisher.AutoSize = true;
+			this.rbFireExtinguisher.Location = new System.Drawing.Point(6, 111);
+			this.rbFireExtinguisher.Name = "rbFireExtinguisher";
+			this.rbFireExtinguisher.Size = new System.Drawing.Size(101, 17);
+			this.rbFireExtinguisher.TabIndex = 4;
+			this.rbFireExtinguisher.Text = "Fire extinguisher";
+			this.rbFireExtinguisher.UseVisualStyleBackColor = true;
 			// 
 			// Designer
 			// 
@@ -170,6 +182,7 @@
 		private System.Windows.Forms.RadioButton rbWall;
 		private System.Windows.Forms.Label lblEscMessage;
 		private System.Windows.Forms.RadioButton rbErase;
+		private System.Windows.Forms.RadioButton rbFireExtinguisher;
 	}
 }
 

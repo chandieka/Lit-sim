@@ -480,7 +480,8 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
-            return getSavedGrid(defaultPath) != this.grid;
+            // return getSavedGrid(defaultPath) != this.grid;
+            return getSavedGrid(defaultPath) == this.grid;
         }
 
         /// <summary>

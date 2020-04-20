@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.animationLoopTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pbReset = new System.Windows.Forms.PictureBox();
+            this.pbFloor = new System.Windows.Forms.PictureBox();
             this.lblMaxFireEx = new System.Windows.Forms.Label();
             this.lblMaxPeople = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
@@ -47,6 +49,7 @@
             this.picBoxFire = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.picBoxPlayPause = new System.Windows.Forms.PictureBox();
+            this.btnCalculatePaths = new System.Windows.Forms.Button();
             this.toolTipWall = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipFireExtinguisher = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipFire = new System.Windows.Forms.ToolTip(this.components);
@@ -59,6 +62,7 @@
             this.btnUploadFile = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSaveLayout = new System.Windows.Forms.Button();
+            this.btnTerminate = new System.Windows.Forms.Button();
             this.gBoxStatistics = new System.Windows.Forms.GroupBox();
             this.lblAlive = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -76,11 +80,8 @@
             this.btnRerunSimulation = new System.Windows.Forms.Button();
             this.btnCloseStatistics = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.pbSimulation = new System.Windows.Forms.PictureBox();
             this.toolTipImport = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipSave = new System.Windows.Forms.ToolTip(this.components);
-            this.btnTerminate = new System.Windows.Forms.Button();
-            this.btnCalculatePaths = new System.Windows.Forms.Button();
             this.trackBarSpeed = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
             this.lblSpeed = new System.Windows.Forms.Label();
@@ -99,7 +100,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.pbSimulator = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbReset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFloor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWall)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFireExtinguisher)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEraser)).BeginInit();
@@ -109,19 +113,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBoxPlayPause)).BeginInit();
             this.gBoxSettings.SuspendLayout();
             this.gBoxStatistics.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSimulator)).BeginInit();
             this.SuspendLayout();
             // 
             // animationLoopTimer
             // 
-            this.animationLoopTimer.Interval = 1000;
+            this.animationLoopTimer.Interval = 60;
             this.animationLoopTimer.Tick += new System.EventHandler(this.animationLoopTimer_Tick);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.pbReset);
+            this.groupBox1.Controls.Add(this.pbFloor);
             this.groupBox1.Controls.Add(this.lblMaxFireEx);
             this.groupBox1.Controls.Add(this.lblMaxPeople);
             this.groupBox1.Controls.Add(this.btnGenerate);
@@ -140,9 +146,37 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(112, 387);
+            this.groupBox1.Size = new System.Drawing.Size(112, 523);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
+            // 
+            // pbReset
+            // 
+            this.pbReset.BackColor = System.Drawing.Color.Transparent;
+            this.pbReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbReset.Image = global::FireSimulator.Icons.reset;
+            this.pbReset.InitialImage = null;
+            this.pbReset.Location = new System.Drawing.Point(26, 442);
+            this.pbReset.Name = "pbReset";
+            this.pbReset.Size = new System.Drawing.Size(61, 57);
+            this.pbReset.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbReset.TabIndex = 22;
+            this.pbReset.TabStop = false;
+            this.pbReset.Click += new System.EventHandler(this.pbReset_Click);
+            // 
+            // pbFloor
+            // 
+            this.pbFloor.BackColor = System.Drawing.Color.Transparent;
+            this.pbFloor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbFloor.Image = global::FireSimulator.Icons.fabric;
+            this.pbFloor.InitialImage = null;
+            this.pbFloor.Location = new System.Drawing.Point(27, 371);
+            this.pbFloor.Name = "pbFloor";
+            this.pbFloor.Size = new System.Drawing.Size(61, 57);
+            this.pbFloor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFloor.TabIndex = 21;
+            this.pbFloor.TabStop = false;
+            this.pbFloor.Click += new System.EventHandler(this.pbFloor_Click);
             // 
             // lblMaxFireEx
             // 
@@ -227,6 +261,7 @@
             this.picBoxWall.TabIndex = 2;
             this.picBoxWall.TabStop = false;
             this.toolTipWall.SetToolTip(this.picBoxWall, "Build wall");
+            this.picBoxWall.Click += new System.EventHandler(this.picBoxWall_Click);
             // 
             // picBoxFireExtinguisher
             // 
@@ -240,6 +275,7 @@
             this.picBoxFireExtinguisher.TabIndex = 5;
             this.picBoxFireExtinguisher.TabStop = false;
             this.toolTipFireExtinguisher.SetToolTip(this.picBoxFireExtinguisher, "Place fire extinguisher");
+            this.picBoxFireExtinguisher.Click += new System.EventHandler(this.picBoxFireExtinguisher_Click);
             // 
             // lblGenerate
             // 
@@ -267,6 +303,7 @@
             this.picBoxEraser.TabIndex = 7;
             this.picBoxEraser.TabStop = false;
             this.toolTipEraser.SetToolTip(this.picBoxEraser, "Erase");
+            this.picBoxEraser.Click += new System.EventHandler(this.picBoxEraser_Click);
             // 
             // lblBuild
             // 
@@ -294,6 +331,7 @@
             this.picBoxPerson.TabIndex = 8;
             this.picBoxPerson.TabStop = false;
             this.toolTipPerson.SetToolTip(this.picBoxPerson, "Place a person");
+            this.picBoxPerson.Click += new System.EventHandler(this.picBoxPerson_Click);
             // 
             // picBoxFire
             // 
@@ -307,11 +345,13 @@
             this.picBoxFire.TabIndex = 6;
             this.picBoxFire.TabStop = false;
             this.toolTipFire.SetToolTip(this.picBoxFire, "Place fire");
+            this.picBoxFire.Click += new System.EventHandler(this.picBoxFire_Click);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
             this.groupBox2.Controls.Add(this.picBoxPlayPause);
+            this.groupBox2.Controls.Add(this.btnCalculatePaths);
             this.groupBox2.Location = new System.Drawing.Point(193, 661);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
@@ -335,11 +375,22 @@
             this.toolTipPlay.SetToolTip(this.picBoxPlayPause, "Play/pause (Spacebar)");
             this.picBoxPlayPause.Click += new System.EventHandler(this.picBoxPlayPause_Click);
             // 
+            // btnCalculatePaths
+            // 
+            this.btnCalculatePaths.Location = new System.Drawing.Point(198, 13);
+            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCalculatePaths.Name = "btnCalculatePaths";
+            this.btnCalculatePaths.Size = new System.Drawing.Size(70, 61);
+            this.btnCalculatePaths.TabIndex = 18;
+            this.btnCalculatePaths.Text = "Calculate paths";
+            this.btnCalculatePaths.UseVisualStyleBackColor = true;
+            this.btnCalculatePaths.Click += new System.EventHandler(this.btnCalculatePaths_Click);
+            // 
             // tbTimer
             // 
             this.tbTimer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTimer.Location = new System.Drawing.Point(882, 29);
+            this.tbTimer.Location = new System.Drawing.Point(843, 29);
             this.tbTimer.Margin = new System.Windows.Forms.Padding(2);
             this.tbTimer.Name = "tbTimer";
             this.tbTimer.ReadOnly = true;
@@ -353,9 +404,10 @@
             this.gBoxSettings.Controls.Add(this.btnUploadFile);
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSaveLayout);
-            this.gBoxSettings.Location = new System.Drawing.Point(811, 50);
+            this.gBoxSettings.Controls.Add(this.btnTerminate);
+            this.gBoxSettings.Location = new System.Drawing.Point(804, 56);
             this.gBoxSettings.Name = "gBoxSettings";
-            this.gBoxSettings.Size = new System.Drawing.Size(200, 234);
+            this.gBoxSettings.Size = new System.Drawing.Size(200, 262);
             this.gBoxSettings.TabIndex = 15;
             this.gBoxSettings.TabStop = false;
             // 
@@ -371,9 +423,10 @@
             // btnUploadFile
             // 
             this.btnUploadFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnUploadFile.Location = new System.Drawing.Point(6, 149);
+            this.btnUploadFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUploadFile.Location = new System.Drawing.Point(9, 122);
             this.btnUploadFile.Name = "btnUploadFile";
-            this.btnUploadFile.Size = new System.Drawing.Size(185, 36);
+            this.btnUploadFile.Size = new System.Drawing.Size(185, 50);
             this.btnUploadFile.TabIndex = 17;
             this.btnUploadFile.Text = "Import Session File";
             this.toolTipImport.SetToolTip(this.btnUploadFile, "Import file (CTRL+O)");
@@ -393,14 +446,27 @@
             // btnSaveLayout
             // 
             this.btnSaveLayout.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnSaveLayout.Location = new System.Drawing.Point(9, 63);
+            this.btnSaveLayout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveLayout.Location = new System.Drawing.Point(10, 57);
             this.btnSaveLayout.Name = "btnSaveLayout";
-            this.btnSaveLayout.Size = new System.Drawing.Size(185, 36);
+            this.btnSaveLayout.Size = new System.Drawing.Size(185, 49);
             this.btnSaveLayout.TabIndex = 16;
             this.btnSaveLayout.Text = "Save Session Layout";
             this.toolTipSave.SetToolTip(this.btnSaveLayout, "Save (CTRL+S)");
             this.btnSaveLayout.UseVisualStyleBackColor = true;
             this.btnSaveLayout.Click += new System.EventHandler(this.btnSaveLayout_Click);
+            // 
+            // btnTerminate
+            // 
+            this.btnTerminate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTerminate.Location = new System.Drawing.Point(23, 499);
+            this.btnTerminate.Name = "btnTerminate";
+            this.btnTerminate.Size = new System.Drawing.Size(182, 50);
+            this.btnTerminate.TabIndex = 18;
+            this.btnTerminate.Text = "Terminate Simulation";
+            this.btnTerminate.UseVisualStyleBackColor = true;
+            this.btnTerminate.Visible = false;
+            this.btnTerminate.Click += new System.EventHandler(this.btnTerminate_Click);
             // 
             // gBoxStatistics
             // 
@@ -420,27 +486,29 @@
             this.gBoxStatistics.Controls.Add(this.btnRerunSimulation);
             this.gBoxStatistics.Controls.Add(this.btnCloseStatistics);
             this.gBoxStatistics.Controls.Add(this.label3);
-            this.gBoxStatistics.Location = new System.Drawing.Point(811, 298);
+            this.gBoxStatistics.Location = new System.Drawing.Point(804, 324);
             this.gBoxStatistics.Name = "gBoxStatistics";
-            this.gBoxStatistics.Size = new System.Drawing.Size(200, 302);
+            this.gBoxStatistics.Size = new System.Drawing.Size(200, 337);
             this.gBoxStatistics.TabIndex = 16;
             this.gBoxStatistics.TabStop = false;
             // 
             // lblAlive
             // 
             this.lblAlive.AutoSize = true;
+            this.lblAlive.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAlive.Location = new System.Drawing.Point(124, 216);
             this.lblAlive.Name = "lblAlive";
-            this.lblAlive.Size = new System.Drawing.Size(41, 13);
+            this.lblAlive.Size = new System.Drawing.Size(46, 15);
             this.lblAlive.TabIndex = 15;
             this.lblAlive.Text = "<alive>";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(7, 216);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.Size = new System.Drawing.Size(35, 15);
             this.label2.TabIndex = 14;
             this.label2.Text = "Alive:";
             // 
@@ -457,98 +525,109 @@
             // lblDeaths
             // 
             this.lblDeaths.AutoSize = true;
+            this.lblDeaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDeaths.Location = new System.Drawing.Point(124, 197);
             this.lblDeaths.Name = "lblDeaths";
-            this.lblDeaths.Size = new System.Drawing.Size(51, 13);
+            this.lblDeaths.Size = new System.Drawing.Size(58, 15);
             this.lblDeaths.TabIndex = 12;
             this.lblDeaths.Text = "<deaths>";
             // 
             // lblPeopleTotal
             // 
             this.lblPeopleTotal.AutoSize = true;
+            this.lblPeopleTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPeopleTotal.Location = new System.Drawing.Point(124, 152);
             this.lblPeopleTotal.Name = "lblPeopleTotal";
-            this.lblPeopleTotal.Size = new System.Drawing.Size(51, 13);
+            this.lblPeopleTotal.Size = new System.Drawing.Size(59, 15);
             this.lblPeopleTotal.TabIndex = 11;
             this.lblPeopleTotal.Text = "<people>";
             // 
             // lblFireExTotal
             // 
             this.lblFireExTotal.AutoSize = true;
+            this.lblFireExTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFireExTotal.Location = new System.Drawing.Point(124, 173);
             this.lblFireExTotal.Name = "lblFireExTotal";
-            this.lblFireExTotal.Size = new System.Drawing.Size(47, 13);
+            this.lblFireExTotal.Size = new System.Drawing.Size(54, 15);
             this.lblFireExTotal.TabIndex = 10;
             this.lblFireExTotal.Text = "<fire ex>";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(7, 173);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(90, 13);
+            this.label10.Size = new System.Drawing.Size(104, 15);
             this.label10.TabIndex = 9;
             this.label10.Text = "Number of fire ex:";
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
+            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDate.Location = new System.Drawing.Point(124, 110);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(40, 13);
+            this.lblDate.Size = new System.Drawing.Size(45, 15);
             this.lblDate.TabIndex = 8;
             this.lblDate.Text = "<date>";
             // 
             // lblElapsedTime
             // 
             this.lblElapsedTime.AutoSize = true;
+            this.lblElapsedTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblElapsedTime.Location = new System.Drawing.Point(124, 131);
             this.lblElapsedTime.Name = "lblElapsedTime";
-            this.lblElapsedTime.Size = new System.Drawing.Size(38, 13);
+            this.lblElapsedTime.Size = new System.Drawing.Size(45, 15);
             this.lblElapsedTime.TabIndex = 7;
             this.lblElapsedTime.Text = "<time>";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(7, 197);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 13);
+            this.label7.Size = new System.Drawing.Size(49, 15);
             this.label7.TabIndex = 6;
             this.label7.Text = "Deaths:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(6, 152);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(94, 13);
+            this.label6.Size = new System.Drawing.Size(109, 15);
             this.label6.TabIndex = 5;
             this.label6.Text = "Number of people:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(7, 131);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 13);
+            this.label5.Size = new System.Drawing.Size(86, 15);
             this.label5.TabIndex = 4;
             this.label5.Text = "Elapsed Time:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(7, 110);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.Size = new System.Drawing.Size(36, 15);
             this.label4.TabIndex = 3;
             this.label4.Text = "Date:";
             // 
             // btnRerunSimulation
             // 
-            this.btnRerunSimulation.Location = new System.Drawing.Point(43, 247);
+            this.btnRerunSimulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRerunSimulation.Location = new System.Drawing.Point(43, 261);
             this.btnRerunSimulation.Name = "btnRerunSimulation";
-            this.btnRerunSimulation.Size = new System.Drawing.Size(113, 36);
+            this.btnRerunSimulation.Size = new System.Drawing.Size(113, 44);
             this.btnRerunSimulation.TabIndex = 2;
             this.btnRerunSimulation.Text = "Rerun Simulation";
             this.btnRerunSimulation.UseVisualStyleBackColor = true;
@@ -574,36 +653,6 @@
             this.label3.Size = new System.Drawing.Size(135, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "Session Statistics";
-            // 
-            // pbSimulation
-            // 
-            this.pbSimulation.Location = new System.Drawing.Point(193, 56);
-            this.pbSimulation.Name = "pbSimulation";
-            this.pbSimulation.Size = new System.Drawing.Size(600, 600);
-            this.pbSimulation.TabIndex = 17;
-            this.pbSimulation.TabStop = false;
-            // 
-            // btnTerminate
-            // 
-            this.btnTerminate.Location = new System.Drawing.Point(23, 499);
-            this.btnTerminate.Name = "btnTerminate";
-            this.btnTerminate.Size = new System.Drawing.Size(112, 42);
-            this.btnTerminate.TabIndex = 18;
-            this.btnTerminate.Text = "Terminate Simulation";
-            this.btnTerminate.UseVisualStyleBackColor = true;
-            this.btnTerminate.Visible = false;
-            this.btnTerminate.Click += new System.EventHandler(this.btnTerminate_Click);
-            // 
-            // btnCalculatePaths
-            // 
-            this.btnCalculatePaths.Location = new System.Drawing.Point(23, 450);
-            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2);
-            this.btnCalculatePaths.Name = "btnCalculatePaths";
-            this.btnCalculatePaths.Size = new System.Drawing.Size(112, 44);
-            this.btnCalculatePaths.TabIndex = 18;
-            this.btnCalculatePaths.Text = "Calculate paths";
-            this.btnCalculatePaths.UseVisualStyleBackColor = true;
-            this.btnCalculatePaths.Click += new System.EventHandler(this.btnCalculatePaths_Click);
             // 
             // trackBarSpeed
             // 
@@ -653,9 +702,9 @@
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Location = new System.Drawing.Point(1017, 50);
+            this.groupBox3.Location = new System.Drawing.Point(1010, 60);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 234);
+            this.groupBox3.Size = new System.Drawing.Size(200, 258);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             // 
@@ -786,21 +835,30 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "Shortcuts";
             // 
+            // pbSimulator
+            // 
+            this.pbSimulator.Location = new System.Drawing.Point(189, 61);
+            this.pbSimulator.Name = "pbSimulator";
+            this.pbSimulator.Size = new System.Drawing.Size(600, 600);
+            this.pbSimulator.TabIndex = 17;
+            this.pbSimulator.TabStop = false;
+            this.pbSimulator.Paint += new System.Windows.Forms.PaintEventHandler(this.pbSimulation_Paint);
+            this.pbSimulator.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbSimulation_MouseClick);
+            this.pbSimulator.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSimulation_MouseMove);
+            this.pbSimulator.Resize += new System.EventHandler(this.pbSimulation_Resize);
+            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1232, 746);
+            this.ClientSize = new System.Drawing.Size(1217, 754);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.btnCalculatePaths);
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.trackBarSpeed);
-            this.Controls.Add(this.btnTerminate);
             this.Controls.Add(this.gBoxStatistics);
-            this.Controls.Add(this.pbSimulation);
+            this.Controls.Add(this.pbSimulator);
             this.Controls.Add(this.gBoxSettings);
             this.Controls.Add(this.tbTimer);
             this.Controls.Add(this.groupBox2);
@@ -814,6 +872,8 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FireSimulatorForm_KeyUp);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbReset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFloor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxWall)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFireExtinguisher)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxEraser)).EndInit();
@@ -825,10 +885,10 @@
             this.gBoxSettings.PerformLayout();
             this.gBoxStatistics.ResumeLayout(false);
             this.gBoxStatistics.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSimulation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSimulator)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -878,7 +938,7 @@
         private System.Windows.Forms.Button btnCloseStatistics;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnGenerate;
-        private System.Windows.Forms.PictureBox pbSimulation;
+        private System.Windows.Forms.PictureBox pbSimulator;
 		private System.Windows.Forms.ToolTip toolTipImport;
 		private System.Windows.Forms.ToolTip toolTipSave;
         private System.Windows.Forms.Label lblAlive;
@@ -888,6 +948,7 @@
         private System.Windows.Forms.TrackBar trackBarSpeed;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblSpeed;
+        private System.Windows.Forms.PictureBox pbFloor;
         private System.Windows.Forms.Label lblMaxFireEx;
         private System.Windows.Forms.Label lblMaxPeople;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -905,6 +966,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.PictureBox pbReset;
     }
 }
 
