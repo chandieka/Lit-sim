@@ -24,7 +24,7 @@ namespace Interface
 			gc.PutDefaultFloorPlan(1);
 			gc.PutPerson((src.X, src.Y));
 			gc.PutFireExtinguisher((dest.X, dest.Y));
-			aStar = new AStar(gc.GetGrid(), src, dest);
+			//aStar = new AStar(gc.GetGrid(), src, dest);
 		}
 
 		private void CTRL_O()

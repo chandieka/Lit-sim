@@ -24,11 +24,10 @@ namespace FireSimulator
         public FireSimulatorForm()
         {
             InitializeComponent();
-          //  WindowState = FormWindowState.Maximized;
+            // WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
             this.gridController = new GridController((100, 100));   
-        
         }
 
         #region Private Methods
@@ -317,7 +316,7 @@ namespace FireSimulator
         {
             bool isSuccess = true;
             Random r = new Random();
-           // lastGrid = gridController;
+            // lastGrid = gridController;
 
             btnTerminate.Visible = false;
             btnRerunSimulation.Visible = false;
@@ -333,12 +332,10 @@ namespace FireSimulator
                 if (amountPeople < 0)
                 {
                     MessageBox.Show("Please enter more than 1 in the person field");
-
                 }
                 else
                 {
                     MessageBox.Show("Please enter number in the fields!");
-
                 }
                 isSuccess &= false;
             }
