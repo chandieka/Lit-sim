@@ -365,7 +365,8 @@ namespace FireSimulator
             {
                 if (building)
                 {
-                    this.gridController = new GridController((100, 100));
+                    gridController.Clear();
+                    VisualizeSimulation();
                 }
                 else
                 {
