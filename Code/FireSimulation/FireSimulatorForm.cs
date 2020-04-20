@@ -27,7 +27,49 @@ namespace FireSimulator
             // WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
-            this.gridController = new GridController((100, 100));   
+
+            var newGrid = new GridController((100, 100));
+            newGrid.PutDefaultFloorPlan(1);
+            this.setupGrid(newGrid);
+
+            if (testingTicks)
+            {
+                FillDefault();
+                VisualizeSimulation();
+            }
+
+            if (this.gridController.IsLoadable())
+            {
+                using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
+                {
+                    autoLoadDialog.ShowDialog();
+                    if (autoLoadDialog.DialogResult == DialogResult.Yes)
+                    {
+                        var grid = GridController.Load(GridController.defaultPath);
+
+                        if (grid != null)
+                            setupGrid(grid);
+                    }
+                }
+            }
+        }
+
+        private void setupGrid(GridController newGrid)
+        {
+            if (this.gridController != null)
+                this.gridController.Finished -= this.handleFinished;
+
+            newGrid.Finished += this.handleFinished;
+            this.gridController = newGrid;
+            VisualizeSimulation();
+        }
+
+        private void handleFinished(object sender, EventArgs e)
+        {
+            picBoxPlayPause_Click(null, null);
+            GetStats();
+
+            MessageBox.Show("The simulation finished", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #region Private Methods
@@ -48,9 +90,7 @@ namespace FireSimulator
             int alive = people - deaths;
 
             if (people == deaths)
-            {
                 lblResult.Text = "Fail";
-            }
 
             lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
             lblElapsedTime.Text = time.ToString();
@@ -302,12 +342,9 @@ namespace FireSimulator
                     var grid = GridController.Load(myDialog.FileName);
 
                     if (grid == null)
-                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                    {
-                        this.gridController = grid;
-                        VisualizeSimulation();
-                    }
+                        setupGrid(grid);
                 }
             }
         }

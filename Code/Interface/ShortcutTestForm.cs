@@ -9,21 +9,20 @@ namespace Interface
 		private static System.Drawing.Color[] colors = new System.Drawing.Color[] { System.Drawing.Color.Red, System.Drawing.Color.OrangeRed, System.Drawing.Color.Orange, System.Drawing.Color.Yellow, System.Drawing.Color.GreenYellow, System.Drawing.Color.Green, System.Drawing.Color.LightBlue, System.Drawing.Color.Blue, System.Drawing.Color.MediumPurple, System.Drawing.Color.Purple };
 		private int colorIndex = 0;
 
-		private GridController gc;
+		// private GridController gc;
 		private Pair[] pairs;
-		private AStar aStar;
 
 		public ShortcutTestForm()
 		{
 			InitializeComponent();
 
-			Pair src = new Pair(1, 8);
-			Pair dest = new Pair(90, 90);
+			// Pair src = new Pair(1, 8);
+			// Pair dest = new Pair(90, 90);
 
-			gc = new GridController((100, 100));
-			gc.PutDefaultFloorPlan(1);
-			gc.PutPerson((src.X, src.Y));
-			gc.PutFireExtinguisher((dest.X, dest.Y));
+			// gc = new GridController((100, 100));
+			// gc.PutDefaultFloorPlan(1);
+			// gc.PutPerson((src.X, src.Y));
+			// gc.PutFireExtinguisher((dest.X, dest.Y));
 			//aStar = new AStar(gc.GetGrid(), src, dest);
 		}
 
@@ -58,25 +57,6 @@ namespace Interface
 				else if (e.KeyCode == Keys.O)
 					this.CTRL_O();
 			}
-		}
-
-		private void pictureBox1_Paint(object sender, PaintEventArgs e)
-		{
-			if (this.pairs != null)
-				for (int i = 1; i < this.pairs.Length - 1; i++)
-				{
-					Pair p = this.pairs[i];
-					gc.PutFire((p.X, p.Y));
-				}
-
-			e.Graphics.DrawImage(gc.Paint((3, 3)), 0, 0);
-		}
-
-		private void button1_Click(object sender, EventArgs e)
-		{
-			this.pairs = aStar.aStarSearch();
-			Console.WriteLine(this.pairs);
-			pictureBox1.Invalidate();
 		}
 	}
 }

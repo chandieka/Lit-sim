@@ -185,8 +185,6 @@ namespace Library
 							cellDetails[x, y].parent_i = i;
 							cellDetails[x, y].parent_j = j;
 
-							Console.WriteLine("The destination cell is found");
-
 							return tracePath(cellDetails, dest);
 						}
 						// If the successor is already on the closed list or if it is blocked, then ignore it. Else do the following 
@@ -288,6 +286,11 @@ namespace Library
 		{
 			this.X = tuple.x;
 			this.Y = tuple.y;
+		}
+
+		public override string ToString()
+		{
+			return $"({X}, {Y})";
 		}
 	}
 

@@ -857,6 +857,7 @@
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.trackBarSpeed);
+            this.Controls.Add(this.btnTerminate);
             this.Controls.Add(this.gBoxStatistics);
             this.Controls.Add(this.pbSimulator);
             this.Controls.Add(this.gBoxSettings);

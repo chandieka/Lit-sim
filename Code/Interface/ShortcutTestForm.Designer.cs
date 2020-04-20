@@ -63,7 +63,6 @@
 			this.pictureBox1.Size = new System.Drawing.Size(251, 321);
 			this.pictureBox1.TabIndex = 2;
 			this.pictureBox1.TabStop = false;
-			this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
 			// 
 			// button1
 			// 
@@ -73,7 +72,6 @@
 			this.button1.TabIndex = 3;
 			this.button1.Text = "Start";
 			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// ShortcutTestForm
 			// 
