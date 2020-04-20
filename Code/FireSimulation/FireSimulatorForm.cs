@@ -17,14 +17,14 @@ namespace FireSimulator
         private bool running;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
-        // private GridController lastGrid;
+        private GridController lastGrid;
 
         private bool testingTicks = true;
 
         public FireSimulatorForm()
         {
             InitializeComponent();
-            // WindowState = FormWindowState.Maximized;
+            WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
 
@@ -102,6 +102,8 @@ namespace FireSimulator
 
         private void switchInput()
         {
+            
+
             if (building == true)
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
@@ -123,11 +125,6 @@ namespace FireSimulator
                 btnGenerate.Visible = true;
                 lblMaxFireEx.Visible = true;
                 lblMaxPeople.Visible = true;
-
-                int personSpots = gridController.GetFloorBlocks().Count - gridController.GetFireExtinguisherSpot();
-                int fireSpots = gridController.GetFireExtinguisherSpot();
-                lblMaxPeople.Text = "Max: " + personSpots.ToString();
-                lblMaxFireEx.Text = "Max: " + fireSpots.ToString();
 
                 building = false;
                 pbFloor.Visible = false;
@@ -185,6 +182,11 @@ namespace FireSimulator
                 gridController.Clear();
                 VisualizeSimulation();
             }
+
+            int personSpots = gridController.GetFloorBlocks().Count - gridController.GetFireExtinguisherSpot();
+            int fireSpots = gridController.GetFireExtinguisherSpot();
+            lblMaxPeople.Text = "Max: " + personSpots.ToString();
+            lblMaxFireEx.Text = "Max: " + fireSpots.ToString();
         }
 
         private void VisualizeSimulation()
@@ -800,6 +802,7 @@ namespace FireSimulator
             pbSimulator.Invalidate();
         }
 
+        // TODO
         //private void Designer_KeyUp(object sender, KeyEventArgs e)
         //{
         //    if (e.KeyCode == Keys.Escape)
@@ -807,9 +810,13 @@ namespace FireSimulator
         //    else if (e.Control)
         //    {
         //        if (e.KeyCode == Keys.S)
-        //            this.save();
+        //        {
+        //            //this.save();
+        //        }
         //        else if (e.KeyCode == Keys.O)
-        //            this.open();
+        //        {
+        //            //this.open();
+        //        }
         //    }
         //}
 
