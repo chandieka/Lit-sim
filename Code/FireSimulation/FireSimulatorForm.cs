@@ -109,15 +109,16 @@ namespace FireSimulator
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Regular);
 
-                // building icon turn on
+                // building icon turn of
 
                 picBoxWall.Visible = false;
                 picBoxFireExtinguisher.Visible = false;
                 picBoxFire.Visible = false;
                 picBoxPerson.Visible = false;
                 picBoxEraser.Visible = false;
+                pbReset.Visible = false;
 
-                // generating icon turn off
+                // generating icon turn on
                 tbPeople.Visible = true;
                 tbFireExtinguishers.Visible = true;
                 lblPeople.Visible = true;
@@ -161,14 +162,15 @@ namespace FireSimulator
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Regular);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Underline);
 
-                // building icon turn off
+                // building icon turn on
                 picBoxWall.Visible = true;
                 picBoxFireExtinguisher.Visible = true;
                 picBoxFire.Visible = true;
                 picBoxPerson.Visible = true;
                 picBoxEraser.Visible = true;
+                pbReset.Visible = true;
 
-                // generating icon turn on
+                // generating icon turn off
                 tbPeople.Visible = false;
                 tbFireExtinguishers.Visible = false;
                 lblPeople.Visible = false;
