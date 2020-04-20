@@ -67,16 +67,29 @@ namespace FireSimulator
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Regular);
+
+                // building icon turn on
+
                 picBoxWall.Visible = false;
                 picBoxFireExtinguisher.Visible = false;
                 picBoxFire.Visible = false;
                 picBoxPerson.Visible = false;
                 picBoxEraser.Visible = false;
+
+                // generating icon turn off
                 tbPeople.Visible = true;
                 tbFireExtinguishers.Visible = true;
                 lblPeople.Visible = true;
                 lblFireExtinguishers.Visible = true;
                 btnGenerate.Visible = true;
+                lblMaxFireEx.Visible = true;
+                lblMaxPeople.Visible = true;
+
+                int personSpots = gridController.GetFloorBlocks().Count - gridController.GetFireExtinguisherSpot();
+                int fireSpots = gridController.GetFireExtinguisherSpot();
+                lblMaxPeople.Text = "Max: " + personSpots.ToString();
+                lblMaxFireEx.Text = "Max: " + fireSpots.ToString();
+
                 building = false;
                 pbFloor.Visible = false;
 
@@ -111,16 +124,22 @@ namespace FireSimulator
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Regular);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Underline);
+
+                // building icon turn off
                 picBoxWall.Visible = true;
                 picBoxFireExtinguisher.Visible = true;
                 picBoxFire.Visible = true;
                 picBoxPerson.Visible = true;
                 picBoxEraser.Visible = true;
+
+                // generating icon turn on
                 tbPeople.Visible = false;
                 tbFireExtinguishers.Visible = false;
                 lblPeople.Visible = false;
                 lblFireExtinguishers.Visible = false;
                 btnGenerate.Visible = false;
+                lblMaxFireEx.Visible = false;
+                lblMaxPeople.Visible = false;
                 building = true;
                 pbFloor.Visible = true;
 
@@ -310,16 +329,44 @@ namespace FireSimulator
             gridController.RandomizeFire(1, r.Next());
 
             if (!int.TryParse(tbPeople.Text, out int amountPeople))
-                isSuccess &= false; // TODO: show error message
+            {
+                if (amountPeople < 0)
+                {
+                    MessageBox.Show("Please enter more than 1 in the person field");
 
-            if (!int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
-                isSuccess &= false; // TODO: show error message
+                }
+                else
+                {
+                    MessageBox.Show("Please enter number in the fields!");
 
-            if (!this.gridController.RandomizePersons(amountPeople, r.Next()))
-                isSuccess &= false; // TODO: show error message
+                }
+                isSuccess &= false;
+            }
+            else if (!int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
+            {
 
-            if (!this.gridController.RandomizeFireExtinguishers(amountFireEx, r.Next()))
-                isSuccess &= false; // TODO: show error message
+                if (amountPeople < 0)
+                {
+                    MessageBox.Show("Please enter more than 1 in the fire extinguishers field");
+                }
+                else
+                {
+                    MessageBox.Show("Please enter number in the fields!");
+                }
+
+                isSuccess &= false;
+            }
+            else if (!this.gridController.RandomizePersons(amountPeople, r.Next()))
+            {
+                isSuccess &= false;
+                MessageBox.Show("Number of person exceed map capacity");
+
+            }
+            else if (!this.gridController.RandomizeFireExtinguishers(amountFireEx, r.Next()))
+            {
+                isSuccess &= false;
+                MessageBox.Show("Number of Fire Extinguishers exceed map capacity");
+            }
 
             // visualize the map
             // not wasting computing power if its not successfull
