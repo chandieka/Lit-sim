@@ -480,7 +480,11 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
+<<<<<<< HEAD
             return getSavedGrid(defaultPath) != this.grid;
+=======
+            return getSavedGrid(defaultPath) == this.grid;
+>>>>>>> origin/feature-designer
         }
 
         /// <summary>
@@ -512,10 +516,17 @@ namespace Library
 
             Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
 
+<<<<<<< HEAD
             if (loadedGrid != null)
                 return new GridController(loadedGrid);
             else
                 return null;
+=======
+            if (loadedGrid == null)
+                return null;
+            else
+                return new GridController(loadedGrid);
+>>>>>>> origin/feature-designer
         }
 
         #endregion
@@ -689,6 +700,7 @@ namespace Library
         #endregion
         #endregion
     }
+<<<<<<< HEAD
 
     /// <summary>
     /// A class to handle what, to the outside, looks like an array of images, but in reality is a
@@ -754,4 +766,6 @@ namespace Library
             return this[index];
         }
     }
+=======
+>>>>>>> origin/feature-designer
 }

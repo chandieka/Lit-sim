@@ -8,6 +8,7 @@ namespace FloorDesigner
 	public partial class Designer : Form
 	{
 		private GridController grid;
+		private string prevSaveLoc;
 		private Pair prevCurPos;
 		private Pair curCurPos;
 
@@ -132,15 +133,23 @@ namespace FloorDesigner
 
 		private void save()
 		{
-			using (var dialog = new SaveFileDialog())
+			if (prevSaveLoc != null)
+				this.grid.Save(prevSaveLoc);
+			else
 			{
-				dialog.Filter = "Binary|*.bin";
-				dialog.CheckPathExists = true;
-				dialog.AddExtension = true;
-				dialog.DefaultExt = ".bin";
-				
-				if (dialog.ShowDialog() == DialogResult.OK)
-					this.grid.Save(dialog.FileName);
+				using (var dialog = new SaveFileDialog())
+				{
+					dialog.Filter = "Binary|*.bin";
+					dialog.CheckPathExists = true;
+					dialog.AddExtension = true;
+					dialog.DefaultExt = ".bin";
+
+					if (dialog.ShowDialog() == DialogResult.OK)
+					{
+						this.grid.Save(dialog.FileName);
+						prevSaveLoc = dialog.FileName;
+					}
+				}
 			}
 		}
 
@@ -155,7 +164,7 @@ namespace FloorDesigner
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					var grid = GridController.Load(dialog.FileName);
+					GridController grid = GridController.Load(dialog.FileName);
 
 					if (grid == null)
 						MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -224,6 +233,8 @@ namespace FloorDesigner
 							grid.PutFire(posTuple);
 						else if (rbPerson.Checked)
 							grid.PutPerson(posTuple);
+						else if (rbFireExtinguisher.CanFocus)
+							grid.PutFireExtinguisher(posTuple);
 					}
 				}
 

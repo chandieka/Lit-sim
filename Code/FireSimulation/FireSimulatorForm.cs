@@ -8,12 +8,13 @@ namespace FireSimulator
     public partial class FireSimulatorForm : Form
     {
         private TimeSpan time = new TimeSpan(0, 0, 0);
-        private bool running;
-        private bool building = true;
         private GridController gridController;
+        private bool building = true;
         private GUIElement element;
         private Pair prevCurPos;
         private Pair curCurPos;
+
+        private bool running;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
         // private GridController lastGrid;
@@ -23,12 +24,11 @@ namespace FireSimulator
         public FireSimulatorForm()
         {
             InitializeComponent();
-
-            WindowState = FormWindowState.Maximized;
+          //  WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
-
-            this.gridController = new GridController((100, 100));           
+            this.gridController = new GridController((100, 100));   
+        
         }
 
         #region Private Methods
@@ -144,7 +144,6 @@ namespace FireSimulator
             TimeSpan second = new TimeSpan(0, 0, 10);
             time = time.Add(second);
             tbTimer.Text = time.ToString();
-
 
             // Testing purpose
             if (testingTicks)
@@ -285,8 +284,9 @@ namespace FireSimulator
                     var grid = GridController.Load(myDialog.FileName);
 
                     if (grid == null)
-                        MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else {
+                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
                         this.gridController = grid;
                         VisualizeSimulation();
                     }
@@ -363,11 +363,18 @@ namespace FireSimulator
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to terminate the simulation?", "Terminate Simulation", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                gridController.Clear();
-                // this.gridController = lastGrid;
-                gridController.PutDefaultFloorPlan(1);
-                FillDefault();
-                VisualizeSimulation();
+                if (building)
+                {
+                    this.gridController = new GridController((100, 100));
+                }
+                else
+                {
+                    gridController.Clear();
+                    // this.gridController = lastGrid;
+                    gridController.PutDefaultFloorPlan(1);
+                    FillDefault();
+                    VisualizeSimulation();
+                }               
                 time = TimeSpan.Zero;
                 tbTimer.Text = time.ToString();
                 GetStats();
@@ -645,12 +652,12 @@ namespace FireSimulator
 
             if (pos != null)
             {
-                if (element == GUIElement.FLOOR || element == GUIElement.ERASER || element == GUIElement.WALL)
+                if (element == GUIElement.FLOOR || element == GUIElement.WALL || element == GUIElement.ERASER)
                 {
                     if (prevCurPos == null)
                     {
                         this.pbSimulation.MouseMove += new MouseEventHandler(this.pbSimulation_MouseMove);
-                       // lblEscMessage.Visible = true;
+                        //lblEscMessage.Visible = true;
                         prevCurPos = pos;
                     }
                     else
@@ -683,6 +690,8 @@ namespace FireSimulator
                             gridController.PutFire(posTuple);
                         else if (element == GUIElement.PERSON)
                             gridController.PutPerson(posTuple);
+                        else if (element == GUIElement.FIREEX)
+                            gridController.PutFireExtinguisher(posTuple);
                     }
                 }
 
