@@ -1,5 +1,6 @@
 ﻿using Library;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -14,6 +15,9 @@ namespace FireSimulator
         private Pair prevCurPos;
         private Pair curCurPos;
 
+        private Dictionary<PictureBox, GUIElement> buildSelectables =
+            new Dictionary<PictureBox, GUIElement>();
+
         private bool running;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
@@ -27,6 +31,13 @@ namespace FireSimulator
             WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
+
+            buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
+            buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
+            buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
+            buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
+            buildSelectables.Add(picBoxWall, GUIElement.WALL);
+            buildSelectables.Add(picBoxFire, GUIElement.FIRE);
 
             var newGrid = new GridController((100, 100));
             newGrid.PutDefaultFloorPlan(1);
@@ -128,7 +139,7 @@ namespace FireSimulator
                 lblMaxPeople.Visible = true;
 
                 building = false;
-                pbFloor.Visible = false;
+                picBoxFloor.Visible = false;
 
                 gridController.PutDefaultFloorPlan(1);
 
@@ -179,7 +190,7 @@ namespace FireSimulator
                 lblMaxFireEx.Visible = false;
                 lblMaxPeople.Visible = false;
                 building = true;
-                pbFloor.Visible = true;
+                picBoxFloor.Visible = true;
 
                 gridController.Clear();
                 VisualizeSimulation();
@@ -273,7 +284,6 @@ namespace FireSimulator
                 btnTerminate.Visible = true;
             }
         }
-
 
         private void lblGenerate_Click(object sender, EventArgs e)
         {
@@ -511,70 +521,18 @@ namespace FireSimulator
             animationLoopTimer.Interval = 10 + (100 - trackBarSpeed.Value);
         }
 
-        private void picBoxWall_Click(object sender, EventArgs e)
+        private void picBoxDesigner_Click(object sender, EventArgs e)
         {
-            element = GUIElement.WALL;
-            picBoxWall.BackColor = Color.DimGray;
-            picBoxFireExtinguisher.BackColor = Color.Transparent;
-            picBoxFire.BackColor = Color.Transparent;
-            picBoxPerson.BackColor = Color.Transparent; 
-            picBoxEraser.BackColor = Color.Transparent;
-            pbFloor.BackColor = Color.Transparent;
-        }
-
-        private void picBoxFireExtinguisher_Click(object sender, EventArgs e)
-        {
-            element = GUIElement.FIREEX;
-            picBoxFireExtinguisher.BackColor = Color.DimGray;
-            picBoxWall.BackColor = Color.Transparent;
-            picBoxFire.BackColor = Color.Transparent;
-            picBoxPerson.BackColor = Color.Transparent; 
-            picBoxEraser.BackColor = Color.Transparent;
-            pbFloor.BackColor = Color.Transparent;
-        }
-
-        private void picBoxFire_Click(object sender, EventArgs e)
-        {
-            element = GUIElement.FIRE;
-            picBoxFire.BackColor = Color.DimGray;
-            picBoxWall.BackColor = Color.Transparent;
-            picBoxFireExtinguisher.BackColor = Color.Transparent;
-            picBoxPerson.BackColor = Color.Transparent; 
-            picBoxEraser.BackColor = Color.Transparent;
-            pbFloor.BackColor = Color.Transparent;
-        }
-
-        private void picBoxPerson_Click(object sender, EventArgs e)
-        {
-            element = GUIElement.PERSON;
-            picBoxPerson.BackColor = Color.DimGray;
-            picBoxWall.BackColor = Color.Transparent;
-            picBoxFireExtinguisher.BackColor = Color.Transparent;
-            picBoxFire.BackColor = Color.Transparent;
-            picBoxEraser.BackColor = Color.Transparent;
-            pbFloor.BackColor = Color.Transparent;
-        }
-
-        private void picBoxEraser_Click(object sender, EventArgs e)
-        {
-            element = GUIElement.ERASER;
-            picBoxEraser.BackColor = Color.DimGray;
-            picBoxWall.BackColor = Color.Transparent;
-            picBoxFireExtinguisher.BackColor = Color.Transparent;
-            picBoxFire.BackColor = Color.Transparent;
-            picBoxPerson.BackColor = Color.Transparent; 
-            pbFloor.BackColor = Color.Transparent;
-        }
-
-        private void pbFloor_Click(object sender, EventArgs e)
-        {
-            element = GUIElement.FLOOR;
-            pbFloor.BackColor = Color.DimGray;
-            picBoxWall.BackColor = Color.Transparent;
-            picBoxFireExtinguisher.BackColor = Color.Transparent;
-            picBoxFire.BackColor = Color.Transparent;
-            picBoxPerson.BackColor = Color.Transparent; 
-            picBoxEraser.BackColor = Color.Transparent;
+            foreach (var p in buildSelectables)
+            {
+                if (p.Key != sender)
+                    p.Key.BackColor = Color.Transparent;
+                else
+                {
+                    p.Key.BackColor = Color.LightGray;
+                    element = p.Value;
+                }
+            }
         }
 
         private (int Width, int Height) getSizePerPixel()
@@ -726,20 +684,17 @@ namespace FireSimulator
         //    }
         //}
 
-        
         private void pbSimulation_Paint(object sender, PaintEventArgs e)
         {
             drawBitmap(e.Graphics);
             drawSample(e.Graphics);
             drawGrid(e.Graphics);
         }
-
        
         private void pbSimulation_Resize(object sender, EventArgs e)
         {
             pbSimulator.Invalidate();
         }
-
         
         private void pbSimulation_MouseClick(object sender, MouseEventArgs e)
         {
@@ -793,7 +748,6 @@ namespace FireSimulator
                 pbSimulator.Invalidate();
             }
         }
-
         
         private void pbSimulation_MouseMove(object sender, MouseEventArgs e)
         {
@@ -830,43 +784,6 @@ namespace FireSimulator
         //        }
         //    }
         //}
-
-        private enum GUIElement
-        {
-            FLOOR, 
-            WALL,
-            FIRE,
-            PERSON,
-            ERASER,
-            FIREEX
-        }
-
-        internal class Pair
-        {
-            public readonly int X, Y;
-
-            public Pair(int x, int y)
-            {
-                this.X = x;
-                this.Y = y;
-            }
-
-            public Pair((int x, int y) tuple)
-            {
-                this.X = tuple.x;
-                this.Y = tuple.y;
-            }
-
-            public (int X, int Y) ToTuple()
-            {
-                return (this.X, this.Y);
-            }
-
-            public override string ToString()
-            {
-                return $"({this.X}, {this.Y})";
-            }
-        }
 
         private void pbReset_Click(object sender, EventArgs e)
         {

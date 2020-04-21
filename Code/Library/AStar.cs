@@ -288,6 +288,11 @@ namespace Library
 			this.Y = tuple.y;
 		}
 
+		public (int x, int y) ToTuple()
+		{
+			return (X, Y);
+		}
+
 		public override string ToString()
 		{
 			return $"({X}, {Y})";

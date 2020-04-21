@@ -53,6 +53,7 @@
     <Compile Include="Dialog\AutoSaveLoadDialog.Designer.cs">
       <DependentUpon>AutoSaveLoadDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="EGUIElement.cs" />
     <Compile Include="FireSimulatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
