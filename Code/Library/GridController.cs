@@ -20,7 +20,7 @@ namespace Library
 		#region Private Fields
 		// playing fields
 		private bool hasFoundFireInPreviusTick = false;
-		private bool ShouldDrawPaths = true;
+		public bool ShouldDrawPaths = true;
 		private bool hasTicked = false;
 
 		private readonly Block[,] grid;

@@ -18,7 +18,7 @@ namespace FireSimulator
         private Dictionary<PictureBox, GUIElement> buildSelectables =
             new Dictionary<PictureBox, GUIElement>();
 
-        private Boolean shouldDrawGrid = true;
+        private bool shouldDrawGrid = true;
         private bool testingTicks = true;
         private bool running;
 
@@ -41,6 +41,8 @@ namespace FireSimulator
             var newGrid = new GridController((100, 100));
             newGrid.PutDefaultFloorPlan(1);
             this.setupGrid(newGrid);
+
+            newGrid.ShouldDrawPaths = !building;
 
             if (testingTicks)
             {
@@ -114,12 +116,11 @@ namespace FireSimulator
 
         private void switchInput()
         {
-            
-
             if (building == true)
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Regular);
+                gridController.ShouldDrawPaths = false;
 
                 // building icon turn of
 
@@ -173,6 +174,7 @@ namespace FireSimulator
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Regular);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Underline);
+                gridController.ShouldDrawPaths = true;
 
                 // building icon turn on
                 picBoxWall.Visible = true;
