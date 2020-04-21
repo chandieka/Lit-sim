@@ -102,6 +102,9 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.pbSimulator = new System.Windows.Forms.PictureBox();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.gbHistory = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbReset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFloor)).BeginInit();
@@ -117,6 +120,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSpeed)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulator)).BeginInit();
+            this.gbHistory.SuspendLayout();
             this.SuspendLayout();
             // 
             // animationLoopTimer
@@ -658,11 +662,12 @@
             // lbHistory
             // 
             this.lbHistory.FormattingEnabled = true;
-            this.lbHistory.Location = new System.Drawing.Point(23, 545);
+            this.lbHistory.Location = new System.Drawing.Point(9, 43);
             this.lbHistory.Name = "lbHistory";
-            this.lbHistory.Size = new System.Drawing.Size(112, 95);
+            this.lbHistory.Size = new System.Drawing.Size(179, 277);
             this.lbHistory.TabIndex = 18;
             this.lbHistory.SelectedIndexChanged += new System.EventHandler(this.lbHistory_SelectedIndexChanged);
+            // 
             // trackBarSpeed
             // 
             this.trackBarSpeed.Location = new System.Drawing.Point(193, 10);
@@ -731,9 +736,9 @@
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(134, 148);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(53, 13);
+            this.label19.Size = new System.Drawing.Size(55, 13);
             this.label19.TabIndex = 30;
-            this.label19.Text = "CTRL + L";
+            this.label19.Text = "CTRL + O";
             // 
             // label20
             // 
@@ -856,13 +861,33 @@
             this.pbSimulator.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbSimulation_MouseMove);
             this.pbSimulator.Resize += new System.EventHandler(this.pbSimulation_Resize);
             // 
+            // gbHistory
+            // 
+            this.gbHistory.Controls.Add(this.label24);
+            this.gbHistory.Controls.Add(this.lbHistory);
+            this.gbHistory.Location = new System.Drawing.Point(1010, 324);
+            this.gbHistory.Name = "gbHistory";
+            this.gbHistory.Size = new System.Drawing.Size(195, 337);
+            this.gbHistory.TabIndex = 22;
+            this.gbHistory.TabStop = false;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(67, 16);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(58, 20);
+            this.label24.TabIndex = 19;
+            this.label24.Text = "History";
+            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1217, 754);
-            this.Controls.Add(this.lbHistory);
+            this.Controls.Add(this.gbHistory);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.lblSpeed);
             this.Controls.Add(this.label8);
@@ -899,6 +924,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulator)).EndInit();
+            this.gbHistory.ResumeLayout(false);
+            this.gbHistory.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -978,6 +1005,9 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox pbReset;
+        private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.GroupBox gbHistory;
+        private System.Windows.Forms.Label label24;
     }
 }
 

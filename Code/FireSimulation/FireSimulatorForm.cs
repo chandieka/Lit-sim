@@ -739,6 +739,10 @@ namespace FireSimulator
                         }
 
                         rb_CheckedChanged_Reset(null, null);
+                        string before = String.Format("{0} created", element).ToLower();
+                        string reason = before.Substring(0, 1).ToUpper() + before.Substring(1);
+                        this.gridController.AddToHistory(reason);
+                        UpdateHistory();
                     }
                 }
                 else
@@ -754,6 +758,11 @@ namespace FireSimulator
                             gridController.PutPerson(posTuple);
                         else if (element == GUIElement.FIREEX)
                             gridController.PutFireExtinguisher(posTuple);
+
+                        string before = String.Format("{0} added", element).ToLower();
+                        string reason = before.Substring(0, 1).ToUpper() + before.Substring(1);
+                        this.gridController.AddToHistory(reason);
+                        UpdateHistory();
                     }
                 }
 
