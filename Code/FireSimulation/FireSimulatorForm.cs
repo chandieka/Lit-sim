@@ -18,12 +18,11 @@ namespace FireSimulator
         private Dictionary<PictureBox, GUIElement> buildSelectables =
             new Dictionary<PictureBox, GUIElement>();
 
+        private Boolean shouldDrawGrid = true;
+        private bool testingTicks = true;
         private bool running;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
-        private GridController lastGrid;
-
-        private bool testingTicks = true;
 
         public FireSimulatorForm()
         {
@@ -87,9 +86,11 @@ namespace FireSimulator
 
         private void FillDefault()
         {
-            gridController.RandomizeFire(1);
-            gridController.RandomizePersons(10);
-            gridController.RandomizeFireExtinguishers(20);
+            Random r = new Random();
+
+            gridController.RandomizeFire(1, r.Next());
+            gridController.RandomizePersons(10, r.Next());
+            gridController.RandomizeFireExtinguishers(20, r.Next());
             GetStats();
         }
 
@@ -688,7 +689,9 @@ namespace FireSimulator
         {
             drawBitmap(e.Graphics);
             drawSample(e.Graphics);
-            drawGrid(e.Graphics);
+
+            if (shouldDrawGrid)
+                drawGrid(e.Graphics);
         }
        
         private void pbSimulation_Resize(object sender, EventArgs e)
@@ -789,6 +792,12 @@ namespace FireSimulator
         {
             gridController.Clear();
             VisualizeSimulation();
+        }
+
+        private void cbGrid_CheckedChanged(object sender, EventArgs e)
+        {
+            this.shouldDrawGrid = cbGrid.Checked;
+            this.pbSimulator.Invalidate();
         }
     }
 }

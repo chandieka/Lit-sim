@@ -103,6 +103,7 @@
 			this.btFrameNext = new System.Windows.Forms.Button();
 			this.rbPlayForward = new System.Windows.Forms.RadioButton();
 			this.rbPlayBackward = new System.Windows.Forms.RadioButton();
+			this.cbGrid = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbReset)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxFloor)).BeginInit();
@@ -871,12 +872,26 @@
 			this.rbPlayBackward.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.rbPlayBackward.UseVisualStyleBackColor = true;
 			// 
+			// cbGrid
+			// 
+			this.cbGrid.AutoSize = true;
+			this.cbGrid.Checked = true;
+			this.cbGrid.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbGrid.Location = new System.Drawing.Point(23, 585);
+			this.cbGrid.Name = "cbGrid";
+			this.cbGrid.Size = new System.Drawing.Size(71, 17);
+			this.cbGrid.TabIndex = 27;
+			this.cbGrid.Text = "Draw grid";
+			this.cbGrid.UseVisualStyleBackColor = true;
+			this.cbGrid.CheckedChanged += new System.EventHandler(this.cbGrid_CheckedChanged);
+			// 
 			// FireSimulatorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(1217, 749);
+			this.Controls.Add(this.cbGrid);
 			this.Controls.Add(this.rbPlayBackward);
 			this.Controls.Add(this.rbPlayForward);
 			this.Controls.Add(this.btFrameNext);
@@ -997,6 +1012,7 @@
         private System.Windows.Forms.Button btFrameNext;
         private System.Windows.Forms.RadioButton rbPlayForward;
         private System.Windows.Forms.RadioButton rbPlayBackward;
-    }
+		private System.Windows.Forms.CheckBox cbGrid;
+	}
 }
 
