@@ -19,6 +19,8 @@ namespace Library
 					return Color.Orange;
 				else if (this.HasFireExtinguisher)
 					return Color.DeepPink;
+				else if (this.firePathThread != null)
+					return Color.MediumPurple;
 				else
 					return Color.Blue;
 			}
@@ -62,7 +64,7 @@ namespace Library
 				pathIndex++;
 		}
 
-		private Pair[] getSurrounding(Block[,] grid, Pair pos, Type typeToCheck = null, int radius = 1)
+		private Pair[] getSurrounding(Block[,] grid, Pair pos, Type typeToCheck = null, int radius = 1, Func<int, int, bool> additionalCheck = null)
 		{
 			Block checkPos(int x, int y)
 			{
@@ -90,6 +92,9 @@ namespace Library
 						if (returnVal != null)
 						{
 							if (typeToCheck != null && returnVal.GetType() != typeToCheck)
+								continue;
+
+							if (additionalCheck != null && !additionalCheck(x, y))
 								continue;
 
 							pairs.Add(new Pair(x, y));
@@ -329,7 +334,7 @@ namespace Library
 			}
 		}
 
-		public Pair ReachedFire(Block[,] grid, Pair pos)
+		private void ReachedFire(Block[,] grid, Pair pos)
 		{
 			Pair[] tracePath(Pair start, Pair end)
 			{
@@ -353,7 +358,12 @@ namespace Library
 				}
 
 				var next = findNext(start);
-				while (next.X != end.X && next.Y != end.Y && !(grid[next.X, next.Y] is Fire))
+				var gridVal = grid[next.X, next.Y];
+				while (
+					next.X != end.X && next.Y != end.Y &&
+					!(gridVal is Fire) &&
+					!(gridVal is Wall)
+				)
 				{
 					paths.Add(next);
 					next = findNext(next);
@@ -378,25 +388,50 @@ namespace Library
 				return new Pair(x / points.Length, y / points.Length);
 			}
 
-			var fires = getSurrounding(grid, pos, typeof(Fire), FireExtinguisher.SpreadRadius);
+			var radiusSquared = Math.Pow(FireExtinguisher.SpreadRadius, 2);
+			var fires = getSurrounding(grid, pos, typeof(Fire), FireExtinguisher.SpreadRadius, (int x, int y) =>
+			{
+				double dx = x - pos.X;
+				double dy = y - pos.Y;
+				double distanceSquared = dx * dx + dy * dy;
+
+				return distanceSquared < radiusSquared;
+			});
 
 			foreach (Pair p in fires)
 				grid[p.X, p.Y] = GridController.Floor;
 
-			/*if (fires.Length < 1) // Perform A*
-			else*/ if (fires.Length < 10)
+			/* TODO: If there is no fire closeby, you can do a couple of things:
+			 *	- Wait for the fire to spread within reach
+			 *	- Perform A* again
+			 *	- Move around randomly (or maybe according to the previous position?)
+			 *	- Check again in a bigger radius
+			 */
+
+			if (fires.Length < 10)
 			{
 				var avgPoint = averagePoint(fires);
 
-				if (avgPoint != null)
+				if (avgPoint == null)
+					Console.WriteLine("No average point could be calculated");
+				else
 				{
-					this.nearestFirePath = tracePath(pos, avgPoint);
-					this.pathIndex = 0;
-					return avgPoint;
+					var path = tracePath(pos, avgPoint);
+
+					if (path.Length <= 0)
+						/* TODO: If there is no path calulated via the custom algorithm
+						 * (because, for example, it's blocked by a wall), you can do a couple of things:
+						 *		- Perform A* again
+						 *		- Use an algorithm that takes walls into account
+						 */
+						Console.WriteLine("No path could be found using the custom algorithm");
+					else
+					{
+						this.nearestFirePath = path;
+						this.pathIndex = 0;
+					}
 				}
 			}
-
-			return null;
 		}
 		
 		private void Move2FE(Block[,] grid, Pair pos) => move(grid, pos, this.ShortestPath);
