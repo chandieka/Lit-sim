@@ -15,6 +15,7 @@ namespace FireSimulator
         private Pair curCurPos;
 
         private bool running;
+        private bool gridLoaded = false;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
         // private GridController lastGrid;
@@ -138,8 +139,8 @@ namespace FireSimulator
                 building = true;
                 pbFloor.Visible = true;
 
-                /*gridController.Clear();
-                VisualizeSimulation();*/
+                gridController.Clear();
+                VisualizeSimulation();
             }
         }
 
