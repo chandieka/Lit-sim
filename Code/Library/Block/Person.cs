@@ -10,7 +10,10 @@ namespace Library
 	[Serializable]
 	public class Person : FunctionalBlock
 	{
+		[field: NonSerialized]
 		public bool IsDead { get; private set; }
+
+		[field: NonSerialized]
 		new public Color Color
 		{
 			get
@@ -24,12 +27,15 @@ namespace Library
 			}
 		}
 
+		[field: NonSerialized]
 		internal Pair[] ShortestPath { get; private set; }
+		[field: NonSerialized]
 		private int pathIndex = 1;
-
+		[field: NonSerialized]
 		private Pair[] nearestFirePath = null;
+		[field: NonSerialized]
 		private Thread firePathThread = null;
-
+		[field: NonSerialized]
 		public bool HasFireExtinguisher
 		{
 			get

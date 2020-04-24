@@ -27,8 +27,15 @@ namespace FireSimulator
           //  WindowState = FormWindowState.Maximized;
             tbTimer.Text = time.ToString();
             this.Text = "Fire Escape Simulator";
-            this.gridController = new GridController((100, 100));   
-        
+            this.gridController = new GridController((100, 100));
+
+            if (this.gridController.IsLoadable())
+            {
+                if (gridController.Load(GridController.defaultPath))
+                {
+                    VisualizeSimulation();
+                }
+            }
         }
 
         #region Private Methods
@@ -107,25 +114,6 @@ namespace FireSimulator
 
                 // paint the grid to the picturebox
                 VisualizeSimulation();
-
-                // meed to be place differently
-                if (this.gridController.IsLoadable())
-                {
-                    using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
-                    {
-                        autoLoadDialog.ShowDialog();
-                        if (autoLoadDialog.DialogResult == DialogResult.Yes)
-                        {
-                            var grid = GridController.Load(GridController.defaultPath);
-
-                            if (grid != null)
-                            {
-                                this.gridController = grid;
-                                VisualizeSimulation();
-                            }
-                        }
-                    }
-                }
             }
             else
             {
@@ -150,8 +138,8 @@ namespace FireSimulator
                 building = true;
                 pbFloor.Visible = true;
 
-                gridController.Clear();
-                VisualizeSimulation();
+                /*gridController.Clear();
+                VisualizeSimulation();*/
             }
         }
 
@@ -240,18 +228,7 @@ namespace FireSimulator
         {
             if (gridController.IsSavable())
             {
-                using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
-                {
-                    autoSaveDialog.ShowDialog();
-                    if (autoSaveDialog.DialogResult == DialogResult.Yes)
-                    {
-                        this.gridController.Save(GridController.defaultPath);
-                    }
-                    else if (autoSaveDialog.DialogResult == DialogResult.Cancel)
-                    {
-                        e.Cancel = true;
-                    }
-                }
+                this.gridController.Save(GridController.defaultPath);
             }
 
             gridController.Stop();
@@ -287,9 +264,7 @@ namespace FireSimulator
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
                     this.gridController.Save(myDialog.FileName);
-                    this.gridController.Save(GridController.defaultPath);
                 }
-
             }
         }
 
@@ -302,14 +277,13 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var grid = GridController.Load(myDialog.FileName);
-
-                    if (grid == null)
-                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (this.gridController.Load(myDialog.FileName))
+                    {
+                        VisualizeSimulation();
+                    }
                     else
                     {
-                        this.gridController = grid;
-                        VisualizeSimulation();
+                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -362,7 +336,6 @@ namespace FireSimulator
             {
                 isSuccess &= false;
                 MessageBox.Show("Number of person exceed map capacity");
-
             }
             else if (!this.gridController.RandomizeFireExtinguishers(amountFireEx, r.Next()))
             {

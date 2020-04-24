@@ -501,8 +501,7 @@ namespace Library
         /// <returns></returns>
         public bool IsSavable()
         {
-            // return getSavedGrid(defaultPath) != this.grid;
-            return getSavedGrid(defaultPath) == this.grid;
+            return getSavedGrid(defaultPath) == this.grid || getSavedGrid(defaultPath) == null;
         }
 
         /// <summary>
@@ -527,7 +526,7 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public static GridController Load(string path)
+        public bool Load(string path)
         {
             if (string.IsNullOrEmpty(path))
                 path = defaultPath;
@@ -535,9 +534,12 @@ namespace Library
             Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
 
             if (loadedGrid != null)
-                return new GridController(loadedGrid);
-            else
-                return null;
+            {
+                this.grid = loadedGrid;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
