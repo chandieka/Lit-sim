@@ -47,13 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialog\AutoSaveLoadDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialog\AutoSaveLoadDialog.Designer.cs">
       <DependentUpon>AutoSaveLoadDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="EGUIElement.cs" />
-    <Compile Include="FireSimulatorForm.cs">
+	<Compile Include="FireSimulatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FireSimulatorForm.Designer.cs">
       <DependentUpon>FireSimulatorForm.cs</DependentUpon>
     </Compile>

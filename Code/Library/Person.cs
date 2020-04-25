@@ -27,7 +27,7 @@ namespace Library
 		}
 
 		[field: NonSerialized]
-		private Pair[] ShortestPath { get; private set; }
+		internal Pair[] ShortestPath { get; private set; }
 		[field: NonSerialized]
 		private int pathIndex = 1;
 
@@ -40,7 +40,6 @@ namespace Library
 		[field: NonSerialized]
 		private const int safeDistance = 5;
 
-		[field: NonSerialized]
 		public bool HasFireExtinguisher
 		{
 			get
