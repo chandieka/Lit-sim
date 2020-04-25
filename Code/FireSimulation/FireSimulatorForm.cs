@@ -21,6 +21,7 @@ namespace FireSimulator
         private bool shouldDrawGrid = true;
         private bool testingTicks = true;
         private bool running;
+        private bool gridLoaded = false;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
 
@@ -86,6 +87,13 @@ namespace FireSimulator
 
         #region Private Methods
 
+        private void UpdateHistory()
+        {
+            this.lbHistory.Items.Clear();
+
+            this.lbHistory.Items.AddRange(this.gridController.GetHistory().ToArray());
+        }
+
         private void FillDefault()
         {
             Random r = new Random();
@@ -150,25 +158,6 @@ namespace FireSimulator
 
                 // paint the grid to the picturebox
                 VisualizeSimulation();
-
-                // meed to be place differently
-                if (this.gridController.IsLoadable())
-                {
-                    using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
-                    {
-                        autoLoadDialog.ShowDialog();
-                        if (autoLoadDialog.DialogResult == DialogResult.Yes)
-                        {
-                            var grid = GridController.Load(GridController.defaultPath);
-
-                            if (grid != null)
-                            {
-                                this.gridController = grid;
-                                VisualizeSimulation();
-                            }
-                        }
-                    }
-                }
             }
             else
             {
@@ -252,6 +241,7 @@ namespace FireSimulator
 
             if (running == false)
             {
+<<<<<<< HEAD
                 if (gridController.IsSavable())
                 {
                     using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
@@ -277,6 +267,17 @@ namespace FireSimulator
                     Console.WriteLine(ex.GetType().FullName);
                 }
                 // lastGrid = (GridController)gridController.Clone();
+=======
+                animationLoopTimer.Start();
+                // lastGrid = (GridController)gridController.Clone();
+                running = true;
+                picBoxPlayPause.Image = Icons.Pause;
+                toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
+                this.gridController.AddToHistory("Simulation started");
+                UpdateHistory();
+                this.lbHistory.Enabled = false;
+                btnTerminate.Visible = false;
+>>>>>>> updatesavefeature
             }
             else
             {
@@ -284,6 +285,9 @@ namespace FireSimulator
                 running = false;
                 picBoxPlayPause.Image = Icons.Play;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
+                this.gridController.AddToHistory("Simulation paused");
+                UpdateHistory();
+                this.lbHistory.Enabled = true;
                 btnTerminate.Visible = true;
             }
         }
@@ -302,18 +306,7 @@ namespace FireSimulator
         {
             if (gridController.IsSavable())
             {
-                using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
-                {
-                    autoSaveDialog.ShowDialog();
-                    if (autoSaveDialog.DialogResult == DialogResult.Yes)
-                    {
-                        this.gridController.Save(GridController.defaultPath);
-                    }
-                    else if (autoSaveDialog.DialogResult == DialogResult.Cancel)
-                    {
-                        e.Cancel = true;
-                    }
-                }
+                this.gridController.Save(GridController.defaultPath);
             }
 
             gridController.Stop();
@@ -349,7 +342,6 @@ namespace FireSimulator
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
                     this.gridController.Save(myDialog.FileName);
-                    this.gridController.Save(GridController.defaultPath);
                 }
             }
         }
@@ -363,12 +355,23 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
+<<<<<<< HEAD
                     var grid = GridController.Load(myDialog.FileName);
 
                     if (grid == null)
                         MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                         setupGrid(grid);
+=======
+                    if (this.gridController.Load(myDialog.FileName))
+                    {
+                        VisualizeSimulation();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+>>>>>>> updatesavefeature
                 }
             }
         }
@@ -420,7 +423,6 @@ namespace FireSimulator
             {
                 isSuccess &= false;
                 MessageBox.Show("Number of person exceed map capacity");
-
             }
             else if (!this.gridController.RandomizeFireExtinguishers(amountFireEx, r.Next()))
             {
@@ -432,7 +434,9 @@ namespace FireSimulator
             // not wasting computing power if its not successfull
             if (isSuccess)
                 VisualizeSimulation();
-        }
+                this.gridController.AddToHistory("Random generated");
+                UpdateHistory();
+            }
 
         private void btnRerunSimulation_Click(object sender, EventArgs e)
         {
@@ -465,6 +469,16 @@ namespace FireSimulator
             }
         }
 
+        private void lbHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.lbHistory.SelectedItem != null)
+            {
+                History grid = (History)this.lbHistory.SelectedItem;
+                this.gridController.SetGrid(grid.Grid);
+                VisualizeSimulation();
+            }
+        }
+
         private void btnTerminate_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to terminate the simulation?", "Terminate Simulation", MessageBoxButtons.YesNo);
@@ -482,7 +496,7 @@ namespace FireSimulator
                     gridController.PutDefaultFloorPlan(1);
                     FillDefault();
                     VisualizeSimulation();
-                }               
+                }
                 time = TimeSpan.Zero;
                 tbTimer.Text = time.ToString();
                 GetStats();
@@ -695,12 +709,12 @@ namespace FireSimulator
             if (shouldDrawGrid)
                 drawGrid(e.Graphics);
         }
-       
+
         private void pbSimulation_Resize(object sender, EventArgs e)
         {
             pbSimulator.Invalidate();
         }
-        
+
         private void pbSimulation_MouseClick(object sender, MouseEventArgs e)
         {
             var pos = getGridPosFromPbPos(e.X, e.Y);
@@ -732,6 +746,10 @@ namespace FireSimulator
                         }
 
                         rb_CheckedChanged_Reset(null, null);
+                        string before = String.Format("{0} created", element).ToLower();
+                        string reason = before.Substring(0, 1).ToUpper() + before.Substring(1);
+                        this.gridController.AddToHistory(reason);
+                        UpdateHistory();
                     }
                 }
                 else
@@ -747,13 +765,18 @@ namespace FireSimulator
                             gridController.PutPerson(posTuple);
                         else if (element == GUIElement.FIREEX)
                             gridController.PutFireExtinguisher(posTuple);
+
+                        string before = String.Format("{0} added", element).ToLower();
+                        string reason = before.Substring(0, 1).ToUpper() + before.Substring(1);
+                        this.gridController.AddToHistory(reason);
+                        UpdateHistory();
                     }
                 }
 
                 pbSimulator.Invalidate();
             }
         }
-        
+
         private void pbSimulation_MouseMove(object sender, MouseEventArgs e)
         {
             curCurPos = getGridPosFromPbPos(e.X, e.Y);

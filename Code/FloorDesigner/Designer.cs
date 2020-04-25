@@ -41,7 +41,7 @@ namespace FloorDesigner
 
 			if (xVal > maxSize.Width || yVal > maxSize.Height || xVal > grid.GridWidth - 1 || yVal > grid.GridHeight - 1)
 				return null;
-			
+
 			return new Pair(xVal, yVal);
 		}
 
@@ -164,9 +164,9 @@ namespace FloorDesigner
 
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					//GridController grid = GridController.Load(dialog.FileName);
+                    GridController grid = GridController.Load(dialog.FileName);
 
-					if (grid == null)
+                    if (grid == null)
 						MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					else
 					{
@@ -245,7 +245,7 @@ namespace FloorDesigner
 		private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
 		{
 			curCurPos = getGridPosFromPbPos(e.X, e.Y);
-			
+
 			if (curCurPos != null)
 				pictureBoxGrid.Invalidate();
 		}
