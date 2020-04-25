@@ -49,7 +49,7 @@ namespace Library
 			this.Clear();
 		}
 
-		protected GridController(Block[,] grid)
+		public GridController(Block[,] grid)
 		{
 			this.grid = grid;
 			fillLists();
@@ -427,11 +427,11 @@ namespace Library
             return UseGraphics(bitmap);
         }
 
-        // Instead of doing gridcontroller.Tick() and painting the result on the form for every time
-        // the timer goes off, you can save a copy of this object and paint the next bitmap in this
-        // every time the timer goes off. This also allows you to "go back" one tick, or "speed up"
-        // the simulation.
-        public AnimationFrames PaintAll((int xScale, int yScale) scaleSize)
+		// Instead of doing gridcontroller.Tick() and painting the result on the form for every time
+		// the timer goes off, you can save a copy of this object and paint the next bitmap in this
+		// every time the timer goes off. This also allows you to "go back" one tick, or "speed up"
+		// the simulation.
+		public AnimationFrames PaintAll((int xScale, int yScale) scaleSize)
         {
             return new AnimationFrames(this, scaleSize);
         }
@@ -642,6 +642,17 @@ namespace Library
 			}
 
 			return extinguishers.ToArray();
+		}
+
+		public void AddToHistory(string value)
+		{
+			// TODO
+		}
+
+		public History[] GetHistory()
+		{
+			// TODO
+			return null;
 		}
 
 		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)

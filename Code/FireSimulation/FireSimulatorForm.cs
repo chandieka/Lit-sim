@@ -18,10 +18,8 @@ namespace FireSimulator
         private Dictionary<PictureBox, GUIElement> buildSelectables =
             new Dictionary<PictureBox, GUIElement>();
 
-        private bool shouldDrawGrid = true;
         private bool testingTicks = true;
         private bool running;
-        private bool gridLoaded = false;
 
         private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
 
@@ -91,7 +89,7 @@ namespace FireSimulator
         {
             this.lbHistory.Items.Clear();
 
-            this.lbHistory.Items.AddRange(this.gridController.GetHistory().ToArray());
+            this.lbHistory.Items.AddRange(this.gridController.GetHistory());
         }
 
         private void FillDefault()
@@ -337,9 +335,7 @@ namespace FireSimulator
                 myDialog.FileName = $"Lit export [{fomatNum(time.Hour)}.{fomatNum(time.Minute)}.{fomatNum(time.Second)} {time.Year}-{fomatNum(time.Month)}-{fomatNum(time.Day)}].bin";
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
-                {
                     this.gridController.Save(myDialog.FileName);
-                }
             }
         }
 
@@ -460,7 +456,7 @@ namespace FireSimulator
             if (this.lbHistory.SelectedItem != null)
             {
                 History grid = (History)this.lbHistory.SelectedItem;
-                this.gridController.SetGrid(grid.Grid);
+                this.gridController = new GridController(grid.Grid);
                 VisualizeSimulation();
             }
         }
@@ -649,50 +645,12 @@ namespace FireSimulator
                 );
         }
 
-        //private void save()
-        //{
-        //    using (var dialog = new SaveFileDialog())
-        //    {
-        //        dialog.Filter = "Binary|*.bin";
-        //        dialog.CheckPathExists = true;
-        //        dialog.AddExtension = true;
-        //        dialog.DefaultExt = ".bin";
-
-        //        if (dialog.ShowDialog() == DialogResult.OK)
-        //            this.gridController.Save(dialog.FileName);
-        //    }
-        //}
-
-        //private void open()
-        //{
-        //    using (var dialog = new OpenFileDialog())
-        //    {
-        //        dialog.Filter = "Binary|*.bin|All|*";
-        //        dialog.CheckPathExists = true;
-        //        dialog.CheckFileExists = true;
-        //        dialog.DefaultExt = ".bin";
-
-        //        if (dialog.ShowDialog() == DialogResult.OK)
-        //        {
-        //            var grid = GridController.Load(dialog.FileName);
-
-        //            if (grid == null)
-        //                MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            else
-        //            {
-        //                this.gridController = grid;
-        //                pbSimulation.Invalidate();
-        //            }
-        //        }
-        //    }
-        //}
-
         private void pbSimulation_Paint(object sender, PaintEventArgs e)
         {
             drawBitmap(e.Graphics);
             drawSample(e.Graphics);
 
-            if (shouldDrawGrid)
+            if (cbGrid.Checked)
                 drawGrid(e.Graphics);
         }
 
@@ -807,8 +765,7 @@ namespace FireSimulator
 
         private void cbGrid_CheckedChanged(object sender, EventArgs e)
         {
-            this.shouldDrawGrid = cbGrid.Checked;
-            this.pbSimulator.Invalidate();
+            pbSimulator.Invalidate();
         }
     }
 }
