@@ -23,7 +23,7 @@ namespace Library
 		public bool ShouldDrawPaths = true;
 		private bool hasTicked = false;
 
-		private readonly Block[,] grid;
+		private Block[,] grid;
 
 		private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
 		private List<Person> persons = new List<Person>();
@@ -518,7 +518,7 @@ namespace Library
         /// Loading the grid
         /// </summary>
         /// <param name="path"></param>
-        public static GridController Load(string path)
+        public void Load(string path)
         {
             if (string.IsNullOrEmpty(path))
                 path = defaultPath;
@@ -526,9 +526,7 @@ namespace Library
             Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
 
             if (loadedGrid != null)
-                return new GridController(loadedGrid);
-            else
-                return null;
+				this.grid = loadedGrid
         }
 
         #endregion
