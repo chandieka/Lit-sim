@@ -26,14 +26,21 @@ namespace Library
 			}
 		}
 
-		internal Pair[] ShortestPath { get; private set; }
+		[field: NonSerialized]
+		private Pair[] ShortestPath { get; private set; }
+		[field: NonSerialized]
 		private int pathIndex = 1;
 
+		[field: NonSerialized]
 		private bool hasReachedFireBefore = false;
+		[field: NonSerialized]
 		private Pair[] nearestFirePath = null;
+		[field: NonSerialized]
 		private Thread firePathThread = null;
+		[field: NonSerialized]
 		private const int safeDistance = 5;
 
+		[field: NonSerialized]
 		public bool HasFireExtinguisher
 		{
 			get
@@ -433,7 +440,7 @@ namespace Library
 				}
 			}
 		}
-		
+
 		private void Move2FE(Block[,] grid, Pair pos) => move(grid, pos, this.ShortestPath);
 
 		private void CalculateFirePath(Block[,] grid, Pair myPosPair)
