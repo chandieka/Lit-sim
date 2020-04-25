@@ -23,8 +23,8 @@ namespace Library
 		public bool ShouldDrawPaths = true;
 		private bool hasTicked = false;
 
-		private Block[,] grid;
 		private List<History> gridHistory;
+		private readonly Block[,] grid;
 
 		private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
 		private List<Person> persons = new List<Person>();
@@ -444,14 +444,9 @@ namespace Library
 			this.gridHistory.Add(new History(reason, (Block[,])this.grid.Clone()));
 		}
 
-		public List<History> GetHistory()
+		public History[] GetHistory()
 		{
-			return this.gridHistory;
-		}
-
-		public void SetGrid(Block[,] grid)
-		{
-			this.grid = grid;
+			return this.gridHistory.ToArray();
 		}
 
 		#endregion
@@ -527,7 +522,7 @@ namespace Library
 		/// Checks if the saved version is loadable
 		/// </summary>
 		/// <returns></returns>
-		public bool IsLoadable()
+		public static bool IsLoadable()
 		{
 			return File.Exists(defaultPath);
 		}
@@ -536,20 +531,17 @@ namespace Library
 		/// Loading the grid
 		/// </summary>
 		/// <param name="path"></param>
-		public bool Load(string path)
+		public static GridController Load(string path)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = defaultPath;
 
-			Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
+			var grid = getSavedGrid(path ?? defaultPath);
 
-			if (loadedGrid != null)
-			{
-				this.grid = loadedGrid;
-				return true;
-			}
-
-			return false;
+			if (grid == null)
+				return null;
+			else
+				return new GridController(grid);
 		}
 
 		#endregion

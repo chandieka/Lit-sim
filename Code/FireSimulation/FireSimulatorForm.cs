@@ -49,10 +49,17 @@ namespace FireSimulator
                 VisualizeSimulation();
             }
 
-            if (this.gridController.IsLoadable())
+            if (GridController.IsLoadable())
             {
-                this.gridController.Load(GridController.defaultPath);
-                VisualizeSimulation();
+                var grid = GridController.Load(GridController.defaultPath);
+
+                if (grid == null)
+                    MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    this.gridController = grid;
+                    VisualizeSimulation();
+                }
             }
         }
 
@@ -80,7 +87,7 @@ namespace FireSimulator
         {
             this.lbHistor.Items.Clear();
 
-            this.lbHistor.Items.AddRange(this.gridController.GetHistory().ToArray());
+            this.lbHistor.Items.AddRange(this.gridController.GetHistory());
         }
 
         private void FillDefault()
@@ -339,7 +346,15 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var grid = this.gridController.Load(myDialog.FileName);
+                    var grid = GridController.Load(myDialog.FileName);
+
+                    if (grid == null)
+                        MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        this.gridController = grid;
+                        VisualizeSimulation();
+                    }
                 }
             }
         }
