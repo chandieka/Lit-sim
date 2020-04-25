@@ -51,17 +51,8 @@ namespace FireSimulator
 
             if (this.gridController.IsLoadable())
             {
-                using (AutoSaveLoadDialog autoLoadDialog = new AutoSaveLoadDialog(false))
-                {
-                    autoLoadDialog.ShowDialog();
-                    if (autoLoadDialog.DialogResult == DialogResult.Yes)
-                    {
-                        var grid = GridController.Load(GridController.defaultPath);
-
-                        if (grid != null)
-                            setupGrid(grid);
-                    }
-                }
+                this.gridController.Load(GridController.defaultPath);
+                VisualizeSimulation();
             }
         }
 
@@ -87,9 +78,9 @@ namespace FireSimulator
 
         private void UpdateHistory()
         {
-            this.lbHistory.Items.Clear();
+            this.lbHistor.Items.Clear();
 
-            this.lbHistory.Items.AddRange(this.gridController.GetHistory());
+            this.lbHistor.Items.AddRange(this.gridController.GetHistory().ToArray());
         }
 
         private void FillDefault()
@@ -271,7 +262,7 @@ namespace FireSimulator
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
                 this.gridController.AddToHistory("Simulation started");
                 UpdateHistory();
-                this.lbHistory.Enabled = false;
+                this.lbHistor.Enabled = false;
                 btnTerminate.Visible = false;
             }
             else
@@ -282,7 +273,7 @@ namespace FireSimulator
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
                 this.gridController.AddToHistory("Simulation paused");
                 UpdateHistory();
-                this.lbHistory.Enabled = true;
+                this.lbHistor.Enabled = true;
                 btnTerminate.Visible = true;
             }
         }
@@ -348,12 +339,7 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var grid = GridController.Load(myDialog.FileName);
-
-                    if (grid == null)
-                        MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else
-                        setupGrid(grid);
+                    var grid = this.gridController.Load(myDialog.FileName);
                 }
             }
         }
@@ -451,11 +437,11 @@ namespace FireSimulator
             }
         }
 
-        private void lbHistory_SelectedIndexChanged(object sender, EventArgs e)
+        private void lbHistor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this.lbHistory.SelectedItem != null)
+            if (this.lbHistor.SelectedItem != null)
             {
-                History grid = (History)this.lbHistory.SelectedItem;
+                History grid = (History)this.lbHistor.SelectedItem;
                 this.gridController = new GridController(grid.Grid);
                 VisualizeSimulation();
             }
@@ -690,8 +676,18 @@ namespace FireSimulator
                         }
 
                         rb_CheckedChanged_Reset(null, null);
-                        string before = String.Format("{0} created", element).ToLower();
-                        string reason = before.Substring(0, 1).ToUpper() + before.Substring(1);
+
+                        string reason = string.Empty;
+                        if (element == GUIElement.ERASER)
+                        {
+                            reason = "Eraser used";
+                        }
+                        else
+                        {
+                            string before = String.Format("{0} created", element).ToLower();
+                            reason = before.Substring(0, 1).ToUpper() + before.Substring(1);
+                        }
+
                         this.gridController.AddToHistory(reason);
                         UpdateHistory();
                     }

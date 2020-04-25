@@ -105,9 +105,9 @@
             this.rbPlayBackward = new System.Windows.Forms.RadioButton();
             this.cbGrid = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.lbHistor = new System.Windows.Forms.ListBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbReset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFloor)).BeginInit();
@@ -901,14 +901,14 @@
             this.groupBox4.TabIndex = 28;
             this.groupBox4.TabStop = false;
             // 
-            // label32
+            // lbHistor
             // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(6, 133);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(0, 13);
-            this.label32.TabIndex = 18;
+            this.lbHistor.FormattingEnabled = true;
+            this.lbHistor.Location = new System.Drawing.Point(9, 47);
+            this.lbHistor.Name = "lbHistor";
+            this.lbHistor.Size = new System.Drawing.Size(185, 277);
+            this.lbHistor.TabIndex = 19;
+            this.lbHistor.SelectedIndexChanged += new System.EventHandler(this.lbHistor_SelectedIndexChanged);
             // 
             // label15
             // 
@@ -920,13 +920,14 @@
             this.label15.TabIndex = 16;
             this.label15.Text = "History";
             // 
-            // lbHistor
+            // label32
             // 
-            this.lbHistor.FormattingEnabled = true;
-            this.lbHistor.Location = new System.Drawing.Point(9, 47);
-            this.lbHistor.Name = "lbHistor";
-            this.lbHistor.Size = new System.Drawing.Size(185, 277);
-            this.lbHistor.TabIndex = 19;
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(6, 133);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(0, 13);
+            this.label32.TabIndex = 18;
             // 
             // FireSimulatorForm
             // 

@@ -24,6 +24,7 @@ namespace Library
 		private bool hasTicked = false;
 
 		private Block[,] grid;
+		private List<History> gridHistory;
 
 		private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
 		private List<Person> persons = new List<Person>();
@@ -44,7 +45,7 @@ namespace Library
 		public GridController((int width, int height) gridSize)
 		{
 			this.grid = new Block[gridSize.width, gridSize.height];
-
+			this.gridHistory = new List<History>();
 			// fill the grid with empty blocks.
 			this.Clear();
 		}
@@ -435,103 +436,125 @@ namespace Library
         {
             return new AnimationFrames(this, scaleSize);
         }
-        #endregion
-        #region IO
+		#endregion
+		#region History
 
-        public static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
+		public void AddToHistory(string reason)
+		{
+			this.gridHistory.Add(new History(reason, (Block[,])this.grid.Clone()));
+		}
 
-        private static Block[,] getSavedGrid(string path)
-        {
-            try
-            {
-                using (FileStream stream = new FileStream(path, FileMode.Open))
-                {
-                    BinaryFormatter bformatter = new BinaryFormatter();
+		public List<History> GetHistory()
+		{
+			return this.gridHistory;
+		}
 
-                    return (Block[,])bformatter.Deserialize(stream);
-                }
-            }
-            catch (SerializationException ex)
-            {
-                Console.WriteLine("Object could not be serialized. Error: " + ex.Message);
-                return null;
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine("Object could not be saved. Error: " + ex.Message);
-                return null;
-            }
-        }
+		public void SetGrid(Block[,] grid)
+		{
+			this.grid = grid;
+		}
 
-        private bool setSavedGrid(string path)
-        {
-            try
-            {
-                using (FileStream stream = new FileStream(path, FileMode.Create))
-                {
-                    BinaryFormatter bformatter = new BinaryFormatter();
-                    bformatter.Serialize(stream, this.grid);
-                    return true;
-                }
-            }
-            catch (SerializationException ex)
-            {
-                Console.WriteLine("Object could not be serialized. Error: " + ex.Message);
-                return false;
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine("Object could not be saved. Error: " + ex.Message);
-                return false;
-            }
-        }
+		#endregion
+		#region IO
 
-        /// <summary>
-        /// Check if the current verison is savable
-        /// </summary>
-        /// <returns></returns>
-        public bool IsSavable()
-        {
-            // return getSavedGrid(defaultPath) != this.grid;
-            return getSavedGrid(defaultPath) == this.grid;
-        }
+		public static string defaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "grid.bin");
 
-        /// <summary>
-        /// Saving the grid
-        /// </summary>
-        /// <param name="path"></param>
-        public bool Save(string path)
-        {
-            return setSavedGrid(path ?? defaultPath);
-        }
+		private static Block[,] getSavedGrid(string path)
+		{
+			try
+			{
+				using (FileStream stream = new FileStream(path, FileMode.Open))
+				{
+					BinaryFormatter bformatter = new BinaryFormatter();
 
-        /// <summary>
-        /// Checks if the saved version is loadable
-        /// </summary>
-        /// <returns></returns>
-        public bool IsLoadable()
-        {
-            return File.Exists(defaultPath);
-        }
+					return (Block[,])bformatter.Deserialize(stream);
+				}
+			}
+			catch (SerializationException ex)
+			{
+				Console.WriteLine("Object could not be serialized. Error: " + ex.Message);
+				return null;
+			}
+			catch (IOException ex)
+			{
+				Console.WriteLine("Object could not be saved. Error: " + ex.Message);
+				return null;
+			}
+		}
 
-        /// <summary>
-        /// Loading the grid
-        /// </summary>
-        /// <param name="path"></param>
-        public void Load(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-                path = defaultPath;
+		private bool setSavedGrid(string path)
+		{
+			try
+			{
+				using (FileStream stream = new FileStream(path, FileMode.Create))
+				{
+					BinaryFormatter bformatter = new BinaryFormatter();
+					bformatter.Serialize(stream, this.grid);
+					return true;
+				}
+			}
+			catch (SerializationException ex)
+			{
+				Console.WriteLine("Object could not be serialized. Error: " + ex.Message);
+				return false;
+			}
+			catch (IOException ex)
+			{
+				Console.WriteLine("Object could not be saved. Error: " + ex.Message);
+				return false;
+			}
+		}
 
-            Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
+		/// <summary>
+		/// Check if the current verison is savable
+		/// </summary>
+		/// <returns></returns>
+		public bool IsSavable()
+		{
+			return getSavedGrid(defaultPath) == this.grid || getSavedGrid(defaultPath) == null;
+		}
 
-            if (loadedGrid != null)
-				this.grid = loadedGrid
-        }
+		/// <summary>
+		/// Saving the grid
+		/// </summary>
+		/// <param name="path"></param>
+		public bool Save(string path)
+		{
+			return setSavedGrid(path ?? defaultPath);
+		}
 
-        #endregion
-        #region Other methods
-        public object Clone()
+		/// <summary>
+		/// Checks if the saved version is loadable
+		/// </summary>
+		/// <returns></returns>
+		public bool IsLoadable()
+		{
+			return File.Exists(defaultPath);
+		}
+
+		/// <summary>
+		/// Loading the grid
+		/// </summary>
+		/// <param name="path"></param>
+		public bool Load(string path)
+		{
+			if (string.IsNullOrEmpty(path))
+				path = defaultPath;
+
+			Block[,] loadedGrid = getSavedGrid(path ?? defaultPath);
+
+			if (loadedGrid != null)
+			{
+				this.grid = loadedGrid;
+				return true;
+			}
+
+			return false;
+		}
+
+		#endregion
+		#region Other methods
+		public object Clone()
         {
             var gc = new GridController(this.grid);
             return gc;
@@ -640,17 +663,6 @@ namespace Library
 			}
 
 			return extinguishers.ToArray();
-		}
-
-		public void AddToHistory(string value)
-		{
-			// TODO
-		}
-
-		public History[] GetHistory()
-		{
-			// TODO
-			return null;
 		}
 
 		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)
