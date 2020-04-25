@@ -46,13 +46,16 @@ namespace Library
 		{
 			this.grid = new Block[gridSize.width, gridSize.height];
 			this.gridHistory = new List<History>();
+
 			// fill the grid with empty blocks.
 			this.Clear();
 		}
 
 		public GridController(Block[,] grid)
 		{
+			this.gridHistory = new List<History>();
 			this.grid = grid;
+
 			fillLists();
 		}
 		#endregion
@@ -438,7 +441,6 @@ namespace Library
         }
 		#endregion
 		#region History
-
 		public void AddToHistory(string reason)
 		{
 			this.gridHistory.Add(new History(reason, (Block[,])this.grid.Clone()));

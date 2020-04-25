@@ -56,10 +56,7 @@ namespace FireSimulator
                 if (grid == null)
                     MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                {
-                    this.gridController = grid;
-                    VisualizeSimulation();
-                }
+                    setupGrid(grid);
             }
         }
 
@@ -75,6 +72,7 @@ namespace FireSimulator
 
         private void handleFinished(object sender, EventArgs e)
         {
+            this.gridController.AddToHistory("Simulation finished");
             picBoxPlayPause_Click(null, null);
             GetStats();
 
@@ -124,7 +122,7 @@ namespace FireSimulator
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Underline);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Regular);
-                gridController.ShouldDrawPaths = false;
+                gridController.ShouldDrawPaths = true;
 
                 // building icon turn of
 
@@ -159,7 +157,7 @@ namespace FireSimulator
             {
                 lblGenerate.Font = new Font(lblGenerate.Font, FontStyle.Regular);
                 lblBuild.Font = new Font(lblBuild.Font, FontStyle.Underline);
-                gridController.ShouldDrawPaths = true;
+                gridController.ShouldDrawPaths = false;
 
                 // building icon turn on
                 picBoxWall.Visible = true;
@@ -351,10 +349,7 @@ namespace FireSimulator
                     if (grid == null)
                         MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                    {
-                        this.gridController = grid;
-                        VisualizeSimulation();
-                    }
+                        setupGrid(grid);
                 }
             }
         }
