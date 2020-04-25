@@ -241,7 +241,6 @@ namespace FireSimulator
 
             if (running == false)
             {
-<<<<<<< HEAD
                 if (gridController.IsSavable())
                 {
                     using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
@@ -266,8 +265,7 @@ namespace FireSimulator
                 {
                     Console.WriteLine(ex.GetType().FullName);
                 }
-                // lastGrid = (GridController)gridController.Clone();
-=======
+
                 animationLoopTimer.Start();
                 // lastGrid = (GridController)gridController.Clone();
                 running = true;
@@ -277,7 +275,6 @@ namespace FireSimulator
                 UpdateHistory();
                 this.lbHistory.Enabled = false;
                 btnTerminate.Visible = false;
->>>>>>> updatesavefeature
             }
             else
             {
@@ -355,23 +352,12 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-<<<<<<< HEAD
                     var grid = GridController.Load(myDialog.FileName);
 
                     if (grid == null)
                         MessageBox.Show("The file could not be parsed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
                         setupGrid(grid);
-=======
-                    if (this.gridController.Load(myDialog.FileName))
-                    {
-                        VisualizeSimulation();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Could not parse the selected file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
->>>>>>> updatesavefeature
                 }
             }
         }
