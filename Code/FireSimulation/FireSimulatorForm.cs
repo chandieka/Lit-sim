@@ -75,11 +75,50 @@ namespace FireSimulator
             this.gridController.AddToHistory("Simulation finished");
             picBoxPlayPause_Click(null, null);
             GetStats();
+            btnRerunSimulation.Visible = true;
+            lblResult.Text = "Success";
+            picBoxPlayPause.Enabled = false;
 
             MessageBox.Show("The simulation finished", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #region Private Methods
+
+        private void DisableButtons()
+        {
+            picBoxWall.Enabled = false;
+            picBoxFireExtinguisher.Enabled = false;
+            picBoxFire.Enabled = false;
+            picBoxPerson.Enabled = false;
+            picBoxEraser.Enabled = false;
+            picBoxFloor.Enabled = false;
+            picBoxReset.Enabled = false;
+            btnGenerate.Enabled = false;
+            btnSaveLayout.Enabled = false;
+            btnUploadFile.Enabled = false;
+            btnCalculatePaths.Enabled = false;
+            lblBuild.Enabled = false;
+            lblGenerate.Enabled = false;
+            pbSimulator.Enabled = false;
+        }
+
+        private void EnableButtons()
+        {
+            picBoxWall.Enabled = true;
+            picBoxFireExtinguisher.Enabled = true;
+            picBoxFire.Enabled = true;
+            picBoxPerson.Enabled = true;
+            picBoxEraser.Enabled = true;
+            picBoxFloor.Enabled = true;
+            picBoxReset.Enabled = true;
+            btnGenerate.Enabled = true;
+            btnSaveLayout.Enabled = true;
+            btnUploadFile.Enabled = true;
+            btnCalculatePaths.Enabled = true;
+            lblBuild.Enabled = true;
+            lblGenerate.Enabled = true;
+            pbSimulator.Enabled = true;
+        }
 
         private void UpdateHistory()
         {
@@ -131,7 +170,7 @@ namespace FireSimulator
                 picBoxFire.Visible = false;
                 picBoxPerson.Visible = false;
                 picBoxEraser.Visible = false;
-                pbReset.Visible = false;
+                picBoxReset.Visible = false;
 
                 // generating icon turn on
                 tbPeople.Visible = true;
@@ -165,7 +204,7 @@ namespace FireSimulator
                 picBoxFire.Visible = true;
                 picBoxPerson.Visible = true;
                 picBoxEraser.Visible = true;
-                pbReset.Visible = true;
+                picBoxReset.Visible = true;
 
                 // generating icon turn off
                 tbPeople.Visible = false;
@@ -225,6 +264,7 @@ namespace FireSimulator
                 picBoxPlayPause_Click(null, null);
                 GetStats();
                 btnRerunSimulation.Visible = true;
+                EnableButtons();
             }
         }
 
@@ -253,22 +293,16 @@ namespace FireSimulator
                     running = true;
                     picBoxPlayPause.Image = Icons.Pause;
                     toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
+                    this.gridController.AddToHistory("Simulation started");
+                    UpdateHistory();
+                    this.lbHistor.Enabled = false;
                     btnTerminate.Visible = false;
+                    DisableButtons();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.GetType().FullName);
-                }
-
-                animationLoopTimer.Start();
-                // lastGrid = (GridController)gridController.Clone();
-                running = true;
-                picBoxPlayPause.Image = Icons.Pause;
-                toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
-                this.gridController.AddToHistory("Simulation started");
-                UpdateHistory();
-                this.lbHistor.Enabled = false;
-                btnTerminate.Visible = false;
+                }                
             }
             else
             {
@@ -430,7 +464,7 @@ namespace FireSimulator
             lblResult.Text = "<Success/Fail>";
             trackBarSpeed.Value = 50;
             animationLoopTimer.Interval = 60;
-            this.picBoxPlayPause.Enabled = false;
+            EnableButtons();
         }
 
         // For shortcuts
@@ -481,7 +515,8 @@ namespace FireSimulator
                 btnTerminate.Visible = false;
                 trackBarSpeed.Value = 50;
                 animationLoopTimer.Interval = 60;
-                this.picBoxPlayPause.Enabled = false;
+                EnableButtons();
+                lblResult.Text = "<Success/Fail>";
             }
             else if (dialogResult == DialogResult.No)
             {
