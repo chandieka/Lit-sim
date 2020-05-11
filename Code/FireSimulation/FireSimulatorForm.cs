@@ -10,6 +10,7 @@ namespace FireSimulator
     {
         private TimeSpan time = new TimeSpan(0, 0, 0);
         private GridController gridController;
+        private GridController gcStartingPosition;
         private bool building = true;
         private GUIElement element;
         private Pair prevCurPos;
@@ -37,27 +38,28 @@ namespace FireSimulator
             buildSelectables.Add(picBoxWall, GUIElement.WALL);
             buildSelectables.Add(picBoxFire, GUIElement.FIRE);
 
+            // Grid Initialization
             var newGrid = new GridController((100, 100));
             newGrid.PutDefaultFloorPlan(1);
-            this.setupGrid(newGrid);
+            //newGrid.ShouldDrawPaths = !building;
+            setupGrid(newGrid);
+            FillDefault();
+            SaveStartingLayout();
 
-            newGrid.ShouldDrawPaths = !building;
+            // TODO: Fix the AutoLoad Feature
+            //if (GridController.IsLoadable())
+            //{
+            //    var grid = GridController.Load(GridController.defaultPath);
 
-            if (testingTicks)
-            {
-                FillDefault();
-                VisualizeSimulation();
-            }
+            //    if (grid == null)
+            //        MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    else
+            //    {
+            //        setupGrid(grid);
+            //    }
+            //}
 
-            if (GridController.IsLoadable())
-            {
-                var grid = GridController.Load(GridController.defaultPath);
-
-                if (grid == null)
-                    MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                    setupGrid(grid);
-            }
+            VisualizeSimulation();
         }
 
         private void setupGrid(GridController newGrid)
@@ -68,6 +70,12 @@ namespace FireSimulator
             newGrid.Finished += this.handleFinished;
             this.gridController = newGrid;
             VisualizeSimulation();
+        }
+
+        private void SaveStartingLayout()
+        {
+            gcStartingPosition = new GridController(gridController.DeepCloneBlock());
+            gcStartingPosition.Finished += handleFinished;
         }
 
         private void handleFinished(object sender, EventArgs e)
@@ -183,14 +191,6 @@ namespace FireSimulator
 
                 building = false;
                 picBoxFloor.Visible = false;
-
-                gridController.PutDefaultFloorPlan(1);
-
-                if (testingTicks)
-                    FillDefault();
-
-                // paint the grid to the picturebox
-                VisualizeSimulation();
             }
             else
             {
@@ -216,9 +216,6 @@ namespace FireSimulator
                 lblMaxPeople.Visible = false;
                 building = true;
                 picBoxFloor.Visible = true;
-
-                gridController.Clear();
-                VisualizeSimulation();
             }
 
             int personSpots = gridController.GetFloorBlocks().Count - gridController.GetFireExtinguisherSpot();
@@ -445,17 +442,18 @@ namespace FireSimulator
             // visualize the map
             // not wasting computing power if its not successfull
             if (isSuccess)
+            {
+                SaveStartingLayout();
                 VisualizeSimulation();
                 this.gridController.AddToHistory("Random generated");
                 UpdateHistory();
             }
+        }
 
         private void btnRerunSimulation_Click(object sender, EventArgs e)
         {
-            gridController.Clear();
-            // this.gridController = lastGrid;
-            gridController.PutDefaultFloorPlan(1);
-            FillDefault();
+            gridController = gcStartingPosition;
+            SaveStartingLayout();
             VisualizeSimulation();
             time = TimeSpan.Zero;
             tbTimer.Text = time.ToString();
@@ -465,6 +463,7 @@ namespace FireSimulator
             trackBarSpeed.Value = 50;
             animationLoopTimer.Interval = 60;
             EnableButtons();
+            GetStats();
         }
 
         // For shortcuts
@@ -498,15 +497,23 @@ namespace FireSimulator
             {
                 if (building)
                 {
+                    // TODO: Load the Custom User FloorPlan
                     gridController.Clear();
+
+                    // temporary
+                    gridController.PutDefaultFloorPlan(1);
+                    FillDefault();
+                    SaveStartingLayout();
+                    //
+
                     VisualizeSimulation();
                 }
                 else
                 {
                     gridController.Clear();
-                    // this.gridController = lastGrid;
                     gridController.PutDefaultFloorPlan(1);
                     FillDefault();
+                    SaveStartingLayout();
                     VisualizeSimulation();
                 }
                 time = TimeSpan.Zero;
@@ -524,6 +531,7 @@ namespace FireSimulator
             }
 
         }
+
         private void btnCalculatePaths_Click(object sender, EventArgs e)
         {
             if (running)
