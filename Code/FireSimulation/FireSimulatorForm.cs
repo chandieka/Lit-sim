@@ -76,6 +76,8 @@ namespace FireSimulator
             this.gridController.AddToHistory("Simulation finished");
             picBoxPlayPause_Click(null, null);
             GetStats();
+            this.gridController.ClearHistory();
+            this.UpdateHistory();
             btnRerunSimulation.Visible = true;
             lblResult.Text = "Success";
             picBoxPlayPause.Enabled = false;
@@ -253,6 +255,8 @@ namespace FireSimulator
             {
                 picBoxPlayPause_Click(null, null);
                 GetStats();
+                this.gridController.ClearHistory();
+                this.UpdateHistory();
                 btnRerunSimulation.Visible = true;
                 EnableButtons();
             }
@@ -265,18 +269,6 @@ namespace FireSimulator
 
             if (running == false)
             {
-                if (gridController.IsSavable())
-                {
-                    using (AutoSaveLoadDialog autoSaveDialog = new AutoSaveLoadDialog(true))
-                    {
-                        autoSaveDialog.ShowDialog();
-                        if (autoSaveDialog.DialogResult == DialogResult.Yes)
-                        {
-                            this.gridController.Save(GridController.defaultPath);
-                        }
-                    }
-                }
-
                 try
                 {
                     animationLoopTimer.Start();

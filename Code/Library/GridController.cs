@@ -449,6 +449,11 @@ namespace Library
 			return this.gridHistory.ToArray();
 		}
 
+		public void ClearHistory()
+		{
+			this.gridHistory = new List<History>();
+		}
+
 		#endregion
 		#region IO
 
