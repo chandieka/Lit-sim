@@ -47,17 +47,10 @@ namespace FireSimulator
             SaveStartingLayout();
 
             // TODO: Fix the AutoLoad Feature
-            //if (GridController.IsLoadable())
-            //{
-            //    var grid = GridController.Load(GridController.defaultPath);
-
-            //    if (grid == null)
-            //        MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    else
-            //    {
-            //        setupGrid(grid);
-            //    }
-            //}
+            if (GridController.IsLoadable())
+            {
+                this.gridController.Load(GridController.defaultPath);
+            }
 
             VisualizeSimulation();
         }
@@ -375,12 +368,7 @@ namespace FireSimulator
 
                 if (myDialog.ShowDialog() == DialogResult.OK)
                 {
-                    var grid = GridController.Load(myDialog.FileName);
-
-                    if (grid == null)
-                        MessageBox.Show("Unable to parse the file to an object", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else
-                        setupGrid(grid);
+                    this.gridController.Load(myDialog.FileName);
                 }
             }
         }
