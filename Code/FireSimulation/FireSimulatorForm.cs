@@ -808,5 +808,11 @@ namespace FireSimulator
         {
             pbSimulator.Invalidate();
         }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            Statistics formStat = new Statistics();
+            formStat.Show();
+        }
     }
 }

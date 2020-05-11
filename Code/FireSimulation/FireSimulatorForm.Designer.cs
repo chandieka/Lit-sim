@@ -88,13 +88,9 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -104,6 +100,10 @@
             this.lbHistor = new System.Windows.Forms.ListBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lbFloors = new System.Windows.Forms.ListBox();
+            this.btnOpen = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxReset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxFloor)).BeginInit();
@@ -120,6 +120,7 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulator)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // animationLoopTimer
@@ -150,7 +151,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(149, 644);
+            this.groupBox1.Size = new System.Drawing.Size(149, 744);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             // 
@@ -160,7 +161,7 @@
             this.picBoxReset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxReset.Image = global::FireSimulator.Icons.reset;
             this.picBoxReset.InitialImage = null;
-            this.picBoxReset.Location = new System.Drawing.Point(35, 544);
+            this.picBoxReset.Location = new System.Drawing.Point(35, 650);
             this.picBoxReset.Margin = new System.Windows.Forms.Padding(4);
             this.picBoxReset.Name = "picBoxReset";
             this.picBoxReset.Size = new System.Drawing.Size(81, 70);
@@ -175,7 +176,7 @@
             this.picBoxFloor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFloor.Image = global::FireSimulator.Icons.fabric;
             this.picBoxFloor.InitialImage = null;
-            this.picBoxFloor.Location = new System.Drawing.Point(36, 457);
+            this.picBoxFloor.Location = new System.Drawing.Point(35, 556);
             this.picBoxFloor.Margin = new System.Windows.Forms.Padding(4);
             this.picBoxFloor.Name = "picBoxFloor";
             this.picBoxFloor.Size = new System.Drawing.Size(81, 70);
@@ -260,7 +261,7 @@
             // 
             this.picBoxWall.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxWall.Image = global::FireSimulator.Icons.Wall;
-            this.picBoxWall.Location = new System.Drawing.Point(35, 55);
+            this.picBoxWall.Location = new System.Drawing.Point(35, 74);
             this.picBoxWall.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picBoxWall.Name = "picBoxWall";
             this.picBoxWall.Size = new System.Drawing.Size(75, 75);
@@ -274,7 +275,7 @@
             // 
             this.picBoxFireExtinguisher.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFireExtinguisher.Image = global::FireSimulator.Icons.Fire_extinguisher;
-            this.picBoxFireExtinguisher.Location = new System.Drawing.Point(35, 137);
+            this.picBoxFireExtinguisher.Location = new System.Drawing.Point(35, 177);
             this.picBoxFireExtinguisher.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picBoxFireExtinguisher.Name = "picBoxFireExtinguisher";
             this.picBoxFireExtinguisher.Size = new System.Drawing.Size(75, 75);
@@ -301,7 +302,7 @@
             // 
             this.picBoxEraser.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxEraser.Image = global::FireSimulator.Icons.Eraser;
-            this.picBoxEraser.Location = new System.Drawing.Point(35, 379);
+            this.picBoxEraser.Location = new System.Drawing.Point(35, 460);
             this.picBoxEraser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picBoxEraser.Name = "picBoxEraser";
             this.picBoxEraser.Size = new System.Drawing.Size(75, 75);
@@ -328,7 +329,7 @@
             // 
             this.picBoxPerson.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxPerson.Image = global::FireSimulator.Icons.Person;
-            this.picBoxPerson.Location = new System.Drawing.Point(35, 298);
+            this.picBoxPerson.Location = new System.Drawing.Point(35, 367);
             this.picBoxPerson.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picBoxPerson.Name = "picBoxPerson";
             this.picBoxPerson.Size = new System.Drawing.Size(75, 75);
@@ -342,7 +343,7 @@
             // 
             this.picBoxFire.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFire.Image = global::FireSimulator.Icons.Fire;
-            this.picBoxFire.Location = new System.Drawing.Point(35, 218);
+            this.picBoxFire.Location = new System.Drawing.Point(35, 272);
             this.picBoxFire.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.picBoxFire.Name = "picBoxFire";
             this.picBoxFire.Size = new System.Drawing.Size(75, 75);
@@ -423,11 +424,11 @@
             this.gBoxSettings.Controls.Add(this.btnUploadFile);
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSaveLayout);
-            this.gBoxSettings.Location = new System.Drawing.Point(1072, 74);
+            this.gBoxSettings.Location = new System.Drawing.Point(1072, 260);
             this.gBoxSettings.Margin = new System.Windows.Forms.Padding(4);
             this.gBoxSettings.Name = "gBoxSettings";
             this.gBoxSettings.Padding = new System.Windows.Forms.Padding(4);
-            this.gBoxSettings.Size = new System.Drawing.Size(267, 318);
+            this.gBoxSettings.Size = new System.Drawing.Size(267, 237);
             this.gBoxSettings.TabIndex = 15;
             this.gBoxSettings.TabStop = false;
             // 
@@ -498,7 +499,7 @@
             this.gBoxStatistics.Controls.Add(this.btnRerunSimulation);
             this.gBoxStatistics.Controls.Add(this.btnCloseStatistics);
             this.gBoxStatistics.Controls.Add(this.label3);
-            this.gBoxStatistics.Location = new System.Drawing.Point(1072, 399);
+            this.gBoxStatistics.Location = new System.Drawing.Point(1072, 505);
             this.gBoxStatistics.Margin = new System.Windows.Forms.Padding(4);
             this.gBoxStatistics.Name = "gBoxStatistics";
             this.gBoxStatistics.Padding = new System.Windows.Forms.Padding(4);
@@ -718,28 +719,24 @@
             // 
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Controls.Add(this.label20);
-            this.groupBox3.Controls.Add(this.label21);
-            this.groupBox3.Controls.Add(this.label22);
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.label17);
-            this.groupBox3.Controls.Add(this.label14);
-            this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Location = new System.Drawing.Point(1347, 74);
+            this.groupBox3.Location = new System.Drawing.Point(1072, 69);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(267, 318);
+            this.groupBox3.Size = new System.Drawing.Size(267, 170);
             this.groupBox3.TabIndex = 21;
             this.groupBox3.TabStop = false;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(179, 182);
+            this.label19.Location = new System.Drawing.Point(179, 132);
             this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(68, 17);
@@ -749,32 +746,12 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(179, 153);
+            this.label20.Location = new System.Drawing.Point(179, 93);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(69, 17);
             this.label20.TabIndex = 29;
             this.label20.Text = "CTRL + S";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(179, 122);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(54, 17);
-            this.label21.TabIndex = 28;
-            this.label21.Text = "label21";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(179, 92);
-            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(54, 17);
-            this.label22.TabIndex = 27;
-            this.label22.Text = "label22";
             // 
             // label23
             // 
@@ -789,7 +766,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 182);
+            this.label16.Location = new System.Drawing.Point(9, 132);
             this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(125, 17);
@@ -799,32 +776,12 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(8, 153);
+            this.label17.Location = new System.Drawing.Point(8, 93);
             this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(125, 17);
             this.label17.TabIndex = 23;
             this.label17.Text = "Save Session Map";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 122);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(62, 17);
-            this.label14.TabIndex = 22;
-            this.label14.Text = "Go Back";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 92);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(82, 17);
-            this.label13.TabIndex = 21;
-            this.label13.Text = "Go Forward";
             // 
             // label12
             // 
@@ -873,7 +830,7 @@
             // cbGrid
             // 
             this.cbGrid.AutoSize = true;
-            this.cbGrid.Location = new System.Drawing.Point(31, 720);
+            this.cbGrid.Location = new System.Drawing.Point(31, 826);
             this.cbGrid.Margin = new System.Windows.Forms.Padding(4);
             this.cbGrid.Name = "cbGrid";
             this.cbGrid.Size = new System.Drawing.Size(90, 21);
@@ -887,11 +844,11 @@
             this.groupBox4.Controls.Add(this.lbHistor);
             this.groupBox4.Controls.Add(this.label15);
             this.groupBox4.Controls.Add(this.label32);
-            this.groupBox4.Location = new System.Drawing.Point(1347, 399);
+            this.groupBox4.Location = new System.Drawing.Point(1347, 69);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(267, 415);
+            this.groupBox4.Size = new System.Drawing.Size(267, 372);
             this.groupBox4.TabIndex = 28;
             this.groupBox4.TabStop = false;
             // 
@@ -899,10 +856,10 @@
             // 
             this.lbHistor.FormattingEnabled = true;
             this.lbHistor.ItemHeight = 16;
-            this.lbHistor.Location = new System.Drawing.Point(12, 58);
+            this.lbHistor.Location = new System.Drawing.Point(12, 42);
             this.lbHistor.Margin = new System.Windows.Forms.Padding(4);
             this.lbHistor.Name = "lbHistor";
-            this.lbHistor.Size = new System.Drawing.Size(245, 340);
+            this.lbHistor.Size = new System.Drawing.Size(245, 324);
             this.lbHistor.TabIndex = 19;
             this.lbHistor.SelectedIndexChanged += new System.EventHandler(this.lbHistor_SelectedIndexChanged);
             // 
@@ -910,7 +867,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(95, 23);
+            this.label15.Location = new System.Drawing.Point(98, 14);
             this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(72, 25);
@@ -927,12 +884,54 @@
             this.label32.Size = new System.Drawing.Size(0, 17);
             this.label32.TabIndex = 18;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btnOpen);
+            this.groupBox5.Controls.Add(this.lbFloors);
+            this.groupBox5.Controls.Add(this.label13);
+            this.groupBox5.Location = new System.Drawing.Point(1347, 448);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(267, 472);
+            this.groupBox5.TabIndex = 29;
+            this.groupBox5.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(73, 18);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(128, 25);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Floorplan List";
+            // 
+            // lbFloors
+            // 
+            this.lbFloors.FormattingEnabled = true;
+            this.lbFloors.ItemHeight = 16;
+            this.lbFloors.Location = new System.Drawing.Point(11, 45);
+            this.lbFloors.Margin = new System.Windows.Forms.Padding(4);
+            this.lbFloors.Name = "lbFloors";
+            this.lbFloors.Size = new System.Drawing.Size(245, 308);
+            this.lbFloors.TabIndex = 20;
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.Location = new System.Drawing.Point(12, 379);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(245, 54);
+            this.btnOpen.TabIndex = 21;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1623, 922);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.cbGrid);
             this.Controls.Add(this.groupBox3);
@@ -973,6 +972,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbSimulator)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1037,24 +1038,24 @@
         private System.Windows.Forms.Label lblMaxFireEx;
         private System.Windows.Forms.Label lblMaxPeople;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox picBoxReset;
 		private System.Windows.Forms.CheckBox cbGrid;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.Label label32;
         private System.Windows.Forms.ListBox lbHistor;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.ListBox lbFloors;
+        private System.Windows.Forms.Label label13;
     }
 }
 
