@@ -24,7 +24,7 @@ namespace Library
 		private bool hasTicked = false;
 
 		private List<History> gridHistory;
-		private readonly Block[,] grid;
+		private Block[,] grid;
 
 		private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
 		private List<Person> persons = new List<Person>();
@@ -506,7 +506,7 @@ namespace Library
 		/// <returns></returns>
 		public bool IsSavable()
 		{
-			return getSavedGrid(defaultPath) == this.grid || getSavedGrid(defaultPath) == null;
+			return getSavedGrid(defaultPath) == this.grid || getSavedGrid(defaultPath) != null;
 		}
 
 		/// <summary>
@@ -531,17 +531,15 @@ namespace Library
 		/// Loading the grid
 		/// </summary>
 		/// <param name="path"></param>
-		public static GridController Load(string path)
+		public void Load(string path)
 		{
 			if (string.IsNullOrEmpty(path))
 				path = defaultPath;
 
 			var grid = getSavedGrid(path ?? defaultPath);
 
-			if (grid == null)
-				return null;
-			else
-				return new GridController(grid);
+			if (grid != null)
+				this.grid = grid;
 		}
 
 		#endregion
