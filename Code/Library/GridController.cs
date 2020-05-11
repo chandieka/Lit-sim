@@ -46,7 +46,6 @@ namespace Library
 		{
 			this.grid = new Block[gridSize.width, gridSize.height];
 			this.gridHistory = new List<History>();
-
 			// fill the grid with empty blocks.
 			this.Clear();
 		}
@@ -54,9 +53,8 @@ namespace Library
 		public GridController(Block[,] grid)
 		{
 			this.gridHistory = new List<History>();
-			this.grid = grid;
-
-			fillLists();
+            this.grid = grid;
+            fillLists();
 		}
 		#endregion
 
@@ -554,6 +552,40 @@ namespace Library
             return gc;
         }
 
+        public Block[,] DeepCloneBlock()
+        {
+            Block[,] newGrid = new Block[grid.GetLength(0), grid.GetLength(1)];
+            // Deep Copy the Grid
+            for (int i = 0; i < grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.GetLength(1); j++)
+                {
+                    if (grid[i, j].GetType() == typeof(Person))
+                    {
+                        newGrid[i, j] = new Person();
+                    }
+                    else if (grid[i, j].GetType() == typeof(Wall))
+                    {
+                        newGrid[i, j] = new Wall();
+                    }
+                    else if (grid[i, j].GetType() == typeof(Floor))
+                    {
+                        newGrid[i, j] = new Floor();
+                    }
+                    else if (grid[i, j].GetType() == typeof(Fire))
+                    {
+                        newGrid[i, j] = new Fire();
+                    }
+                    else if (grid[i, j].GetType() == typeof(FireExtinguisher))
+                    {
+                        newGrid[i, j] = new FireExtinguisher();
+                    }
+                }
+            }
+
+            return newGrid;
+        }
+
         public int GetFireExtinguisherSpot()
         {
             var floorSpots = this.GetFloorBlocks();
@@ -611,7 +643,7 @@ namespace Library
             return persons.Count(p => p.IsDead);
         }
 		
-		private void fillLists()
+		public void fillLists()
 		{
 			this.fireExtinguishers.Clear();
 			this.persons.Clear();
