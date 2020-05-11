@@ -225,7 +225,7 @@ namespace FireSimulator
             pbSimulator.Image = bmp;
         }
 
-        #endregion
+        #endregion Private Methods
 
         #region Private EventHandlers
 
@@ -284,7 +284,7 @@ namespace FireSimulator
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.GetType().FullName);
-                }                
+                }
             }
             else
             {
@@ -319,7 +319,7 @@ namespace FireSimulator
             gridController.Stop();
         }
 
-        #endregion
+        #endregion Private EventHandlers
 
         private void btnCloseStatistics_Click(object sender, EventArgs e)
         {
@@ -396,7 +396,6 @@ namespace FireSimulator
             }
             else if (!int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
             {
-
                 if (amountPeople < 0)
                 {
                     MessageBox.Show("Please enter more than 1 in the fire extinguishers field");
@@ -509,7 +508,6 @@ namespace FireSimulator
             {
                 //does nothing
             }
-
         }
 
         private void btnCalculatePaths_Click(object sender, EventArgs e)
@@ -800,6 +798,9 @@ namespace FireSimulator
         private void btnOpen_Click(object sender, EventArgs e)
         {
             Statistics formStat = new Statistics();
+
+            // TODO
+            // formStat.SetSimulations(...);
             formStat.Show();
         }
     }

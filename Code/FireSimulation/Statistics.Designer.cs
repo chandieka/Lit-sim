@@ -29,202 +29,328 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbStatistics = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnReplay = new System.Windows.Forms.Button();
+            this.btReplaySelected = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.pb_search = new System.Windows.Forms.PictureBox();
-            this.tb_search_input = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cbbSearchOption = new System.Windows.Forms.ComboBox();
+            this.lbSearchResults = new System.Windows.Forms.ListBox();
+            this.btSearch = new System.Windows.Forms.PictureBox();
+            this.tbSearchQuery = new System.Windows.Forms.TextBox();
+            this.lbSearch = new System.Windows.Forms.Label();
+            this.gbSimulationPreviews = new System.Windows.Forms.GroupBox();
+            this.vsbPreviewScroller = new System.Windows.Forms.HScrollBar();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.pb_layout = new System.Windows.Forms.PictureBox();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.lb_search_results = new System.Windows.Forms.ListBox();
-            this.cb_filter = new System.Windows.Forms.ComboBox();
+            this.cbbPreviewOrder = new System.Windows.Forms.ComboBox();
+            this.lbSort = new System.Windows.Forms.Label();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.pbSelectedPreview = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_search)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btSearch)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_layout)).BeginInit();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSelectedPreview)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(633, 56);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Controls.Add(this.lbStatistics);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(496, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(268, 427);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(262, 434);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
-            // label1
+            // lbStatistics
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(81, 15);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 24);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Statistics";
+            this.lbStatistics.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lbStatistics.AutoSize = true;
+            this.lbStatistics.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStatistics.Location = new System.Drawing.Point(93, 15);
+            this.lbStatistics.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbStatistics.Name = "lbStatistics";
+            this.lbStatistics.Size = new System.Drawing.Size(80, 24);
+            this.lbStatistics.TabIndex = 1;
+            this.lbStatistics.Text = "Statistics";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnReplay);
-            this.groupBox2.Location = new System.Drawing.Point(937, 37);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Controls.Add(this.btReplaySelected);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox2.Size = new System.Drawing.Size(275, 168);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(452, 144);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             // 
-            // btnReplay
+            // btReplaySelected
             // 
-            this.btnReplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReplay.Location = new System.Drawing.Point(20, 58);
-            this.btnReplay.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.btnReplay.Name = "btnReplay";
-            this.btnReplay.Size = new System.Drawing.Size(238, 57);
-            this.btnReplay.TabIndex = 0;
-            this.btnReplay.Text = "Reply selected simulation";
-            this.btnReplay.UseVisualStyleBackColor = true;
+            this.btReplaySelected.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btReplaySelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReplaySelected.Location = new System.Drawing.Point(32, 48);
+            this.btReplaySelected.Margin = new System.Windows.Forms.Padding(2);
+            this.btReplaySelected.Name = "btReplaySelected";
+            this.btReplaySelected.Size = new System.Drawing.Size(262, 57);
+            this.btReplaySelected.TabIndex = 0;
+            this.btReplaySelected.Text = "Replay selected simulation";
+            this.btReplaySelected.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.lb_search_results);
-            this.groupBox3.Controls.Add(this.pb_search);
-            this.groupBox3.Controls.Add(this.tb_search_input);
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Location = new System.Drawing.Point(937, 238);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Controls.Add(this.cbbSearchOption);
+            this.groupBox3.Controls.Add(this.lbSearchResults);
+            this.groupBox3.Controls.Add(this.btSearch);
+            this.groupBox3.Controls.Add(this.tbSearchQuery);
+            this.groupBox3.Controls.Add(this.lbSearch);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(2, 150);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox3.Size = new System.Drawing.Size(275, 421);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Size = new System.Drawing.Size(452, 440);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             // 
-            // pb_search
+            // cbbSearchOption
             // 
-            this.pb_search.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pb_search.Image = global::FireSimulator.Icons.search_Icon;
-            this.pb_search.ImageLocation = "";
-            this.pb_search.Location = new System.Drawing.Point(225, 58);
-            this.pb_search.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.pb_search.Name = "pb_search";
-            this.pb_search.Size = new System.Drawing.Size(17, 18);
-            this.pb_search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_search.TabIndex = 4;
-            this.pb_search.TabStop = false;
+            this.cbbSearchOption.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbbSearchOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbSearchOption.FormattingEnabled = true;
+            this.cbbSearchOption.Location = new System.Drawing.Point(32, 83);
+            this.cbbSearchOption.Name = "cbbSearchOption";
+            this.cbbSearchOption.Size = new System.Drawing.Size(262, 21);
+            this.cbbSearchOption.TabIndex = 6;
             // 
-            // tb_search_input
+            // lbSearchResults
             // 
-            this.tb_search_input.Location = new System.Drawing.Point(37, 58);
-            this.tb_search_input.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tb_search_input.Name = "tb_search_input";
-            this.tb_search_input.Size = new System.Drawing.Size(184, 20);
-            this.tb_search_input.TabIndex = 3;
+            this.lbSearchResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbSearchResults.FormattingEnabled = true;
+            this.lbSearchResults.IntegralHeight = false;
+            this.lbSearchResults.Location = new System.Drawing.Point(32, 110);
+            this.lbSearchResults.Name = "lbSearchResults";
+            this.lbSearchResults.Size = new System.Drawing.Size(262, 310);
+            this.lbSearchResults.TabIndex = 5;
             // 
-            // label2
+            // btSearch
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(99, 15);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(70, 24);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Search";
+            this.btSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btSearch.Image = global::FireSimulator.Icons.search_Icon;
+            this.btSearch.ImageLocation = "";
+            this.btSearch.Location = new System.Drawing.Point(397, 58);
+            this.btSearch.Margin = new System.Windows.Forms.Padding(2);
+            this.btSearch.Name = "btSearch";
+            this.btSearch.Size = new System.Drawing.Size(17, 18);
+            this.btSearch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btSearch.TabIndex = 4;
+            this.btSearch.TabStop = false;
             // 
-            // groupBox4
+            // tbSearchQuery
             // 
-            this.groupBox4.Location = new System.Drawing.Point(35, 521);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox4.Size = new System.Drawing.Size(666, 138);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
+            this.tbSearchQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbSearchQuery.Location = new System.Drawing.Point(32, 58);
+            this.tbSearchQuery.Margin = new System.Windows.Forms.Padding(2);
+            this.tbSearchQuery.Name = "tbSearchQuery";
+            this.tbSearchQuery.Size = new System.Drawing.Size(262, 20);
+            this.tbSearchQuery.TabIndex = 3;
+            // 
+            // lbSearch
+            // 
+            this.lbSearch.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lbSearch.AutoSize = true;
+            this.lbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSearch.Location = new System.Drawing.Point(114, 15);
+            this.lbSearch.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbSearch.Name = "lbSearch";
+            this.lbSearch.Size = new System.Drawing.Size(70, 24);
+            this.lbSearch.TabIndex = 2;
+            this.lbSearch.Text = "Search";
+            // 
+            // gbSimulationPreviews
+            // 
+            this.gbSimulationPreviews.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbSimulationPreviews.Location = new System.Drawing.Point(2, 2);
+            this.gbSimulationPreviews.Margin = new System.Windows.Forms.Padding(2);
+            this.gbSimulationPreviews.Name = "gbSimulationPreviews";
+            this.gbSimulationPreviews.Padding = new System.Windows.Forms.Padding(2);
+            this.gbSimulationPreviews.Size = new System.Drawing.Size(842, 118);
+            this.gbSimulationPreviews.TabIndex = 2;
+            this.gbSimulationPreviews.TabStop = false;
+            // 
+            // vsbPreviewScroller
+            // 
+            this.vsbPreviewScroller.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.vsbPreviewScroller.Location = new System.Drawing.Point(0, 122);
+            this.vsbPreviewScroller.Name = "vsbPreviewScroller";
+            this.vsbPreviewScroller.Size = new System.Drawing.Size(846, 14);
+            this.vsbPreviewScroller.TabIndex = 4;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1104, 595);
+            this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel4, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.AddColumns;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(766, 592);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel4.Controls.Add(this.groupBox5, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 447);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 145F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(760, 142);
+            this.tableLayoutPanel4.TabIndex = 0;
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.cb_filter);
-            this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Location = new System.Drawing.Point(728, 521);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Controls.Add(this.cbbPreviewOrder);
+            this.groupBox5.Controls.Add(this.lbSort);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Location = new System.Drawing.Point(610, 2);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox5.Size = new System.Drawing.Size(173, 138);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox5.Size = new System.Drawing.Size(148, 138);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             // 
-            // label4
+            // cbbPreviewOrder
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(56, 40);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 24);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Filter";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            this.cbbPreviewOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbbPreviewOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbbPreviewOrder.FormattingEnabled = true;
+            this.cbbPreviewOrder.Location = new System.Drawing.Point(23, 80);
+            this.cbbPreviewOrder.Name = "cbbPreviewOrder";
+            this.cbbPreviewOrder.Size = new System.Drawing.Size(104, 21);
+            this.cbbPreviewOrder.TabIndex = 5;
             // 
-            // pb_layout
+            // lbSort
             // 
-            this.pb_layout.Location = new System.Drawing.Point(35, 28);
-            this.pb_layout.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.pb_layout.Name = "pb_layout";
-            this.pb_layout.Size = new System.Drawing.Size(565, 473);
-            this.pb_layout.TabIndex = 0;
-            this.pb_layout.TabStop = false;
+            this.lbSort.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbSort.AutoSize = true;
+            this.lbSort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSort.Location = new System.Drawing.Point(56, 34);
+            this.lbSort.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbSort.Name = "lbSort";
+            this.lbSort.Size = new System.Drawing.Size(43, 24);
+            this.lbSort.TabIndex = 4;
+            this.lbSort.Text = "Sort";
             // 
-            // hScrollBar1
+            // tableLayoutPanel6
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(37, 659);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(662, 15);
-            this.hScrollBar1.TabIndex = 4;
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.Controls.Add(this.vsbPreviewScroller, 0, 1);
+            this.tableLayoutPanel6.Controls.Add(this.gbSimulationPreviews, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 2;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.13158F));
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.868421F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(602, 136);
+            this.tableLayoutPanel6.TabIndex = 3;
             // 
-            // lb_search_results
+            // tableLayoutPanel5
             // 
-            this.lb_search_results.FormattingEnabled = true;
-            this.lb_search_results.Location = new System.Drawing.Point(37, 92);
-            this.lb_search_results.Name = "lb_search_results";
-            this.lb_search_results.Size = new System.Drawing.Size(205, 303);
-            this.lb_search_results.TabIndex = 5;
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel5.Controls.Add(this.groupBox1, 1, 0);
+            this.tableLayoutPanel5.Controls.Add(this.pbSelectedPreview, 0, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(760, 438);
+            this.tableLayoutPanel5.TabIndex = 1;
             // 
-            // cb_filter
+            // tableLayoutPanel3
             // 
-            this.cb_filter.FormattingEnabled = true;
-            this.cb_filter.Items.AddRange(new object[] {
-            "Most Deaths",
-            "Least Deaths",
-            "Most Successsful",
-            "Least Successful"});
-            this.cb_filter.Location = new System.Drawing.Point(18, 80);
-            this.cb_filter.Name = "cb_filter";
-            this.cb_filter.Size = new System.Drawing.Size(137, 21);
-            this.cb_filter.TabIndex = 5;
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.groupBox3, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(775, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(326, 592);
+            this.tableLayoutPanel3.TabIndex = 1;
+            // 
+            // pbSelectedPreview
+            // 
+            this.pbSelectedPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbSelectedPreview.Location = new System.Drawing.Point(2, 2);
+            this.pbSelectedPreview.Margin = new System.Windows.Forms.Padding(2);
+            this.pbSelectedPreview.Name = "pbSelectedPreview";
+            this.pbSelectedPreview.Size = new System.Drawing.Size(490, 434);
+            this.pbSelectedPreview.TabIndex = 0;
+            this.pbSelectedPreview.TabStop = false;
             // 
             // Statistics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1258, 704);
-            this.Controls.Add(this.hScrollBar1);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.pb_layout);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ClientSize = new System.Drawing.Size(1104, 595);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MinimumSize = new System.Drawing.Size(1120, 634);
             this.Name = "Statistics";
             this.Text = "Statistics";
             this.groupBox1.ResumeLayout(false);
@@ -232,30 +358,42 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_search)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btSearch)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_layout)).EndInit();
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbSelectedPreview)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pb_layout;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox gbSimulationPreviews;
+        private System.Windows.Forms.Label lbStatistics;
+        private System.Windows.Forms.PictureBox btSearch;
+        private System.Windows.Forms.TextBox tbSearchQuery;
+        private System.Windows.Forms.Label lbSearch;
+        private System.Windows.Forms.Button btReplaySelected;
+        private System.Windows.Forms.ListBox lbSearchResults;
+        private System.Windows.Forms.HScrollBar vsbPreviewScroller;
+        private System.Windows.Forms.ComboBox cbbSearchOption;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pb_search;
-        private System.Windows.Forms.TextBox tb_search_input;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnReplay;
-        private System.Windows.Forms.ListBox lb_search_results;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
-        private System.Windows.Forms.ComboBox cb_filter;
+        private System.Windows.Forms.ComboBox cbbPreviewOrder;
+        private System.Windows.Forms.Label lbSort;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.PictureBox pbSelectedPreview;
     }
 }
