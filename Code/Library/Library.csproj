@@ -46,22 +46,26 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AStar.cs" />
-    <Compile Include="Block.cs" />
-    <Compile Include="Fire.cs" />
-    <Compile Include="FireExtinguisher.cs" />
-    <Compile Include="Floor.cs" />
-    <Compile Include="FunctionalBlock.cs" />
-    <Compile Include="GridController.cs" />
-    <Compile Include="History.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="AStar Algorithm\AStar.cs" />
+    <Compile Include="Grid Management\Block.cs" />
+    <Compile Include="Grid Management\Fire.cs" />
+    <Compile Include="Grid Management\FireExtinguisher.cs" />
+    <Compile Include="Grid Management\Floor.cs" />
+    <Compile Include="Floorplan Management\Floorplan.cs" />
+    <Compile Include="Floorplan Management\FloorplanController.cs" />
+    <Compile Include="Grid Management\FunctionalBlock.cs" />
+    <Compile Include="Grid Management\GridController.cs" />
+    <Compile Include="Grid Management\History.cs" />
+    <Compile Include="Floorplan Management\Layout.cs" />
+    <Compile Include="Grid Management\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Wall.cs" />
+    <Compile Include="Floorplan Management\SimulationData.cs" />
+    <Compile Include="Grid Management\Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -148,9 +148,9 @@
             this.groupBox1.Controls.Add(this.picBoxPerson);
             this.groupBox1.Controls.Add(this.picBoxFire);
             this.groupBox1.Location = new System.Drawing.Point(23, 56);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(112, 604);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
@@ -217,7 +217,7 @@
             // tbFireExtinguishers
             // 
             this.tbFireExtinguishers.Location = new System.Drawing.Point(14, 242);
-            this.tbFireExtinguishers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbFireExtinguishers.Margin = new System.Windows.Forms.Padding(2);
             this.tbFireExtinguishers.Name = "tbFireExtinguishers";
             this.tbFireExtinguishers.Size = new System.Drawing.Size(76, 20);
             this.tbFireExtinguishers.TabIndex = 17;
@@ -226,7 +226,7 @@
             // tbPeople
             // 
             this.tbPeople.Location = new System.Drawing.Point(14, 144);
-            this.tbPeople.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbPeople.Margin = new System.Windows.Forms.Padding(2);
             this.tbPeople.Name = "tbPeople";
             this.tbPeople.Size = new System.Drawing.Size(76, 20);
             this.tbPeople.TabIndex = 15;
@@ -259,7 +259,7 @@
             this.picBoxWall.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxWall.Image = global::FireSimulator.Icons.Wall;
             this.picBoxWall.Location = new System.Drawing.Point(26, 60);
-            this.picBoxWall.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBoxWall.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxWall.Name = "picBoxWall";
             this.picBoxWall.Size = new System.Drawing.Size(56, 61);
             this.picBoxWall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -273,7 +273,7 @@
             this.picBoxFireExtinguisher.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFireExtinguisher.Image = global::FireSimulator.Icons.Fire_extinguisher;
             this.picBoxFireExtinguisher.Location = new System.Drawing.Point(26, 144);
-            this.picBoxFireExtinguisher.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBoxFireExtinguisher.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxFireExtinguisher.Name = "picBoxFireExtinguisher";
             this.picBoxFireExtinguisher.Size = new System.Drawing.Size(56, 61);
             this.picBoxFireExtinguisher.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -301,7 +301,7 @@
             this.picBoxEraser.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxEraser.Image = global::FireSimulator.Icons.Eraser;
             this.picBoxEraser.Location = new System.Drawing.Point(26, 374);
-            this.picBoxEraser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBoxEraser.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxEraser.Name = "picBoxEraser";
             this.picBoxEraser.Size = new System.Drawing.Size(56, 61);
             this.picBoxEraser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -329,7 +329,7 @@
             this.picBoxPerson.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxPerson.Image = global::FireSimulator.Icons.Person;
             this.picBoxPerson.Location = new System.Drawing.Point(26, 298);
-            this.picBoxPerson.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBoxPerson.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxPerson.Name = "picBoxPerson";
             this.picBoxPerson.Size = new System.Drawing.Size(56, 61);
             this.picBoxPerson.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -343,7 +343,7 @@
             this.picBoxFire.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxFire.Image = global::FireSimulator.Icons.Fire;
             this.picBoxFire.Location = new System.Drawing.Point(26, 221);
-            this.picBoxFire.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBoxFire.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxFire.Name = "picBoxFire";
             this.picBoxFire.Size = new System.Drawing.Size(56, 61);
             this.picBoxFire.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -359,9 +359,9 @@
             this.groupBox2.Controls.Add(this.btnCalculatePaths);
             this.groupBox2.Controls.Add(this.btnTerminate);
             this.groupBox2.Location = new System.Drawing.Point(189, 665);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(600, 82);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
@@ -372,7 +372,7 @@
             this.picBoxPlayPause.Enabled = false;
             this.picBoxPlayPause.Image = global::FireSimulator.Icons.Play;
             this.picBoxPlayPause.Location = new System.Drawing.Point(272, 13);
-            this.picBoxPlayPause.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.picBoxPlayPause.Margin = new System.Windows.Forms.Padding(2);
             this.picBoxPlayPause.Name = "picBoxPlayPause";
             this.picBoxPlayPause.Size = new System.Drawing.Size(56, 61);
             this.picBoxPlayPause.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -384,7 +384,7 @@
             // btnCalculatePaths
             // 
             this.btnCalculatePaths.Location = new System.Drawing.Point(166, 13);
-            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalculatePaths.Name = "btnCalculatePaths";
             this.btnCalculatePaths.Size = new System.Drawing.Size(102, 61);
             this.btnCalculatePaths.TabIndex = 18;
@@ -409,7 +409,7 @@
             this.tbTimer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTimer.Location = new System.Drawing.Point(804, 11);
-            this.tbTimer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbTimer.Margin = new System.Windows.Forms.Padding(2);
             this.tbTimer.Name = "tbTimer";
             this.tbTimer.ReadOnly = true;
             this.tbTimer.Size = new System.Drawing.Size(129, 16);
@@ -662,7 +662,7 @@
             // trackBarSpeed
             // 
             this.trackBarSpeed.Location = new System.Drawing.Point(193, 10);
-            this.trackBarSpeed.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.trackBarSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.trackBarSpeed.Maximum = 100;
             this.trackBarSpeed.Minimum = 1;
             this.trackBarSpeed.Name = "trackBarSpeed";
@@ -848,9 +848,9 @@
             this.groupBox5.Controls.Add(this.lbFloors);
             this.groupBox5.Controls.Add(this.label13);
             this.groupBox5.Location = new System.Drawing.Point(1094, 369);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox5.Size = new System.Drawing.Size(200, 384);
             this.groupBox5.TabIndex = 29;
             this.groupBox5.TabStop = false;
@@ -858,7 +858,7 @@
             // btnOpen
             // 
             this.btnOpen.Location = new System.Drawing.Point(9, 308);
-            this.btnOpen.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOpen.Margin = new System.Windows.Forms.Padding(2);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(184, 44);
             this.btnOpen.TabIndex = 21;
@@ -890,7 +890,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1345, 795);
+            this.ClientSize = new System.Drawing.Size(1345, 760);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.cbGrid);
@@ -905,7 +905,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FireSimulatorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fire simulation";

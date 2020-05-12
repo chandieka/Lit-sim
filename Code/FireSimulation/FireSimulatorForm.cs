@@ -9,8 +9,10 @@ namespace FireSimulator
     public partial class FireSimulatorForm : Form
     {
         private TimeSpan time = new TimeSpan(0, 0, 0);
+
         private GridController gridController;
         private GridController gcStartingPosition;
+
         private bool building = true;
         private GUIElement element;
         private Pair prevCurPos;

@@ -24,8 +24,9 @@ namespace Library
 		private bool hasTicked = false;
 
 		private List<History> gridHistory;
-		private Block[,] grid;
 
+        // Core Variable
+		private Block[,] grid;
 		private List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
 		private List<Person> persons = new List<Person>();
 
