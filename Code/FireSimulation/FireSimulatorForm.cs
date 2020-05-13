@@ -378,9 +378,7 @@ namespace FireSimulator
             btnTerminate.Visible = false;
             btnRerunSimulation.Visible = false;
             // clear the map
-            gridController.Clear();
-            // get the basic floor plan
-            gridController.PutDefaultFloorPlan(1);
+            gridController.ClearLayout();
             // add fire to the map
             gridController.RandomizeFire(1, r.Next());
 
@@ -424,6 +422,7 @@ namespace FireSimulator
             // not wasting computing power if its not successfull
             if (isSuccess)
             {
+                gridController.fillLists();
                 SaveStartingLayout();
                 VisualizeSimulation();
                 this.gridController.AddToHistory("Random generated");
