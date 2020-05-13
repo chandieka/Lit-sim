@@ -74,6 +74,19 @@ namespace Library
 			this.hasTicked = false;
 		}
 
+        public void ClearLayout()
+        {
+            for (int x = 0; x < this.grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < this.grid.GetLength(1); y++)
+                {
+                    if (this.grid[x, y].GetType() == typeof(Person) || this.grid[x, y].GetType() == typeof(Fire) || this.grid[x, y].GetType() == typeof(FireExtinguisher))
+                        this.grid[x, y] = new Floor();
+                }
+            }
+            this.hasTicked = false;
+        }
+
 		public void PutFloor((int x, int y) location)
 		{
 			this.grid[location.x, location.y] = GridController.Floor;
