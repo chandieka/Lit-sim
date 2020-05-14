@@ -88,6 +88,7 @@
 			this.lvFloorplan.Scrollable = true;
 			this.lvFloorplan.View = System.Windows.Forms.View.List;
 			this.lvFloorplan.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+			this.lvFloorplan.MultiSelect = false;
 			// 
 			// btnFPEdit
 			// 
@@ -108,6 +109,7 @@
 			this.btnFPDelete.TabIndex = 2;
 			this.btnFPDelete.Text = "Delete";
 			this.btnFPDelete.UseVisualStyleBackColor = true;
+			this.btnFPDelete.Click += btnFPDelete_Click;
 			// 
 			// btnFPCreate
 			// 
@@ -119,7 +121,7 @@
 			this.btnFPCreate.TabIndex = 3;
 			this.btnFPCreate.Text = "Create";
 			this.btnFPCreate.UseVisualStyleBackColor = true;
-			this.btnFPCreate.Click += BtnFPCreate_Click;
+			this.btnFPCreate.Click += btnFPCreate_Click;
 			// 
 			// lvLayout
 			// 

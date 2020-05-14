@@ -8,14 +8,12 @@ namespace FireSimulator
 {
 	public partial class MainForm : Form
 	{
+		private FloorplanController floorplanController;
+
 		public MainForm()
 		{
 			InitializeComponent();
-            floorplanController = new FloorplanController();
-            CreateDefaultFloorplan();
-            loadFloorplans();
-		}
-
+			floorplanController = new FloorplanController();
 			loadFloorplans();
 		}
 
@@ -28,17 +26,24 @@ namespace FireSimulator
 					// Check if it is a file
 					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
 					{
-                        Console.WriteLine($"Parsing {path}...");
-                        var itm = SaveLoadManager.Load(path);
-                        if (itm.Item is Floorplan)
-                        {
-                            floorplanController.AddFloorPlan((Floorplan)itm.Item);
-                        }
-                    }
-				}
-                UpdateGUI();
+						new Thread(() =>
+						{
+							Console.WriteLine($"Parsing {path}...");
+							var itm = SaveLoadManager.Load(path);
 
-            }
+							if (itm.Item is Floorplan)
+							{
+								floorplanController.AddFloorPlan((Floorplan)itm.Item);
+								lvFloorplan.Invoke(new Action(() =>
+								{
+									lvFloorplan.Items.Add(itm.Item.Id.ToString(), itm.Name, "");
+								}));
+							}
+
+						}).Start();
+					}
+				}
+			}
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
@@ -52,40 +57,28 @@ namespace FireSimulator
 			}
 		}
 
-        private void UpdateGUI()
-        {
-            foreach (Floorplan f in floorplanController.GetFloorPlans())
-            {
-                lvFloorplan.Items.Add(f.Id.ToString());
-                foreach (Layout l in f.GetLayouts())
-                {
-                    lvLayout.Items.Add($"{l.NrOfPeople} {l.NrOfFireExtinguisher} {l.NrOfFire}");
-                }
-            }
+		#region Event Handler
+		private void btnFPCopy_Click(object sender, EventArgs e)
+		{
 
-        }
+		}
 
-        #endregion
+		private void btnFPDelete_Click(object sender, EventArgs e)
+		{
+			var selected = lvFloorplan.SelectedItems[0];
 
-        #region Event Handler
-        private void btnFPCopy_Click(object sender, EventArgs e)
-        {
+			if (selected != null)
+			{
+				SaveLoadManager.Delete(Guid.Parse(selected.Name));
+				lvFloorplan.Items.Remove(selected);
+			}
+		}
 
-        }
-        private void btnFPDelete_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnFPCreate_Click(object sender, EventArgs e)
-        {
-
-        }
-
-		private void BtnFPCreate_Click(object sender, EventArgs e)
+		private void btnFPCreate_Click(object sender, EventArgs e)
 		{
 			// TODO: Size
 			new DesignerForm(100, 100).ShowDialog();
 		}
+		#endregion
 	}
 }
