@@ -8,10 +8,10 @@ namespace FireSimulator
 {
 	public partial class DesignerForm : Form
 	{
-        private Designer designer;
-        private GUIElement element;
-        private Dictionary<PictureBox, GUIElement> buildSelectables =
-            new Dictionary<PictureBox, GUIElement>();
+		private Designer designer;
+		private GUIElement element;
+		private Dictionary<PictureBox, GUIElement> buildSelectables =
+			new Dictionary<PictureBox, GUIElement>();
 
 		private Pair prevCurPos;
 		private Pair curCurPos;
@@ -21,22 +21,22 @@ namespace FireSimulator
 		public DesignerForm(int width, int height)
 		{
 			InitializeComponent();
-            designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
-            buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
-            buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
-            buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
-            buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
-            buildSelectables.Add(picBoxWall, GUIElement.WALL);
-            buildSelectables.Add(picBoxFire, GUIElement.FIRE);
-            picBoxFloor.BackColor = Color.LightGray;
-        }
+			designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
+			buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
+			buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
+			buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
+			buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
+			buildSelectables.Add(picBoxWall, GUIElement.WALL);
+			buildSelectables.Add(picBoxFire, GUIElement.FIRE);
+			picBoxFloor.BackColor = Color.LightGray;
+		}
 
 		private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
 		{
 			designer.drawBitmap(e.Graphics);
 			designer.drawSample(e.Graphics, element, curCurPos, prevCurPos);
-            if (cbGrid.Checked)
-			    designer.drawGrid(e.Graphics);
+			if (cbGrid.Checked)
+				designer.drawGrid(e.Graphics);
 		}
 
 		private void pictureBoxGrid_Resize(object sender, EventArgs e)
@@ -105,21 +105,21 @@ namespace FireSimulator
 				pictureBoxGrid.Invalidate();
 		}
 
-        private void picBoxDesigner_Click(object sender, EventArgs e)
-        {
-            foreach (var p in buildSelectables)
-            {
-                if (p.Key != sender)
-                    p.Key.BackColor = Color.Transparent;
-                else
-                {
-                    p.Key.BackColor = Color.LightGray;
-                    element = p.Value;
-                }
-            }
-        }
+		private void picBoxDesigner_Click(object sender, EventArgs e)
+		{
+			foreach (var p in buildSelectables)
+			{
+				if (p.Key != sender)
+					p.Key.BackColor = Color.Transparent;
+				else
+				{
+					p.Key.BackColor = Color.LightGray;
+					element = p.Value;
+				}
+			}
+		}
 
-        private void rb_CheckedChanged_Reset(object sender, EventArgs e)
+		private void rb_CheckedChanged_Reset(object sender, EventArgs e)
 		{
 			this.pictureBoxGrid.MouseMove -= new MouseEventHandler(this.pictureBoxGrid_MouseMove);
 			lblEscMessage.Visible = false;
@@ -136,21 +136,21 @@ namespace FireSimulator
 			else if (e.Control)
 			{
 				if (e.KeyCode == Keys.S)
-					designer.save();
+					designer.SaveAsLayout();
 				else if (e.KeyCode == Keys.O)
 					designer.open();
 			}
 		}
 
-        private void pbReset_Click(object sender, EventArgs e)
-        {
-            designer.ClearAll();
-            pictureBoxGrid.Invalidate();
-        }
+		private void pbReset_Click(object sender, EventArgs e)
+		{
+			designer.ClearAll();
+			pictureBoxGrid.Invalidate();
+		}
 
-        private void cbGrid_CheckedChanged(object sender, EventArgs e)
-        {
-            pictureBoxGrid.Invalidate();
-        }
-    }
+		private void cbGrid_CheckedChanged(object sender, EventArgs e)
+		{
+			pictureBoxGrid.Invalidate();
+		}
+	}
 }

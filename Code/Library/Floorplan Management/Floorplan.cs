@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Library
 {
-	public class Floorplan
+	[Serializable]
+	public class Floorplan : ISavable
 	{
 		public List<Layout> Layouts { get; private set; }
 		public Block[,] Grid { get; private set; }
+		public Guid Id { get; } = Guid.NewGuid();
 
 		public Floorplan(Block[,] grid)
 		{
