@@ -17,8 +17,8 @@ namespace FireSimulator
 		{
 			InitializeComponent();
             floorplanController = new FloorplanController();
-            CreateDefaultFloorplan()
-            loadLayouts();
+            CreateDefaultFloorplan();
+            loadFloorplan();
 		}
 
         #region Private Methods
@@ -35,7 +35,7 @@ namespace FireSimulator
         }
 
         // TODO change name
-        private void loadLayouts()
+        private void loadFloorplan()
 		{
 			try
 			{
@@ -44,19 +44,17 @@ namespace FireSimulator
 					// Check if it is a file
 					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
 					{
-						new Thread(() =>
-						{
-							Console.WriteLine($"Parsing {path}...");
-							var itm = SaveLoadManager.Load(path);
-							if (itm.Item is Floorplan)
-								lvFloorplan.Invoke(new Action(() =>
-								{
-									lvFloorplan.Items.Add(itm.Name);
-								}));
-						}).Start();
-					}
+                        Console.WriteLine($"Parsing {path}...");
+                        var itm = SaveLoadManager.Load(path);
+                        if (itm.Item is Floorplan)
+                        {
+                            floorplanController.AddFloorPlan((Floorplan)itm.Item);
+                        }
+                    }
 				}
-			}
+                UpdateGUI();
+
+            }
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
@@ -69,6 +67,20 @@ namespace FireSimulator
 				Application.Exit();
 			}
 		}
+
+        private void UpdateGUI()
+        {
+            foreach (Floorplan f in floorplanController.GetFloorPlans())
+            {
+                lvFloorplan.Items.Add(f.Id.ToString());
+                foreach (Layout l in f.GetLayouts())
+                {
+                    lvLayout.Items.Add($"{l.NrOfPeople} {l.NrOfFireExtinguisher} {l.NrOfFire}");
+                }
+            }
+
+        }
+
         #endregion
 
         #region Event Handler

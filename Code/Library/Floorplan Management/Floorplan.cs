@@ -27,5 +27,10 @@ namespace Library
 			if (layout != null)
 				Layouts.Remove(layout);
 		}
+
+        public Layout[] GetLayouts()
+        {
+            return Layouts.ToArray();
+        }
 	}
 }

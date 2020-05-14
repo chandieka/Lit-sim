@@ -53,7 +53,7 @@
             this.gbFloorplan.Controls.Add(this.lvFloorplan);
             this.gbFloorplan.Location = new System.Drawing.Point(13, 13);
             this.gbFloorplan.Name = "gbFloorplan";
-            this.gbFloorplan.Size = new System.Drawing.Size(200, 390);
+            this.gbFloorplan.Size = new System.Drawing.Size(546, 479);
             this.gbFloorplan.TabIndex = 0;
             this.gbFloorplan.TabStop = false;
             this.gbFloorplan.Text = "Floorplan";
@@ -62,9 +62,9 @@
             // 
             this.btnFPCreate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFPCreate.Location = new System.Drawing.Point(7, 363);
+            this.btnFPCreate.Location = new System.Drawing.Point(7, 452);
             this.btnFPCreate.Name = "btnFPCreate";
-            this.btnFPCreate.Size = new System.Drawing.Size(187, 23);
+            this.btnFPCreate.Size = new System.Drawing.Size(533, 23);
             this.btnFPCreate.TabIndex = 3;
             this.btnFPCreate.Text = "Create";
             this.btnFPCreate.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@
             // btnFPDelete
             // 
             this.btnFPDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFPDelete.Location = new System.Drawing.Point(119, 334);
+            this.btnFPDelete.Location = new System.Drawing.Point(465, 423);
             this.btnFPDelete.Name = "btnFPDelete";
             this.btnFPDelete.Size = new System.Drawing.Size(75, 23);
             this.btnFPDelete.TabIndex = 2;
@@ -84,7 +84,7 @@
             // btnFPCopy
             // 
             this.btnFPCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFPCopy.Location = new System.Drawing.Point(6, 334);
+            this.btnFPCopy.Location = new System.Drawing.Point(6, 423);
             this.btnFPCopy.Name = "btnFPCopy";
             this.btnFPCopy.Size = new System.Drawing.Size(75, 23);
             this.btnFPCopy.TabIndex = 1;
@@ -100,7 +100,7 @@
             this.lvFloorplan.HideSelection = false;
             this.lvFloorplan.Location = new System.Drawing.Point(7, 20);
             this.lvFloorplan.Name = "lvFloorplan";
-            this.lvFloorplan.Size = new System.Drawing.Size(187, 308);
+            this.lvFloorplan.Size = new System.Drawing.Size(533, 397);
             this.lvFloorplan.TabIndex = 0;
             this.lvFloorplan.UseCompatibleStateImageBehavior = false;
             // 
@@ -113,9 +113,9 @@
             this.gbLayout.Controls.Add(this.btnLDelete);
             this.gbLayout.Controls.Add(this.btnLEdit);
             this.gbLayout.Controls.Add(this.lvLayout);
-            this.gbLayout.Location = new System.Drawing.Point(219, 13);
+            this.gbLayout.Location = new System.Drawing.Point(604, 13);
             this.gbLayout.Name = "gbLayout";
-            this.gbLayout.Size = new System.Drawing.Size(200, 390);
+            this.gbLayout.Size = new System.Drawing.Size(516, 479);
             this.gbLayout.TabIndex = 1;
             this.gbLayout.TabStop = false;
             this.gbLayout.Text = "Layout";
@@ -123,7 +123,7 @@
             // btnLView
             // 
             this.btnLView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLView.Location = new System.Drawing.Point(119, 363);
+            this.btnLView.Location = new System.Drawing.Point(435, 452);
             this.btnLView.Name = "btnLView";
             this.btnLView.Size = new System.Drawing.Size(75, 23);
             this.btnLView.TabIndex = 5;
@@ -134,7 +134,7 @@
             // btnLCreate
             // 
             this.btnLCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLCreate.Location = new System.Drawing.Point(7, 361);
+            this.btnLCreate.Location = new System.Drawing.Point(7, 450);
             this.btnLCreate.Name = "btnLCreate";
             this.btnLCreate.Size = new System.Drawing.Size(75, 23);
             this.btnLCreate.TabIndex = 4;
@@ -145,7 +145,7 @@
             // btnLDelete
             // 
             this.btnLDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLDelete.Location = new System.Drawing.Point(119, 334);
+            this.btnLDelete.Location = new System.Drawing.Point(435, 423);
             this.btnLDelete.Name = "btnLDelete";
             this.btnLDelete.Size = new System.Drawing.Size(75, 23);
             this.btnLDelete.TabIndex = 3;
@@ -156,7 +156,7 @@
             // btnLEdit
             // 
             this.btnLEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLEdit.Location = new System.Drawing.Point(7, 335);
+            this.btnLEdit.Location = new System.Drawing.Point(7, 424);
             this.btnLEdit.Name = "btnLEdit";
             this.btnLEdit.Size = new System.Drawing.Size(75, 23);
             this.btnLEdit.TabIndex = 1;
@@ -172,7 +172,7 @@
             this.lvLayout.HideSelection = false;
             this.lvLayout.Location = new System.Drawing.Point(7, 20);
             this.lvLayout.Name = "lvLayout";
-            this.lvLayout.Size = new System.Drawing.Size(187, 308);
+            this.lvLayout.Size = new System.Drawing.Size(503, 397);
             this.lvLayout.TabIndex = 0;
             this.lvLayout.UseCompatibleStateImageBehavior = false;
             // 
@@ -180,7 +180,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(431, 415);
+            this.ClientSize = new System.Drawing.Size(1132, 504);
             this.Controls.Add(this.gbLayout);
             this.Controls.Add(this.gbFloorplan);
             this.Name = "MainForm";
