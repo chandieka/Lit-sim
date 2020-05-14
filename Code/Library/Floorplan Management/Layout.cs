@@ -4,15 +4,11 @@ using System.Collections.Generic;
 namespace Library
 {
 	[Serializable]
-	public class Layout : ISavable
+	public class Layout
 	{
 		public int NrOfPeople { get; private set; }
 		public int NrOfFireExtinguisher { get; private set; }
 		public int NrOfFire { get; private set; }
-
-		private readonly Guid id = Guid.NewGuid();
-		public Guid Id => this.id;
-
 		private List<SimulationData> SimulationDatas;
 		private Block[,] Grid;
 

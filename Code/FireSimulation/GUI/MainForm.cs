@@ -41,22 +41,19 @@ namespace FireSimulator
 			{
 				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder()))
 				{
-					if (path.StartsWith(SaveLoadManager.FilePrefix))
+					// Check if it is a file
+					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
 					{
-						// Check if it is a file
-						if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
+						new Thread(() =>
 						{
-							new Thread(() =>
-							{
-								var itm = SaveLoadManager.Load(path);
-
-								if (itm.Item is Layout)
-									lvLayout.Invoke(new Action(() =>
-									{
-										lvLayout.Items.Add(itm.Name);
-									}));
-							}).Start();
-						}
+							Console.WriteLine($"Parsing {path}...");
+							var itm = SaveLoadManager.Load(path);
+							if (itm.Item is Floorplan)
+								lvFloorplan.Invoke(new Action(() =>
+								{
+									lvFloorplan.Items.Add(itm.Name);
+								}));
+						}).Start();
 					}
 				}
 			}

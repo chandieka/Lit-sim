@@ -6,11 +6,9 @@ namespace Library
 {
 	public class SaveLoadManager
 	{
-		public static readonly string FilePrefix = "Lit-";
-
 		public static void Save(SaveItem itm)
 		{
-			using (Stream stream = File.Open(Path.Combine(GetSaveFolder(), FilePrefix + itm.Item.Id), FileMode.Create))
+			using (Stream stream = File.Open(Path.Combine(GetSaveFolder(), itm.Item.Id.ToString() + ".bin"), FileMode.Create))
 				new BinaryFormatter().Serialize(stream, itm);
 		}
 
