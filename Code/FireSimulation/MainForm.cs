@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace FireSimulator
@@ -15,6 +9,26 @@ namespace FireSimulator
         public MainForm()
         {
             InitializeComponent();
+
+            loadLayouts();
+        }
+
+        public static string GetSaveFolder(bool shouldCheck = true)
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lit");
+
+            if (shouldCheck)
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+            }
+
+            return path;
+        }
+
+        private void loadLayouts()
+        {
+            // TODO
         }
     }
 }
