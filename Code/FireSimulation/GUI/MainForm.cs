@@ -8,34 +8,14 @@ namespace FireSimulator
 {
 	public partial class MainForm : Form
 	{
-        // Floorplan = > wall + floor
-        // Layout => Floorplan + all the people, fire, and fire extinguisher 
-
-        private FloorplanController floorplanController;
-
 		public MainForm()
 		{
 			InitializeComponent();
-            floorplanController = new FloorplanController();
-            CreateDefaultFloorplan()
-            loadLayouts();
+
+			loadFloorplans();
 		}
 
-        #region Private Methods
-
-        private void CreateDefaultFloorplan()
-        {
-            // TODO: Check if a default floorplan is already save
-            if (floorplanController != null)
-            {
-                GridController gc = new GridController((100, 100));
-                gc.PutDefaultFloorPlan(1);
-                floorplanController.AddFloorPlan(new Floorplan(gc.DeepCloneBlock()));
-            }
-        }
-
-        // TODO change name
-        private void loadLayouts()
+		private void loadFloorplans()
 		{
 			try
 			{
@@ -69,42 +49,11 @@ namespace FireSimulator
 				Application.Exit();
 			}
 		}
-        #endregion
 
-        #region Event Handler
-        private void btnFPCopy_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void btnFPDelete_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnFPCreate_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnLEdit_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnLDelete_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnLView_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnLCreate_Click(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-    }
+		private void BtnFPCreate_Click(object sender, EventArgs e)
+		{
+			// TODO: Size
+			new DesignerForm(100, 100).ShowDialog();
+		}
+	}
 }
