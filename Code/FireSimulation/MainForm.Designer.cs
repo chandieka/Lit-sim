@@ -1,223 +1,201 @@
 ﻿namespace FireSimulator
 {
-    partial class MainForm
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class MainForm
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(22, 115);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(414, 472);
-            this.listBox1.TabIndex = 0;
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(456, 115);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(414, 472);
-            this.listBox2.TabIndex = 1;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(22, 601);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 56);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(162, 601);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(134, 56);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(302, 601);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(134, 56);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(456, 601);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(134, 56);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "button4";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(596, 601);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(134, 56);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(736, 601);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(134, 56);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "button6";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(25, 1);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(411, 108);
-            this.groupBox1.TabIndex = 8;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(15, 55);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(128, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Selected Layout:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(15, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(146, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Selected Floorplan:";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(456, 1);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(414, 108);
-            this.groupBox2.TabIndex = 9;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(15, 55);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(142, 20);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Number Of Layout:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 26);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(160, 20);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Number Of Floorplan:";
-            // 
-            // MainForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(891, 679);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listBox2);
-            this.Controls.Add(this.listBox1);
-            this.Name = "MainForm";
-            this.Text = "MainForm";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.ResumeLayout(false);
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.gbFloorplan = new System.Windows.Forms.GroupBox();
+			this.gbLayout = new System.Windows.Forms.GroupBox();
+			this.lvFloorplan = new System.Windows.Forms.ListView();
+			this.btnFPEdit = new System.Windows.Forms.Button();
+			this.btnFPDelete = new System.Windows.Forms.Button();
+			this.btnFPCreate = new System.Windows.Forms.Button();
+			this.lvLayout = new System.Windows.Forms.ListView();
+			this.btnLEdit = new System.Windows.Forms.Button();
+			this.btnLDelete = new System.Windows.Forms.Button();
+			this.btnLCreate = new System.Windows.Forms.Button();
+			this.btnLView = new System.Windows.Forms.Button();
+			this.gbFloorplan.SuspendLayout();
+			this.gbLayout.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// gbFloorplan
+			// 
+			this.gbFloorplan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)));
+			this.gbFloorplan.Controls.Add(this.btnFPCreate);
+			this.gbFloorplan.Controls.Add(this.btnFPDelete);
+			this.gbFloorplan.Controls.Add(this.btnFPEdit);
+			this.gbFloorplan.Controls.Add(this.lvFloorplan);
+			this.gbFloorplan.Location = new System.Drawing.Point(13, 13);
+			this.gbFloorplan.Name = "gbFloorplan";
+			this.gbFloorplan.Size = new System.Drawing.Size(200, 390);
+			this.gbFloorplan.TabIndex = 0;
+			this.gbFloorplan.TabStop = false;
+			this.gbFloorplan.Text = "Floorplan";
+			// 
+			// gbLayout
+			// 
+			this.gbLayout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.gbLayout.Controls.Add(this.btnLView);
+			this.gbLayout.Controls.Add(this.btnLCreate);
+			this.gbLayout.Controls.Add(this.btnLDelete);
+			this.gbLayout.Controls.Add(this.btnLEdit);
+			this.gbLayout.Controls.Add(this.lvLayout);
+			this.gbLayout.Location = new System.Drawing.Point(219, 13);
+			this.gbLayout.Name = "gbLayout";
+			this.gbLayout.Size = new System.Drawing.Size(200, 390);
+			this.gbLayout.TabIndex = 1;
+			this.gbLayout.TabStop = false;
+			this.gbLayout.Text = "Layout";
+			// 
+			// lvFloorplan
+			// 
+			this.lvFloorplan.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.lvFloorplan.HideSelection = false;
+			this.lvFloorplan.Location = new System.Drawing.Point(7, 20);
+			this.lvFloorplan.Name = "lvFloorplan";
+			this.lvFloorplan.Size = new System.Drawing.Size(187, 308);
+			this.lvFloorplan.TabIndex = 0;
+			this.lvFloorplan.UseCompatibleStateImageBehavior = false;
+			// 
+			// btnFPEdit
+			// 
+			this.btnFPEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnFPEdit.Location = new System.Drawing.Point(6, 334);
+			this.btnFPEdit.Name = "btnFPEdit";
+			this.btnFPEdit.Size = new System.Drawing.Size(75, 23);
+			this.btnFPEdit.TabIndex = 1;
+			this.btnFPEdit.Text = "Copy";
+			this.btnFPEdit.UseVisualStyleBackColor = true;
+			// 
+			// btnFPDelete
+			// 
+			this.btnFPDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFPDelete.Location = new System.Drawing.Point(119, 334);
+			this.btnFPDelete.Name = "btnFPDelete";
+			this.btnFPDelete.Size = new System.Drawing.Size(75, 23);
+			this.btnFPDelete.TabIndex = 2;
+			this.btnFPDelete.Text = "Delete";
+			this.btnFPDelete.UseVisualStyleBackColor = true;
+			// 
+			// btnFPCreate
+			// 
+			this.btnFPCreate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.btnFPCreate.Location = new System.Drawing.Point(7, 363);
+			this.btnFPCreate.Name = "btnFPCreate";
+			this.btnFPCreate.Size = new System.Drawing.Size(187, 23);
+			this.btnFPCreate.TabIndex = 3;
+			this.btnFPCreate.Text = "Create";
+			this.btnFPCreate.UseVisualStyleBackColor = true;
+			// 
+			// lvLayout
+			// 
+			this.lvLayout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.lvLayout.HideSelection = false;
+			this.lvLayout.Location = new System.Drawing.Point(7, 20);
+			this.lvLayout.Name = "lvLayout";
+			this.lvLayout.Size = new System.Drawing.Size(187, 308);
+			this.lvLayout.TabIndex = 0;
+			this.lvLayout.UseCompatibleStateImageBehavior = false;
+			// 
+			// btnLEdit
+			// 
+			this.btnLEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnLEdit.Location = new System.Drawing.Point(7, 335);
+			this.btnLEdit.Name = "btnLEdit";
+			this.btnLEdit.Size = new System.Drawing.Size(75, 23);
+			this.btnLEdit.TabIndex = 1;
+			this.btnLEdit.Text = "Edit";
+			this.btnLEdit.UseVisualStyleBackColor = true;
+			// 
+			// btnLDelete
+			// 
+			this.btnLDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnLDelete.Location = new System.Drawing.Point(119, 334);
+			this.btnLDelete.Name = "btnLDelete";
+			this.btnLDelete.Size = new System.Drawing.Size(75, 23);
+			this.btnLDelete.TabIndex = 3;
+			this.btnLDelete.Text = "Delete";
+			this.btnLDelete.UseVisualStyleBackColor = true;
+			// 
+			// btnLCreate
+			// 
+			this.btnLCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnLCreate.Location = new System.Drawing.Point(7, 361);
+			this.btnLCreate.Name = "btnLCreate";
+			this.btnLCreate.Size = new System.Drawing.Size(75, 23);
+			this.btnLCreate.TabIndex = 4;
+			this.btnLCreate.Text = "Create";
+			this.btnLCreate.UseVisualStyleBackColor = true;
+			// 
+			// btnLView
+			// 
+			this.btnLView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnLView.Location = new System.Drawing.Point(119, 363);
+			this.btnLView.Name = "btnLView";
+			this.btnLView.Size = new System.Drawing.Size(75, 23);
+			this.btnLView.TabIndex = 5;
+			this.btnLView.Text = "View";
+			this.btnLView.UseVisualStyleBackColor = true;
+			// 
+			// MainForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(431, 415);
+			this.Controls.Add(this.gbLayout);
+			this.Controls.Add(this.gbFloorplan);
+			this.Name = "MainForm";
+			this.Text = "Lit - Main";
+			this.gbFloorplan.ResumeLayout(false);
+			this.gbLayout.ResumeLayout(false);
+			this.ResumeLayout(false);
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-    }
+		private System.Windows.Forms.GroupBox gbFloorplan;
+		private System.Windows.Forms.Button btnFPCreate;
+		private System.Windows.Forms.Button btnFPDelete;
+		private System.Windows.Forms.Button btnFPEdit;
+		private System.Windows.Forms.ListView lvFloorplan;
+		private System.Windows.Forms.GroupBox gbLayout;
+		private System.Windows.Forms.ListView lvLayout;
+		private System.Windows.Forms.Button btnLView;
+		private System.Windows.Forms.Button btnLCreate;
+		private System.Windows.Forms.Button btnLDelete;
+		private System.Windows.Forms.Button btnLEdit;
+	}
 }
