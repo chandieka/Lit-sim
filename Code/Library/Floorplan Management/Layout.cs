@@ -1,75 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Library.Saving;
 
 namespace Library
 {
-    public class Layout
-    {
-        public Block[,] Grid { get; private set; }
-        public int NrOfPeople { get; private set; }
-        public int NrOfFireExtinguisher { get; private set; }
-        public int NrOfFire { get; private set; }
-        private List<SimulationData> SimulationDatas;
+	[Serializable]
+	public class Layout : ISavable
+	{
+		public int NrOfPeople { get; private set; }
+		public int NrOfFireExtinguisher { get; private set; }
+		public int NrOfFire { get; private set; }
 
-        public Layout(Block[,] grid, int nrOfPeople, int nrOfFireExtinguisher, int nrOfFire)
-        {
-            Grid = grid;
-            NrOfPeople = nrOfPeople;
-            NrOfFire = nrOfFire;
-            NrOfFireExtinguisher = nrOfFireExtinguisher;
-            SimulationDatas = new List<SimulationData>();
-        }
+		private readonly Guid id = Guid.NewGuid();
+		public Guid Id => this.id;
 
-        public void AddSimulationData(SimulationData data)
-        {
-            if (data != null)
-            {
-                SimulationDatas.Add(data);
-            }
-        }
+		private List<SimulationData> SimulationDatas;
+		private Block[,] Grid;
 
-        public SimulationData[] GetSimulatioDatas()
-        {
-            return SimulationDatas.ToArray();
-        }
+		public Layout(Block[,] grid, int nrOfPeople, int nrOfFireExtinguisher, int nrOfFire)
+		{
+			Grid = grid;
+			NrOfPeople = nrOfPeople;
+			NrOfFire = nrOfFire;
+			NrOfFireExtinguisher = nrOfFireExtinguisher;
+			SimulationDatas = new List<SimulationData>();
+		}
 
-        public decimal GetAverageDeath()
-        {
-            decimal value = 0;
+		public void AddSimulationData(SimulationData data)
+		{
+			if (data != null)
+			{
+				SimulationDatas.Add(data);
+			}
+		}
 
-            foreach (SimulationData data in SimulationDatas)
-            {
-                value += data.NrOfDeath;
-            }
+		public SimulationData[] GetSimulatioDatas()
+		{
+			return SimulationDatas.ToArray();
+		}
 
-            return value / SimulationDatas.Count;
-        }
+		public decimal GetAverageDeath()
+		{
+			decimal value = 0;
 
-        public decimal GetAverageSurviver()
-        {
-            decimal value = 0;
+			foreach (SimulationData data in SimulationDatas)
+			{
+				value += data.NrOfDeath;
+			}
 
-            foreach (SimulationData data in SimulationDatas)
-            {
-                value += data.NrOfSurviver;
-            }
+			return value / SimulationDatas.Count;
+		}
 
-            return value / SimulationDatas.Count;
-        }
+		public decimal GetAverageSurviver()
+		{
+			decimal value = 0;
 
-        public TimeSpan GetAverageElapseTime()
-        {
-            TimeSpan time = TimeSpan.Zero;
+			foreach (SimulationData data in SimulationDatas)
+			{
+				value += data.NrOfSurviver;
+			}
 
-            foreach (SimulationData data in SimulationDatas)
-            {
-                time += data.SimulationTime;
-            }
+			return value / SimulationDatas.Count;
+		}
 
-            return new TimeSpan(time.Ticks / SimulationDatas.Count);
-        }
-    }
+		public TimeSpan GetAverageElapseTime()
+		{
+			TimeSpan time = TimeSpan.Zero;
+
+			foreach (SimulationData data in SimulationDatas)
+			{
+				time += data.SimulationTime;
+			}
+
+			return new TimeSpan(time.Ticks / SimulationDatas.Count);
+		}
+	}
 }

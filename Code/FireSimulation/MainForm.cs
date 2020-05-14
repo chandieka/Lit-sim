@@ -1,34 +1,57 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
+using Library;
+using Library.Saving;
 
 namespace FireSimulator
 {
-    public partial class MainForm : Form
-    {
-        public MainForm()
-        {
-            InitializeComponent();
+	public partial class MainForm : Form
+	{
+		public MainForm()
+		{
+			InitializeComponent();
 
-            loadLayouts();
-        }
+			loadLayouts();
+		}
 
-        public static string GetSaveFolder(bool shouldCheck = true)
-        {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lit");
+		private void loadLayouts()
+		{
+			try
+			{
+				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder()))
+				{
+					if (path.StartsWith(SaveLoadManager.FilePrefix))
+					{
+						// Check if it is a file
+						if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
+						{
+							new Thread(() =>
+							{
+								var itm = SaveLoadManager.Load(path);
 
-            if (shouldCheck)
-            {
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-            }
-
-            return path;
-        }
-
-        private void loadLayouts()
-        {
-            // TODO
-        }
-    }
+								if (itm.Item is Layout)
+									lvLayout.Invoke(new Action(() =>
+									{
+										lvLayout.Items.Add(itm.Name);
+									}));
+							}).Start();
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				MessageBox.Show(
+					"There was an error with finding all the saved layouts",
+					"Error",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Error
+				);
+				Application.Exit();
+			}
+		}
+	}
 }
