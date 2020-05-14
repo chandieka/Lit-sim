@@ -603,6 +603,40 @@ namespace Library
             return newGrid;
         }
 
+        public static Block[,] DeepCloneBlock(Block[,] grid)
+        {
+            Block[,] newGrid = new Block[grid.GetLength(0), grid.GetLength(1)];
+            // Deep Copy the Grid
+            for (int i = 0; i < grid.GetLength(0); i++)
+            {
+                for (int j = 0; j < grid.GetLength(1); j++)
+                {
+                    if (grid[i, j].GetType() == typeof(Person))
+                    {
+                        newGrid[i, j] = new Person();
+                    }
+                    else if (grid[i, j].GetType() == typeof(Wall))
+                    {
+                        newGrid[i, j] = new Wall();
+                    }
+                    else if (grid[i, j].GetType() == typeof(Floor))
+                    {
+                        newGrid[i, j] = new Floor();
+                    }
+                    else if (grid[i, j].GetType() == typeof(Fire))
+                    {
+                        newGrid[i, j] = new Fire();
+                    }
+                    else if (grid[i, j].GetType() == typeof(FireExtinguisher))
+                    {
+                        newGrid[i, j] = new FireExtinguisher();
+                    }
+                }
+            }
+
+            return newGrid;
+        }
+
         public int GetFireExtinguisherSpot()
         {
             var floorSpots = this.GetFloorBlocks();

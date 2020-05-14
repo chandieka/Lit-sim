@@ -18,20 +18,45 @@ namespace FireSimulator
 
 		private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
 
+        private bool isFloorplan = false;
+
 		public DesignerForm(int width, int height)
 		{
 			InitializeComponent();
-			designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
-			buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
-			buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
-			buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
-			buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
-			buildSelectables.Add(picBoxWall, GUIElement.WALL);
-			buildSelectables.Add(picBoxFire, GUIElement.FIRE);
-			picBoxFloor.BackColor = Color.LightGray;
-		}
+            designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
+            FormInit();
+        }
 
-		private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
+        public DesignerForm(FloorplanController fpc)
+        {
+            InitializeComponent();
+            designer = new Designer(new GridController((100, 100)), pictureBoxGrid.Width, pictureBoxGrid.Height);
+            FormInit();
+            isFloorplan = true;
+        }
+
+        public DesignerForm(Floorplan f)
+        {
+            InitializeComponent();
+            Block[,] grid = GridController.DeepCloneBlock(f.Grid);
+            GridController gc = new GridController(grid);
+            designer = new Designer(gc, pictureBoxGrid.Width, pictureBoxGrid.Height);
+            FormInit();
+            isFloorplan = false;
+        }
+
+        private void FormInit()
+        {
+            buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
+            buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
+            buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
+            buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
+            buildSelectables.Add(picBoxWall, GUIElement.WALL);
+            buildSelectables.Add(picBoxFire, GUIElement.FIRE);
+            picBoxFloor.BackColor = Color.LightGray;
+        }
+
+        private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
 		{
 			designer.drawBitmap(e.Graphics);
 			designer.drawSample(e.Graphics, element, curCurPos, prevCurPos);

@@ -32,5 +32,10 @@ namespace Library
         {
             return Layouts.ToArray();
         }
-	}
+
+        public override string ToString()
+        {
+            return Id.ToString();
+        }
+    }
 }
