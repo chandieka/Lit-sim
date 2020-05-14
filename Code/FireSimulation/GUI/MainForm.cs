@@ -52,9 +52,26 @@ namespace FireSimulator
                             floorplanController.AddFloorPlan((Floorplan)itm.Item);
                         }
                     }
+                    // new Thread(() =>
+						// {
+						// 	Console.WriteLine($"Parsing {path}...");
+						// 	var itm = SaveLoadManager.Load(path);
+
+						// 	if (itm.Item is Floorplan)
+						// 	{
+						// 		floorplanController.AddFloorPlan((Floorplan)itm.Item);
+						// 		lvFloorplan.Invoke(new Action(() =>
+						// 		{
+						// 			lvFloorplan.Items.Add(itm.Item.Id.ToString(), itm.Name, "");
+						// 		}));
+						// 	}
+
+						// }).Start();
 				}
                 UpdateFloorplanGUI();
             }
+						
+					
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
@@ -87,12 +104,17 @@ namespace FireSimulator
         private void btnFPDelete_Click(object sender, EventArgs e)
         {
 
-        }
+		}
 
         private void btnLEdit_Click(object sender, EventArgs e)
         {
 
-        }
+			if (selected != null)
+			{
+				SaveLoadManager.Delete(Guid.Parse(selected.Name));
+				lvFloorplan.Items.Remove(selected);
+			}
+		}
 
         private void btnLDelete_Click(object sender, EventArgs e)
         {

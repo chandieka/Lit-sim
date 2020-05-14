@@ -6,9 +6,11 @@ namespace Library
 {
 	public class SaveLoadManager
 	{
+		public static string FileExtension = ".bin";
+
 		public static void Save(SaveItem itm)
 		{
-			using (Stream stream = File.Open(Path.Combine(GetSaveFolder(), itm.Item.Id.ToString() + ".bin"), FileMode.Create))
+			using (Stream stream = File.Open(CombinePath(itm.Item.Id), FileMode.Create))
 				new BinaryFormatter().Serialize(stream, itm);
 		}
 
@@ -16,6 +18,16 @@ namespace Library
 		{
 			using (Stream stream = File.Open(filePath, FileMode.Open))
 				return (SaveItem)new BinaryFormatter().Deserialize(stream);
+		}
+
+		public static void Delete(ISavable item)
+		{
+			File.Delete(CombinePath(item.Id));
+		}
+
+		public static void Delete(Guid id)
+		{
+			File.Delete(CombinePath(id));
 		}
 
 		public static string GetSaveFolder(bool shouldCheck = true)
@@ -30,5 +42,8 @@ namespace Library
 
 			return path;
 		}
+
+		private static string CombinePath(Guid id)
+			=> Path.Combine(GetSaveFolder(false), id + FileExtension);
 	}
 }
