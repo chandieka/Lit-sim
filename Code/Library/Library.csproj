@@ -47,6 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AStar Algorithm\AStar.cs" />
+    <Compile Include="AStar Algorithm\Cell.cs" />
+    <Compile Include="AStar Algorithm\PPair.cs" />
+    <Compile Include="Designer\Designer.cs" />
+    <Compile Include="ENUM\EGUIElement.cs" />
     <Compile Include="Grid Management\Block.cs" />
     <Compile Include="Grid Management\Fire.cs" />
     <Compile Include="Grid Management\FireExtinguisher.cs" />
@@ -58,6 +62,7 @@
     <Compile Include="Grid Management\History.cs" />
     <Compile Include="Floorplan Management\Layout.cs" />
     <Compile Include="Grid Management\Person.cs" />
+    <Compile Include="Others Class\Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -79,8 +84,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Floorplan Management\Saving\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

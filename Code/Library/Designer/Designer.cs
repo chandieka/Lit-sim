@@ -1,5 +1,4 @@
-﻿using Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -7,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FireSimulator
+namespace Library
 {
-    class Designer
+    public class Designer
     {
         private GridController grid;
         private string prevSaveLoc;
@@ -212,33 +211,6 @@ namespace FireSimulator
                     grid.Load(dialog.FileName);
                 }
             }
-        }
-    }
-
-    internal class Pair
-    {
-        public readonly int X, Y;
-
-        public Pair(int x, int y)
-        {
-            this.X = x;
-            this.Y = y;
-        }
-
-        public Pair((int x, int y) tuple)
-        {
-            this.X = tuple.x;
-            this.Y = tuple.y;
-        }
-
-        public (int X, int Y) ToTuple()
-        {
-            return (this.X, this.Y);
-        }
-
-        public override string ToString()
-        {
-            return $"({this.X}, {this.Y})";
         }
     }
 }

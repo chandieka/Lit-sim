@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Library.Saving
+namespace Library
 {
 	public interface ISavable
 	{

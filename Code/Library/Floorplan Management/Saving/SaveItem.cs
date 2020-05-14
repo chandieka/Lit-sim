@@ -1,7 +1,7 @@
 ﻿using System;
 
-namespace Library.Saving
-{
+namespace Library
+{ 
 	[Serializable]
 	public class SaveItem
 	{

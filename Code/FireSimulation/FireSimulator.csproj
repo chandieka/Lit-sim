@@ -49,11 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Designer.cs" />
-    <Compile Include="DesignerForm.cs">
+    <Compile Include="GUI\DesignerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DesignerForm.Designer.cs">
+    <Compile Include="GUI\DesignerForm.Designer.cs">
       <DependentUpon>DesignerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ProgressDialog.cs">
@@ -62,11 +61,10 @@
     <Compile Include="Dialogs\ProgressDialog.Designer.cs">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="EGUIElement.cs" />
-    <Compile Include="FireSimulatorForm.cs">
+    <Compile Include="GUI\FireSimulatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FireSimulatorForm.Designer.cs">
+    <Compile Include="GUI\FireSimulatorForm.Designer.cs">
       <DependentUpon>FireSimulatorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Icons.Designer.cs">
@@ -74,34 +72,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Icons.resx</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="GUI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="GUI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statistics.cs">
+    <Compile Include="GUI\Statistics.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Statistics.Designer.cs">
+    <Compile Include="GUI\Statistics.Designer.cs">
       <DependentUpon>Statistics.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="DesignerForm.resx">
+    <EmbeddedResource Include="GUI\DesignerForm.resx">
       <DependentUpon>DesignerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FireSimulatorForm.resx">
+    <EmbeddedResource Include="GUI\FireSimulatorForm.resx">
       <DependentUpon>FireSimulatorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Icons.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Icons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="GUI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -114,7 +112,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Statistics.resx">
+    <EmbeddedResource Include="GUI\Statistics.resx">
       <DependentUpon>Statistics.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">

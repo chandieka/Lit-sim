@@ -272,51 +272,5 @@ namespace Library
 		}
 	}
 
-	public class Pair
-	{
-		public readonly int X, Y;
 
-		public Pair(int x, int y)
-		{
-			this.X = x;
-			this.Y = y;
-		}
-
-		public Pair((int x, int y) tuple)
-		{
-			this.X = tuple.x;
-			this.Y = tuple.y;
-		}
-
-		public (int x, int y) ToTuple()
-		{
-			return (X, Y);
-		}
-
-		public override string ToString()
-		{
-			return $"({X}, {Y})";
-		}
-	}
-
-	struct Cell
-	{
-		// Row and Column index of its parent 
-		// Note that 0 <= i <= ROW-1 & 0 <= j <= COL-1 
-		public int parent_i, parent_j;
-		// f = g + h 
-		public double f, g, h;
-	}
-
-	struct PPair
-	{
-		public readonly double First;
-		public readonly Pair Second;
-
-		public PPair(double one, Pair two)
-		{
-			this.Second = two;
-			this.First = one;
-		}
-	}
 }

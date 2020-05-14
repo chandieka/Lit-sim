@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using Library;
-using Library.Saving;
 
 namespace FireSimulator
 {
