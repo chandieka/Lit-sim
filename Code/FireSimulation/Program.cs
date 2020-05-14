@@ -13,7 +13,8 @@ namespace FireSimulator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FireSimulatorForm());
+            // Application.Run(new FireSimulatorForm());
+            Application.Run(new DesignerForm(100, 100));
         }
     }
 }
