@@ -52,5 +52,8 @@ namespace Library
 
 			return new TimeSpan(time.Ticks / simulationData.Count);
 		}
+
+		public Block[,] DeepCloneBlock()
+			=> Grid.DeepCloneBlock(this.grid);
 	}
 }

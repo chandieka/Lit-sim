@@ -130,7 +130,7 @@ namespace FireSimulator
 				{
 					var i = indices[0];
 
-					Floorplan f = floorplanController.GetFloorPlans()[i];
+					Floorplan f = floorplanController.GetFloorplans()[i];
 					new DesignerForm(f).ShowDialog();
 				}
 			}

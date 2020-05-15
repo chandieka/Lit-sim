@@ -15,6 +15,9 @@ namespace Library
 			this.grid = grid;
 		}
 
+		public GridController ToGridController()
+			=> new GridController(Grid.DeepCloneBlock(this.grid));
+
 		public void AddLayout(Layout layout)
 		{
 			// TODO: if Find Duplicate -> return something

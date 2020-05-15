@@ -18,45 +18,43 @@ namespace FireSimulator
 
 		private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
 
-        private bool isFloorplan = false;
+		private bool isFloorplan = false;
 
 		public DesignerForm(int width, int height)
 		{
 			InitializeComponent();
-            designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
-            FormInit();
-        }
+			designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
+			FormInit();
+		}
 
-        public DesignerForm(FloorplanController fpc)
-        {
-            InitializeComponent();
-            designer = new Designer(new GridController((100, 100)), pictureBoxGrid.Width, pictureBoxGrid.Height);
-            FormInit();
-            isFloorplan = true;
-        }
+		public DesignerForm(FloorplanController fpc)
+		{
+			InitializeComponent();
+			designer = new Designer(new GridController((100, 100)), pictureBoxGrid.Width, pictureBoxGrid.Height);
+			FormInit();
+			isFloorplan = true;
+		}
 
-        public DesignerForm(Floorplan f)
-        {
-            InitializeComponent();
-            Block[,] grid = GridController.DeepCloneBlock(f.Grid);
-            GridController gc = new GridController(grid);
-            designer = new Designer(gc, pictureBoxGrid.Width, pictureBoxGrid.Height);
-            FormInit();
-            isFloorplan = false;
-        }
+		public DesignerForm(Floorplan f)
+		{
+			InitializeComponent();
+			designer = new Designer(f.ToGridController(), pictureBoxGrid.Width, pictureBoxGrid.Height);
+			FormInit();
+			isFloorplan = false;
+		}
 
-        private void FormInit()
-        {
-            buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
-            buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
-            buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
-            buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
-            buildSelectables.Add(picBoxWall, GUIElement.WALL);
-            buildSelectables.Add(picBoxFire, GUIElement.FIRE);
-            picBoxFloor.BackColor = Color.LightGray;
-        }
+		private void FormInit()
+		{
+			buildSelectables.Add(picBoxFireExtinguisher, GUIElement.FIREEX);
+			buildSelectables.Add(picBoxPerson, GUIElement.PERSON);
+			buildSelectables.Add(picBoxEraser, GUIElement.ERASER);
+			buildSelectables.Add(picBoxFloor, GUIElement.FLOOR);
+			buildSelectables.Add(picBoxWall, GUIElement.WALL);
+			buildSelectables.Add(picBoxFire, GUIElement.FIRE);
+			picBoxFloor.BackColor = Color.LightGray;
+		}
 
-        private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
+		private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
 		{
 			designer.drawBitmap(e.Graphics);
 			designer.drawSample(e.Graphics, element, curCurPos, prevCurPos);
@@ -156,7 +154,7 @@ namespace FireSimulator
 
 		private void Designer_KeyUp(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Escape)
+			/*if (e.KeyCode == Keys.Escape)
 				rb_CheckedChanged_Reset(null, null);
 			else if (e.Control)
 			{
@@ -164,7 +162,7 @@ namespace FireSimulator
 					designer.SaveAsLayout();
 				else if (e.KeyCode == Keys.O)
 					designer.open();
-			}
+			}*/
 		}
 
 		private void pbReset_Click(object sender, EventArgs e)
