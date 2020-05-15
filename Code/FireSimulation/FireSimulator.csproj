@@ -124,6 +124,7 @@
     <EmbeddedResource Include="GUI\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="GUI\Prompt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

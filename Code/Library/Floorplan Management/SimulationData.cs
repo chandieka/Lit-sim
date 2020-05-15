@@ -2,6 +2,7 @@
 
 namespace Library
 {
+	[Serializable]
 	public readonly struct SimulationData
 	{
 		public readonly TimeSpan DateOfSimulation;

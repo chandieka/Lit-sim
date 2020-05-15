@@ -36,9 +36,15 @@ namespace Library
 			return saveItems.ToArray();
 		}
 
+		public SaveItem GetAt(int index)
+			=> saveItems[index];
+
 		public Floorplan[] GetFloorplans()
 		{
 			return saveItems.ConvertAll<Floorplan>(_ => (Floorplan)_.Item).ToArray();
 		}
+
+		public Floorplan GetFloorplanAt(int index)
+			=> (Floorplan)saveItems[index].Item;
 	}
 }
