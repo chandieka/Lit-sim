@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Library
 {
@@ -173,51 +168,6 @@ namespace Library
 					(rightmostX - leftmostX + 1) * (int)sizePerPixel?.Width,
 					(bottommostY - topmostY + 1) * (int)sizePerPixel?.Height
 				);
-		}
-
-		public void save()
-		{
-			if (prevSaveLoc != null)
-				this.grid.Save(prevSaveLoc);
-			else
-			{
-				using (var dialog = new SaveFileDialog())
-				{
-					dialog.Filter = "Binary|*.bin";
-					dialog.CheckPathExists = true;
-					dialog.AddExtension = true;
-					dialog.DefaultExt = ".bin";
-
-					if (dialog.ShowDialog() == DialogResult.OK)
-					{
-						this.grid.Save(dialog.FileName);
-						prevSaveLoc = dialog.FileName;
-					}
-				}
-			}
-		}
-
-		public void SaveAsLayout()
-		{
-			SaveLoadManager.Save(new SaveItem(new Floorplan(this.grid.DeepCloneBlock()), "TMP"));
-		}
-
-		public void open()
-		{
-
-			return;
-			using (var dialog = new OpenFileDialog())
-			{
-				dialog.Filter = "Binary|*.bin|All|*";
-				dialog.CheckPathExists = true;
-				dialog.CheckFileExists = true;
-				dialog.DefaultExt = ".bin";
-
-				if (dialog.ShowDialog() == DialogResult.OK)
-				{
-					grid.Load(dialog.FileName);
-				}
-			}
 		}
 	}
 }

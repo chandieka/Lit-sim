@@ -6,36 +6,35 @@ namespace Library
 	[Serializable]
 	public class Floorplan : ISavable
 	{
-		public List<Layout> Layouts { get; private set; }
-		public Block[,] Grid { get; private set; }
+		private readonly List<Layout> layouts = new List<Layout>();
 		public Guid Id { get; } = Guid.NewGuid();
+		private readonly Block[,] grid;
 
 		public Floorplan(Block[,] grid)
 		{
-			Layouts = new List<Layout>();
+			this.grid = grid;
 		}
 
 		public void AddLayout(Layout layout)
 		{
 			// TODO: if Find Duplicate -> return something
 			if (layout != null)
-				Layouts.Add(layout);
+				layouts.Add(layout);
 		}
 
-		public void RemoveLayoutById(Layout layout)
+		public void RemoveLayout(Layout layout)
 		{
-			if (layout != null)
-				Layouts.Remove(layout);
+			layouts.Remove(layout);
 		}
 
-        public Layout[] GetLayouts()
-        {
-            return Layouts.ToArray();
-        }
+		public Layout[] GetLayouts()
+		{
+			return layouts.ToArray();
+		}
 
-        public override string ToString()
-        {
-            return Id.ToString();
-        }
-    }
+		public override string ToString()
+		{
+			return Id.ToString();
+		}
+	}
 }

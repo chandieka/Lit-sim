@@ -4,70 +4,53 @@ using System.Collections.Generic;
 namespace Library
 {
 	[Serializable]
-	public class Layout
+	public class Layout : Grid
 	{
-		public int NrOfPeople { get; private set; }
-		public int NrOfFireExtinguisher { get; private set; }
-		public int NrOfFire { get; private set; }
-		private List<SimulationData> SimulationDatas;
-		private Block[,] Grid;
+		private readonly List<SimulationData> simulationData = new List<SimulationData>();
 
-		public Layout(Block[,] grid, int nrOfPeople, int nrOfFireExtinguisher, int nrOfFire)
+		public Layout(Block[,] grid)
 		{
-			Grid = grid;
-			NrOfPeople = nrOfPeople;
-			NrOfFire = nrOfFire;
-			NrOfFireExtinguisher = nrOfFireExtinguisher;
-			SimulationDatas = new List<SimulationData>();
+			this.grid = grid;
 		}
 
 		public void AddSimulationData(SimulationData data)
 		{
-			if (data != null)
-			{
-				SimulationDatas.Add(data);
-			}
+			simulationData.Add(data);
 		}
 
-		public SimulationData[] GetSimulatioDatas()
+		public SimulationData[] GetSimulatioData()
 		{
-			return SimulationDatas.ToArray();
+			return simulationData.ToArray();
 		}
 
-		public decimal GetAverageDeath()
+		public decimal GetAverageDeathAmount()
 		{
 			decimal value = 0;
 
-			foreach (SimulationData data in SimulationDatas)
-			{
-				value += data.NrOfDeath;
-			}
+			foreach (SimulationData data in simulationData)
+				value += data.NrOfDeaths;
 
-			return value / SimulationDatas.Count;
+			return value / simulationData.Count;
 		}
 
-		public decimal GetAverageSurviver()
+		public decimal GetAverageSurviverAmount()
 		{
 			decimal value = 0;
 
-			foreach (SimulationData data in SimulationDatas)
-			{
-				value += data.NrOfSurviver;
-			}
+			foreach (SimulationData data in simulationData)
+				value += data.NrOfSurvivers;
 
-			return value / SimulationDatas.Count;
+			return value / simulationData.Count;
 		}
 
-		public TimeSpan GetAverageElapseTime()
+		public TimeSpan GetAverageElapsedTime()
 		{
 			TimeSpan time = TimeSpan.Zero;
 
-			foreach (SimulationData data in SimulationDatas)
-			{
+			foreach (SimulationData data in simulationData)
 				time += data.SimulationTime;
-			}
 
-			return new TimeSpan(time.Ticks / SimulationDatas.Count);
+			return new TimeSpan(time.Ticks / simulationData.Count);
 		}
 	}
 }

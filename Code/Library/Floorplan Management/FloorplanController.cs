@@ -1,45 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Library
 {
-    public class FloorplanController
-    {
-        private List<Floorplan> FloorPlans;
+	public class FloorplanController
+	{
+		private List<SaveItem> saveItems;
 
-        public FloorplanController()
-        {
-            FloorPlans = new List<Floorplan>();
-        }
+		public FloorplanController()
+		{
+			this.saveItems = new List<SaveItem>();
+		}
 
-        public void AddFloorPlan(Floorplan floorplan)
-        {
-            if (floorplan != null)
-            {
-                // TODO: Find Duplicate -> return something ?? throw Exception ??
-                FloorPlans.Add(floorplan);
-            }
-        }
+		public void Add(SaveItem savable)
+		{
+			// TODO: Find Duplicate -> return something ?? throw Exception ??
 
-        public void RemoveFloorPlan(Floorplan floorplan)
-        {
-            if (floorplan != null)
-            {
-                FloorPlans.Remove(floorplan);
-            }
-        }
+			if (savable != null && savable.Item is Floorplan)
+				saveItems.Add(savable);
+		}
 
-        public Floorplan[] GetFloorPlans()
-        {
-            return FloorPlans.ToArray();
-        }
+		public void Remove(SaveItem saveItem)
+		{
+			saveItems.Remove(saveItem);
+		}
 
-        //public bool RemoveLayoutFromFloorplan(Floorplan floorplan, Layout layout)
-        //{
-        //    return false;
-        //}
-    }
+		public void Remove(Floorplan floorplan)
+		{
+			foreach (var itm in saveItems)
+				if (itm.Item == floorplan)
+					saveItems.Remove(itm);
+		}
+
+		public SaveItem[] GetAll()
+		{
+			return saveItems.ToArray();
+		}
+
+		public Floorplan[] GetFloorplans()
+		{
+			return saveItems.ConvertAll<Floorplan>(_ => (Floorplan)_.Item).ToArray();
+		}
+	}
 }

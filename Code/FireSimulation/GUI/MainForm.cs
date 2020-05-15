@@ -1,42 +1,29 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using System.Windows.Forms;
 using Library;
-using static System.Windows.Forms.ListView;
 
 namespace FireSimulator
 {
 	public partial class MainForm : Form
 	{
-        // Floorplan = > wall + floor
-        // Layout => Floorplan + all the people, fire, and fire extinguisher 
-
-        private FloorplanController floorplanController;
+		private FloorplanController floorplanController;
 
 		public MainForm()
 		{
 			InitializeComponent();
-            floorplanController = new FloorplanController();
-            CreateDefaultFloorplan();
-            loadFloorplan();
+
+			floorplanController = new FloorplanController();
+			CreateDefaultFloorplan();
+			loadFloorplan();
 		}
 
-        #region Private Methods
+		#region Private Methods
 
-        private void CreateDefaultFloorplan()
-        {
-            // TODO: Check if a default floorplan is already save
-            if (floorplanController != null)
-            {
-                GridController gc = new GridController((100, 100));
-                gc.PutDefaultFloorPlan(1);
-                floorplanController.AddFloorPlan(new Floorplan(gc.DeepCloneBlock()));
-            }
-        }
+		private void CreateDefaultFloorplan()
+			=> floorplanController.Add(new SaveItem(GridController.CreateDefaultFloorplan(), "Default"));
 
-        // TODO change name
-        private void loadFloorplan()
+		private void loadFloorplan()
 		{
 			try
 			{
@@ -45,33 +32,32 @@ namespace FireSimulator
 					// Check if it is a file
 					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
 					{
-                        Console.WriteLine($"Parsing {path}...");
-                        var itm = SaveLoadManager.Load(path);
-                        if (itm.Item is Floorplan)
-                        {
-                            floorplanController.AddFloorPlan((Floorplan)itm.Item);
-                        }
-                    }
-                    // new Thread(() =>
-						// {
-						// 	Console.WriteLine($"Parsing {path}...");
-						// 	var itm = SaveLoadManager.Load(path);
+						Console.WriteLine($"Parsing {path}...");
+						var itm = SaveLoadManager.Load(path);
 
-						// 	if (itm.Item is Floorplan)
-						// 	{
-						// 		floorplanController.AddFloorPlan((Floorplan)itm.Item);
-						// 		lvFloorplan.Invoke(new Action(() =>
-						// 		{
-						// 			lvFloorplan.Items.Add(itm.Item.Id.ToString(), itm.Name, "");
-						// 		}));
-						// 	}
+						if (itm.Item is Floorplan)
+							floorplanController.Add(itm);
+					}
 
-						// }).Start();
+					// new Thread(() =>
+					// {
+					// 	Console.WriteLine($"Parsing {path}...");
+					// 	var itm = SaveLoadManager.Load(path);
+
+					// 	if (itm.Item is Floorplan)
+					// 	{
+					// 		floorplanController.AddFloorPlan((Floorplan)itm.Item);
+					// 		lvFloorplan.Invoke(new Action(() =>
+					// 		{
+					// 			lvFloorplan.Items.Add(itm.Item.Id.ToString(), itm.Name, "");
+					// 		}));
+					// 	}
+
+					// }).Start();
 				}
-                UpdateFloorplanGUI();
-            }
-						
-					
+
+				UpdateFloorplanGUI();
+			}
 			catch (Exception e)
 			{
 				Console.WriteLine(e.Message);
@@ -85,89 +71,79 @@ namespace FireSimulator
 			}
 		}
 
-        private void UpdateFloorplanGUI()
-        {
-            foreach (Floorplan f in floorplanController.GetFloorPlans())
-            {
-                lvFloorplan.Items.Add(f.ToString());
-            }
-
-        }
-
-        #endregion
-
-        #region Event Handler
-        private void btnFPCopy_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void btnFPDelete_Click(object sender, EventArgs e)
-        {
+		private void UpdateFloorplanGUI()
+		{
+			foreach (var item in floorplanController.GetAll())
+				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, null);
+		}
+		#endregion
+		#region Event Handler
+		private void btnFPCopy_Click(object sender, EventArgs e)
+		{
 
 		}
 
-        private void btnLEdit_Click(object sender, EventArgs e)
-        {
-
+		private void btnFPDelete_Click(object sender, EventArgs e)
+		{
+			// TODO: Add confirmation
+			var selected = lvLayout.SelectedItems[0];
 			if (selected != null)
 			{
 				SaveLoadManager.Delete(Guid.Parse(selected.Name));
 				lvFloorplan.Items.Remove(selected);
+				UpdateFloorplanGUI();
 			}
 		}
 
-        private void btnLDelete_Click(object sender, EventArgs e)
-        {
+		private void btnFPEdit_Click(object sender, EventArgs e)
+		{
 
-        }
+		}
 
-        private void btnLView_Click(object sender, EventArgs e)
-        {
+		private void btnFPCreate_Click(object sender, EventArgs e)
+		{
+			new DesignerForm(floorplanController).ShowDialog();
+		}
 
-        }
 
-        private void btnLCreate_Click(object sender, EventArgs e)
-        {
-            SelectedIndexCollection indices = lvFloorplan.SelectedIndices;
+		private void btnLEdit_Click(object sender, EventArgs e)
+		{
+		}
 
-            if (indices != null)
-            {
-                if (indices.Count == 1)
-                {
-                    var i = indices[0];
-                    Floorplan f = floorplanController.GetFloorPlans()[i];
-                    new DesignerForm(f);
-                }
-                else
-                {
-                    MessageBox.Show(
-                    "Select 1 floorplan at a time!",
-                    "Warning",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                    );
-                }
-            }
-            else
-            {
-                MessageBox.Show(
-                    "Please select 1 floorplan to create a layout",
-                    "Warning",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                    );
-            }
-        }
+		private void btnLDelete_Click(object sender, EventArgs e)
+		{
 
-        private void btnFPEdit_Click(object sender, EventArgs e)
-        {
+		}
 
-        }
+		private void btnLView_Click(object sender, EventArgs e)
+		{
 
-        private void btnFPCreate_Click(object sender, EventArgs e)
-        {
-            new DesignerForm(floorplanController).ShowDialog();
-        }
-        #endregion
-    }
+		}
+
+		private void btnLCreate_Click(object sender, EventArgs e)
+		{
+			var indices = lvFloorplan.SelectedIndices;
+
+			if (indices != null)
+			{
+				if (indices.Count == 1)
+				{
+					var i = indices[0];
+
+					Floorplan f = floorplanController.GetFloorPlans()[i];
+					new DesignerForm(f).ShowDialog();
+				}
+			}
+			else
+			{
+				MessageBox.Show(
+					"Please select 1 floorplan to create a layout",
+					"Warning",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning
+					);
+			}
+		}
+		#endregion
+	}
 }

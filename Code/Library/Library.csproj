@@ -74,6 +74,8 @@
     <Compile Include="Floorplan Management\Saving\ISavable.cs" />
     <Compile Include="Floorplan Management\Saving\SaveLoadManager.cs" />
     <Compile Include="Floorplan Management\Saving\SaveItem.cs" />
+    <Compile Include="Grid Management\Simulator.cs" />
+    <Compile Include="Grid Management\Grid.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
