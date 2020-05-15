@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Library
 {
+	[Serializable]
 	public class Grid
 	{
 		protected Block[,] grid;

@@ -18,7 +18,15 @@ namespace FireSimulator
 
 		private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
 
-		private bool isFloorplan = false;
+		private readonly SaveItem saveItem = null;
+
+		public bool IsFloorplan
+		{
+			get
+			{
+				return saveItem == null;
+			}
+		}
 
 		public DesignerForm(int width, int height)
 		{
@@ -27,12 +35,15 @@ namespace FireSimulator
 			FormInit();
 		}
 
-		public DesignerForm(Floorplan f)
+		public DesignerForm(SaveItem saveItem)
 		{
+			if (!(saveItem.Item is Floorplan))
+				throw new Exception("The passed SaveItem does not contain a FloorPlan");
+
 			InitializeComponent();
-			designer = new Designer(f.ToGridController(), pictureBoxGrid.Width, pictureBoxGrid.Height);
+			designer = new Designer(((Floorplan)saveItem.Item).ToGridController(), pictureBoxGrid.Width, pictureBoxGrid.Height);
 			FormInit();
-			isFloorplan = false;
+			this.saveItem = saveItem;
 		}
 
 		private void FormInit()
@@ -166,6 +177,21 @@ namespace FireSimulator
 		private void cbGrid_CheckedChanged(object sender, EventArgs e)
 		{
 			pictureBoxGrid.Invalidate();
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			var result = Prompt.ShowDialog($"Give the {(IsFloorplan ? "Floorplan" : "Layout")} a name", "Saving");
+
+			if (result.DialogResult == DialogResult.OK && result.Value.Trim().Length > 0)
+			{
+				if (IsFloorplan)
+					designer.SaveAsFloorplan(result.Value);
+				else
+					designer.SaveAsLayout(result.Value, saveItem);
+
+				this.Close();
+			}
 		}
 	}
 }

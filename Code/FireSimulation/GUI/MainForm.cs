@@ -27,7 +27,7 @@ namespace FireSimulator
 		{
 			try
 			{
-				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder()))
+				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder(typeof(Floorplan))))
 				{
 					// Check if it is a file
 					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
@@ -56,7 +56,7 @@ namespace FireSimulator
 					// }).Start();
 				}
 
-				UpdateFloorplanGUI();
+				updateFloorplanGUI();
 			}
 			catch (Exception e)
 			{
@@ -71,11 +71,25 @@ namespace FireSimulator
 			}
 		}
 
-		private void UpdateFloorplanGUI()
+		private void updateFloorplanGUI()
 		{
 			lvFloorplan.Items.Clear();
 			foreach (var item in floorplanController.GetAll())
 				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, null);
+		}
+
+		private void showDesigner(SaveItem item = null)
+		{
+			DesignerForm form;
+
+			if (item == null)
+				form = new DesignerForm(100, 100); // TODO: Add popup that lets the user choose the size
+			else
+				form = new DesignerForm(item);
+
+			form.ShowDialog();
+			// if (form.DialogResult != DialogResult.Cancel)
+			updateFloorplanGUI();
 		}
 		#endregion
 		#region Event Handler
@@ -86,13 +100,15 @@ namespace FireSimulator
 
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
+			return;
+
 			// TODO: Add confirmation
-			var selected = lvFloorplan.SelectedItems;
+			var selected = lvFloorplan.SelectedIndices;
 			if (selected != null && selected.Count > 0)
 			{
-				SaveLoadManager.Delete(Guid.Parse(selected[0].Name));
-				lvFloorplan.Items.Remove(selected[0]);
-				UpdateFloorplanGUI();
+				SaveLoadManager.Delete(floorplanController.GetFloorplanAt(selected[0])); // TODO: Delete all layouts too
+				lvFloorplan.Items.Remove(lvFloorplan.SelectedItems[0]);
+				updateFloorplanGUI();
 			}
 		}
 
@@ -102,9 +118,7 @@ namespace FireSimulator
 		}
 
 		private void btnFPCreate_Click(object sender, EventArgs e)
-		{
-			new DesignerForm(100, 100).ShowDialog(); // TODO: Add popup that lets the user choose the size
-		}
+			=> showDesigner();
 
 
 		private void btnLEdit_Click(object sender, EventArgs e)
@@ -128,12 +142,7 @@ namespace FireSimulator
 			if (indices != null)
 			{
 				if (indices.Count == 1)
-				{
-					var i = indices[0];
-
-					Floorplan f = floorplanController.GetFloorplans()[i];
-					new DesignerForm(f).ShowDialog();
-				}
+					showDesigner(floorplanController.GetAt(indices[0]));
 			}
 			else
 			{

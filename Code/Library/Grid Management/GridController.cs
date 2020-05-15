@@ -267,8 +267,22 @@ namespace Library
 			=> Grid.Paint(grid, scaleSize);
 
 		// The grid doesn't need to be deep-cloned for saving
-		public void SaveAsLayout(string name)
+		public void SaveAsFloorplan(string name)
 			=> SaveLoadManager.Save(new SaveItem(new Floorplan(this.grid), name));
+
+		public void SaveAsLayout(string name, SaveItem parent)
+		{
+			if (parent == null || !(parent.Item is Floorplan))
+				throw new Exception("Cannot save to a parent that is not of type Floorplan");
+
+			Layout layout = new Layout(this.grid);
+
+			// The grid doesn't need to be deep-cloned for saving
+			SaveLoadManager.Save(new SaveItem(layout, name));
+			((Floorplan)parent.Item).AddLayout(layout.Id);
+
+			SaveLoadManager.Save(parent);
+		}
 
 		public static Floorplan CreateDefaultFloorplan()
 		{

@@ -4,13 +4,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Library
 {
-	public class SaveLoadManager
+	public static class SaveLoadManager
 	{
 		public static string FileExtension = ".bin";
 
 		public static void Save(SaveItem itm)
 		{
-			using (Stream stream = File.Open(CombinePath(itm.Item.Id), FileMode.Create))
+			using (Stream stream = File.Open(CombinePath(itm.Item), FileMode.Create))
 				new BinaryFormatter().Serialize(stream, itm);
 		}
 
@@ -21,18 +21,14 @@ namespace Library
 		}
 
 		public static void Delete(ISavable item)
-		{
-			File.Delete(CombinePath(item.Id));
-		}
+			=> File.Delete(CombinePath(item));
 
-		public static void Delete(Guid id)
+		public static string GetSaveFolder(Type type, bool shouldCheck = true)
 		{
-			File.Delete(CombinePath(id));
-		}
+			if (type.GetInterface(typeof(ISavable).Name) == null)
+				throw new Exception("Cannot get the SaveFolder from a non ISavable type");
 
-		public static string GetSaveFolder(bool shouldCheck = true)
-		{
-			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lit");
+			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lit", type.Name);
 
 			if (shouldCheck)
 			{
@@ -43,7 +39,10 @@ namespace Library
 			return path;
 		}
 
-		private static string CombinePath(Guid id)
-			=> Path.Combine(GetSaveFolder(false), id + FileExtension);
+		public static string GetSaveFolder(ISavable savable)
+			=> GetSaveFolder(savable.GetType(), true);
+
+		private static string CombinePath(ISavable item)
+			=> Path.Combine(GetSaveFolder(item), item.Id + FileExtension);
 	}
 }

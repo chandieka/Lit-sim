@@ -6,7 +6,7 @@ namespace Library
 	[Serializable]
 	public class Floorplan : ISavable
 	{
-		private readonly List<Layout> layouts = new List<Layout>();
+		private readonly List<Guid> layouts = new List<Guid>();
 		public Guid Id { get; } = Guid.NewGuid();
 
 		private readonly Block[,] grid;
@@ -19,21 +19,26 @@ namespace Library
 		public GridController ToGridController()
 			=> new GridController(Grid.DeepCloneBlock(this.grid));
 
-		public void AddLayout(Layout layout)
+		public void AddLayout(Guid layout)
 		{
 			// TODO: if Find Duplicate -> return something
-			if (layout != null)
-				layouts.Add(layout);
+			layouts.Add(layout);
 		}
 
-		public void RemoveLayout(Layout layout)
+		public void RemoveLayout(Guid layout)
 		{
 			layouts.Remove(layout);
 		}
 
-		public Layout[] GetLayouts()
+		public Guid[] GetGuids()
 		{
 			return layouts.ToArray();
+		}
+
+		public Layout GetLayout(Guid id)
+		{
+			// TODO
+			return null;
 		}
 
 		public override string ToString()
