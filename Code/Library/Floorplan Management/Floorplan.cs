@@ -8,6 +8,7 @@ namespace Library
 	{
 		private readonly List<Layout> layouts = new List<Layout>();
 		public Guid Id { get; } = Guid.NewGuid();
+
 		private readonly Block[,] grid;
 
 		public Floorplan(Block[,] grid)

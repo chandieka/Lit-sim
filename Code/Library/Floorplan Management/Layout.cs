@@ -7,6 +7,7 @@ namespace Library
 	public class Layout : Grid
 	{
 		private readonly List<SimulationData> simulationData = new List<SimulationData>();
+		public Guid Id { get; } = Guid.NewGuid();
 
 		public Layout(Block[,] grid)
 		{
