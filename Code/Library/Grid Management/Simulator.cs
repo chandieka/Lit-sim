@@ -15,10 +15,10 @@ namespace Library
 		private const int personDelay = 2;
 
 		private readonly List<History> gridHistory = new List<History>();
-		private readonly List<FireExtinguisher> fireExtinguishers;
-		private readonly List<Person> persons;
+		private readonly List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
+        private readonly List<Person> persons = new List<Person>();
 
-		public event EventHandler Finished;
+        public event EventHandler Finished;
 
 		public Simulator(Block[,] grid, Person[] persons, FireExtinguisher[] fireExtinguishers)
 		{
@@ -30,9 +30,6 @@ namespace Library
 
 		public Simulator(Block[,] grid)
 		{
-			this.fireExtinguishers = new List<FireExtinguisher>();
-			this.persons = new List<Person>();
-
 			this.grid = grid;
 
 			fillLists();
@@ -41,9 +38,10 @@ namespace Library
 		public Simulator(Layout layout)
 		{
 			this.grid = layout.DeepCloneBlock();
-		}
+            fillLists();
+        }
 
-		public System.Drawing.Bitmap Paint(int scaleX, int scaleY)
+        public System.Drawing.Bitmap Paint(int scaleX, int scaleY)
 			=> Grid.Paint(this.grid, (scaleX, scaleY), this.persons.ToArray());
 
 		public void Tick()
