@@ -27,14 +27,6 @@ namespace FireSimulator
 			FormInit();
 		}
 
-		public DesignerForm(FloorplanController fpc)
-		{
-			InitializeComponent();
-			designer = new Designer(new GridController((100, 100)), pictureBoxGrid.Width, pictureBoxGrid.Height);
-			FormInit();
-			isFloorplan = true;
-		}
-
 		public DesignerForm(Floorplan f)
 		{
 			InitializeComponent();

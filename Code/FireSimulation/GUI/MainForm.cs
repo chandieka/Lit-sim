@@ -103,7 +103,7 @@ namespace FireSimulator
 
 		private void btnFPCreate_Click(object sender, EventArgs e)
 		{
-			new DesignerForm(floorplanController).ShowDialog();
+			new DesignerForm(100, 100).ShowDialog(); // TODO: Add popup that lets the user choose the size
 		}
 
 
