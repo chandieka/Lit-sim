@@ -73,6 +73,7 @@ namespace FireSimulator
 
 		private void UpdateFloorplanGUI()
 		{
+			lvFloorplan.Items.Clear();
 			foreach (var item in floorplanController.GetAll())
 				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, null);
 		}
@@ -86,11 +87,11 @@ namespace FireSimulator
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
 			// TODO: Add confirmation
-			var selected = lvLayout.SelectedItems[0];
-			if (selected != null)
+			var selected = lvFloorplan.SelectedItems;
+			if (selected != null && selected.Count > 0)
 			{
-				SaveLoadManager.Delete(Guid.Parse(selected.Name));
-				lvFloorplan.Items.Remove(selected);
+				SaveLoadManager.Delete(Guid.Parse(selected[0].Name));
+				lvFloorplan.Items.Remove(selected[0]);
 				UpdateFloorplanGUI();
 			}
 		}
