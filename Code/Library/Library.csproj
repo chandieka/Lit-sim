@@ -51,6 +51,7 @@
     <Compile Include="AStar Algorithm\PPair.cs" />
     <Compile Include="Designer\Designer.cs" />
     <Compile Include="ENUM\EGUIElement.cs" />
+    <Compile Include="ENUM\EScenario.cs" />
     <Compile Include="Grid Management\Block.cs" />
     <Compile Include="Grid Management\Fire.cs" />
     <Compile Include="Grid Management\FireExtinguisher.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Floorplan Management\Saving\SaveItem.cs" />
     <Compile Include="Grid Management\Simulator.cs" />
     <Compile Include="Grid Management\Grid.cs" />
+    <Compile Include="Grid Management\Event Scenario\Scenario.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

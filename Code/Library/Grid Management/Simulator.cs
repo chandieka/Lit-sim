@@ -24,14 +24,12 @@ namespace Library
 		{
 			this.fireExtinguishers = fireExtinguishers.ToList();
 			this.persons = persons.ToList();
-
 			this.grid = grid;
 		}
 
 		public Simulator(Block[,] grid)
 		{
 			this.grid = grid;
-
 			fillLists();
 		}
 
@@ -54,7 +52,6 @@ namespace Library
 
 			// This is needed to prevent the fire from spreading rapidly
 			var gridCopy = this.grid.Clone() as Block[,];
-
 			for (int x = 0; x < gridCopy.GetLength(0); x++)
 			{
 				for (int y = 0; y < gridCopy.GetLength(1); y++)
@@ -79,14 +76,30 @@ namespace Library
 				personDelayCounter = 0;
 
 			if (!hasFoundFireInPreviousTick)
-				this.Finished?.Invoke(this, new EventArgs());
-		}
+            {
+                Finish(EScenario.ALLFIREEXTINGUISH, true);
+            }
+            if (AllPeopleHadDieScenario())
+            {
+                Finish(EScenario.AllPEOPLEDIE, false);
+            }
+        }
 
 		public void KillAll()
 		{
 			foreach (Person p in this.persons)
 				p.Kill();
 		}
+
+        private void Finish(EScenario scenario, bool isSuccess)
+        {
+            this.Finished?.Invoke(this, new Scenario(scenario, isSuccess));
+            Console.WriteLine($"{this.GetNumberOfPeopleDie()} {this.GetNumberOfPeople()}");
+        }
+        private bool AllPeopleHadDieScenario()
+        {
+            return persons.TrueForAll(person => person.IsDead);
+        }
 
 		public SimulationData GetSimulationData()
 		{
@@ -215,5 +228,41 @@ namespace Library
 
 			return extinguishers.ToArray();
 		}
+
+        public int GetNumberOfPeopleDie()
+        {
+            int count = 0;
+            for (int i = 0; i < persons.Count; i++)
+            {
+                if (persons[i].IsDead)
+                {
+                    count += 1;
+                }
+            }
+            return count;
+        }
+
+        public int GetNumberOfSurviver()
+        {
+            int count = 0;
+            for (int i = 0; i < persons.Count; i++)
+            {
+                if (!persons[i].IsDead)
+                {
+                    count += 1;
+                }
+            }
+            return count;
+        }
+
+        public int GetNumberOfPeople()
+        {
+            return persons.Count();
+        }
+
+        public int GetNumberOfFireExtinguisher()
+        {
+            return fireExtinguishers.Count;
+        }
 	}
 }

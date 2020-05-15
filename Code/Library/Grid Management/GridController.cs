@@ -45,6 +45,11 @@ namespace Library
 			}
 		}
 
+        public Block[,] GetGridCopy()
+        {
+            return DeepCloneBlock(grid);
+        }
+
 		public void PutFloor((int x, int y) location)
 		{
 			this.grid[location.x, location.y] = GridController.Floor;

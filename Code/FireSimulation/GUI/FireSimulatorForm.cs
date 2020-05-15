@@ -16,31 +16,49 @@ namespace FireSimulator
 			InitializeComponent();
 
 			WindowState = FormWindowState.Maximized;
-			tbTimer.Text = time.ToString();
+			lblElapsedTime.Text = time.ToString();
 
 			this.Text = "Lit - Simulator";
 
 			this.simulator = new Simulator(layout);
 			this.simulator.Finished += this.handleFinished;
 
-			VisualizeSimulation();
+            // Static Data
+            lblPeopleTotal.Text = simulator.GetNumberOfPeople().ToString();
+            lblFireExTotal.Text = simulator.GetNumberOfFireExtinguisher().ToString();
+            lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+
+            VisualizeSimulation();
 		}
 
 		#region Private Methods
 		private void handleFinished(object sender, EventArgs e)
 		{
-			this.simulator.AddToHistory("Simulation finished");
+            if (e.GetType() == typeof(Scenario))
+            {
+                Scenario s = (Scenario)e;
 
-			picBoxPlayPause_Click(null, null);
-			GetStats();
-			this.simulator.ClearHistory();
-			this.UpdateHistory();
-			btnRerunSimulation.Visible = true;
-			lblResult.Text = "Success";
-			picBoxPlayPause.Enabled = false;
+                picBoxPlayPause_Click(null, null);
+                this.simulator.ClearHistory();
+                this.UpdateHistory();
+                this.simulator.AddToHistory("Simulation finished");
+                if (s.isSuccess)
+                {
+                    lblResult.Text = "Success";
+                }
+                else
+                {
+                    lblResult.Text = "Fail";
+                }
 
-			MessageBox.Show("The simulation finished", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
+                btnRerunSimulation.Visible = true;
+                picBoxPlayPause.Enabled = false;
+                if (MessageBox.Show($"The simulation finished \"{s.scenario.ToString()}\" \n Do you want to save the simulation data?", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+                {
+                    // TODO: Simulation Data save to layout
+                }
+            }
+        }
 
 		private void UpdateHistory()
 		{
@@ -50,24 +68,13 @@ namespace FireSimulator
 
 		private void GetStats()
 		{
-			var simulationData = simulator.GetSimulationData();
+            // Dynamic Data
+            lblElapsedTime.Text = time.ToString();
+            lblDeaths.Text = simulator.GetNumberOfPeopleDie().ToString();
+            lblAlive.Text = simulator.GetNumberOfSurviver().ToString();
+        }
 
-			int people = simulationData.NrOfPeople;
-			int deaths = simulationData.NrOfDeaths;
-			int alive = simulationData.NrOfSurvivers;
-
-			if (people == deaths)
-				lblResult.Text = "Fail";
-
-			lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
-			lblElapsedTime.Text = time.ToString();
-			lblPeopleTotal.Text = people.ToString();
-			// lblFireExTotal.Text = fireExtinguishers.ToString();
-			lblDeaths.Text = deaths.ToString();
-			lblAlive.Text = alive.ToString();
-		}
-
-		private void VisualizeSimulation()
+        private void VisualizeSimulation()
 		{
 			pbSimulator.Image = simulator.Paint(6, 6); // TODO: Check these numbers;
 		}
@@ -78,7 +85,6 @@ namespace FireSimulator
 		{
 			TimeSpan second = new TimeSpan(0, 0, 10);
 			time = time.Add(second);
-			tbTimer.Text = time.ToString();
 
 			simulator.Tick();
 			GetStats();
@@ -129,13 +135,12 @@ namespace FireSimulator
 
 		private void btnRerunSimulation_Click(object sender, EventArgs e)
 		{
-			// TODO
-			// simulator = gcStartingPosition;
-			// SaveStartingLayout();
-
-			VisualizeSimulation();
-			time = TimeSpan.Zero;
-			tbTimer.Text = time.ToString();
+            // TODO
+            // simulator = gcStartingPosition;
+            // SaveStartingLayout();
+            VisualizeSimulation();
+            running = true;
+            time = TimeSpan.Zero;
 			btnRerunSimulation.Visible = false;
 			btnTerminate.Visible = false;
 			lblResult.Text = "<Success/Fail>";
@@ -162,7 +167,6 @@ namespace FireSimulator
 			{
 				VisualizeSimulation();
 				time = TimeSpan.Zero;
-				tbTimer.Text = time.ToString();
 				GetStats();
 				btnTerminate.Visible = false;
 				trackBarSpeed.Value = 50;
@@ -197,6 +201,6 @@ namespace FireSimulator
 			lblSpeed.Text = trackBarSpeed.Value.ToString();
 			animationLoopTimer.Interval = 10 + (100 - trackBarSpeed.Value);
 		}
-		#endregion EventHandlers
-	}
+        #endregion EventHandlers
+    }
 }
