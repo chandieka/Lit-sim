@@ -40,6 +40,7 @@
 			this.btnLEdit = new System.Windows.Forms.Button();
 			this.lvLayout = new System.Windows.Forms.ListView();
 			this.fpImageList = new System.Windows.Forms.ImageList();
+			this.lImageList = new System.Windows.Forms.ImageList();
 			this.gbFloorplan.SuspendLayout();
 			this.gbLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -175,12 +176,15 @@
 			| System.Windows.Forms.AnchorStyles.Left)
 			| System.Windows.Forms.AnchorStyles.Right)));
 			this.lvLayout.HideSelection = false;
+			this.lvLayout.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.lvLayout.Location = new System.Drawing.Point(7, 20);
 			this.lvLayout.MultiSelect = false;
 			this.lvLayout.Name = "lvLayout";
 			this.lvLayout.Size = new System.Drawing.Size(187, 355);
 			this.lvLayout.TabIndex = 0;
 			this.lvLayout.UseCompatibleStateImageBehavior = false;
+			this.lvLayout.View = System.Windows.Forms.View.LargeIcon;
+			this.lvLayout.LargeImageList = lImageList;
 			// 
 			// MainForm
 			// 
@@ -211,5 +215,6 @@
 		private System.Windows.Forms.Button btnLDelete;
 		private System.Windows.Forms.Button btnLEdit;
 		private System.Windows.Forms.ImageList fpImageList;
+		private System.Windows.Forms.ImageList lImageList;
 	}
 }

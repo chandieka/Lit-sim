@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Library
 {
 	[Serializable]
-	public class Layout : Grid, ISavable
+	public class Layout : Thumbnailable, ISavable
 	{
 		private readonly List<SimulationData> simulationData = new List<SimulationData>();
 		public Guid Id { get; } = Guid.NewGuid();
