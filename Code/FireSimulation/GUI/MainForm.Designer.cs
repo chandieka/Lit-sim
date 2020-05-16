@@ -39,6 +39,7 @@
 			this.btnLDelete = new System.Windows.Forms.Button();
 			this.btnLEdit = new System.Windows.Forms.Button();
 			this.lvLayout = new System.Windows.Forms.ListView();
+			this.fpImageList = new System.Windows.Forms.ImageList();
 			this.gbFloorplan.SuspendLayout();
 			this.gbLayout.SuspendLayout();
 			this.SuspendLayout();
@@ -105,8 +106,9 @@
 			this.lvFloorplan.Size = new System.Drawing.Size(187, 355);
 			this.lvFloorplan.TabIndex = 0;
 			this.lvFloorplan.UseCompatibleStateImageBehavior = false;
-			this.lvFloorplan.View = System.Windows.Forms.View.List;
+			this.lvFloorplan.View = System.Windows.Forms.View.LargeIcon;
 			this.lvFloorplan.SelectedIndexChanged += lvFloorplan_SelectedIndexChanged;
+			this.lvFloorplan.LargeImageList = fpImageList;
 			// 
 			// gbLayout
 			// 
@@ -208,5 +210,6 @@
 		private System.Windows.Forms.Button btnLCreate;
 		private System.Windows.Forms.Button btnLDelete;
 		private System.Windows.Forms.Button btnLEdit;
+		private System.Windows.Forms.ImageList fpImageList;
 	}
 }

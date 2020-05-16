@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.Serialization;
 
 namespace Library
@@ -12,6 +13,8 @@ namespace Library
 
 		[field: NonSerialized]
 		private List<SaveItem> parsedLayouts = new List<SaveItem>();
+		[field: NonSerialized]
+		private Bitmap bitmap;
 
 		// Used to check if the 'layouts' list was changed after the 'parsedLayouts' list was updated
 		private bool parsedLayoutsListIsDirty = true;
@@ -92,6 +95,14 @@ namespace Library
 			parsedLayoutsListIsDirty = false;
 			items.Reverse();
 			return items.ToArray();
+		}
+
+		public Bitmap Render(int size)
+		{
+			if (bitmap == null)
+				bitmap = Grid.Paint(this.grid, (size, size));
+
+			return bitmap;
 		}
 
 		[OnDeserialized]

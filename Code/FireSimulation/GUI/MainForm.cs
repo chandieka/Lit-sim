@@ -14,6 +14,9 @@ namespace FireSimulator
 		{
 			InitializeComponent();
 
+			int imageSize = (int)(lvFloorplan.Width / 2.5);
+			fpImageList.ImageSize = new System.Drawing.Size(imageSize, imageSize);
+
 			floorplanController = new FloorplanController();
 			loadFloorplan();
 		}
@@ -105,9 +108,13 @@ namespace FireSimulator
 		private void updateFloorplanGUI()
 		{
 			lvFloorplan.Items.Clear();
+			fpImageList.Images.Clear();
 
 			foreach (var item in floorplanController.GetAll())
-				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, null);
+			{
+				fpImageList.Images.Add(((Floorplan)item.Item).Render(fpImageList.ImageSize.Width));
+				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, fpImageList.Images.Count - 1);
+			}
 
 			lvFloorplan.Items[0].Selected = true;
 		}
