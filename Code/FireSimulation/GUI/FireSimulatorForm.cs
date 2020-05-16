@@ -11,12 +11,13 @@ namespace FireSimulator
 		private Simulator simulator;
         private Simulator simStartingPoint;
 		private bool running;
-
+        private Layout currentLayout;
 		public FireSimulatorForm(Layout layout)
 		{
 			InitializeComponent();
 
-			WindowState = FormWindowState.Maximized;
+            currentLayout = layout;
+			//WindowState = FormWindowState.Maximized;
 			lblElapsedTime.Text = time.ToString();
 
 			this.Text = "Lit - Simulator";
@@ -59,8 +60,16 @@ namespace FireSimulator
                 if (MessageBox.Show($"The simulation finished \"{s.scenario.ToString()}\" \n Do you want to save the simulation data?", 
                     "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                 {
-                    // TODO: Simulation Data save to layout
-                    // TODO: Dispose Simulator object
+                    int nrOfSurviver = simulator.GetNumberOfSurviver();
+                    int nrOfDeaths = simulator.GetNumberOfPeopleDie();
+                    int nrOfPeople = simulator.GetNumberOfPeople();
+                    TimeSpan elapseTime = time;
+                    DateTime date = DateTime.Now;
+
+                    SimulationData simData = new SimulationData(nrOfSurviver, nrOfDeaths, nrOfPeople, date, elapseTime);
+
+                    currentLayout.AddSimulationData(simData);
+                    // TODO: Overwrite the save file
                 }
             }
         }
@@ -181,7 +190,7 @@ namespace FireSimulator
 		private void btnRerunSimulation_Click(object sender, EventArgs e)
 		{
             ReStart();
-
+            btnTerminate.Visible = false;
             // run the simulation
             picBoxPlayPause_Click(null, null);
         }
