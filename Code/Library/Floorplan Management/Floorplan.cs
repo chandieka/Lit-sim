@@ -62,18 +62,34 @@ namespace Library
 			return null;
 		}
 
-		public SaveItem[] GetAllLayouts()
+		public SaveItem[] GetAllLayouts(bool skipNotFound = false)
 		{
 			if (!parsedLayoutsListIsDirty)
 				return parsedLayouts.ToArray();
 
-			SaveItem[] items = new SaveItem[layouts.Count];
+			List<SaveItem> items = new List<SaveItem>();
 
-			for (int i = 0; i < layouts.Count; i++)
-				items[i] = GetLayout(layouts[i]);
+			for (int i = layouts.Count - 1; i >= 0; i--)
+			{
+				if (!skipNotFound)
+					items.Add(GetLayout(layouts[i]));
+				else
+				{
+					try
+					{
+						items.Add(GetLayout(layouts[i]));
+					}
+					catch (System.IO.FileNotFoundException)
+					{
+						Console.WriteLine($"Warning!: Could not find child Layout! ({layouts[i]})");
+						this.layouts.RemoveAt(i); // TODO: Find better solution
+					}
+				}
+			}
 
 			parsedLayoutsListIsDirty = false;
-			return items;
+			items.Reverse();
+			return items.ToArray();
 		}
 
 		[OnDeserialized]

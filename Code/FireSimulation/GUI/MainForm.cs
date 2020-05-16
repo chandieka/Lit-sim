@@ -124,11 +124,26 @@ namespace FireSimulator
 			updateFloorplanGUI();
 		}
 
-		private Floorplan getSelectedFloorplan()
+		private SaveItem getSelectedFloorplan()
 		{
 			var selectedItems = lvFloorplan.SelectedIndices;
 			if (selectedItems != null && selectedItems.Count > 0)
 				return floorplanController.GetFloorplanAt(selectedItems[0]);
+
+			return null;
+		}
+
+		private (SaveItem Layout, SaveItem Floorplan)? getSelectedLayout()
+		{
+			var selected = lvLayout.SelectedIndices;
+
+			if (selected != null && selected.Count > 0)
+			{
+				var floorplan = getSelectedFloorplan();
+
+				if (floorplan != null)
+					return (((Floorplan)floorplan.Item).GetLayoutAt(selected[0]), floorplan);
+			}
 
 			return null;
 		}
@@ -142,15 +157,17 @@ namespace FireSimulator
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
 			// TODO: Add confirmation
-			var floorplan = getSelectedFloorplan();
+			var saveItem = getSelectedFloorplan();
 
-			if (floorplan != null)
+			if (saveItem != null)
 			{
 				if (MessageBox.Show(
 					"Currently this does not remove children (Layouts)!\nAre you sure you want to proceed?",
 					"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes
 				)
 				{
+					var floorplan = (Floorplan)saveItem.Item;
+
 					SaveLoadManager.Delete(floorplan); // TODO: Delete all layouts too
 					this.floorplanController.Remove(floorplan);
 					updateFloorplanGUI();
@@ -173,20 +190,23 @@ namespace FireSimulator
 
 		private void btnLDelete_Click(object sender, EventArgs e)
 		{
+			var selected = getSelectedLayout();
 
+			if (selected != null)
+			{
+				((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
+				SaveLoadManager.Delete(selected.Value.Layout.Item);
+				SaveLoadManager.Save(selected.Value.Floorplan);
+				updateFloorplanGUI();
+			}
 		}
 
 		private void btnLRunSimulation_Click(object sender, EventArgs e)
 		{
-			var selected = lvLayout.SelectedIndices;
+			var selected = getSelectedLayout();
 
-			if (selected != null && selected.Count > 0)
-			{
-				var floorplan = getSelectedFloorplan();
-
-				if (floorplan != null)
-					new FireSimulatorForm(floorplan.GetLayoutAt(selected[0])).ShowDialog();
-			}
+			if (selected != null)
+				new FireSimulatorForm(selected.Value.Layout).ShowDialog();
 		}
 
 		private void btnLCreate_Click(object sender, EventArgs e)
@@ -214,7 +234,7 @@ namespace FireSimulator
 			lvLayout.Items.Clear();
 
 			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
-				foreach (SaveItem saveItem in ((Floorplan)floorplanController.GetAt(lvFloorplan.SelectedIndices[0]).Item).GetAllLayouts())
+				foreach (SaveItem saveItem in ((Floorplan)getSelectedFloorplan().Item).GetAllLayouts(true))
 					lvLayout.Items.Add(saveItem.Item.Id.ToString(), saveItem.Name, null);
 		}
 		#endregion

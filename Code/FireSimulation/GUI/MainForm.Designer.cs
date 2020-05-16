@@ -126,7 +126,7 @@
 			// btnLRunSimulation
 			// 
 			this.btnLRunSimulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnLRunSimulation.Location = new System.Drawing.Point(88, 410);
+			this.btnLRunSimulation.Location = new System.Drawing.Point(88, 408);
 			this.btnLRunSimulation.Name = "btnLRunSimulation";
 			this.btnLRunSimulation.Size = new System.Drawing.Size(106, 23);
 			this.btnLRunSimulation.TabIndex = 5;

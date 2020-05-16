@@ -55,8 +55,8 @@ namespace Library
 			return saveItems.ConvertAll<Floorplan>(_ => (Floorplan)_.Item).ToArray();
 		}
 
-		public Floorplan GetFloorplanAt(int index)
-			=> (Floorplan)saveItems[index].Item;
+		public SaveItem GetFloorplanAt(int index)
+			=> saveItems[index];
 
 		public void MoveToTop(SaveItem item)
 		{
