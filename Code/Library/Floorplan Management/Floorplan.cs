@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Library
 {
@@ -8,6 +9,12 @@ namespace Library
 	{
 		private readonly List<Guid> layouts = new List<Guid>();
 		public Guid Id { get; } = Guid.NewGuid();
+
+		[field: NonSerialized]
+		private List<SaveItem> parsedLayouts = new List<SaveItem>();
+
+		// Used to check if the 'layouts' list was changed after the 'parsedLayouts' list was updated
+		private bool parsedLayoutsListIsDirty = true;
 
 		public Floorplan(Block[,] grid)
 			: base(grid) { }
@@ -19,10 +26,12 @@ namespace Library
 		{
 			// TODO: if Find Duplicate -> return something
 			layouts.Add(layout);
+			parsedLayoutsListIsDirty = true;
 		}
 
 		public void RemoveLayout(Guid layout)
 		{
+			parsedLayouts.RemoveAt(parsedLayouts.FindIndex(_ => _.Item.Id == layout));
 			layouts.Remove(layout);
 		}
 
@@ -31,10 +40,39 @@ namespace Library
 			return layouts.ToArray();
 		}
 
-		public Layout GetLayout(Guid id)
+		public SaveItem GetLayout(Guid id)
 		{
-			// TODO
-			return null;
+			SaveItem saveItem = SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
+			parsedLayouts.Add(saveItem);
+			return saveItem;
+		}
+
+		public SaveItem[] GetAllLayouts()
+		{
+			if (!parsedLayoutsListIsDirty)
+				return parsedLayouts.ToArray();
+
+			SaveItem[] items = new SaveItem[layouts.Count];
+
+			for (int i = 0; i < layouts.Count; i++)
+			{
+				var id = layouts[i];
+				var foundLayout = parsedLayouts.Find(_ => _.Item.Id == id);
+
+				if (foundLayout == null)
+					items[i] = GetLayout(id);
+				else
+					items[i] = foundLayout;
+			}
+
+			parsedLayoutsListIsDirty = false;
+			return items;
+		}
+
+		[OnDeserialized]
+		private void OnDeserialized(StreamingContext context)
+		{
+			this.parsedLayouts = new List<SaveItem>();
 		}
 
 		public override string ToString()

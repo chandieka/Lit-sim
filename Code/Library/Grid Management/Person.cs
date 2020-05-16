@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +38,6 @@ namespace Library
 		private Pair[] nearestFirePath = null;
 		[field: NonSerialized]
 		private Thread firePathThread = null;
-		[field: NonSerialized]
 		private const int safeDistance = 5;
 
 		public bool HasFireExtinguisher
@@ -47,8 +47,6 @@ namespace Library
 				return this.nearestFirePath != null;
 			}
 		}
-
-		public Person() : base() { }
 
 		public void Kill()
 		{
@@ -162,7 +160,9 @@ namespace Library
 				try
 				{
 					path = new AStar(grid, pos, p).aStarSearch();
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					Console.WriteLine(e.Message);
 				}
 
@@ -464,7 +464,15 @@ namespace Library
 				firePathThread.Start();
 			}
 
-			if (this.IsDead) Fire.SpreadToNeighbors(grid, myPosPair.X, myPosPair.Y);
+			if (this.IsDead)
+				Fire.SpreadToNeighbors(grid, myPosPair.X, myPosPair.Y);
+		}
+
+		[OnDeserialized]
+		private void OnDeserialized(StreamingContext context)
+		{
+			hasReachedFireBefore = false;
+			pathIndex = 1;
 		}
 	}
 }

@@ -42,10 +42,10 @@ namespace Library
 			return path;
 		}
 
-		public static string GetSaveFolder(ISavable savable, bool shouldCheck = true)
-			=> GetSaveFolder(savable.GetType(), shouldCheck);
+		public static string GetFilePath(Guid id, Type type, bool shouldCheck = true)
+			=> Path.Combine(GetSaveFolder(type, shouldCheck), id + FileExtension);
 
 		public static string GetFilePath(ISavable item, bool shouldCheck = true)
-			=> Path.Combine(GetSaveFolder(item, shouldCheck), item.Id + FileExtension);
+			=> GetFilePath(item.Id, item.GetType(), shouldCheck);
 	}
 }

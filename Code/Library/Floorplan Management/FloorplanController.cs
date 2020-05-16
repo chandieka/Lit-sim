@@ -57,5 +57,11 @@ namespace Library
 
 		public Floorplan GetFloorplanAt(int index)
 			=> (Floorplan)saveItems[index].Item;
+
+		public void MoveToTop(SaveItem item)
+		{
+			this.saveItems.Remove(item);
+			this.saveItems.Insert(0, item);
+		}
 	}
 }

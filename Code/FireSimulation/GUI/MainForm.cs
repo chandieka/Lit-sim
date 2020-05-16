@@ -23,6 +23,7 @@ namespace FireSimulator
 		{
 			var floorplan = GridController.CreateDefaultFloorplan();
 			var floorplanSaveitem = new SaveItem(floorplan, "Default");
+
 			SaveLoadManager.Save(floorplanSaveitem);
 
 			var layoutController = floorplan.ToGridController();
@@ -32,8 +33,7 @@ namespace FireSimulator
 			layoutController.RandomizePersons(2, random.Next());
 			layoutController.RandomizeFire(1, random.Next());
 
-			floorplan.AddLayout(layoutController.SaveAsLayout("Default", floorplanSaveitem).Item.Id);
-			SaveLoadManager.Save(floorplanSaveitem);
+			layoutController.SaveAsLayout("Default", floorplanSaveitem);
 			floorplanController.AddToTop(floorplanSaveitem);
 		}
 
@@ -41,7 +41,7 @@ namespace FireSimulator
 		{
 			try
 			{
-				bool hasFoundDefault = false;
+				SaveItem hasFoundDefault = null;
 
 				// TODO: Sort items by creation date
 				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder(typeof(Floorplan))))
@@ -57,7 +57,7 @@ namespace FireSimulator
 							floorplanController.Add(itm);
 
 							if (itm.Name == "Default")
-								hasFoundDefault = true;
+								hasFoundDefault = itm;
 						}
 					}
 
@@ -78,8 +78,10 @@ namespace FireSimulator
 					// }).Start();
 				}
 
-				if (!hasFoundDefault)
+				if (hasFoundDefault == null)
 					createDefaultFloorplan();
+				else
+					floorplanController.MoveToTop(hasFoundDefault);
 
 				updateFloorplanGUI();
 			}
@@ -102,6 +104,8 @@ namespace FireSimulator
 
 			foreach (var item in floorplanController.GetAll())
 				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, null);
+
+			lvFloorplan.Items[0].Selected = true;
 		}
 
 		private void showDesigner(SaveItem item = null)
@@ -188,6 +192,15 @@ namespace FireSimulator
 					MessageBoxIcon.Warning
 					);
 			}
+		}
+
+		private void lvFloorplan_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			lvLayout.Items.Clear();
+
+			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
+				foreach (SaveItem saveItem in ((Floorplan)floorplanController.GetAt(lvFloorplan.SelectedIndices[0]).Item).GetAllLayouts())
+					lvLayout.Items.Add(saveItem.Item.Id.ToString(), saveItem.Name, null);
 		}
 		#endregion
 	}
