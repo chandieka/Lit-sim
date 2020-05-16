@@ -225,7 +225,7 @@ namespace FireSimulator
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Location = new System.Drawing.Point(725, 81);
+            this.groupBox3.Location = new System.Drawing.Point(725, 13);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 138);
             this.groupBox3.TabIndex = 22;
@@ -292,7 +292,7 @@ namespace FireSimulator
             this.gBoxSettings.Controls.Add(this.btnCancel);
             this.gBoxSettings.Controls.Add(this.label1);
             this.gBoxSettings.Controls.Add(this.btnSave);
-            this.gBoxSettings.Location = new System.Drawing.Point(725, 243);
+            this.gBoxSettings.Location = new System.Drawing.Point(725, 162);
             this.gBoxSettings.Name = "gBoxSettings";
             this.gBoxSettings.Size = new System.Drawing.Size(200, 193);
             this.gBoxSettings.TabIndex = 23;
