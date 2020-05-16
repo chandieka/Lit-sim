@@ -7,8 +7,9 @@ namespace FireSimulator
 	public partial class FireSimulatorForm : Form
 	{
 		private TimeSpan time = new TimeSpan(0, 0, 0);
-
-		private readonly Simulator simulator;
+        private TimeSpan timeLimit;
+		private Simulator simulator;
+        private Simulator simStartingPoint;
 		private bool running;
 
 		public FireSimulatorForm(Layout layout)
@@ -21,8 +22,8 @@ namespace FireSimulator
 			this.Text = "Lit - Simulator";
 
 			this.simulator = new Simulator(layout);
-			this.simulator.Finished += this.handleFinished;
-
+            simStartingPoint = simulator.DeepCloneSelf();
+            this.simulator.Finished += this.handleFinished;
             // Static Data
             lblPeopleTotal.Text = simulator.GetNumberOfPeople().ToString();
             lblFireExTotal.Text = simulator.GetNumberOfFireExtinguisher().ToString();
@@ -42,6 +43,10 @@ namespace FireSimulator
                 this.simulator.ClearHistory();
                 this.UpdateHistory();
                 this.simulator.AddToHistory("Simulation finished");
+
+                btnRerunSimulation.Visible = true;
+                picBoxPlayPause.Enabled = false;
+
                 if (s.isSuccess)
                 {
                     lblResult.Text = "Success";
@@ -51,13 +56,41 @@ namespace FireSimulator
                     lblResult.Text = "Fail";
                 }
 
-                btnRerunSimulation.Visible = true;
-                picBoxPlayPause.Enabled = false;
-                if (MessageBox.Show($"The simulation finished \"{s.scenario.ToString()}\" \n Do you want to save the simulation data?", "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+                if (MessageBox.Show($"The simulation finished \"{s.scenario.ToString()}\" \n Do you want to save the simulation data?", 
+                    "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
                 {
                     // TODO: Simulation Data save to layout
+                    // TODO: Dispose Simulator object
                 }
             }
+        }
+
+        private void SetTimeLimit(int hours = 0, int minutes = 0, int seconds = 0)
+        {
+            timeLimit = new TimeSpan(hours, minutes, seconds);
+        }
+
+        private void LoadStartingLayout()
+        {
+            if (simStartingPoint != null)
+            {
+                simulator = simStartingPoint.DeepCloneSelf();
+                simulator.Finished += handleFinished;
+            }
+        }
+
+        public void ReStart()
+        {
+            running = false;
+            time = TimeSpan.Zero;
+            btnRerunSimulation.Visible = false;
+            lblResult.Text = "<Success/Fail>";
+            trackBarSpeed.Value = 50;
+            animationLoopTimer.Interval = 60;
+
+            GetStats();
+            LoadStartingLayout();
+            VisualizeSimulation();
         }
 
 		private void UpdateHistory()
@@ -83,14 +116,23 @@ namespace FireSimulator
 		#region EventHandlers
 		private void animationLoopTimer_Tick(object sender, EventArgs e)
 		{
-			TimeSpan second = new TimeSpan(0, 0, 10);
+			TimeSpan second = new TimeSpan(0, 0, 1);
 			time = time.Add(second);
 
-			simulator.Tick();
-			GetStats();
-
-			VisualizeSimulation();
-		}
+            if (time.Ticks != timeLimit.Ticks)
+            {
+                simulator.Tick();
+                GetStats();
+                VisualizeSimulation();
+            }
+            else
+            {
+                simulator.Tick();
+                GetStats();
+                VisualizeSimulation();
+                simulator.TimeLimitReachScenario();
+            }
+        }
 
 		private void picBoxPlayPause_Click(object sender, EventArgs e)
 		{
@@ -109,7 +151,10 @@ namespace FireSimulator
 					UpdateHistory();
 					this.lbHistor.Enabled = false;
 					btnTerminate.Visible = false;
-				}
+
+                    // TODO: Timelimit wiil be Change dynamically
+                    SetTimeLimit(0, 6, 0);
+                }
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex.Message);
@@ -135,28 +180,22 @@ namespace FireSimulator
 
 		private void btnRerunSimulation_Click(object sender, EventArgs e)
 		{
-            // TODO
-            // simulator = gcStartingPosition;
-            // SaveStartingLayout();
-            VisualizeSimulation();
-            running = true;
-            time = TimeSpan.Zero;
-			btnRerunSimulation.Visible = false;
-			btnTerminate.Visible = false;
-			lblResult.Text = "<Success/Fail>";
-			trackBarSpeed.Value = 50;
-			animationLoopTimer.Interval = 60;
-			GetStats();
-		}
+            ReStart();
+
+            // run the simulation
+            picBoxPlayPause_Click(null, null);
+        }
 
 		private void lbHistor_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (this.lbHistor.SelectedItem != null)
 			{
-				// TODO
+				// TODO: 
 				History grid = (History)this.lbHistor.SelectedItem;
 				// this.simulator = new GridController(grid.Grid);
 				VisualizeSimulation();
+                // Re adjust the Statistic Data 
+                GetStats();
 			}
 		}
 
@@ -164,37 +203,32 @@ namespace FireSimulator
 		{
 			DialogResult dialogResult = MessageBox.Show("Are you sure you want to terminate the simulation?", "Terminate Simulation", MessageBoxButtons.YesNo);
 			if (dialogResult == DialogResult.Yes)
-			{
-				VisualizeSimulation();
-				time = TimeSpan.Zero;
-				GetStats();
-				btnTerminate.Visible = false;
-				trackBarSpeed.Value = 50;
-				animationLoopTimer.Interval = 60;
-				lblResult.Text = "<Success/Fail>";
-			}
+            { 
+                ReStart();
+                btnTerminate.Visible = false;
+            }
 		}
 
 		private void btnCalculatePaths_Click(object sender, EventArgs e)
 		{
-			if (running)
-				return;
+            if (running)
+                return;
 
-			var dialog = new ProgressDialog();
-			var cancelMethod = simulator.SetupInDifferentThread(cancelled =>
-			{
-				if (!cancelled)
-					this.picBoxPlayPause.Enabled = true;
+            var dialog = new ProgressDialog();
+            var cancelMethod = simulator.SetupInDifferentThread(cancelled =>
+            {
+                if (!cancelled)
+                    this.picBoxPlayPause.Enabled = true;
 
-				VisualizeSimulation();
+                VisualizeSimulation();
 
-				dialog.Close();
-				dialog.Dispose();
-			}, dialog.SetPercentage, dialog.SetProgressReport);
+                dialog.Close();
+                dialog.Dispose();
+            }, dialog.SetPercentage, dialog.SetProgressReport);
 
-			dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
-			dialog.ShowDialog();
-		}
+            dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
+            dialog.ShowDialog();
+        }
 
 		private void trackBarSpeed_Scroll(object sender, EventArgs e)
 		{

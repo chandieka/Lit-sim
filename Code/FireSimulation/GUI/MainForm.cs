@@ -100,16 +100,16 @@ namespace FireSimulator
 
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
-			return;
+			//return;
 
 			// TODO: Add confirmation
-			var selected = lvFloorplan.SelectedIndices;
-			if (selected != null && selected.Count > 0)
-			{
-				SaveLoadManager.Delete(floorplanController.GetFloorplanAt(selected[0])); // TODO: Delete all layouts too
-				lvFloorplan.Items.Remove(lvFloorplan.SelectedItems[0]);
-				updateFloorplanGUI();
-			}
+			//var selected = lvFloorplan.SelectedIndices;
+			//if (selected != null && selected.Count > 0)
+			//{
+			//	SaveLoadManager.Delete(floorplanController.GetFloorplanAt(selected[0])); // TODO: Delete all layouts too
+			//	lvFloorplan.Items.Remove(lvFloorplan.SelectedItems[0]);
+			//	updateFloorplanGUI();
+			//}
 		}
 
 		private void btnFPEdit_Click(object sender, EventArgs e)

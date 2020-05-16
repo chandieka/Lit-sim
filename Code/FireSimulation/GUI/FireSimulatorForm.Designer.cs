@@ -43,7 +43,9 @@
             this.gBoxStatistics = new System.Windows.Forms.GroupBox();
             this.lblAlive = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblSpeed = new System.Windows.Forms.Label();
             this.lblResult = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.lblDeaths = new System.Windows.Forms.Label();
             this.lblPeopleTotal = new System.Windows.Forms.Label();
             this.lblFireExTotal = new System.Windows.Forms.Label();
@@ -60,8 +62,6 @@
             this.toolTipImport = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipSave = new System.Windows.Forms.ToolTip(this.components);
             this.trackBarSpeed = new System.Windows.Forms.TrackBar();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lblSpeed = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -72,6 +72,7 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.pbSimulator = new System.Windows.Forms.PictureBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxPlayPause)).BeginInit();
             this.gBoxStatistics.SuspendLayout();
@@ -184,6 +185,16 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Alive:";
             // 
+            // lblSpeed
+            // 
+            this.lblSpeed.AutoSize = true;
+            this.lblSpeed.Location = new System.Drawing.Point(124, 241);
+            this.lblSpeed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSpeed.Name = "lblSpeed";
+            this.lblSpeed.Size = new System.Drawing.Size(19, 13);
+            this.lblSpeed.TabIndex = 20;
+            this.lblSpeed.Text = "50";
+            // 
             // lblResult
             // 
             this.lblResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -193,6 +204,16 @@
             this.lblResult.TabIndex = 13;
             this.lblResult.Text = "<Success/Fail>";
             this.lblResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 241);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(41, 13);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Speed:";
             // 
             // lblDeaths
             // 
@@ -338,26 +359,6 @@
             this.trackBarSpeed.Value = 50;
             this.trackBarSpeed.Scroll += new System.EventHandler(this.trackBarSpeed_Scroll);
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 241);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(41, 13);
-            this.label8.TabIndex = 19;
-            this.label8.Text = "Speed:";
-            // 
-            // lblSpeed
-            // 
-            this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(124, 241);
-            this.lblSpeed.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblSpeed.Name = "lblSpeed";
-            this.lblSpeed.Size = new System.Drawing.Size(19, 13);
-            this.lblSpeed.TabIndex = 20;
-            this.lblSpeed.Text = "50";
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label23);
@@ -414,7 +415,7 @@
             this.groupBox4.Controls.Add(this.label32);
             this.groupBox4.Location = new System.Drawing.Point(12, 58);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(200, 603);
+            this.groupBox4.Size = new System.Drawing.Size(200, 382);
             this.groupBox4.TabIndex = 28;
             this.groupBox4.TabStop = false;
             // 
@@ -423,7 +424,7 @@
             this.lbHistor.FormattingEnabled = true;
             this.lbHistor.Location = new System.Drawing.Point(9, 34);
             this.lbHistor.Name = "lbHistor";
-            this.lbHistor.Size = new System.Drawing.Size(185, 563);
+            this.lbHistor.Size = new System.Drawing.Size(185, 342);
             this.lbHistor.TabIndex = 19;
             this.lbHistor.SelectedIndexChanged += new System.EventHandler(this.lbHistor_SelectedIndexChanged);
             // 
@@ -431,11 +432,11 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(74, 11);
+            this.label15.Location = new System.Drawing.Point(49, 11);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(58, 20);
+            this.label15.Size = new System.Drawing.Size(96, 20);
             this.label15.TabIndex = 16;
-            this.label15.Text = "History";
+            this.label15.Text = "Step History";
             // 
             // label32
             // 
@@ -454,12 +455,22 @@
             this.pbSimulator.TabIndex = 17;
             this.pbSimulator.TabStop = false;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(12, 446);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(199, 214);
+            this.groupBox1.TabIndex = 29;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Auto Simulation";
+            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1049, 760);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.trackBarSpeed);
@@ -530,6 +541,7 @@
 		private System.Windows.Forms.Label label32;
 		private System.Windows.Forms.ListBox lbHistor;
 		private System.Windows.Forms.Label label15;
-	}
+        private System.Windows.Forms.GroupBox groupBox1;
+    }
 }
 

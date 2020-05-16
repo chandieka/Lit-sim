@@ -11,5 +11,6 @@ namespace Library
         AllPEOPLEDIE,
         ALLFIREEXTINGUISH,
         ALLPEOPLEESCAPE,
+        TIMELIMITREACH,
     }
 }

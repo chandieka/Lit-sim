@@ -10,6 +10,7 @@ namespace Library
 	{
 		private bool hasFoundFireInPreviousTick = false;
 		private bool hasTicked = false;
+        private bool timeLimitReached = false;
 
 		private int personDelayCounter = 0;
 		private const int personDelay = 2;
@@ -42,12 +43,17 @@ namespace Library
         public System.Drawing.Bitmap Paint(int scaleX, int scaleY)
 			=> Grid.Paint(this.grid, (scaleX, scaleY), this.persons.ToArray());
 
+        public Simulator DeepCloneSelf()
+        {
+            return new Simulator(DeepCloneBlock(grid));
+        }
+
 		public void Tick()
 		{
 			if (hasTicked && !hasFoundFireInPreviousTick)
 				return;
 
-			this.hasFoundFireInPreviousTick = false;
+            this.hasFoundFireInPreviousTick = false;
 			this.hasTicked = true;
 
 			// This is needed to prevent the fire from spreading rapidly
@@ -75,13 +81,21 @@ namespace Library
 			if (personDelayCounter > personDelay)
 				personDelayCounter = 0;
 
+            // Discuss which scenario should be priotize and check first
 			if (!hasFoundFireInPreviousTick)
             {
                 Finish(EScenario.ALLFIREEXTINGUISH, true);
+                return;
             }
             if (AllPeopleHadDieScenario())
             {
                 Finish(EScenario.AllPEOPLEDIE, false);
+                return;
+            }
+            if (timeLimitReached)
+            {
+                Finish(EScenario.TIMELIMITREACH, false);
+                return;
             }
         }
 
@@ -99,6 +113,11 @@ namespace Library
         private bool AllPeopleHadDieScenario()
         {
             return persons.TrueForAll(person => person.IsDead);
+        }
+
+        public void TimeLimitReachScenario()
+        {
+            timeLimitReached = true;
         }
 
 		public SimulationData GetSimulationData()
