@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Library;
 
@@ -43,9 +44,12 @@ namespace FireSimulator
 			{
 				SaveItem hasFoundDefault = null;
 
-				// TODO: Sort items by creation date
-				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder(typeof(Floorplan))))
+				var fileInfo = new DirectoryInfo(SaveLoadManager.GetSaveFolder(typeof(Floorplan)));
+				foreach (var file in fileInfo.GetFiles().OrderBy(_ => _.CreationTime).Reverse())
 				{
+
+					var path = file.FullName;
+
 					// Check if it is a file
 					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
 					{
@@ -161,13 +165,13 @@ namespace FireSimulator
 
 			if (saveItem != null)
 			{
-				if (MessageBox.Show(
+				var floorplan = (Floorplan)saveItem.Item;
+
+				if (floorplan.LayoutAmount < 1 || MessageBox.Show(
 					"Currently this does not remove children (Layouts)!\nAre you sure you want to proceed?",
 					"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes
 				)
 				{
-					var floorplan = (Floorplan)saveItem.Item;
-
 					SaveLoadManager.Delete(floorplan); // TODO: Delete all layouts too
 					this.floorplanController.Remove(floorplan);
 					updateFloorplanGUI();

@@ -16,6 +16,8 @@ namespace Library
 		// Used to check if the 'layouts' list was changed after the 'parsedLayouts' list was updated
 		private bool parsedLayoutsListIsDirty = true;
 
+		public int LayoutAmount { get { return layouts.Count; } }
+
 		public Floorplan(Block[,] grid)
 			: base(grid) { }
 
