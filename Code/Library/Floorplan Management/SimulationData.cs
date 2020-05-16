@@ -5,13 +5,13 @@ namespace Library
 	[Serializable]
 	public readonly struct SimulationData
 	{
-		public readonly TimeSpan DateOfSimulation;
+		public readonly DateTime DateOfSimulation;
 		public readonly TimeSpan SimulationTime;
 		public readonly int NrOfSurvivers;
 		public readonly int NrOfPeople;
 		public readonly int NrOfDeaths;
 
-		public SimulationData(int nrOfSurvivers, int nrOfDeaths, int nrOfPeople, TimeSpan date, TimeSpan time)
+		public SimulationData(int nrOfSurvivers, int nrOfDeaths, int nrOfPeople, DateTime date, TimeSpan time)
 		{
 			this.NrOfSurvivers = nrOfSurvivers;
 			this.NrOfPeople = nrOfPeople;
