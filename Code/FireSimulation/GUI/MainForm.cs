@@ -14,20 +14,35 @@ namespace FireSimulator
 			InitializeComponent();
 
 			floorplanController = new FloorplanController();
-			CreateDefaultFloorplan();
 			loadFloorplan();
 		}
 
 		#region Private Methods
 
-		// TODO: Save
-		private void CreateDefaultFloorplan()
-			=> floorplanController.Add(new SaveItem(GridController.CreateDefaultFloorplan(), "Default"));
+		private void createDefaultFloorplan()
+		{
+			var floorplan = GridController.CreateDefaultFloorplan();
+			var floorplanSaveitem = new SaveItem(floorplan, "Default");
+			SaveLoadManager.Save(floorplanSaveitem);
+
+			var layoutController = floorplan.ToGridController();
+			var random = new Random();
+
+			layoutController.RandomizeFireExtinguishers(5, random.Next());
+			layoutController.RandomizePersons(2, random.Next());
+			layoutController.RandomizeFire(1, random.Next());
+
+			floorplan.AddLayout(layoutController.SaveAsLayout("Default", floorplanSaveitem).Item.Id);
+			SaveLoadManager.Save(floorplanSaveitem);
+			floorplanController.AddToTop(floorplanSaveitem);
+		}
 
 		private void loadFloorplan()
 		{
 			try
 			{
+				bool hasFoundDefault = false;
+
 				// TODO: Sort items by creation date
 				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder(typeof(Floorplan))))
 				{
@@ -38,7 +53,12 @@ namespace FireSimulator
 						var itm = SaveLoadManager.Load(path);
 
 						if (itm.Item is Floorplan)
+						{
 							floorplanController.Add(itm);
+
+							if (itm.Name == "Default")
+								hasFoundDefault = true;
+						}
 					}
 
 					// new Thread(() =>
@@ -57,6 +77,9 @@ namespace FireSimulator
 
 					// }).Start();
 				}
+
+				if (!hasFoundDefault)
+					createDefaultFloorplan();
 
 				updateFloorplanGUI();
 			}

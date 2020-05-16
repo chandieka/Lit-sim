@@ -6,7 +6,7 @@ namespace Library
 	public class Designer
 	{
 		private GridController grid;
-		private string prevSaveLoc;
+
 		private int pbGridWidth;
 		private int pbGridHeight;
 

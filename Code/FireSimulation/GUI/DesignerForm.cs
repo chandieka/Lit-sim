@@ -161,7 +161,7 @@ namespace FireSimulator
 
 		private void rb_CheckedChanged_Reset(object sender, EventArgs e)
 		{
-			this.pictureBoxGrid.MouseMove -= new MouseEventHandler(this.pictureBoxGrid_MouseMove);
+			this.pictureBoxGrid.MouseMove -= this.pictureBoxGrid_MouseMove;
 			lblEscMessage.Visible = false;
 			prevCurPos = null;
 			curCurPos = null;

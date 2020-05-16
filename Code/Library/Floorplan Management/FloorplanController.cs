@@ -19,6 +19,14 @@ namespace Library
 				saveItems.Add(savable);
 		}
 
+		public void AddToTop(SaveItem savable)
+		{
+			// TODO: Find Duplicate -> return something ?? throw Exception ??
+
+			if (savable != null && savable.Item is Floorplan)
+				saveItems.Insert(0, savable);
+		}
+
 		public void Remove(SaveItem saveItem)
 		{
 			saveItems.Remove(saveItem);
