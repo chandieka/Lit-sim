@@ -7,100 +7,87 @@ namespace FireSimulator
 	public partial class FireSimulatorForm : Form
 	{
 		private TimeSpan time = new TimeSpan(0, 0, 0);
-        private TimeSpan timeLimit;
+		private Simulator simStartingPoint;
 		private Simulator simulator;
-        private Simulator simStartingPoint;
+		private TimeSpan timeLimit;
+
+		private readonly SaveItem saveItem;
 		private bool running;
-        private Layout currentLayout;
-		public FireSimulatorForm(Layout layout)
+
+		public FireSimulatorForm(SaveItem saveItem)
 		{
 			InitializeComponent();
 
-            currentLayout = layout;
-			//WindowState = FormWindowState.Maximized;
+			WindowState = FormWindowState.Maximized;
 			lblElapsedTime.Text = time.ToString();
 
 			this.Text = "Lit - Simulator";
 
-			this.simulator = new Simulator(layout);
-            simStartingPoint = simulator.DeepCloneSelf();
-            this.simulator.Finished += this.handleFinished;
-            // Static Data
-            lblPeopleTotal.Text = simulator.GetNumberOfPeople().ToString();
-            lblFireExTotal.Text = simulator.GetNumberOfFireExtinguisher().ToString();
-            lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+			if (!(saveItem.Item is Layout))
+				throw new Exception("Cannot simulate SaveItem that does not contain a Layout");
 
-            VisualizeSimulation();
+			this.saveItem = saveItem;
+			this.simulator = new Simulator((Layout)saveItem.Item);
+			this.simStartingPoint = simulator.DeepCloneSelf();
+			this.simulator.Finished += this.handleFinished;
+
+			// Static Data
+			lblFireExTotal.Text = simulator.FireExtinguisherAmount.ToString();
+			lblPeopleTotal.Text = simulator.PersonAmount.ToString();
+			lblDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+
+			VisualizeSimulation();
 		}
 
 		#region Private Methods
-		private void handleFinished(object sender, EventArgs e)
+		private void handleFinished(object sender, FinishedEventArgs e)
 		{
-            if (e.GetType() == typeof(Scenario))
-            {
-                Scenario s = (Scenario)e;
+			picBoxPlayPause_Click(null, null);
 
-                picBoxPlayPause_Click(null, null);
-                this.simulator.ClearHistory();
-                this.UpdateHistory();
-                this.simulator.AddToHistory("Simulation finished");
+			this.simulator.ClearHistory();
+			this.UpdateHistory();
+			this.simulator.AddToHistory("Simulation finished");
 
-                btnRerunSimulation.Visible = true;
-                picBoxPlayPause.Enabled = false;
+			btnRerunSimulation.Visible = true;
+			picBoxPlayPause.Enabled = false;
 
-                if (s.isSuccess)
-                {
-                    lblResult.Text = "Success";
-                }
-                else
-                {
-                    lblResult.Text = "Fail";
-                }
+			if (e.IsSuccess)
+				lblResult.Text = "Success";
+			else
+				lblResult.Text = "Fail";
 
-                if (MessageBox.Show($"The simulation finished \"{s.scenario.ToString()}\" \n Do you want to save the simulation data?", 
-                    "Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
-                {
-                    int nrOfSurviver = simulator.GetNumberOfSurviver();
-                    int nrOfDeaths = simulator.GetNumberOfPeopleDie();
-                    int nrOfPeople = simulator.GetNumberOfPeople();
-                    TimeSpan elapseTime = time;
-                    DateTime date = DateTime.Now;
+			if (MessageBox.Show($"The simulation finished \"{e.ToString()}\"\nDo you want to save the simulation data?",
+				"Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+				simulator.SaveSimulationData(saveItem, DateTime.Now, time);
+		}
 
-                    SimulationData simData = new SimulationData(nrOfSurviver, nrOfDeaths, nrOfPeople, date, elapseTime);
+		private void SetTimeLimit(int hours = 0, int minutes = 0, int seconds = 0)
+		{
+			timeLimit = new TimeSpan(hours, minutes, seconds);
+		}
 
-                    currentLayout.AddSimulationData(simData);
-                    // TODO: Overwrite the save file
-                }
-            }
-        }
+		private void LoadStartingLayout()
+		{
+			if (simStartingPoint != null)
+			{
+				simulator = simStartingPoint.DeepCloneSelf();
+				simulator.Finished += handleFinished;
+			}
+		}
 
-        private void SetTimeLimit(int hours = 0, int minutes = 0, int seconds = 0)
-        {
-            timeLimit = new TimeSpan(hours, minutes, seconds);
-        }
+		public void ReStart()
+		{
+			running = false;
+			time = TimeSpan.Zero;
+			btnRerunSimulation.Visible = false;
+			lblResult.Text = "<Success/Fail>";
+			trackBarSpeed.Value = 50;
+			animationLoopTimer.Interval = 60;
 
-        private void LoadStartingLayout()
-        {
-            if (simStartingPoint != null)
-            {
-                simulator = simStartingPoint.DeepCloneSelf();
-                simulator.Finished += handleFinished;
-            }
-        }
-
-        public void ReStart()
-        {
-            running = false;
-            time = TimeSpan.Zero;
-            btnRerunSimulation.Visible = false;
-            lblResult.Text = "<Success/Fail>";
-            trackBarSpeed.Value = 50;
-            animationLoopTimer.Interval = 60;
-
-            GetStats();
-            LoadStartingLayout();
-            VisualizeSimulation();
-        }
+			GetStats();
+			LoadStartingLayout();
+			VisualizeSimulation();
+		}
 
 		private void UpdateHistory()
 		{
@@ -110,15 +97,17 @@ namespace FireSimulator
 
 		private void GetStats()
 		{
-            // Dynamic Data
-            lblElapsedTime.Text = time.ToString();
-            lblDeaths.Text = simulator.GetNumberOfPeopleDie().ToString();
-            lblAlive.Text = simulator.GetNumberOfSurviver().ToString();
-        }
+			// Dynamic Data
+			var deathAmount = simulator.GetNrOfDeaths();
 
-        private void VisualizeSimulation()
+			lblAlive.Text = (simulator.PersonAmount - deathAmount).ToString();
+			lblDeaths.Text = deathAmount.ToString();
+			lblElapsedTime.Text = time.ToString();
+		}
+
+		private void VisualizeSimulation()
 		{
-			pbSimulator.Image = simulator.Paint(6, 6); // TODO: Check these numbers;
+			pbSimulator.Image = simulator.Paint((6, 6), !running); // TODO: Check these numbers;
 		}
 		#endregion Private Methods
 
@@ -128,20 +117,20 @@ namespace FireSimulator
 			TimeSpan second = new TimeSpan(0, 0, 1);
 			time = time.Add(second);
 
-            if (time.Ticks != timeLimit.Ticks)
-            {
-                simulator.Tick();
-                GetStats();
-                VisualizeSimulation();
-            }
-            else
-            {
-                simulator.Tick();
-                GetStats();
-                VisualizeSimulation();
-                simulator.TimeLimitReachScenario();
-            }
-        }
+			if (time.Ticks != timeLimit.Ticks)
+			{
+				simulator.Tick();
+				GetStats();
+				VisualizeSimulation();
+			}
+			else
+			{
+				simulator.Tick();
+				GetStats();
+				VisualizeSimulation();
+				simulator.TimeLimitReached();
+			}
+		}
 
 		private void picBoxPlayPause_Click(object sender, EventArgs e)
 		{
@@ -161,9 +150,9 @@ namespace FireSimulator
 					this.lbHistor.Enabled = false;
 					btnTerminate.Visible = false;
 
-                    // TODO: Timelimit wiil be Change dynamically
-                    SetTimeLimit(0, 6, 0);
-                }
+					// TODO: Timelimit wiil be Change dynamically
+					SetTimeLimit(0, 6, 0);
+				}
 				catch (Exception ex)
 				{
 					Console.WriteLine(ex.Message);
@@ -189,11 +178,11 @@ namespace FireSimulator
 
 		private void btnRerunSimulation_Click(object sender, EventArgs e)
 		{
-            ReStart();
-            btnTerminate.Visible = false;
-            // run the simulation
-            picBoxPlayPause_Click(null, null);
-        }
+			ReStart();
+			btnTerminate.Visible = false;
+			// run the simulation
+			picBoxPlayPause_Click(null, null);
+		}
 
 		private void lbHistor_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -203,8 +192,8 @@ namespace FireSimulator
 				History grid = (History)this.lbHistor.SelectedItem;
 				// this.simulator = new GridController(grid.Grid);
 				VisualizeSimulation();
-                // Re adjust the Statistic Data 
-                GetStats();
+				// Re adjust the Statistic Data 
+				GetStats();
 			}
 		}
 
@@ -212,38 +201,38 @@ namespace FireSimulator
 		{
 			DialogResult dialogResult = MessageBox.Show("Are you sure you want to terminate the simulation?", "Terminate Simulation", MessageBoxButtons.YesNo);
 			if (dialogResult == DialogResult.Yes)
-            { 
-                ReStart();
-                btnTerminate.Visible = false;
-            }
+			{
+				ReStart();
+				btnTerminate.Visible = false;
+			}
 		}
 
 		private void btnCalculatePaths_Click(object sender, EventArgs e)
 		{
-            if (running)
-                return;
+			if (running)
+				return;
 
-            var dialog = new ProgressDialog();
-            var cancelMethod = simulator.SetupInDifferentThread(cancelled =>
-            {
-                if (!cancelled)
-                    this.picBoxPlayPause.Enabled = true;
+			var dialog = new ProgressDialog();
+			var cancelMethod = simulator.SetupInDifferentThread(cancelled =>
+			{
+				if (!cancelled)
+					this.picBoxPlayPause.Enabled = true;
 
-                VisualizeSimulation();
+				VisualizeSimulation();
 
-                dialog.Close();
-                dialog.Dispose();
-            }, dialog.SetPercentage, dialog.SetProgressReport);
+				dialog.Close();
+				dialog.Dispose();
+			}, dialog.SetPercentage, dialog.SetProgressReport);
 
-            dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
-            dialog.ShowDialog();
-        }
+			dialog.Cancelled += (object s, EventArgs a) => cancelMethod();
+			dialog.ShowDialog();
+		}
 
 		private void trackBarSpeed_Scroll(object sender, EventArgs e)
 		{
 			lblSpeed.Text = trackBarSpeed.Value.ToString();
 			animationLoopTimer.Interval = 10 + (100 - trackBarSpeed.Value);
 		}
-        #endregion EventHandlers
-    }
+		#endregion EventHandlers
+	}
 }

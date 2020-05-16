@@ -1,112 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FireSimulator
 {
-    public partial class Statistics : Form
-    {
-        private enum SortingOptions
-        {
-            MostDeaths,
-            LeastDeaths,
-            MostSuccessful,
-            LeastSuccessful
-        }
+	public partial class Statistics : Form
+	{
+		private enum SortingOptions
+		{
+			MostDeaths,
+			LeastDeaths,
+			MostSuccessful,
+			LeastSuccessful
+		}
 
-        private enum SearchOptions
-        {
-            Title,
-            Duration,
-            Deathcount
-        }
+		private enum SearchOptions
+		{
+			Title,
+			Duration,
+			Deathcount
+		}
 
-        private FileInfo[] simulations;
+		private FileInfo[] simulations;
 
-        public Statistics()
-        {
-            InitializeComponent();
+		public Statistics()
+		{
+			InitializeComponent();
 
-            // put options into the drobdown boxes
-            this.cbbPreviewOrder.Items.AddRange(Enum.GetNames(typeof(SortingOptions)));
-            this.cbbSearchOption.Items.AddRange(Enum.GetNames(typeof(SearchOptions)));
+			// put options into the drobdown boxes
+			this.cbbPreviewOrder.Items.AddRange(Enum.GetNames(typeof(SortingOptions)));
+			this.cbbSearchOption.Items.AddRange(Enum.GetNames(typeof(SearchOptions)));
 
-            // add eventhandlers to controls
-            this.cbbPreviewOrder.SelectedValueChanged += new EventHandler(SortSimulations);
-            this.btReplaySelected.Click += new EventHandler(ReplaySelected);
-            this.btSearch.Click += new EventHandler(FilterSimulations);
-        }
+			// add eventhandlers to controls
+			this.cbbPreviewOrder.SelectedValueChanged += new EventHandler(SortSimulations);
+			this.btReplaySelected.Click += new EventHandler(ReplaySelected);
+			this.btSearch.Click += new EventHandler(FilterSimulations);
+		}
 
-        public void SetSimulations(FileInfo[] simulations)
-        {
-            this.simulations = simulations;
-        }
+		public void SetSimulations(FileInfo[] simulations)
+		{
+			this.simulations = simulations;
+		}
 
-        private void ShowSimulations(FileInfo[] simulations)
-        {
-            this.gbSimulationPreviews.Controls.Clear();
+		private void ShowSimulations(FileInfo[] simulations)
+		{
+			this.gbSimulationPreviews.Controls.Clear();
 
-            for (int i = 0; i < simulations.Length; i++)
-            {
-                // create a display
-                // add the display to this.gbSimulationPreviews.Controls
-            }
-        }
+			for (int i = 0; i < simulations.Length; i++)
+			{
+				// create a display
+				// add the display to this.gbSimulationPreviews.Controls
+			}
+		}
 
-        private void ReplaySelected()
-        {
-            FileInfo selected = null;
+		private void ReplaySelected()
+		{
+			FileInfo selected = null;
 
-            // 'send' the fileInfo of the selected item to the fireSimulator form to be loaded.
-            // focus back on the fireSimulator form
-        }
+			// 'send' the fileInfo of the selected item to the fireSimulator form to be loaded.
+			// focus back on the fireSimulator form
+		}
 
-        private void ReplaySelected(object sender, EventArgs e)
-        {
-            this.ReplaySelected();
-        }
+		private void ReplaySelected(object sender, EventArgs e)
+		{
+			this.ReplaySelected();
+		}
 
-        private void SortSimulations(FileInfo[] filtered)
-        {
-            SortingOptions options = (SortingOptions)Enum.Parse(typeof(SortingOptions), (string)this.cbbPreviewOrder.SelectedItem);
-            FileInfo[] sorted = new FileInfo[filtered.Length];
+		private void SortSimulations(FileInfo[] filtered)
+		{
+			SortingOptions options = (SortingOptions)Enum.Parse(typeof(SortingOptions), (string)this.cbbPreviewOrder.SelectedItem);
+			FileInfo[] sorted = new FileInfo[filtered.Length];
 
-            for (int i = 0; i < filtered.Length; i++)
-            {
-            }
+			for (int i = 0; i < filtered.Length; i++)
+			{
+			}
 
-            this.ShowSimulations(sorted.ToArray());
-        }
+			this.ShowSimulations(sorted.ToArray());
+		}
 
-        private void SortSimulations(object sender, EventArgs e)
-        {
-            this.FilterSimulations(sender, e);
-        }
+		private void SortSimulations(object sender, EventArgs e)
+		{
+			this.FilterSimulations(sender, e);
+		}
 
-        private void FilterSimulations(SearchOptions options, string searchQuery)
-        {
-            List<FileInfo> filtered = new List<FileInfo>();
+		private void FilterSimulations(SearchOptions options, string searchQuery)
+		{
+			List<FileInfo> filtered = new List<FileInfo>();
 
-            for (int i = 0; i < this.simulations.Length; i++)
-            {
-            }
+			for (int i = 0; i < this.simulations.Length; i++)
+			{
+			}
 
-            this.SortSimulations(filtered.ToArray());
-        }
+			this.SortSimulations(filtered.ToArray());
+		}
 
-        private void FilterSimulations(object sender, EventArgs e)
-        {
-            SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
-            string query = this.tbSearchQuery.Text;
+		private void FilterSimulations(object sender, EventArgs e)
+		{
+			SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+			string query = this.tbSearchQuery.Text;
 
-            this.FilterSimulations(options, query);
-        }
-    }
+			this.FilterSimulations(options, query);
+		}
+	}
 }

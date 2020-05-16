@@ -42,9 +42,24 @@ namespace Library
 
 		public SaveItem GetLayout(Guid id)
 		{
-			SaveItem saveItem = SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
-			parsedLayouts.Add(saveItem);
-			return saveItem;
+			var foundLayout = parsedLayouts.Find(_ => _.Item.Id == id);
+
+			if (foundLayout != null)
+				return foundLayout;
+			else
+			{
+				SaveItem saveItem = SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
+				parsedLayouts.Add(saveItem);
+				return saveItem;
+			}
+		}
+
+		public SaveItem GetLayoutAt(int index)
+		{
+			if (index >= 0 && index < layouts.Count)
+				return GetLayout(layouts[index]);
+
+			return null;
 		}
 
 		public SaveItem[] GetAllLayouts()
@@ -55,15 +70,7 @@ namespace Library
 			SaveItem[] items = new SaveItem[layouts.Count];
 
 			for (int i = 0; i < layouts.Count; i++)
-			{
-				var id = layouts[i];
-				var foundLayout = parsedLayouts.Find(_ => _.Item.Id == id);
-
-				if (foundLayout == null)
-					items[i] = GetLayout(id);
-				else
-					items[i] = foundLayout;
-			}
+				items[i] = GetLayout(layouts[i]);
 
 			parsedLayoutsListIsDirty = false;
 			return items;

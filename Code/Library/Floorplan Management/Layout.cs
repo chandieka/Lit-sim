@@ -13,14 +13,10 @@ namespace Library
 			: base(grid) { }
 
 		public void AddSimulationData(SimulationData data)
-		{
-			simulationData.Add(data);
-		}
+			=> simulationData.Add(data);
 
 		public SimulationData[] GetSimulatioData()
-		{
-			return simulationData.ToArray();
-		}
+			=> simulationData.ToArray();
 
 		public decimal GetAverageDeathAmount()
 		{
@@ -37,7 +33,7 @@ namespace Library
 			decimal value = 0;
 
 			foreach (SimulationData data in simulationData)
-				value += data.NrOfSurvivers;
+				value += data.NrOfPeople - data.NrOfDeaths;
 
 			return value / simulationData.Count;
 		}

@@ -7,7 +7,7 @@ namespace FireSimulator
 {
 	public partial class MainForm : Form
 	{
-		private FloorplanController floorplanController;
+		private readonly FloorplanController floorplanController;
 
 		public MainForm()
 		{
@@ -123,6 +123,15 @@ namespace FireSimulator
 
 			updateFloorplanGUI();
 		}
+
+		private Floorplan getSelectedFloorplan()
+		{
+			var selectedItems = lvFloorplan.SelectedIndices;
+			if (selectedItems != null && selectedItems.Count > 0)
+				return floorplanController.GetFloorplanAt(selectedItems[0]);
+
+			return null;
+		}
 		#endregion
 		#region Event Handler
 		private void btnFPCopy_Click(object sender, EventArgs e)
@@ -133,14 +142,19 @@ namespace FireSimulator
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
 			// TODO: Add confirmation
-			var selectedItems = lvFloorplan.SelectedIndices;
-			if (selectedItems != null && selectedItems.Count > 0)
-			{
-				var floorplan = floorplanController.GetFloorplanAt(selectedItems[0]);
+			var floorplan = getSelectedFloorplan();
 
-				SaveLoadManager.Delete(floorplan); // TODO: Delete all layouts too
-				this.floorplanController.Remove(floorplan);
-				updateFloorplanGUI();
+			if (floorplan != null)
+			{
+				if (MessageBox.Show(
+					"Currently this does not remove children (Layouts)!\nAre you sure you want to proceed?",
+					"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes
+				)
+				{
+					SaveLoadManager.Delete(floorplan); // TODO: Delete all layouts too
+					this.floorplanController.Remove(floorplan);
+					updateFloorplanGUI();
+				}
 			}
 		}
 
@@ -164,14 +178,15 @@ namespace FireSimulator
 
 		private void btnLRunSimulation_Click(object sender, EventArgs e)
 		{
-			// Testing
-			GridController gc = new GridController(new Block[100, 100]);
-			gc.PutDefaultFloorPlan(1);
-			gc.RandomizeFire(1);
-			gc.RandomizePersons(10);
-			gc.RandomizeFireExtinguishers(10);
-			Layout testLayout = new Layout(gc.GetGridCopy());
-			new FireSimulatorForm(testLayout).ShowDialog();
+			var selected = lvLayout.SelectedIndices;
+
+			if (selected != null && selected.Count > 0)
+			{
+				var floorplan = getSelectedFloorplan();
+
+				if (floorplan != null)
+					new FireSimulatorForm(floorplan.GetLayoutAt(selected[0])).ShowDialog();
+			}
 		}
 
 		private void btnLCreate_Click(object sender, EventArgs e)

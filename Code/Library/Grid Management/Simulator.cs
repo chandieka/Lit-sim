@@ -10,40 +10,34 @@ namespace Library
 	{
 		private bool hasFoundFireInPreviousTick = false;
 		private bool hasTicked = false;
-		private bool timeLimitReached = false;
 
 		private int personDelayCounter = 0;
 		private const int personDelay = 2;
 
-		private readonly List<History> gridHistory = new List<History>();
 		private readonly List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
+		private readonly List<History> gridHistory = new List<History>();
 		private readonly List<Person> persons = new List<Person>();
 
-		public event EventHandler Finished;
+		public delegate void FinishedHandler(object sender, FinishedEventArgs e);
+		public event FinishedHandler Finished;
 
-		public Simulator(Block[,] grid, Person[] persons, FireExtinguisher[] fireExtinguishers)
-			: base(grid)
-		{
-			this.fireExtinguishers = fireExtinguishers.ToList();
-			this.persons = persons.ToList();
-		}
+		public int FireExtinguisherAmount { get { return fireExtinguishers.Count; } }
+		public int PersonAmount { get { return persons.Count; } }
 
-		public Simulator(Block[,] grid)
+		public Simulator(Layout layout)
+			: this(layout.DeepCloneBlock()) { }
+
+		private Simulator(Block[,] grid)
 			: base(grid)
 		{
 			fillLists();
 		}
 
-		public Simulator(Layout layout)
-			: this(layout.DeepCloneBlock()) { }
-
-		public System.Drawing.Bitmap Paint(int scaleX, int scaleY)
-			=> Grid.Paint(this.grid, (scaleX, scaleY), this.persons.ToArray());
+		public System.Drawing.Bitmap Paint((int scaleX, int scaleY) scaleSize, bool shouldPaintPaths = true)
+			=> Grid.Paint(this.grid, scaleSize, shouldPaintPaths ? this.persons.ToArray() : null);
 
 		public Simulator DeepCloneSelf()
-		{
-			return new Simulator(DeepCloneBlock(grid));
-		}
+			=> new Simulator(Grid.DeepCloneBlock(grid));
 
 		public void Tick()
 		{
@@ -78,49 +72,30 @@ namespace Library
 			if (personDelayCounter > personDelay)
 				personDelayCounter = 0;
 
-			// Discuss which scenario should be priotize and check first
+			// TODO: Discuss which scenario should be priotize and check first
 			if (!hasFoundFireInPreviousTick)
-			{
-				Finish(EScenario.ALLFIREEXTINGUISH, true);
-				return;
-			}
-			if (AllPeopleHadDieScenario())
-			{
-				Finish(EScenario.AllPEOPLEDIE, false);
-				return;
-			}
-			if (timeLimitReached)
-			{
-				Finish(EScenario.TIMELIMITREACH, false);
-				return;
-			}
+				Finish(EScenario.ALL_FIRES_EXTINGUISHED, true);
+			else if (persons.TrueForAll(person => person.IsDead))
+				Finish(EScenario.EVERY_PERSON_DIED, false);
 		}
 
-		public void KillAll()
+		public void TimeLimitReached()
 		{
-			foreach (Person p in this.persons)
-				p.Kill();
+			killAll();
+			Finish(EScenario.TIME_LIMIT_REACHED, false);
 		}
 
-		private void Finish(EScenario scenario, bool isSuccess)
+		public void SaveSimulationData(SaveItem saveItem, DateTime date, TimeSpan elapsedTime)
 		{
-			this.Finished?.Invoke(this, new Scenario(scenario, isSuccess));
-			Console.WriteLine($"{this.GetNumberOfPeopleDie()} {this.GetNumberOfPeople()}");
-		}
-		private bool AllPeopleHadDieScenario()
-		{
-			return persons.TrueForAll(person => person.IsDead);
+			if (!(saveItem.Item is Layout))
+				throw new Exception("Cannot save simulation data of SaveItem that does not contain a Layout");
+
+			((Layout)saveItem.Item).AddSimulationData(new SimulationData(GetNrOfDeaths(), PersonAmount, date, elapsedTime));
+			SaveLoadManager.Save(saveItem);
 		}
 
-		public void TimeLimitReachScenario()
-		{
-			timeLimitReached = true;
-		}
-
-		public SimulationData GetSimulationData()
-		{
-			return new SimulationData();
-		}
+		public int GetNrOfDeaths()
+			=> persons.Count(_ => _.IsDead);
 
 		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)
 		{
@@ -202,6 +177,15 @@ namespace Library
 		}
 		#endregion
 
+		private void Finish(EScenario scenario, bool isSuccess)
+				=> this.Finished?.Invoke(this, new FinishedEventArgs(scenario, isSuccess));
+
+		private void killAll()
+		{
+			foreach (Person p in this.persons)
+				p.Kill();
+		}
+
 		private void fillLists()
 		{
 			this.fireExtinguishers.Clear();
@@ -243,42 +227,6 @@ namespace Library
 			}
 
 			return extinguishers.ToArray();
-		}
-
-		public int GetNumberOfPeopleDie()
-		{
-			int count = 0;
-			for (int i = 0; i < persons.Count; i++)
-			{
-				if (persons[i].IsDead)
-				{
-					count += 1;
-				}
-			}
-			return count;
-		}
-
-		public int GetNumberOfSurviver()
-		{
-			int count = 0;
-			for (int i = 0; i < persons.Count; i++)
-			{
-				if (!persons[i].IsDead)
-				{
-					count += 1;
-				}
-			}
-			return count;
-		}
-
-		public int GetNumberOfPeople()
-		{
-			return persons.Count();
-		}
-
-		public int GetNumberOfFireExtinguisher()
-		{
-			return fireExtinguishers.Count;
 		}
 	}
 }
