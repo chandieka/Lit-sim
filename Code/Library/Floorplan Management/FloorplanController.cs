@@ -26,9 +26,12 @@ namespace Library
 
 		public void Remove(Floorplan floorplan)
 		{
-			foreach (var itm in saveItems)
+			for (int i = saveItems.Count - 1; i >= 0; i--)
+			{
+				var itm = saveItems[i];
 				if (itm.Item == floorplan)
 					saveItems.Remove(itm);
+			}
 		}
 
 		public SaveItem[] GetAll()

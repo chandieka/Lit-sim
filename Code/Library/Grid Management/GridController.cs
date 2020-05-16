@@ -269,22 +269,28 @@ namespace Library
 		public System.Drawing.Bitmap Paint((int xScale, int yScale) scaleSize)
 			=> Grid.Paint(grid, scaleSize);
 
-		// The grid doesn't need to be deep-cloned for saving
-		public void SaveAsFloorplan(string name)
-			=> SaveLoadManager.Save(new SaveItem(new Floorplan(this.grid), name));
+		public SaveItem SaveAsFloorplan(string name)
+		{
+			// The grid doesn't need to be deep-cloned for saving
+			var saveItem = new SaveItem(new Floorplan(this.grid), name);
+			SaveLoadManager.Save(saveItem);
+			return saveItem;
+		}
 
-		public void SaveAsLayout(string name, SaveItem parent)
+		public SaveItem SaveAsLayout(string name, SaveItem parent)
 		{
 			if (parent == null || !(parent.Item is Floorplan))
 				throw new Exception("Cannot save to a parent that is not of type Floorplan");
 
 			Layout layout = new Layout(this.grid);
-
 			// The grid doesn't need to be deep-cloned for saving
-			SaveLoadManager.Save(new SaveItem(layout, name));
+			SaveItem saveItem = new SaveItem(layout, name);
+
+			SaveLoadManager.Save(saveItem);
 			((Floorplan)parent.Item).AddLayout(layout.Id);
 
 			SaveLoadManager.Save(parent);
+			return saveItem;
 		}
 
 		public static Floorplan CreateDefaultFloorplan()

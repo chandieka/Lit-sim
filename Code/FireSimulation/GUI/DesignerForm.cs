@@ -20,6 +20,18 @@ namespace FireSimulator
 
 		private readonly SaveItem saveItem = null;
 
+		private SaveItem saveStore;
+		public string SaveLocation
+		{
+			get
+			{
+				if (saveStore == null)
+					return null;
+
+				return SaveLoadManager.GetFilePath(saveStore.Item, false);
+			}
+		}
+
 		public bool IsFloorplan
 		{
 			get
@@ -123,9 +135,9 @@ namespace FireSimulator
 			}
 		}
 
-        #region Events Handler
+		#region Events Handler
 
-        private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
+		private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
 		{
 			curCurPos = designer.getGridPosFromPbPos(e.X, e.Y);
 
@@ -183,23 +195,26 @@ namespace FireSimulator
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			var result = Prompt.ShowDialog($"Give the {(IsFloorplan ? "Floorplan" : "Layout")} a name", "Saving");
-
-			if (result.DialogResult == DialogResult.OK && result.Value.Trim().Length > 0)
+			if (saveStore != null)
+				SaveLoadManager.Save(saveStore);
+			else
 			{
-				if (IsFloorplan)
-					designer.SaveAsFloorplan(result.Value);
-				else
-					designer.SaveAsLayout(result.Value, saveItem);
+				var result = Prompt.ShowDialog($"Give the {(IsFloorplan ? "Floorplan" : "Layout")} a name", "Saving");
 
-				this.Close();
+				if (result.DialogResult == DialogResult.OK && result.Value.Trim().Length > 0)
+				{
+					if (IsFloorplan)
+						saveStore = designer.SaveAsFloorplan(result.Value);
+					else
+						saveStore = designer.SaveAsLayout(result.Value, saveItem);
+				}
 			}
 		}
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
 
-        }
-        #endregion
-    }
+		}
+		#endregion
+	}
 }

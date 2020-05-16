@@ -20,6 +20,7 @@ namespace FireSimulator
 
 		#region Private Methods
 
+		// TODO: Save
 		private void CreateDefaultFloorplan()
 			=> floorplanController.Add(new SaveItem(GridController.CreateDefaultFloorplan(), "Default"));
 
@@ -27,6 +28,7 @@ namespace FireSimulator
 		{
 			try
 			{
+				// TODO: Sort items by creation date
 				foreach (string path in Directory.GetFiles(SaveLoadManager.GetSaveFolder(typeof(Floorplan))))
 				{
 					// Check if it is a file
@@ -74,6 +76,7 @@ namespace FireSimulator
 		private void updateFloorplanGUI()
 		{
 			lvFloorplan.Items.Clear();
+
 			foreach (var item in floorplanController.GetAll())
 				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, null);
 		}
@@ -88,7 +91,9 @@ namespace FireSimulator
 				form = new DesignerForm(item);
 
 			form.ShowDialog();
-			// if (form.DialogResult != DialogResult.Cancel)
+			if (form.IsFloorplan && form.SaveLocation != null)
+				this.floorplanController.Add(SaveLoadManager.Load(form.SaveLocation));
+
 			updateFloorplanGUI();
 		}
 		#endregion
@@ -100,16 +105,16 @@ namespace FireSimulator
 
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
-			//return;
-
 			// TODO: Add confirmation
-			//var selected = lvFloorplan.SelectedIndices;
-			//if (selected != null && selected.Count > 0)
-			//{
-			//	SaveLoadManager.Delete(floorplanController.GetFloorplanAt(selected[0])); // TODO: Delete all layouts too
-			//	lvFloorplan.Items.Remove(lvFloorplan.SelectedItems[0]);
-			//	updateFloorplanGUI();
-			//}
+			var selectedItems = lvFloorplan.SelectedIndices;
+			if (selectedItems != null && selectedItems.Count > 0)
+			{
+				var floorplan = floorplanController.GetFloorplanAt(selectedItems[0]);
+
+				SaveLoadManager.Delete(floorplan); // TODO: Delete all layouts too
+				this.floorplanController.Remove(floorplan);
+				updateFloorplanGUI();
+			}
 		}
 
 		private void btnFPEdit_Click(object sender, EventArgs e)

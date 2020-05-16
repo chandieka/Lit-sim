@@ -19,10 +19,10 @@ namespace Library
 			this.pbGridHeight = pbGridHeight;
 		}
 
-		public void SaveAsFloorplan(string name)
+		public SaveItem SaveAsFloorplan(string name)
 			=> grid.SaveAsFloorplan(name);
 
-		public void SaveAsLayout(string name, SaveItem parent)
+		public SaveItem SaveAsLayout(string name, SaveItem parent)
 			=> grid.SaveAsLayout(name, parent);
 
 		private (int Width, int Height) getSizePerPixel()
