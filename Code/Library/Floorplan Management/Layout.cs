@@ -10,9 +10,7 @@ namespace Library
 		public Guid Id { get; } = Guid.NewGuid();
 
 		public Layout(Block[,] grid)
-		{
-			this.grid = grid;
-		}
+			: base(grid) { }
 
 		public void AddSimulationData(SimulationData data)
 		{

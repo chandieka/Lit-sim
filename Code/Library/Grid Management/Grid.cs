@@ -11,6 +11,11 @@ namespace Library
 		public int GridWidth => this.grid.GetLength(0);
 		public int GridHeight => this.grid.GetLength(1);
 
+		public Grid(Block[,] grid)
+		{
+			this.grid = grid;
+		}
+
 		public static Block[,] DeepCloneBlock(Block[,] grid)
 		{
 			Block[,] newGrid = new Block[grid.GetLength(0), grid.GetLength(1)];
@@ -20,26 +25,20 @@ namespace Library
 			{
 				for (int j = 0; j < grid.GetLength(1); j++)
 				{
-					if (grid[i, j].GetType() == typeof(Person))
-					{
+					var gridObjectType = grid[i, j].GetType();
+
+					if (gridObjectType == typeof(Person))
 						newGrid[i, j] = new Person();
-					}
-					else if (grid[i, j].GetType() == typeof(Wall))
-					{
+					else if (gridObjectType == typeof(Wall))
 						newGrid[i, j] = new Wall();
-					}
-					else if (grid[i, j].GetType() == typeof(Floor))
-					{
+					else if (gridObjectType == typeof(Floor))
 						newGrid[i, j] = new Floor();
-					}
-					else if (grid[i, j].GetType() == typeof(Fire))
-					{
+					else if (gridObjectType == typeof(Fire))
 						newGrid[i, j] = new Fire();
-					}
-					else if (grid[i, j].GetType() == typeof(FireExtinguisher))
-					{
+					else if (gridObjectType == typeof(FireExtinguisher))
 						newGrid[i, j] = new FireExtinguisher();
-					}
+					else
+						newGrid[i, j] = Block.Empty;
 				}
 			}
 

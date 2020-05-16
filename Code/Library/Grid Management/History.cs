@@ -2,17 +2,17 @@
 
 namespace Library
 {
+	[Serializable]
 	// TODO
-	public class History
+	public class History : Grid
 	{
 		private string reason;
 		private DateTime time;
-		private Block[,] grid;
 
 		public History(string reason, Block[,] grid)
+			: base(grid)
 		{
 			this.reason = reason;
-			this.Grid = grid;
 			this.time = DateTime.Now;
 		}
 

@@ -10,50 +10,47 @@ namespace Library
 	{
 		private bool hasFoundFireInPreviousTick = false;
 		private bool hasTicked = false;
-        private bool timeLimitReached = false;
+		private bool timeLimitReached = false;
 
 		private int personDelayCounter = 0;
 		private const int personDelay = 2;
 
 		private readonly List<History> gridHistory = new List<History>();
 		private readonly List<FireExtinguisher> fireExtinguishers = new List<FireExtinguisher>();
-        private readonly List<Person> persons = new List<Person>();
+		private readonly List<Person> persons = new List<Person>();
 
-        public event EventHandler Finished;
+		public event EventHandler Finished;
 
 		public Simulator(Block[,] grid, Person[] persons, FireExtinguisher[] fireExtinguishers)
+			: base(grid)
 		{
 			this.fireExtinguishers = fireExtinguishers.ToList();
 			this.persons = persons.ToList();
-			this.grid = grid;
 		}
 
 		public Simulator(Block[,] grid)
+			: base(grid)
 		{
-			this.grid = grid;
 			fillLists();
 		}
 
 		public Simulator(Layout layout)
-		{
-			this.grid = layout.DeepCloneBlock();
-            fillLists();
-        }
+			: this(layout.DeepCloneBlock()) { }
 
-        public System.Drawing.Bitmap Paint(int scaleX, int scaleY)
+		public System.Drawing.Bitmap Paint(int scaleX, int scaleY)
 			=> Grid.Paint(this.grid, (scaleX, scaleY), this.persons.ToArray());
 
-        public Simulator DeepCloneSelf()
-        {
-            return new Simulator(DeepCloneBlock(grid));
-        }
+		public Simulator DeepCloneSelf()
+		{
+			return new Simulator(DeepCloneBlock(grid));
+		}
 
 		public void Tick()
 		{
 			if (hasTicked && !hasFoundFireInPreviousTick)
 				return;
 
-            this.hasFoundFireInPreviousTick = false;
+			this.hasFoundFireInPreviousTick = false;
 			this.hasTicked = true;
 
 			// This is needed to prevent the fire from spreading rapidly
@@ -81,23 +78,23 @@ namespace Library
 			if (personDelayCounter > personDelay)
 				personDelayCounter = 0;
 
-            // Discuss which scenario should be priotize and check first
+			// Discuss which scenario should be priotize and check first
 			if (!hasFoundFireInPreviousTick)
-            {
-                Finish(EScenario.ALLFIREEXTINGUISH, true);
-                return;
-            }
-            if (AllPeopleHadDieScenario())
-            {
-                Finish(EScenario.AllPEOPLEDIE, false);
-                return;
-            }
-            if (timeLimitReached)
-            {
-                Finish(EScenario.TIMELIMITREACH, false);
-                return;
-            }
-        }
+			{
+				Finish(EScenario.ALLFIREEXTINGUISH, true);
+				return;
+			}
+			if (AllPeopleHadDieScenario())
+			{
+				Finish(EScenario.AllPEOPLEDIE, false);
+				return;
+			}
+			if (timeLimitReached)
+			{
+				Finish(EScenario.TIMELIMITREACH, false);
+				return;
+			}
+		}
 
 		public void KillAll()
 		{
@@ -105,20 +102,20 @@ namespace Library
 				p.Kill();
 		}
 
-        private void Finish(EScenario scenario, bool isSuccess)
-        {
-            this.Finished?.Invoke(this, new Scenario(scenario, isSuccess));
-            Console.WriteLine($"{this.GetNumberOfPeopleDie()} {this.GetNumberOfPeople()}");
-        }
-        private bool AllPeopleHadDieScenario()
-        {
-            return persons.TrueForAll(person => person.IsDead);
-        }
+		private void Finish(EScenario scenario, bool isSuccess)
+		{
+			this.Finished?.Invoke(this, new Scenario(scenario, isSuccess));
+			Console.WriteLine($"{this.GetNumberOfPeopleDie()} {this.GetNumberOfPeople()}");
+		}
+		private bool AllPeopleHadDieScenario()
+		{
+			return persons.TrueForAll(person => person.IsDead);
+		}
 
-        public void TimeLimitReachScenario()
-        {
-            timeLimitReached = true;
-        }
+		public void TimeLimitReachScenario()
+		{
+			timeLimitReached = true;
+		}
 
 		public SimulationData GetSimulationData()
 		{
@@ -248,40 +245,40 @@ namespace Library
 			return extinguishers.ToArray();
 		}
 
-        public int GetNumberOfPeopleDie()
-        {
-            int count = 0;
-            for (int i = 0; i < persons.Count; i++)
-            {
-                if (persons[i].IsDead)
-                {
-                    count += 1;
-                }
-            }
-            return count;
-        }
+		public int GetNumberOfPeopleDie()
+		{
+			int count = 0;
+			for (int i = 0; i < persons.Count; i++)
+			{
+				if (persons[i].IsDead)
+				{
+					count += 1;
+				}
+			}
+			return count;
+		}
 
-        public int GetNumberOfSurviver()
-        {
-            int count = 0;
-            for (int i = 0; i < persons.Count; i++)
-            {
-                if (!persons[i].IsDead)
-                {
-                    count += 1;
-                }
-            }
-            return count;
-        }
+		public int GetNumberOfSurviver()
+		{
+			int count = 0;
+			for (int i = 0; i < persons.Count; i++)
+			{
+				if (!persons[i].IsDead)
+				{
+					count += 1;
+				}
+			}
+			return count;
+		}
 
-        public int GetNumberOfPeople()
-        {
-            return persons.Count();
-        }
+		public int GetNumberOfPeople()
+		{
+			return persons.Count();
+		}
 
-        public int GetNumberOfFireExtinguisher()
-        {
-            return fireExtinguishers.Count;
-        }
+		public int GetNumberOfFireExtinguisher()
+		{
+			return fireExtinguishers.Count;
+		}
 	}
 }

@@ -13,15 +13,13 @@ namespace Library
 
 		#region Constructor
 		public GridController((int width, int height) gridSize)
+			: base(new Block[gridSize.width, gridSize.height])
 		{
-			this.grid = new Block[gridSize.width, gridSize.height];
 			this.Clear();
 		}
 
 		public GridController(Block[,] grid)
-		{
-			this.grid = grid;
-		}
+			: base(grid) { }
 		#endregion
 
 		#region Methods
@@ -45,10 +43,10 @@ namespace Library
 			}
 		}
 
-        public Block[,] GetGridCopy()
-        {
-            return DeepCloneBlock(grid);
-        }
+		public Block[,] GetGridCopy()
+		{
+			return DeepCloneBlock(grid);
+		}
 
 		public void PutFloor((int x, int y) location)
 		{

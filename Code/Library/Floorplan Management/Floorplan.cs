@@ -4,17 +4,13 @@ using System.Collections.Generic;
 namespace Library
 {
 	[Serializable]
-	public class Floorplan : ISavable
+	public class Floorplan : Grid, ISavable
 	{
 		private readonly List<Guid> layouts = new List<Guid>();
 		public Guid Id { get; } = Guid.NewGuid();
 
-		private readonly Block[,] grid;
-
 		public Floorplan(Block[,] grid)
-		{
-			this.grid = grid;
-		}
+			: base(grid) { }
 
 		public GridController ToGridController()
 			=> new GridController(Grid.DeepCloneBlock(this.grid));

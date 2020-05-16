@@ -132,14 +132,14 @@ namespace FireSimulator
 
 		private void btnLRunSimulation_Click(object sender, EventArgs e)
 		{
-            // Testing
-            GridController gc = new GridController(new Block[100, 100]);
-            gc.PutDefaultFloorPlan(1);
-            gc.RandomizeFire(1);
-            gc.RandomizePersons(10);
-            gc.RandomizeFireExtinguishers(10);
-            Layout testLayout = new Layout(gc.GetGridCopy());
-            new FireSimulatorForm(testLayout).ShowDialog();
+			// Testing
+			GridController gc = new GridController(new Block[100, 100]);
+			gc.PutDefaultFloorPlan(1);
+			gc.RandomizeFire(1);
+			gc.RandomizePersons(10);
+			gc.RandomizeFireExtinguishers(10);
+			Layout testLayout = new Layout(gc.GetGridCopy());
+			new FireSimulatorForm(testLayout).ShowDialog();
 		}
 
 		private void btnLCreate_Click(object sender, EventArgs e)
