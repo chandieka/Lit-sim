@@ -123,7 +123,9 @@ namespace FireSimulator
 			}
 		}
 
-		private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
+        #region Events Handler
+
+        private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
 		{
 			curCurPos = designer.getGridPosFromPbPos(e.X, e.Y);
 
@@ -193,5 +195,11 @@ namespace FireSimulator
 				this.Close();
 			}
 		}
-	}
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+    }
 }
