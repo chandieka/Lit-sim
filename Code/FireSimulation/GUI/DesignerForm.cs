@@ -45,6 +45,7 @@ namespace FireSimulator
 			InitializeComponent();
 			designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
 			FormInit();
+            Disable();
 		}
 
 		public DesignerForm(SaveItem saveItem)
@@ -56,6 +57,7 @@ namespace FireSimulator
 			designer = new Designer(((Floorplan)saveItem.Item).ToGridController(), pictureBoxGrid.Width, pictureBoxGrid.Height);
 			FormInit();
 			this.saveItem = saveItem;
+            Disable();
 		}
 
 		private void FormInit()
@@ -68,6 +70,27 @@ namespace FireSimulator
 			buildSelectables.Add(picBoxFire, GUIElement.FIRE);
 			picBoxFloor.BackColor = Color.LightGray;
 		}
+
+        private void Disable()
+        {
+            if (IsFloorplan)
+            {
+                picBoxPerson.Image = picBoxPerson.ErrorImage;
+                picBoxPerson.Enabled = false;
+                picBoxFire.Image = picBoxFire.ErrorImage;
+                picBoxFire.Enabled = false;
+                picBoxFireExtinguisher.Image = picBoxFireExtinguisher.ErrorImage;
+                picBoxFireExtinguisher.Enabled = false;
+            } else
+            {
+                picBoxFloor.Image = picBoxFloor.ErrorImage;
+                picBoxFloor.Enabled = false;
+                picBoxWall.Image = picBoxWall.ErrorImage;
+                picBoxWall.Enabled = false;
+                element = GUIElement.PERSON;
+                picBoxPerson.BackColor = Color.LightGray;
+            }
+        }
 
 		private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
 		{
@@ -103,7 +126,12 @@ namespace FireSimulator
 						if (element == GUIElement.FLOOR)
 							designer.FillFloor((orderedPoints.X, orderedPoints.Y), orderedPoints.Width, orderedPoints.Height);
 						else if (element == GUIElement.ERASER)
-							designer.ClearArea((orderedPoints.X, orderedPoints.Y), orderedPoints.Width, orderedPoints.Height);
+                            if (IsFloorplan)
+							    designer.ClearArea((orderedPoints.X, orderedPoints.Y), orderedPoints.Width, orderedPoints.Height);
+                            else
+                                {
+                                    designer.ClearLayoutArea((orderedPoints.X, orderedPoints.Y), orderedPoints.Width, orderedPoints.Height);
+                                }
 						else if (element == GUIElement.WALL)
 						{
 							if (orderedPoints.Width > orderedPoints.Height)
@@ -184,7 +212,14 @@ namespace FireSimulator
 
 		private void pbReset_Click(object sender, EventArgs e)
 		{
-			designer.ClearAll();
+            if (IsFloorplan)
+            {
+                designer.ClearAll();
+            }
+            else
+            {
+                designer.ClearLayout();
+            }
 			pictureBoxGrid.Invalidate();
 		}
 

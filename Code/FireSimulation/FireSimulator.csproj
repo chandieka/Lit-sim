@@ -167,5 +167,20 @@
   <ItemGroup>
     <None Include="Resources\search_Icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Person_unavailable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fire_extinguisher_unavailable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fire_unavailable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Floor_unavailable.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wall_unavailable.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

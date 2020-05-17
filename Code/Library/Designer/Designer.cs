@@ -123,6 +123,11 @@ namespace Library
 			grid.ClearArea(topLeft, width, height);
 		}
 
+        public void ClearLayoutArea((int x, int y) topleft, int width, int height)
+        {
+            grid.ClearLayoutArea(topleft, width, height);
+        }
+
 		public void FillWall((int x, int y) location, int length, bool horizontal)
 		{
 			grid.FillWall(location, length, horizontal);
@@ -152,6 +157,11 @@ namespace Library
 		{
 			grid.Clear();
 		}
+
+        public void ClearLayout()
+        {
+            grid.ClearLayout();
+        }
 
 		public Rectangle orderPoints(Pair prevCurPos, Pair curCurPos, (int Width, int Height)? sizePerPixel = null)
 		{
