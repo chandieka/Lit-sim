@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -45,66 +46,78 @@ namespace FireSimulator
 
 		private void loadFloorplan()
 		{
-			try
+			ProgressDialog dialog = new ProgressDialog("Loading floorplans and layouts");
+			BackgroundWorker bw = new BackgroundWorker();
+			SaveItem hasFoundDefault = null;
+
+			bw.WorkerReportsProgress = true;
+			bw.WorkerSupportsCancellation = true;
+			bw.ProgressChanged += (sender, e)
+				=> dialog.SetPercentage(e.ProgressPercentage);
+			bw.RunWorkerCompleted += (sender, e) =>
 			{
-				SaveItem hasFoundDefault = null;
-
-				var fileInfo = new DirectoryInfo(SaveLoadManager.GetSaveFolder(typeof(Floorplan)));
-				foreach (var file in fileInfo.GetFiles().OrderBy(_ => _.CreationTime).Reverse())
-				{
-
-					var path = file.FullName;
-
-					// Check if it is a file
-					if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
-					{
-						Console.WriteLine($"Parsing {path}...");
-						var itm = SaveLoadManager.Load(path);
-
-						if (itm.Item is Floorplan)
-						{
-							floorplanController.Add(itm);
-
-							if (itm.Name == "Default")
-								hasFoundDefault = itm;
-						}
-					}
-
-					// new Thread(() =>
-					// {
-					// 	Console.WriteLine($"Parsing {path}...");
-					// 	var itm = SaveLoadManager.Load(path);
-
-					// 	if (itm.Item is Floorplan)
-					// 	{
-					// 		floorplanController.AddFloorPlan((Floorplan)itm.Item);
-					// 		lvFloorplan.Invoke(new Action(() =>
-					// 		{
-					// 			lvFloorplan.Items.Add(itm.Item.Id.ToString(), itm.Name, "");
-					// 		}));
-					// 	}
-
-					// }).Start();
-				}
-
 				if (hasFoundDefault == null)
 					createDefaultFloorplan();
 				else
 					floorplanController.MoveToTop(hasFoundDefault);
 
 				updateFloorplanGUI();
-			}
-			catch (Exception e)
+				dialog.Close();
+			};
+			bw.DoWork += (object sender, DoWorkEventArgs e) =>
 			{
-				Console.WriteLine(e.Message);
-				MessageBox.Show(
-					"There was an error with finding all the saved layouts",
-					"Error",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error
-				);
-				Application.Exit();
-			}
+				var worker = (BackgroundWorker)sender;
+
+				try
+				{
+					var fileInfo = new DirectoryInfo(SaveLoadManager.GetSaveFolder(typeof(Floorplan)));
+					var files = fileInfo.GetFiles().OrderBy(_ => _.CreationTime).Reverse().ToArray();
+
+					for (int i = 0; i < files.Length; i++)
+					{
+						if (worker.CancellationPending)
+							break;
+
+						var path = files[i].FullName;
+
+						// Check if it is a file
+						if (!File.GetAttributes(path).HasFlag(FileAttributes.Directory))
+						{
+							Console.WriteLine($"Parsing {path}...");
+							var itm = SaveLoadManager.Load(path);
+
+							if (itm.Item is Floorplan)
+							{
+								floorplanController.Add(itm);
+
+								if (itm.Name == "Default")
+									hasFoundDefault = itm;
+							}
+						}
+
+						worker.ReportProgress(i / files.Length * 100);
+					}
+				}
+				catch (Exception exc)
+				{
+					Console.WriteLine(exc.Message);
+					MessageBox.Show(
+						"There was an error with finding all the saved layouts",
+						"Error",
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Error
+					);
+					Application.Exit();
+				}
+
+				worker.ReportProgress(100);
+				e.Result = true;
+			};
+
+			dialog.Cancelled += (object s, EventArgs a) => bw.CancelAsync();
+
+			bw.RunWorkerAsync();
+			dialog.ShowDialog();
 		}
 
 		private void updateFloorplanGUI()
@@ -114,7 +127,7 @@ namespace FireSimulator
 
 			foreach (var item in floorplanController.GetAll())
 			{
-				fpImageList.Images.Add(((Floorplan)item.Item).Render(fpImageList.ImageSize.Width));
+				fpImageList.Images.Add(((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
 				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, fpImageList.Images.Count - 1);
 			}
 
@@ -250,7 +263,7 @@ namespace FireSimulator
 			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
 				foreach (SaveItem saveItem in ((Floorplan)getSelectedFloorplan().Item).GetAllLayouts(true))
 				{
-					lImageList.Images.Add(((Layout)saveItem.Item).Render(lImageList.ImageSize.Width));
+					lImageList.Images.Add(((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width));
 					lvLayout.Items.Add(saveItem.Item.Id.ToString(), saveItem.Name, lImageList.Images.Count - 1);
 				}
 		}
