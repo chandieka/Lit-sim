@@ -48,8 +48,8 @@
             this.lbSort = new System.Windows.Forms.Label();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.pbSelectedPreview = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -60,19 +60,19 @@
             this.groupBox5.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbSelectedPreview)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lbStatistics);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(496, 2);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Location = new System.Drawing.Point(501, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(262, 434);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(10);
+            this.groupBox1.Size = new System.Drawing.Size(271, 446);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
@@ -81,7 +81,7 @@
             this.lbStatistics.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbStatistics.AutoSize = true;
             this.lbStatistics.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbStatistics.Location = new System.Drawing.Point(93, 15);
+            this.lbStatistics.Location = new System.Drawing.Point(97, 23);
             this.lbStatistics.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbStatistics.Name = "lbStatistics";
             this.lbStatistics.Size = new System.Drawing.Size(80, 24);
@@ -92,11 +92,11 @@
             // 
             this.groupBox2.Controls.Add(this.btReplaySelected);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(2, 2);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox2.Size = new System.Drawing.Size(452, 144);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(10);
+            this.groupBox2.Size = new System.Drawing.Size(452, 148);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             // 
@@ -104,7 +104,7 @@
             // 
             this.btReplaySelected.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btReplaySelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btReplaySelected.Location = new System.Drawing.Point(32, 48);
+            this.btReplaySelected.Location = new System.Drawing.Point(32, 50);
             this.btReplaySelected.Margin = new System.Windows.Forms.Padding(2);
             this.btReplaySelected.Name = "btReplaySelected";
             this.btReplaySelected.Size = new System.Drawing.Size(262, 57);
@@ -120,11 +120,11 @@
             this.groupBox3.Controls.Add(this.tbSearchQuery);
             this.groupBox3.Controls.Add(this.lbSearch);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(2, 150);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox3.Location = new System.Drawing.Point(0, 148);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox3.Size = new System.Drawing.Size(452, 440);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(10);
+            this.groupBox3.Size = new System.Drawing.Size(452, 447);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             // 
@@ -134,9 +134,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbSearchOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbSearchOption.FormattingEnabled = true;
-            this.cbbSearchOption.Location = new System.Drawing.Point(32, 83);
+            this.cbbSearchOption.Location = new System.Drawing.Point(40, 91);
             this.cbbSearchOption.Name = "cbbSearchOption";
-            this.cbbSearchOption.Size = new System.Drawing.Size(262, 21);
+            this.cbbSearchOption.Size = new System.Drawing.Size(246, 21);
             this.cbbSearchOption.TabIndex = 6;
             // 
             // lbSearchResults
@@ -146,9 +146,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbSearchResults.FormattingEnabled = true;
             this.lbSearchResults.IntegralHeight = false;
-            this.lbSearchResults.Location = new System.Drawing.Point(32, 110);
+            this.lbSearchResults.Location = new System.Drawing.Point(40, 118);
             this.lbSearchResults.Name = "lbSearchResults";
-            this.lbSearchResults.Size = new System.Drawing.Size(262, 310);
+            this.lbSearchResults.Size = new System.Drawing.Size(246, 301);
             this.lbSearchResults.TabIndex = 5;
             // 
             // btSearch
@@ -157,7 +157,7 @@
             this.btSearch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btSearch.Image = global::FireSimulator.Icons.search_Icon;
             this.btSearch.ImageLocation = "";
-            this.btSearch.Location = new System.Drawing.Point(397, 58);
+            this.btSearch.Location = new System.Drawing.Point(389, 66);
             this.btSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btSearch.Name = "btSearch";
             this.btSearch.Size = new System.Drawing.Size(17, 18);
@@ -169,10 +169,10 @@
             // 
             this.tbSearchQuery.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbSearchQuery.Location = new System.Drawing.Point(32, 58);
+            this.tbSearchQuery.Location = new System.Drawing.Point(40, 66);
             this.tbSearchQuery.Margin = new System.Windows.Forms.Padding(2);
             this.tbSearchQuery.Name = "tbSearchQuery";
-            this.tbSearchQuery.Size = new System.Drawing.Size(262, 20);
+            this.tbSearchQuery.Size = new System.Drawing.Size(246, 20);
             this.tbSearchQuery.TabIndex = 3;
             // 
             // lbSearch
@@ -180,7 +180,7 @@
             this.lbSearch.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lbSearch.AutoSize = true;
             this.lbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSearch.Location = new System.Drawing.Point(114, 15);
+            this.lbSearch.Location = new System.Drawing.Point(114, 23);
             this.lbSearch.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbSearch.Name = "lbSearch";
             this.lbSearch.Size = new System.Drawing.Size(70, 24);
@@ -194,16 +194,16 @@
             this.gbSimulationPreviews.Margin = new System.Windows.Forms.Padding(2);
             this.gbSimulationPreviews.Name = "gbSimulationPreviews";
             this.gbSimulationPreviews.Padding = new System.Windows.Forms.Padding(2);
-            this.gbSimulationPreviews.Size = new System.Drawing.Size(842, 118);
+            this.gbSimulationPreviews.Size = new System.Drawing.Size(571, 130);
             this.gbSimulationPreviews.TabIndex = 2;
             this.gbSimulationPreviews.TabStop = false;
             // 
             // vsbPreviewScroller
             // 
             this.vsbPreviewScroller.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.vsbPreviewScroller.Location = new System.Drawing.Point(0, 122);
+            this.vsbPreviewScroller.Location = new System.Drawing.Point(0, 134);
             this.vsbPreviewScroller.Name = "vsbPreviewScroller";
-            this.vsbPreviewScroller.Size = new System.Drawing.Size(846, 14);
+            this.vsbPreviewScroller.Size = new System.Drawing.Size(575, 15);
             this.vsbPreviewScroller.TabIndex = 4;
             // 
             // tableLayoutPanel1
@@ -215,6 +215,7 @@
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -229,28 +230,30 @@
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel5, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.AddColumns;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(766, 592);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(772, 595);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel4
             // 
             this.tableLayoutPanel4.ColumnCount = 2;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.07254F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.92746F));
             this.tableLayoutPanel4.Controls.Add(this.groupBox5, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 447);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 446);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 145F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(760, 142);
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 142F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(772, 149);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // groupBox5
@@ -258,11 +261,11 @@
             this.groupBox5.Controls.Add(this.cbbPreviewOrder);
             this.groupBox5.Controls.Add(this.lbSort);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox5.Location = new System.Drawing.Point(610, 2);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox5.Location = new System.Drawing.Point(595, 0);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox5.Size = new System.Drawing.Size(148, 138);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(10);
+            this.groupBox5.Size = new System.Drawing.Size(177, 149);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             // 
@@ -271,9 +274,9 @@
             this.cbbPreviewOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.cbbPreviewOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbPreviewOrder.FormattingEnabled = true;
-            this.cbbPreviewOrder.Location = new System.Drawing.Point(23, 80);
+            this.cbbPreviewOrder.Location = new System.Drawing.Point(31, 86);
             this.cbbPreviewOrder.Name = "cbbPreviewOrder";
-            this.cbbPreviewOrder.Size = new System.Drawing.Size(104, 21);
+            this.cbbPreviewOrder.Size = new System.Drawing.Size(117, 21);
             this.cbbPreviewOrder.TabIndex = 5;
             // 
             // lbSort
@@ -281,7 +284,7 @@
             this.lbSort.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lbSort.AutoSize = true;
             this.lbSort.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSort.Location = new System.Drawing.Point(56, 34);
+            this.lbSort.Location = new System.Drawing.Point(70, 40);
             this.lbSort.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbSort.Name = "lbSort";
             this.lbSort.Size = new System.Drawing.Size(43, 24);
@@ -295,12 +298,13 @@
             this.tableLayoutPanel6.Controls.Add(this.vsbPreviewScroller, 0, 1);
             this.tableLayoutPanel6.Controls.Add(this.gbSimulationPreviews, 0, 0);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(10, 0);
+            this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90.13158F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 9.868421F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(602, 136);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(575, 149);
             this.tableLayoutPanel6.TabIndex = 3;
             // 
             // tableLayoutPanel5
@@ -311,12 +315,23 @@
             this.tableLayoutPanel5.Controls.Add(this.groupBox1, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.pbSelectedPreview, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(760, 438);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(772, 446);
             this.tableLayoutPanel5.TabIndex = 1;
+            // 
+            // pbSelectedPreview
+            // 
+            this.pbSelectedPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbSelectedPreview.Location = new System.Drawing.Point(2, 2);
+            this.pbSelectedPreview.Margin = new System.Windows.Forms.Padding(2);
+            this.pbSelectedPreview.Name = "pbSelectedPreview";
+            this.pbSelectedPreview.Size = new System.Drawing.Size(497, 442);
+            this.pbSelectedPreview.TabIndex = 0;
+            this.pbSelectedPreview.TabStop = false;
             // 
             // tableLayoutPanel3
             // 
@@ -325,23 +340,14 @@
             this.tableLayoutPanel3.Controls.Add(this.groupBox3, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.groupBox2, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(775, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(772, 0);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(326, 592);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(332, 595);
             this.tableLayoutPanel3.TabIndex = 1;
-            // 
-            // pbSelectedPreview
-            // 
-            this.pbSelectedPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbSelectedPreview.Location = new System.Drawing.Point(2, 2);
-            this.pbSelectedPreview.Margin = new System.Windows.Forms.Padding(2);
-            this.pbSelectedPreview.Name = "pbSelectedPreview";
-            this.pbSelectedPreview.Size = new System.Drawing.Size(490, 434);
-            this.pbSelectedPreview.TabIndex = 0;
-            this.pbSelectedPreview.TabStop = false;
             // 
             // Statistics
             // 
@@ -366,8 +372,8 @@
             this.groupBox5.PerformLayout();
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbSelectedPreview)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
