@@ -46,10 +46,6 @@ namespace FireSimulator
         {
             picBoxPlayPause_Click(null, null);
 
-            this.simulator.ClearHistory();
-            this.UpdateHistory();
-            this.simulator.AddToHistory("Simulation finished");
-
             btnRerunSimulation.Visible = true;
             picBoxPlayPause.Enabled = false;
 
@@ -89,12 +85,6 @@ namespace FireSimulator
             GetStats();
             LoadStartingLayout();
             VisualizeSimulation();
-        }
-
-        private void UpdateHistory()
-        {
-            this.lbHistor.Items.Clear();
-            this.lbHistor.Items.AddRange(this.simulator.GetHistory());
         }
 
         private void GetStats()
@@ -163,8 +153,6 @@ namespace FireSimulator
                     running = true;
                     picBoxPlayPause.Image = Icons.Pause;
                     toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
-                    this.simulator.AddToHistory("Simulation started");
-                    UpdateHistory();
                     this.lbHistor.Enabled = false;
                     btnTerminate.Visible = false;
 
@@ -182,8 +170,6 @@ namespace FireSimulator
                 running = false;
                 picBoxPlayPause.Image = Icons.Play;
                 toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
-                this.simulator.AddToHistory("Simulation paused");
-                UpdateHistory();
                 this.lbHistor.Enabled = true;
                 btnTerminate.Visible = true;
             }

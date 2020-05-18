@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 
 namespace Library
@@ -6,6 +8,8 @@ namespace Library
 	public class Designer
 	{
 		private GridController grid;
+		private List<History> history;
+		private int currentPointInHistory;
 
 		private int pbGridWidth;
 		private int pbGridHeight;
@@ -17,6 +21,8 @@ namespace Library
 			grid = gridController;
 			this.pbGridWidth = pbGridWidth;
 			this.pbGridHeight = pbGridHeight;
+
+			this.history = new List<History>();
 		}
 
 		public SaveItem SaveAsFloorplan(string name)
@@ -174,6 +180,34 @@ namespace Library
 					(rightmostX - leftmostX + 1) * (int)sizePerPixel?.Width,
 					(bottommostY - topmostY + 1) * (int)sizePerPixel?.Height
 				);
+		}
+
+		public void AddHistory(string reason)
+		{
+			if (currentPointInHistory != history.Count - 1 && history.Count != 0)
+			{
+				this.UpdateGrid(currentPointInHistory);
+				this.history.RemoveRange(currentPointInHistory + 1, history.Count - currentPointInHistory - 1);
+			}
+			else
+			{
+
+				this.history.Add(new History(reason, this.grid.GetGridCopy()));
+				currentPointInHistory = history.Count - 1;
+			}
+		}
+
+		public List<History> GetHistory()
+		{
+			return this.history;
+		}
+
+		public void UpdateGrid(int pointInHistory)
+		{
+			History his = this.history[pointInHistory];
+			currentPointInHistory = pointInHistory;
+			this.grid.SetGrid(his.Grid);
+			his.Grid = this.grid.GetGridCopy();
 		}
 	}
 }
