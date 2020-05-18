@@ -137,11 +137,6 @@ namespace Library
 			grid.FillWall(location, length, horizontal);
 		}
 
-		public Block GetAt((int x, int y) loc)
-		{
-			return grid.GetAt(loc);
-		}
-
 		public void PutFire((int x, int y) location)
 		{
 			grid.PutFire(location);
@@ -166,6 +161,12 @@ namespace Library
 		{
 			grid.ClearLayout();
 		}
+
+		public bool IsFloor((int x, int y) loc)
+			=> grid.IsFloor(loc);
+
+		public string CheckCriteria(bool isFloorplan)
+			=> grid.CheckCriteria(isFloorplan);
 
 		public Rectangle orderPoints(Pair prevCurPos, Pair curCurPos, (int Width, int Height)? sizePerPixel = null)
 		{

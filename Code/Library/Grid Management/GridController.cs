@@ -316,7 +316,7 @@ namespace Library
 			return new Floorplan(gc.grid);
 		}
 
-		public int GetFireExtinguisherSpot()
+		public int GetFireExtinguisherSpots()
 		{
 			var floorSpots = this.GetFloorBlocks();
 			var filteredSpots = floorSpots.Where(_ => this.HasNeighbor(_, typeof(Wall))).ToList();
@@ -353,9 +353,71 @@ namespace Library
 			return false;
 		}
 
-		public Block GetAt((int x, int y) loc)
+		public bool IsFloor((int x, int y) loc)
+			=> this.grid[loc.x, loc.y] is Floor;
+
+		public string CheckCriteria(bool isFloorplan)
 		{
-			return this.grid[loc.x, loc.y];
+			/*
+			 * For floorplan:
+			 * 	Checks if the user placed at least four floors
+			 * 
+			 * For layout:
+			 * 	 Checks if the user placed at least one fire, person & fire extinguisher		 
+			 */
+
+			const int minLayoutElemCount = 1;
+			const int minFloorCount = 4;
+
+			int personCount = 0;
+			int floorCount = 0;
+			int fireCount = 0;
+			int feCount = 0;
+
+			for (int x = 0; x < GridWidth; x++)
+			{
+				for (int y = 0; y < GridHeight; y++)
+				{
+					var block = grid[x, y];
+
+					if (isFloorplan)
+					{
+						if (block is Floor)
+							floorCount++;
+
+						if (floorCount >= minFloorCount)
+							return null;
+					}
+					else
+					{
+						if (block is Person)
+							personCount++;
+						else if (block is Fire)
+							fireCount++;
+						else if (block is FireExtinguisher)
+							feCount++;
+
+						if (
+							personCount >= minLayoutElemCount &&
+							fireCount >= minLayoutElemCount &&
+							feCount >= minLayoutElemCount
+						)
+							return null;
+					}
+				}
+			}
+
+			const string defaultStr = "You need to place at least";
+			if (isFloorplan)
+				return $"{defaultStr} {minFloorCount} floor elements";
+			else if (personCount < minLayoutElemCount)
+				return $"{defaultStr} {minLayoutElemCount} person";
+			else if (fireCount < minLayoutElemCount)
+				return $"{defaultStr} {minLayoutElemCount} fire";
+			else if (feCount < minLayoutElemCount)
+				return $"{defaultStr} {minLayoutElemCount} fire extinguisher";
+			else
+				return null;
 		}
 		#endregion
 		#endregion

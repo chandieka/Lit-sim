@@ -176,7 +176,7 @@ namespace FireSimulator
 					rb_CheckedChanged_Reset(null, null);
 
 					var posTuple = pos.ToTuple();
-					if (designer.GetAt(posTuple) is Floor)
+					if (designer.IsFloor(posTuple))
 					{
 						if (element == GUIElement.FIRE)
 							designer.PutFire(posTuple);
@@ -247,13 +247,10 @@ namespace FireSimulator
 		private void pbReset_Click(object sender, EventArgs e)
 		{
 			if (IsFloorplan)
-			{
 				designer.ClearAll();
-			}
 			else
-			{
 				designer.ClearLayout();
-			}
+
 			pictureBoxGrid.Invalidate();
 		}
 
@@ -264,7 +261,11 @@ namespace FireSimulator
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			if (saveStore != null)
+			var hasCriteria = designer.CheckCriteria(IsFloorplan);
+
+			if (hasCriteria != null)
+				MessageBox.Show(hasCriteria, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			else if (saveStore != null)
 				SaveLoadManager.Save(saveStore);
 			else
 			{
