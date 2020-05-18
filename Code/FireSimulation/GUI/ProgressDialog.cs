@@ -13,6 +13,8 @@ namespace FireSimulator
 		{
 			InitializeComponent();
 
+			this.StartPosition = FormStartPosition.CenterScreen;
+
 			syncContext = SynchronizationContext.Current;
 		}
 

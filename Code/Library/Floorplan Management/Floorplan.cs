@@ -45,8 +45,10 @@ namespace Library
 			for (int i = layouts.Count - 1; i >= 0; i--)
 			{
 				var child = layouts[i];
+				var layout = GetLayout(child).Item;
 
-				SaveLoadManager.Delete(child, typeof(Layout));
+				layout.DeleteAllChildren();
+				SaveLoadManager.Delete(layout);
 				RemoveLayout(child);
 			}
 		}

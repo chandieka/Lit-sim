@@ -428,8 +428,11 @@ namespace Library
 
 					if (path.Length <= 0)
 					{
-						Console.WriteLine("No path could be found using the custom algorithm. Recalculating...");
-						calculateFirePathInDiffThread(grid, pos);
+						if (firePathThread == Thread.CurrentThread)
+						{
+							Console.WriteLine("No path could be found using the custom algorithm. Recalculating...");
+							calculateFirePathInDiffThread(grid, pos);
+						}
 					}
 					else
 					{

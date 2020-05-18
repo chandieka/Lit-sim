@@ -6,5 +6,7 @@ namespace Library
 	{
 		Guid Id { get; }
 		bool IsDeletable { get; }
+
+		void DeleteAllChildren();
 	}
 }

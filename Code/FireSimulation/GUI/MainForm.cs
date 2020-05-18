@@ -133,6 +133,8 @@ namespace FireSimulator
 
 			if (lvFloorplan.Items.Count > 0)
 				lvFloorplan.Items[0].Selected = true;
+			else
+				lvLayout.Items.Clear();
 		}
 
 		private void showDesigner(SaveItem item = null)
@@ -185,19 +187,16 @@ namespace FireSimulator
 		{
 			var saveItem = getSelectedFloorplan();
 
-			if (saveItem != null)
+			if (saveItem != null && (saveItem.Item.IsDeletable || MessageBox.Show(
+				"This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
+				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
 			{
 				var floorplan = (Floorplan)saveItem.Item;
 
-				if (floorplan.LayoutAmount <= 0 || MessageBox.Show(
-				"This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
-				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-				{
-					floorplan.DeleteAllChildren();
-					SaveLoadManager.Delete(floorplan);
-					this.floorplanController.Remove(floorplan);
-					updateFloorplanGUI();
-				}
+				floorplan.DeleteAllChildren();
+				SaveLoadManager.Delete(floorplan);
+				this.floorplanController.Remove(floorplan);
+				updateFloorplanGUI();
 			}
 		}
 
@@ -220,10 +219,17 @@ namespace FireSimulator
 
 			if (selected != null)
 			{
-				((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
-				SaveLoadManager.Delete(selected.Value.Layout.Item);
-				SaveLoadManager.Save(selected.Value.Floorplan);
-				updateFloorplanGUI();
+				if (selected.Value.Layout.Item.IsDeletable || MessageBox.Show(
+				"This also removes all simulation data!\nAre you sure you want to proceed?",
+				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+				{
+					((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
+					selected.Value.Layout.Item.DeleteAllChildren();
+
+					SaveLoadManager.Delete(selected.Value.Layout.Item);
+					SaveLoadManager.Save(selected.Value.Floorplan);
+					updateFloorplanGUI();
+				}
 			}
 		}
 

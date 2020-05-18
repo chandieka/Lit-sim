@@ -20,6 +20,9 @@ namespace Library
 		public SimulationData[] GetSimulatioData()
 			=> simulationData.ToArray();
 
+		public void DeleteAllChildren()
+			=> simulationData.Clear();
+
 		public decimal GetAverageDeathAmount()
 		{
 			decimal value = 0;

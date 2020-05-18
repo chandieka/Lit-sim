@@ -28,11 +28,8 @@ namespace Library
 			if (!item.IsDeletable)
 				throw new Exception("Cannot delete ISavable with children");
 
-			File.Delete(GetFilePath(item));
+			File.Delete(GetFilePath(item, true));
 		}
-
-		public static void Delete(Guid id, Type type)
-			=> File.Delete(GetFilePath(id, type, false));
 
 		public static string GetSaveFolder(Type type, bool shouldCheck = true)
 		{

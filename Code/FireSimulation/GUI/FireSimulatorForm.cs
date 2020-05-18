@@ -59,7 +59,7 @@ namespace FireSimulator
 				lblResult.Text = "Fail";
 
 			if (MessageBox.Show($"The simulation finished \"{e.ToString()}\"\nDo you want to save the simulation data?",
-				"Finish", MessageBoxButtons.OK, MessageBoxIcon.Information) == DialogResult.OK)
+				"Finish", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 				simulator.SaveSimulationData(saveItem, DateTime.Now, time);
 		}
 
