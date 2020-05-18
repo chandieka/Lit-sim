@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Library
 {
@@ -13,7 +14,8 @@ namespace Library
 
 		public void Add(SaveItem savable)
 		{
-			// TODO: Find Duplicate -> return something ?? throw Exception ??
+			if (saveItems.Contains(savable))
+				throw new Exception("Cannot add SaveItem multiple times");
 
 			if (savable != null && savable.Item is Floorplan)
 				saveItems.Add(savable);
@@ -21,7 +23,8 @@ namespace Library
 
 		public void AddToTop(SaveItem savable)
 		{
-			// TODO: Find Duplicate -> return something ?? throw Exception ??
+			if (saveItems.Contains(savable))
+				throw new Exception("Cannot add SaveItem multiple times");
 
 			if (savable != null && savable.Item is Floorplan)
 				saveItems.Insert(0, savable);

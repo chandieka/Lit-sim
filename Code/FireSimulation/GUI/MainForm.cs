@@ -46,7 +46,7 @@ namespace FireSimulator
 
 		private void loadFloorplan()
 		{
-			ProgressDialog dialog = new ProgressDialog("Loading floorplans and layouts");
+			ProgressDialog dialog = new ProgressDialog("Loading...", "Loading floorplans and layouts");
 			BackgroundWorker bw = new BackgroundWorker();
 			SaveItem hasFoundDefault = null;
 
@@ -131,7 +131,8 @@ namespace FireSimulator
 				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, fpImageList.Images.Count - 1);
 			}
 
-			lvFloorplan.Items[0].Selected = true;
+			if (lvFloorplan.Items.Count > 0)
+				lvFloorplan.Items[0].Selected = true;
 		}
 
 		private void showDesigner(SaveItem item = null)
@@ -182,19 +183,18 @@ namespace FireSimulator
 
 		private void btnFPDelete_Click(object sender, EventArgs e)
 		{
-			// TODO: Add confirmation
 			var saveItem = getSelectedFloorplan();
 
 			if (saveItem != null)
 			{
 				var floorplan = (Floorplan)saveItem.Item;
 
-				if (floorplan.LayoutAmount < 1 || MessageBox.Show(
-					"Currently this does not remove children (Layouts)!\nAre you sure you want to proceed?",
-					"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes
-				)
+				if (floorplan.LayoutAmount <= 0 || MessageBox.Show(
+				"This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
+				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
 				{
-					SaveLoadManager.Delete(floorplan); // TODO: Delete all layouts too
+					floorplan.DeleteAllChildren();
+					SaveLoadManager.Delete(floorplan);
 					this.floorplanController.Remove(floorplan);
 					updateFloorplanGUI();
 				}

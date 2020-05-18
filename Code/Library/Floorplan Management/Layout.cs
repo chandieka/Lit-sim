@@ -9,6 +9,8 @@ namespace Library
 		private readonly List<SimulationData> simulationData = new List<SimulationData>();
 		public Guid Id { get; } = Guid.NewGuid();
 
+		public bool IsDeletable => simulationData.Count <= 0;
+
 		public Layout(Block[,] grid)
 			: base(grid) { }
 

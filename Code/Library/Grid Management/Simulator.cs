@@ -72,7 +72,6 @@ namespace Library
 			if (personDelayCounter > personDelay)
 				personDelayCounter = 0;
 
-			// TODO: Discuss which scenario should be priotize and check first
 			if (!hasFoundFireInPreviousTick)
 				Finish(EScenario.ALL_FIRES_EXTINGUISHED, true);
 			else if (persons.TrueForAll(person => person.IsDead))

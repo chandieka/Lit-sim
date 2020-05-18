@@ -9,14 +9,18 @@ namespace FireSimulator
 		private readonly SynchronizationContext syncContext;
 		public event EventHandler Cancelled;
 
-		public ProgressDialog(string message = null)
+		public ProgressDialog()
 		{
 			InitializeComponent();
 
 			syncContext = SynchronizationContext.Current;
+		}
 
-			if (message != null)
-				this.lblMessage.Text = message;
+		public ProgressDialog(string title, string message)
+			: this()
+		{
+			this.lblMessage.Text = message;
+			this.Text = title;
 		}
 
 		public void SetPercentage(int percentage)

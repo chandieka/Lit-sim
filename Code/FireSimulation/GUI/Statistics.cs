@@ -46,6 +46,7 @@ namespace FireSimulator
 
 		private void ShowSimulations(FileInfo[] simulations)
 		{
+			// TODO
 			this.gbSimulationPreviews.Controls.Clear();
 
 			for (int i = 0; i < simulations.Length; i++)
@@ -55,17 +56,9 @@ namespace FireSimulator
 			}
 		}
 
-		private void ReplaySelected()
-		{
-			FileInfo selected = null;
-
-			// 'send' the fileInfo of the selected item to the fireSimulator form to be loaded.
-			// focus back on the fireSimulator form
-		}
-
 		private void ReplaySelected(object sender, EventArgs e)
 		{
-			this.ReplaySelected();
+			// TODO
 		}
 
 		private void SortSimulations(FileInfo[] filtered)

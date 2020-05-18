@@ -308,7 +308,10 @@ namespace Library
 				throw new Exception("'ShortestPath' is not defined. You need to execute the 'CalculatePaths' method before animating!");
 
 			if (this.IsDead)
+			{
+				Fire.SpreadToNeighbors(grid, x, y);
 				return;
+			}
 
 			if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
@@ -367,8 +370,7 @@ namespace Library
 				var gridVal = grid[next.X, next.Y];
 				while (
 					next.X != end.X && next.Y != end.Y &&
-					!(gridVal is Fire) &&
-					!(gridVal is Wall)
+					gridVal is Floor
 				)
 				{
 					paths.Add(next);
@@ -408,7 +410,7 @@ namespace Library
 				grid[p.X, p.Y] = GridController.Floor;
 
 			/* TODO: If there is no fire closeby, you can do a couple of things:
-			 *	- Wait for the fire to spread within reach
+			 *	- Wait for the fire to spread within reach (This is the current strategy)
 			 *	- Perform A* again
 			 *	- Move around randomly (or maybe according to the previous position?)
 			 *	- Check again in a bigger radius
@@ -425,12 +427,10 @@ namespace Library
 					var path = tracePath(pos, avgPoint);
 
 					if (path.Length <= 0)
-						/* TODO: If there is no path calulated via the custom algorithm
-						 * (because, for example, it's blocked by a wall), you can do a couple of things:
-						 *		- Perform A* again
-						 *		- Use an algorithm that takes walls into account
-						 */
-						Console.WriteLine("No path could be found using the custom algorithm");
+					{
+						Console.WriteLine("No path could be found using the custom algorithm. Recalculating...");
+						calculateFirePathInDiffThread(grid, pos);
+					}
 					else
 					{
 						this.nearestFirePath = path;
@@ -449,23 +449,25 @@ namespace Library
 			if (grid[pos.X, pos.Y] is FireExtinguisher)
 			{
 				grid[pos.X, pos.Y] = GridController.Floor;
-				firePathThread = new Thread(() =>
-				{
-					var result = findNearestFirePath(grid, myPosPair);
-
-					if (result != null)
-					{
-						this.nearestFirePath = result;
-						pathIndex = 1;
-					}
-
-					firePathThread = Thread.CurrentThread;// Set to something not null
-				});
-				firePathThread.Start();
+				calculateFirePathInDiffThread(grid, myPosPair);
 			}
+		}
 
-			if (this.IsDead)
-				Fire.SpreadToNeighbors(grid, myPosPair.X, myPosPair.Y);
+		private void calculateFirePathInDiffThread(Block[,] grid, Pair pos)
+		{
+			firePathThread = new Thread(() =>
+			{
+				var result = findNearestFirePath(grid, pos);
+
+				if (result != null)
+				{
+					this.nearestFirePath = result;
+					pathIndex = 1;
+				}
+
+				firePathThread = Thread.CurrentThread; // Set to something not null
+			});
+			firePathThread.Start();
 		}
 
 		[OnDeserialized]

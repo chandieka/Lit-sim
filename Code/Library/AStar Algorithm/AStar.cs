@@ -57,13 +57,7 @@ namespace Library
 		/// <param name="col"></param>
 		/// <returns></returns>
 		private bool isUnBlocked(Block[,] grid, int row, int col)
-		{
-			return grid[row, col] is Floor;
-
-			// This overrides Person entries...
-			var gridVal = grid[row, col];
-			return !(gridVal is Fire || gridVal is Wall);
-		}
+			=> grid[row, col] is Floor;
 
 		private bool isDestination(int row, int col, Pair dest)
 		{

@@ -16,7 +16,8 @@ namespace Library
 		// Used to check if the 'layouts' list was changed after the 'parsedLayouts' list was updated
 		private bool parsedLayoutsListIsDirty = true;
 
-		public int LayoutAmount { get { return layouts.Count; } }
+		public bool IsDeletable => LayoutAmount <= 0;
+		public int LayoutAmount => layouts.Count;
 
 		public Floorplan(Block[,] grid)
 			: base(grid) { }
@@ -26,7 +27,9 @@ namespace Library
 
 		public void AddLayout(Guid layout)
 		{
-			// TODO: if Find Duplicate -> return something
+			if (layouts.Contains(layout))
+				throw new Exception("Cannot add Layout multiple times");
+
 			layouts.Add(layout);
 			parsedLayoutsListIsDirty = true;
 		}
@@ -35,6 +38,17 @@ namespace Library
 		{
 			parsedLayouts.RemoveAt(parsedLayouts.FindIndex(_ => _.Item.Id == layout));
 			layouts.Remove(layout);
+		}
+
+		public void DeleteAllChildren()
+		{
+			for (int i = layouts.Count - 1; i >= 0; i--)
+			{
+				var child = layouts[i];
+
+				SaveLoadManager.Delete(child, typeof(Layout));
+				RemoveLayout(child);
+			}
 		}
 
 		public Guid[] GetGuids()
@@ -84,7 +98,7 @@ namespace Library
 					catch (System.IO.FileNotFoundException)
 					{
 						Console.WriteLine($"Warning!: Could not find child Layout! ({layouts[i]})");
-						this.layouts.RemoveAt(i); // TODO: Find better solution
+						this.layouts.RemoveAt(i);
 					}
 				}
 			}
@@ -101,8 +115,6 @@ namespace Library
 		}
 
 		public override string ToString()
-		{
-			return Id.ToString();
-		}
+			=> Id.ToString();
 	}
 }

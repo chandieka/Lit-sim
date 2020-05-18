@@ -13,6 +13,7 @@ namespace FireSimulator
 
 		private readonly SaveItem saveItem;
 		private bool running;
+		private bool hasRun;
 
 		public FireSimulatorForm(SaveItem saveItem)
 		{
@@ -43,6 +44,7 @@ namespace FireSimulator
 		private void handleFinished(object sender, FinishedEventArgs e)
 		{
 			picBoxPlayPause_Click(null, null);
+			btnCalculatePaths.Enabled = false;
 
 			this.simulator.ClearHistory();
 			this.UpdateHistory();
@@ -70,6 +72,7 @@ namespace FireSimulator
 		{
 			if (simStartingPoint != null)
 			{
+				simulator.Finished -= handleFinished;
 				simulator = simStartingPoint.DeepCloneSelf();
 				simulator.Finished += handleFinished;
 			}
@@ -77,12 +80,15 @@ namespace FireSimulator
 
 		public void ReStart()
 		{
+			hasRun = false;
 			running = false;
 			time = TimeSpan.Zero;
 			btnRerunSimulation.Visible = false;
 			lblResult.Text = "<Success/Fail>";
 			trackBarSpeed.Value = 50;
 			animationLoopTimer.Interval = 60;
+
+			// TODO: Paths shouldn't have to be recalculated...
 
 			GetStats();
 			LoadStartingLayout();
@@ -91,8 +97,8 @@ namespace FireSimulator
 
 		private void UpdateHistory()
 		{
-			this.lbHistor.Items.Clear();
-			this.lbHistor.Items.AddRange(this.simulator.GetHistory());
+			this.lbHistory.Items.Clear();
+			this.lbHistory.Items.AddRange(this.simulator.GetHistory());
 		}
 
 		private void GetStats()
@@ -107,7 +113,7 @@ namespace FireSimulator
 
 		private void VisualizeSimulation()
 		{
-			pbSimulator.Image = simulator.Paint((6, 6), !running); // TODO: Check these numbers;
+			pbSimulator.Image = simulator.Paint((6, 6), !hasRun); // TODO: Check these numbers
 		}
 		#endregion Private Methods
 
@@ -117,19 +123,13 @@ namespace FireSimulator
 			TimeSpan second = new TimeSpan(0, 0, 1);
 			time = time.Add(second);
 
-			if (time.Ticks != timeLimit.Ticks)
-			{
-				simulator.Tick();
-				GetStats();
-				VisualizeSimulation();
-			}
-			else
-			{
-				simulator.Tick();
-				GetStats();
-				VisualizeSimulation();
+			simulator.Tick();
+			GetStats();
+			VisualizeSimulation();
+
+			// TODO: User should be able to allow the limit
+			if (time.Ticks == timeLimit.Ticks)
 				simulator.TimeLimitReached();
-			}
 		}
 
 		private void picBoxPlayPause_Click(object sender, EventArgs e)
@@ -139,6 +139,8 @@ namespace FireSimulator
 
 			if (!running)
 			{
+				hasRun = true;
+
 				try
 				{
 					animationLoopTimer.Start();
@@ -147,11 +149,11 @@ namespace FireSimulator
 					toolTipPlay.SetToolTip(picBoxPlayPause, "Pause (Spacebar)");
 					this.simulator.AddToHistory("Simulation started");
 					UpdateHistory();
-					this.lbHistor.Enabled = false;
+					this.lbHistory.Enabled = false;
 					btnTerminate.Visible = false;
 
-					// TODO: Timelimit wiil be Change dynamically
-					SetTimeLimit(0, 6, 0);
+					// TODO: Make the time limit change dynamically
+					SetTimeLimit(0, 10, 0);
 				}
 				catch (Exception ex)
 				{
@@ -166,7 +168,7 @@ namespace FireSimulator
 				toolTipPlay.SetToolTip(picBoxPlayPause, "Resume (Spacebar)");
 				this.simulator.AddToHistory("Simulation paused");
 				UpdateHistory();
-				this.lbHistor.Enabled = true;
+				this.lbHistory.Enabled = true;
 				btnTerminate.Visible = true;
 			}
 		}
@@ -184,15 +186,14 @@ namespace FireSimulator
 			picBoxPlayPause_Click(null, null);
 		}
 
-		private void lbHistor_SelectedIndexChanged(object sender, EventArgs e)
+		private void lbHistory_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (this.lbHistor.SelectedItem != null)
+			if (this.lbHistory.SelectedItem != null)
 			{
-				// TODO: 
-				History grid = (History)this.lbHistor.SelectedItem;
+				History grid = (History)this.lbHistory.SelectedItem;
 				// this.simulator = new GridController(grid.Grid);
 				VisualizeSimulation();
-				// Re adjust the Statistic Data 
+				// Re adjust the Statistic Data
 				GetStats();
 			}
 		}
