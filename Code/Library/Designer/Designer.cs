@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Library
@@ -6,6 +7,9 @@ namespace Library
 	public class Designer
 	{
 		private GridController grid;
+
+		private List<History> history = new List<History>();
+		private int currentPointInHistory;
 
 		private int pbGridWidth;
 		private int pbGridHeight;
@@ -123,10 +127,10 @@ namespace Library
 			grid.ClearArea(topLeft, width, height);
 		}
 
-        public void ClearLayoutArea((int x, int y) topleft, int width, int height)
-        {
-            grid.ClearLayoutArea(topleft, width, height);
-        }
+		public void ClearLayoutArea((int x, int y) topleft, int width, int height)
+		{
+			grid.ClearLayoutArea(topleft, width, height);
+		}
 
 		public void FillWall((int x, int y) location, int length, bool horizontal)
 		{
@@ -158,10 +162,10 @@ namespace Library
 			grid.Clear();
 		}
 
-        public void ClearLayout()
-        {
-            grid.ClearLayout();
-        }
+		public void ClearLayout()
+		{
+			grid.ClearLayout();
+		}
 
 		public Rectangle orderPoints(Pair prevCurPos, Pair curCurPos, (int Width, int Height)? sizePerPixel = null)
 		{
@@ -185,5 +189,27 @@ namespace Library
 					(bottommostY - topmostY + 1) * (int)sizePerPixel?.Height
 				);
 		}
+
+		#region History
+		public void AddHistory(string reason)
+		{
+			if (currentPointInHistory != history.Count - 1 && history.Count != 0)
+				this.history.RemoveRange(currentPointInHistory + 1, history.Count - currentPointInHistory - 1);
+
+			this.history.Add(new History(reason, this.grid.GetGridCopy()));
+			currentPointInHistory = history.Count - 1;
+		}
+
+		public History[] GetHistory()
+			=> history.ToArray();
+
+		public void UpdateGrid(int pointInHistory)
+		{
+			History his = this.history[pointInHistory];
+			currentPointInHistory = pointInHistory;
+			this.grid.SetGrid(his.Grid);
+			his.Grid = this.grid.GetGridCopy();
+		}
+		#endregion
 	}
 }

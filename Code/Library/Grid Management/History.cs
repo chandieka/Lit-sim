@@ -3,17 +3,15 @@
 namespace Library
 {
 	[Serializable]
-	// TODO
-	public class History : Grid
+	public class History
 	{
 		private string reason;
-		private DateTime time;
+		private Block[,] grid;
 
 		public History(string reason, Block[,] grid)
-			: base(grid)
 		{
 			this.reason = reason;
-			this.time = DateTime.Now;
+			this.Grid = grid;
 		}
 
 		public Block[,] Grid
@@ -22,15 +20,13 @@ namespace Library
 			{
 				return this.grid;
 			}
-			private set
+			set
 			{
 				this.grid = value;
 			}
 		}
 
 		public override string ToString()
-		{
-			return reason + " - " + this.time.ToShortTimeString();
-		}
+			=> reason;
 	}
 }

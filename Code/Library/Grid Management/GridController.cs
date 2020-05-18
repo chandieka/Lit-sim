@@ -44,8 +44,11 @@ namespace Library
 		}
 
 		public Block[,] GetGridCopy()
+			=> DeepCloneBlock(grid);
+
+		public void SetGrid(Block[,] newGrid)
 		{
-			return DeepCloneBlock(grid);
+			this.grid = newGrid;
 		}
 
 		public void PutFloor((int x, int y) location)
@@ -71,19 +74,19 @@ namespace Library
 					this.grid[x, y] = Block.Empty;
 		}
 
-        public void ClearLayoutArea((int x, int y) topLeft, int width, int height)
-        {
-            for (int x = topLeft.x; x < topLeft.x + width; x++)
-                for (int y = topLeft.y; y < topLeft.y + height; y++)
-                {
-                    {
-                        if (this.grid[x, y].GetType() == typeof(Person) || this.grid[x, y].GetType() == typeof(Fire) || this.grid[x, y].GetType() == typeof(FireExtinguisher))
-                            this.grid[x, y] = new Floor();
-                    }
-                }
-        }
+		public void ClearLayoutArea((int x, int y) topLeft, int width, int height)
+		{
+			for (int x = topLeft.x; x < topLeft.x + width; x++)
+				for (int y = topLeft.y; y < topLeft.y + height; y++)
+				{
+					{
+						if (this.grid[x, y].GetType() == typeof(Person) || this.grid[x, y].GetType() == typeof(Fire) || this.grid[x, y].GetType() == typeof(FireExtinguisher))
+							this.grid[x, y] = new Floor();
+					}
+				}
+		}
 
-        public void PutWall((int x, int y) location)
+		public void PutWall((int x, int y) location)
 		{
 			this.grid[location.x, location.y] = new Wall();
 		}

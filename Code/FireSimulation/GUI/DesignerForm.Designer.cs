@@ -48,9 +48,12 @@ namespace FireSimulator
 			this.picBoxFireExtinguisher = new System.Windows.Forms.PictureBox();
 			this.picBoxEraser = new System.Windows.Forms.PictureBox();
 			this.picBoxPerson = new System.Windows.Forms.PictureBox();
+			this.gbHistory = new System.Windows.Forms.GroupBox();
+			this.lbHistory = new System.Windows.Forms.ListBox();
 			this.gbItems.SuspendLayout();
 			this.gbShortcuts.SuspendLayout();
 			this.gbOptions.SuspendLayout();
+			this.gbHistory.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxGrid)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxReset)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxFloor)).BeginInit();
@@ -177,6 +180,25 @@ namespace FireSimulator
 			this.btnSave.Text = "Save";
 			this.btnSave.UseVisualStyleBackColor = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			//
+			// gbHistory
+			//
+			this.gbHistory.Controls.Add(this.lbHistory);
+			this.gbHistory.Location = new System.Drawing.Point(967, 385);
+			this.gbHistory.Name = "gbHistory";
+			this.gbHistory.Size = new System.Drawing.Size(267, 178);
+			this.gbHistory.TabIndex = 24;
+			this.gbHistory.TabStop = false;
+			this.gbHistory.Text = "History";
+			// 
+			// lbHistory
+			// 
+			this.lbHistory.FormattingEnabled = true;
+			this.lbHistory.Location = new System.Drawing.Point(9, 20);
+			this.lbHistory.Name = "lbHistory";
+			this.lbHistory.Size = new System.Drawing.Size(248, 160);
+			this.lbHistory.TabIndex = 19;
+			this.lbHistory.SelectedIndexChanged += new System.EventHandler(this.lbHistory_SelectedIndexChanged);
 			// 
 			// pictureBoxGrid
 			// 
@@ -299,6 +321,7 @@ namespace FireSimulator
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(1280, 726);
+			this.Controls.Add(this.gbHistory);
 			this.Controls.Add(this.gbOptions);
 			this.Controls.Add(this.gbShortcuts);
 			this.Controls.Add(this.lblEscMessage);
@@ -315,6 +338,8 @@ namespace FireSimulator
 			this.gbShortcuts.PerformLayout();
 			this.gbOptions.ResumeLayout(false);
 			this.gbOptions.PerformLayout();
+			this.gbHistory.ResumeLayout(false);
+			this.gbHistory.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxGrid)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxReset)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxFloor)).EndInit();
@@ -350,6 +375,8 @@ namespace FireSimulator
 		private System.Windows.Forms.Label lblImportFileLoc;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.GroupBox gbHistory;
+		private System.Windows.Forms.ListBox lbHistory;
 	}
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Library;
 
@@ -93,6 +94,32 @@ namespace FireSimulator
 			}
 		}
 
+		private void AddHistory(GUIElement elem)
+		{
+			string history = "";
+
+			if (elem == GUIElement.ERASER)
+				history = "Eraser used";
+			else
+			{
+				string temp = string.Format("{0} created", elem.ToString().ToLower());
+
+				history = temp.First().ToString().ToUpper() + String.Join("", temp.Skip(1));
+			}
+
+			this.designer.AddHistory(history);
+			this.UpdateHistory();
+		}
+
+		private void UpdateHistory()
+		{
+			this.lbHistory.Items.Clear();
+
+			foreach (History history in this.designer.GetHistory())
+				this.lbHistory.Items.Add(history);
+		}
+
+		#region Event Handlers
 		private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
 		{
 			designer.drawBitmap(e.Graphics);
@@ -161,10 +188,16 @@ namespace FireSimulator
 				}
 
 				pictureBoxGrid.Invalidate();
+
+				if (element == GUIElement.FLOOR || element == GUIElement.WALL || element == GUIElement.ERASER)
+				{
+					if (prevCurPos == null)
+						this.AddHistory(element);
+				}
+				else
+					this.AddHistory(element);
 			}
 		}
-
-		#region Events Handler
 
 		private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
 		{
@@ -244,6 +277,15 @@ namespace FireSimulator
 					else
 						saveStore = designer.SaveAsLayout(result.Value, saveItem);
 				}
+			}
+		}
+
+		private void lbHistory_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (lbHistory.SelectedIndex != -1)
+			{
+				this.designer.UpdateGrid(lbHistory.SelectedIndex);
+				pictureBoxGrid.Invalidate();
 			}
 		}
 		#endregion
