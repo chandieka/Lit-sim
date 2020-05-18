@@ -186,15 +186,11 @@ namespace Library
 		{
 			if (currentPointInHistory != history.Count - 1 && history.Count != 0)
 			{
-				this.UpdateGrid(currentPointInHistory);
 				this.history.RemoveRange(currentPointInHistory + 1, history.Count - currentPointInHistory - 1);
 			}
-			else
-			{
 
-				this.history.Add(new History(reason, this.grid.GetGridCopy()));
-				currentPointInHistory = history.Count - 1;
-			}
+			this.history.Add(new History(reason, this.grid.GetGridCopy()));
+			currentPointInHistory = history.Count - 1;
 		}
 
 		public List<History> GetHistory()
