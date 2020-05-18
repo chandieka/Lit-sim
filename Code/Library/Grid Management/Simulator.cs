@@ -160,6 +160,23 @@ namespace Library
 			};
 		}
 
+		#region History
+		public void AddToHistory(string reason)
+		{
+			this.gridHistory.Add(new History(reason, (Block[,])this.grid.Clone()));
+		}
+
+		public History[] GetHistory()
+		{
+			return this.gridHistory.ToArray();
+		}
+
+		public void ClearHistory()
+		{
+			this.gridHistory.Clear();
+		}
+		#endregion
+
 		private void Finish(EScenario scenario, bool isSuccess)
 				=> this.Finished?.Invoke(this, new FinishedEventArgs(scenario, isSuccess));
 
