@@ -61,6 +61,12 @@
     <Compile Include="GUI\FireSimulatorForm.Designer.cs">
       <DependentUpon>FireSimulatorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\SessionSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\SessionSettingsForm.Designer.cs">
+      <DependentUpon>SessionSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Icons.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -85,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\FireSimulatorForm.resx">
       <DependentUpon>FireSimulatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\SessionSettingsForm.resx">
+      <DependentUpon>SessionSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Icons.resx">
       <Generator>ResXFileCodeGenerator</Generator>
