@@ -350,6 +350,10 @@ namespace FireSimulator
 		private System.Windows.Forms.Label lblImportFileLoc;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.Button btnSave;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.ListBox lbHistory;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
 	}
 }
 

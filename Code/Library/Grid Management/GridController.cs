@@ -48,6 +48,11 @@ namespace Library
 			return DeepCloneBlock(grid);
 		}
 
+		public void SetGrid(Block[,] newGrid)
+		{
+			this.grid = newGrid;
+		}
+
 		public void PutFloor((int x, int y) location)
 		{
 			this.grid[location.x, location.y] = GridController.Floor;

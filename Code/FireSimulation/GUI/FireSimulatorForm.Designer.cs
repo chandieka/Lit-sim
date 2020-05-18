@@ -89,6 +89,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackColor = System.Drawing.Color.White;
             this.groupBox2.Controls.Add(this.picBoxPlayPause);
             this.groupBox2.Controls.Add(this.btnCalculatePaths);
@@ -103,6 +105,7 @@
             // 
             // picBoxPlayPause
             // 
+            this.picBoxPlayPause.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.picBoxPlayPause.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picBoxPlayPause.Enabled = false;
             this.picBoxPlayPause.Image = global::FireSimulator.Icons.Play;
@@ -118,6 +121,7 @@
             // 
             // btnCalculatePaths
             // 
+            this.btnCalculatePaths.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCalculatePaths.Location = new System.Drawing.Point(166, 13);
             this.btnCalculatePaths.Margin = new System.Windows.Forms.Padding(2);
             this.btnCalculatePaths.Name = "btnCalculatePaths";
@@ -129,6 +133,7 @@
             // 
             // btnTerminate
             // 
+            this.btnTerminate.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnTerminate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTerminate.Location = new System.Drawing.Point(333, 13);
             this.btnTerminate.Name = "btnTerminate";
@@ -141,6 +146,8 @@
             // 
             // gBoxStatistics
             // 
+            this.gBoxStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gBoxStatistics.Controls.Add(this.lblAlive);
             this.gBoxStatistics.Controls.Add(this.label2);
             this.gBoxStatistics.Controls.Add(this.lblSpeed);
@@ -317,6 +324,7 @@
             // 
             // btnRerunSimulation
             // 
+            this.btnRerunSimulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRerunSimulation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRerunSimulation.Location = new System.Drawing.Point(10, 389);
             this.btnRerunSimulation.Name = "btnRerunSimulation";
@@ -349,6 +357,8 @@
             // 
             // trackBarSpeed
             // 
+            this.trackBarSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBarSpeed.Location = new System.Drawing.Point(222, 10);
             this.trackBarSpeed.Margin = new System.Windows.Forms.Padding(2);
             this.trackBarSpeed.Maximum = 100;
@@ -361,6 +371,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.label23);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label9);
@@ -410,6 +421,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.groupBox4.Controls.Add(this.lbHistor);
             this.groupBox4.Controls.Add(this.label15);
             this.groupBox4.Controls.Add(this.label32);
@@ -449,14 +461,19 @@
             // 
             // pbSimulator
             // 
+            this.pbSimulator.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pbSimulator.Location = new System.Drawing.Point(218, 61);
             this.pbSimulator.Name = "pbSimulator";
             this.pbSimulator.Size = new System.Drawing.Size(600, 600);
+            this.pbSimulator.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbSimulator.TabIndex = 17;
             this.pbSimulator.TabStop = false;
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.groupBox1.Location = new System.Drawing.Point(12, 446);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(199, 214);
@@ -479,6 +496,7 @@
             this.Controls.Add(this.groupBox2);
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(2);
+            this.MinimumSize = new System.Drawing.Size(1065, 799);
             this.Name = "FireSimulatorForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fire simulation";
