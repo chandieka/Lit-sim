@@ -73,7 +73,6 @@
             this.label32 = new System.Windows.Forms.Label();
             this.pbSimulator = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btEditSessionSettings = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxPlayPause)).BeginInit();
             this.gBoxStatistics.SuspendLayout();
@@ -93,7 +92,6 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackColor = System.Drawing.Color.White;
-            this.groupBox2.Controls.Add(this.btEditSessionSettings);
             this.groupBox2.Controls.Add(this.picBoxPlayPause);
             this.groupBox2.Controls.Add(this.btnCalculatePaths);
             this.groupBox2.Controls.Add(this.btnTerminate);
@@ -507,18 +505,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Auto Simulation";
             // 
-            // btEditSessionSettings
-            // 
-            this.btEditSessionSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.btEditSessionSettings.Location = new System.Drawing.Point(6, 13);
-            this.btEditSessionSettings.Name = "btEditSessionSettings";
-            this.btEditSessionSettings.Size = new System.Drawing.Size(75, 61);
-            this.btEditSessionSettings.TabIndex = 19;
-            this.btEditSessionSettings.Text = "Session Settings";
-            this.btEditSessionSettings.UseVisualStyleBackColor = true;
-            this.btEditSessionSettings.Click += new System.EventHandler(this.btEditSessionSettings_Click);
-            // 
             // FireSimulatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -597,7 +583,6 @@
 		private System.Windows.Forms.ListBox lbHistory;
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btEditSessionSettings;
-    }
+	}
 }
 
