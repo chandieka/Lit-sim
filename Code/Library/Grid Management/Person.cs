@@ -20,6 +20,8 @@ namespace Library
 					return Color.Orange;
 				else if (this.HasFireExtinguisher)
 					return Color.DeepPink;
+				else if (this.fireExtinguisherGotTaken)
+					return Color.BurlyWood;
 				else if (this.firePathThread != null)
 					return Color.MediumPurple;
 				else
@@ -33,12 +35,14 @@ namespace Library
 		private int pathIndex = 1;
 
 		[field: NonSerialized]
+		private bool fireExtinguisherGotTaken = false;
+		[field: NonSerialized]
 		private bool hasReachedFireBefore = false;
 		[field: NonSerialized]
 		private Pair[] nearestFirePath = null;
 		[field: NonSerialized]
 		private Thread firePathThread = null;
-		private const int safeDistance = 5;
+		private static int safeDistance = 5;
 
 		public bool HasFireExtinguisher
 		{
@@ -313,7 +317,9 @@ namespace Library
 				return;
 			}
 
-			if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
+			if (fireExtinguisherGotTaken)
+				return;
+			else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher)
 				ReachedFire(grid, new Pair(x, y));
@@ -323,7 +329,7 @@ namespace Library
 				CalculateFirePath(grid, new Pair(x, y));
 		}
 
-		// Move algos
+		#region Moving algorithms
 		private void Move2Fire(Block[,] grid, Pair pos)
 		{
 			if (getSurrounding(grid, pos, typeof(Fire), safeDistance).Length <= 0)
@@ -443,7 +449,15 @@ namespace Library
 			}
 		}
 
-		private void Move2FE(Block[,] grid, Pair pos) => move(grid, pos, this.ShortestPath);
+		private void Move2FE(Block[,] grid, Pair pos)
+		{
+			var endPos = this.ShortestPath[this.ShortestPath.Length - 1];
+
+			if (grid[endPos.X, endPos.Y] is FireExtinguisher)
+				move(grid, pos, this.ShortestPath);
+			else
+				this.fireExtinguisherGotTaken = true;
+		}
 
 		private void CalculateFirePath(Block[,] grid, Pair myPosPair)
 		{
@@ -472,6 +486,7 @@ namespace Library
 			});
 			firePathThread.Start();
 		}
+		#endregion
 
 		[OnDeserialized]
 		private void OnDeserialized(StreamingContext context)
