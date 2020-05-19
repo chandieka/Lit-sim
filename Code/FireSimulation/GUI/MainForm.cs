@@ -153,6 +153,7 @@ namespace FireSimulator
 			updateFloorplanGUI();
 		}
 
+
 		private SaveItem getSelectedFloorplan()
 		{
 			var selectedItems = lvFloorplan.SelectedIndices;
@@ -274,5 +275,21 @@ namespace FireSimulator
 				}
 		}
 		#endregion
+
+		private void btn_open_Click(object sender, EventArgs e)
+		{
+			var floorplan = getSelectedFloorplan();
+			
+			Statistics form;
+
+			
+			if (floorplan == null)
+				MessageBox.Show("Please select a floorplan.");
+			else
+			{
+				form = new Statistics(floorplan);
+				form.ShowDialog();
+			}
+		}
 	}
 }
