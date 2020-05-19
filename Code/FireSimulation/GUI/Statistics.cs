@@ -116,11 +116,12 @@ namespace FireSimulator
 			if (layouts.Length > 0)
 			{
 				PictureBox pb1 = new PictureBox();
-				foreach (var l in layouts)
+				for (int i = 0; i < layouts.Length; i+=1)
 				{
-
-					pb1.Image = ((Thumbnailable)l.Item).Render(gbSimulationPreviews.Height - 10);
+					var l = layouts[i];
+					pb1.Image = ((Thumbnailable)l.Item).Render(gbSimulationPreviews.Height - 10);					
 					pb1.Size = new Size(gbSimulationPreviews.Height - 10, gbSimulationPreviews.Height - 10);
+					pb1.Location = new Point(pb1.Width * i + 2, 8);
 
 					gbSimulationPreviews.Controls.Add(pb1);
 				}
