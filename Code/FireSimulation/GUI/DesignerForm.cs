@@ -122,6 +122,8 @@ namespace FireSimulator
 		#region Event Handlers
 		private void pictureBoxGrid_Paint(object sender, PaintEventArgs e)
 		{
+			e.Graphics.TranslateTransform(this.pictureBoxGrid.Width / 2 - designer.Width / 2, this.pictureBoxGrid.Height / 2 - designer.Height / 2);
+
 			designer.drawBitmap(e.Graphics);
 			designer.drawSample(e.Graphics, element, curCurPos, prevCurPos);
 			if (cbGrid.Checked)
@@ -135,7 +137,7 @@ namespace FireSimulator
 
 		private void pictureBoxGrid_MouseClick(object sender, MouseEventArgs e)
 		{
-			var pos = designer.getGridPosFromPbPos(e.X, e.Y);
+			var pos = designer.getGridPosFromPbPos((e.X, e.Y), pictureBoxGrid.Size);
 
 			if (pos != null)
 			{
@@ -201,7 +203,7 @@ namespace FireSimulator
 
 		private void pictureBoxGrid_MouseMove(object sender, MouseEventArgs e)
 		{
-			curCurPos = designer.getGridPosFromPbPos(e.X, e.Y);
+			curCurPos = designer.getGridPosFromPbPos((e.X, e.Y), pictureBoxGrid.Size);
 
 			if (curCurPos != null)
 				pictureBoxGrid.Invalidate();

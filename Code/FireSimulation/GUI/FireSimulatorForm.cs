@@ -19,10 +19,7 @@ namespace FireSimulator
 		{
 			InitializeComponent();
 
-			WindowState = FormWindowState.Maximized;
 			lblElapsedTime.Text = time.ToString();
-
-			this.Text = "Lit - Simulator";
 
 			if (!(saveItem.Item is Layout))
 				throw new Exception("Cannot simulate SaveItem that does not contain a Layout");
@@ -117,7 +114,7 @@ namespace FireSimulator
 		}
 		#endregion Private Methods
 
-		#region EventHandlers
+		#region Event Handlers
 		private void animationLoopTimer_Tick(object sender, EventArgs e)
 		{
 			TimeSpan second = new TimeSpan(0, 0, 1);
@@ -175,7 +172,7 @@ namespace FireSimulator
 
 		private void btnCloseStatistics_Click(object sender, EventArgs e)
 		{
-			gBoxStatistics.Visible = false;
+			gbStatistics.Visible = false;
 		}
 
 		private void btnRerunSimulation_Click(object sender, EventArgs e)
@@ -234,6 +231,6 @@ namespace FireSimulator
 			lblSpeed.Text = trackBarSpeed.Value.ToString();
 			animationLoopTimer.Interval = 10 + (100 - trackBarSpeed.Value);
 		}
-		#endregion EventHandlers
+		#endregion
 	}
 }

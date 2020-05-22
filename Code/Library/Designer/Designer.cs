@@ -14,6 +14,9 @@ namespace Library
 		private int pbGridWidth;
 		private int pbGridHeight;
 
+		public int Width => pbGridWidth;
+		public int Height => pbGridHeight;
+
 		private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
 
 		public Designer(GridController gridController, int pbGridWidth, int pbGridHeight)
@@ -40,13 +43,17 @@ namespace Library
 			return (sizePixel.Width * grid.GridWidth, sizePixel.Height * grid.GridHeight);
 		}
 
-		public Pair getGridPosFromPbPos(int x, int y)
+		public Pair getGridPosFromPbPos((int X, int Y) location, Size pbSize)
 		{
 			var sizePerPixel = getSizePerPixel();
 			var maxSize = getMaxSize();
 
-			int yVal = y / sizePerPixel.Height;
-			int xVal = x / sizePerPixel.Width;
+			// Adjust for centering
+			int top = pbSize.Height / 2 - this.Height / 2;
+			int left = pbSize.Width / 2 - this.Width / 2;
+
+			int yVal = (location.Y - top) / sizePerPixel.Height;
+			int xVal = (location.X - left) / sizePerPixel.Width;
 
 			if (xVal > maxSize.Width || yVal > maxSize.Height || xVal > grid.GridWidth - 1 || yVal > grid.GridHeight - 1)
 				return null;

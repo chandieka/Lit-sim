@@ -15,7 +15,7 @@ namespace FireSimulator
 		{
 			InitializeComponent();
 
-			int imageSize = (int)(lvFloorplan.Width / 2.5);
+			int imageSize = (int)(lvFloorplan.Width / 2);
 			System.Drawing.Size size = new System.Drawing.Size(imageSize, imageSize);
 			lImageList.ImageSize = size;
 			fpImageList.ImageSize = size;
@@ -25,7 +25,6 @@ namespace FireSimulator
 		}
 
 		#region Private Methods
-
 		private void createDefaultFloorplan()
 		{
 			var floorplan = GridController.CreateDefaultFloorplan();

@@ -416,7 +416,7 @@ namespace Library
 				grid[p.X, p.Y] = GridController.Floor;
 
 			/* TODO: If there is no fire closeby, you can do a couple of things:
-			 *	- Wait for the fire to spread within reach (This is the current strategy)
+			 *	- Wait for the fire to spread within reach (Current strategy)
 			 *	- Perform A* again
 			 *	- Move around randomly (or maybe according to the previous position?)
 			 *	- Check again in a bigger radius
