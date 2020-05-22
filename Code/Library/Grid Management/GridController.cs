@@ -18,7 +18,7 @@ namespace Library
 			this.Clear();
 		}
 
-		public GridController(Block[,] grid)
+		public GridController(Grid grid)
 			: base(grid) { }
 		#endregion
 

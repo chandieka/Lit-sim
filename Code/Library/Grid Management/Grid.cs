@@ -16,6 +16,14 @@ namespace Library
 			this.grid = grid;
 		}
 
+		protected Grid(Grid grid)
+        {
+			this.grid = grid.grid;
+        }
+
+		public Grid Clone()
+			=> new Grid(DeepCloneBlock(this.grid));
+
 		public static Block[,] DeepCloneBlock(Block[,] grid)
 		{
 			Block[,] newGrid = new Block[grid.GetLength(0), grid.GetLength(1)];

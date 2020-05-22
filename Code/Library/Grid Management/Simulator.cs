@@ -25,9 +25,9 @@ namespace Library
 		public int PersonAmount { get { return persons.Count; } }
 
 		public Simulator(Layout layout)
-			: this(layout.DeepCloneBlock()) { }
+			: this(layout.Clone()) { }
 
-		private Simulator(Block[,] grid)
+		private Simulator(Grid grid)
 			: base(grid)
 		{
 			fillLists();
@@ -37,7 +37,7 @@ namespace Library
 			=> Grid.Paint(this.grid, scaleSize, shouldPaintPaths ? this.persons.ToArray() : null);
 
 		public Simulator DeepCloneSelf()
-			=> new Simulator(Grid.DeepCloneBlock(grid));
+			=> new Simulator(this.Clone());
 
 		public void Tick()
 		{

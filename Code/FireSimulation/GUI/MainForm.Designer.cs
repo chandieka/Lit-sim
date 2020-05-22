@@ -32,14 +32,14 @@
             this.gbFloorplan = new System.Windows.Forms.GroupBox();
             this.btnFPCreate = new System.Windows.Forms.Button();
             this.btnFPDelete = new System.Windows.Forms.Button();
-            this.btnFPEdit = new System.Windows.Forms.Button();
+            this.btnFPCopy = new System.Windows.Forms.Button();
             this.lvFloorplan = new System.Windows.Forms.ListView();
             this.fpImageList = new System.Windows.Forms.ImageList(this.components);
             this.gbLayout = new System.Windows.Forms.GroupBox();
             this.btnLRunSimulation = new System.Windows.Forms.Button();
             this.btnLCreate = new System.Windows.Forms.Button();
             this.btnLDelete = new System.Windows.Forms.Button();
-            this.btnLEdit = new System.Windows.Forms.Button();
+            this.btnLCopy = new System.Windows.Forms.Button();
             this.lvLayout = new System.Windows.Forms.ListView();
             this.lImageList = new System.Windows.Forms.ImageList(this.components);
             this.gbFloorplan.SuspendLayout();
@@ -52,7 +52,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.gbFloorplan.Controls.Add(this.btnFPCreate);
             this.gbFloorplan.Controls.Add(this.btnFPDelete);
-            this.gbFloorplan.Controls.Add(this.btnFPEdit);
+            this.gbFloorplan.Controls.Add(this.btnFPCopy);
             this.gbFloorplan.Controls.Add(this.lvFloorplan);
             this.gbFloorplan.Location = new System.Drawing.Point(13, 13);
             this.gbFloorplan.Name = "gbFloorplan";
@@ -84,16 +84,16 @@
             this.btnFPDelete.UseVisualStyleBackColor = true;
             this.btnFPDelete.Click += new System.EventHandler(this.btnFPDelete_Click);
             // 
-            // btnFPEdit
+            // btnFPCopy
             // 
-            this.btnFPEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFPEdit.Location = new System.Drawing.Point(6, 381);
-            this.btnFPEdit.Name = "btnFPEdit";
-            this.btnFPEdit.Size = new System.Drawing.Size(92, 23);
-            this.btnFPEdit.TabIndex = 1;
-            this.btnFPEdit.Text = "Copy";
-            this.btnFPEdit.UseVisualStyleBackColor = true;
-            this.btnFPEdit.Click += new System.EventHandler(this.btnFPEdit_Click);
+            this.btnFPCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFPCopy.Location = new System.Drawing.Point(6, 381);
+            this.btnFPCopy.Name = "btnFPCopy";
+            this.btnFPCopy.Size = new System.Drawing.Size(92, 23);
+            this.btnFPCopy.TabIndex = 1;
+            this.btnFPCopy.Text = "Copy";
+            this.btnFPCopy.UseVisualStyleBackColor = true;
+            this.btnFPCopy.Click += new System.EventHandler(this.btnFPCopy_Click);
             // 
             // lvFloorplan
             // 
@@ -125,7 +125,7 @@
             this.gbLayout.Controls.Add(this.btnLRunSimulation);
             this.gbLayout.Controls.Add(this.btnLCreate);
             this.gbLayout.Controls.Add(this.btnLDelete);
-            this.gbLayout.Controls.Add(this.btnLEdit);
+            this.gbLayout.Controls.Add(this.btnLCopy);
             this.gbLayout.Controls.Add(this.lvLayout);
             this.gbLayout.Location = new System.Drawing.Point(220, 13);
             this.gbLayout.Name = "gbLayout";
@@ -167,16 +167,16 @@
             this.btnLDelete.UseVisualStyleBackColor = true;
             this.btnLDelete.Click += new System.EventHandler(this.btnLDelete_Click);
             // 
-            // btnLEdit
+            // btnLCopy
             // 
-            this.btnLEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLEdit.Location = new System.Drawing.Point(7, 382);
-            this.btnLEdit.Name = "btnLEdit";
-            this.btnLEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnLEdit.TabIndex = 1;
-            this.btnLEdit.Text = "Edit";
-            this.btnLEdit.UseVisualStyleBackColor = true;
-            this.btnLEdit.Click += new System.EventHandler(this.btnLEdit_Click);
+            this.btnLCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnLCopy.Location = new System.Drawing.Point(7, 382);
+            this.btnLCopy.Name = "btnLCopy";
+            this.btnLCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnLCopy.TabIndex = 1;
+            this.btnLCopy.Text = "Copy";
+            this.btnLCopy.UseVisualStyleBackColor = true;
+            this.btnLCopy.Click += new System.EventHandler(this.btnLCopy_Click);
             // 
             // lvLayout
             // 
@@ -222,14 +222,14 @@
 		private System.Windows.Forms.GroupBox gbFloorplan;
 		private System.Windows.Forms.Button btnFPCreate;
 		private System.Windows.Forms.Button btnFPDelete;
-		private System.Windows.Forms.Button btnFPEdit;
+		private System.Windows.Forms.Button btnFPCopy;
 		private System.Windows.Forms.ListView lvFloorplan;
 		private System.Windows.Forms.GroupBox gbLayout;
 		private System.Windows.Forms.ListView lvLayout;
 		private System.Windows.Forms.Button btnLRunSimulation;
 		private System.Windows.Forms.Button btnLCreate;
 		private System.Windows.Forms.Button btnLDelete;
-		private System.Windows.Forms.Button btnLEdit;
+		private System.Windows.Forms.Button btnLCopy;
 		private System.Windows.Forms.ImageList fpImageList;
 		private System.Windows.Forms.ImageList lImageList;
 	}

@@ -23,7 +23,7 @@ namespace Library
 			: base(grid) { }
 
 		public GridController ToGridController()
-			=> new GridController(Grid.DeepCloneBlock(this.grid));
+			=> new GridController(this.Clone());
 
 		public void AddLayout(Guid layout)
 		{

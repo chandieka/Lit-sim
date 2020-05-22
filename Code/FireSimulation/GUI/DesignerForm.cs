@@ -17,8 +17,6 @@ namespace FireSimulator
 		private Pair prevCurPos;
 		private Pair curCurPos;
 
-		private Brush erasorBrush = new SolidBrush(Color.FromArgb(120, Color.Salmon));
-
 		private readonly SaveItem saveItem = null;
 
 		private SaveItem saveStore;
@@ -58,6 +56,15 @@ namespace FireSimulator
 			designer = new Designer(((Floorplan)saveItem.Item).ToGridController(), pictureBoxGrid.Width, pictureBoxGrid.Height);
 			FormInit();
 			this.saveItem = saveItem;
+			Disable();
+		}
+
+		public DesignerForm(Grid grid, SaveItem parent)
+        {
+			InitializeComponent();
+			designer = new Designer(new GridController(grid), pictureBoxGrid.Width, pictureBoxGrid.Height);
+			this.saveItem = parent;
+			FormInit();
 			Disable();
 		}
 
