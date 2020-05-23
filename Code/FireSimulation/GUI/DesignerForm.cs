@@ -45,6 +45,7 @@ namespace FireSimulator
 			designer = new Designer(new GridController((width, height)), pictureBoxGrid.Width, pictureBoxGrid.Height);
 			FormInit();
 			Disable();
+            lblGenerate.Visible = false;
 		}
 
 		public DesignerForm(SaveItem saveItem)
@@ -298,6 +299,81 @@ namespace FireSimulator
 				pictureBoxGrid.Invalidate();
 			}
 		}
-		#endregion
-	}
+        #endregion
+
+        private void lblGenerate_Click(object sender, EventArgs e)
+        {
+            gbItems.Visible = false;
+            gbGenerate.Visible = true;
+            lblTools.Visible = true;
+            pictureBoxGrid.Enabled = false;
+        }
+
+        private void lblTools_Click(object sender, EventArgs e)
+        {
+            gbGenerate.Visible = false;
+            gbItems.Visible = true;
+            lblGenerate.Visible = true;
+            pictureBoxGrid.Enabled = true;
+        }
+
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            bool isSuccess = true;
+            Random r = new Random();
+            // lastGrid = gridController;
+
+            // clear the map
+            designer.ClearLayout();
+            // add fire to the map
+            designer.RandomizeFire(1, r.Next());
+
+            if (!int.TryParse(tbPeople.Text, out int amountPeople))
+            {
+                if (amountPeople < 0)
+                {
+                    MessageBox.Show("Please enter more than 1 in the person field");
+                }
+                else
+                {
+                    MessageBox.Show("Please enter number in the fields!");
+                }
+                isSuccess &= false;
+            }
+            else if (!int.TryParse(tbFireExtinguishers.Text, out int amountFireEx))
+            {
+                if (amountPeople < 0)
+                {
+                    MessageBox.Show("Please enter more than 1 in the fire extinguishers field");
+                }
+                else
+                {
+                    MessageBox.Show("Please enter number in the fields!");
+                }
+
+                isSuccess &= false;
+            }
+            else if (!this.designer.RandomizePersons(amountPeople, r.Next()))
+            {
+                isSuccess &= false;
+                MessageBox.Show("Number of person exceed map capacity");
+            }
+            else if (!this.designer.RandomizeFireExtinguishers(amountFireEx, r.Next()))
+            {
+                isSuccess &= false;
+                MessageBox.Show("Number of Fire Extinguishers exceed map capacity");
+            }
+
+            // visualize the map
+            // not wasting computing power if its not successfull
+            if (isSuccess)
+            {
+                // designer.FillLists();
+                // SaveStartingLayout();
+                pictureBoxGrid.Invalidate();  // VisualizeSimulation();
+                this.designer.AddHistory("Random generated");
+                UpdateHistory();
+            }
+        }
+    }
 }

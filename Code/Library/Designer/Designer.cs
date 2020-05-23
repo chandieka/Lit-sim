@@ -169,7 +169,28 @@ namespace Library
 			grid.ClearLayout();
 		}
 
-		public bool IsFloor((int x, int y) loc)
+        public void FillList()
+        {
+            // grid.fillLists();
+        }
+
+        public void RandomizeFire(int amount, int? seed = null)
+        {
+            grid.RandomizeFire(amount, seed);
+        }
+
+        public bool RandomizePersons(int amount, int? seed = null)
+        {
+            return grid.RandomizePersons(amount, seed);
+        }
+
+        public bool RandomizeFireExtinguishers(int amount, int? seed = null)
+        {
+            return grid.RandomizeFireExtinguishers(amount, seed);
+        }
+
+
+        public bool IsFloor((int x, int y) loc)
 			=> grid.IsFloor(loc);
 
 		public string CheckCriteria(bool isFloorplan)
