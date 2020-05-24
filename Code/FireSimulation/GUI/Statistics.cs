@@ -133,7 +133,6 @@ namespace FireSimulator
                     pb1.Location = new Point(pb1.Width * i + 2, 8);
                     pb1.SizeMode = PictureBoxSizeMode.Zoom;
 
-                    pb1.MouseClick += new MouseEventHandler(showPreview);
                     pb1.MouseClick += (sender, e) => showStatistics(sender, e, l);
 
                     panel_overview.Controls.Add(pb1);
@@ -161,6 +160,10 @@ namespace FireSimulator
 					totalDeaths += data.NrOfDeaths;
 				}
 
+                PictureBox pb = (PictureBox)sender;
+                pbSelectedPreview.Image = pb.Image;
+                pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
+
                 lbl_name.Text = l.Name;
 				lbl_total_sims.Text = $"{simData.Length}";
                 lbl_total_people.Text = $"{people}";
@@ -174,13 +177,6 @@ namespace FireSimulator
 			}
 
 		}
-
-        private void showPreview(object sender, MouseEventArgs e)
-        {
-            PictureBox pb = (PictureBox)sender;
-            pbSelectedPreview.Image = pb.Image;
-            pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
-        }
 
 		private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
 		{
