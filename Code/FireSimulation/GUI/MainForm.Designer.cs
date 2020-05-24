@@ -42,6 +42,7 @@
             this.btnLCopy = new System.Windows.Forms.Button();
             this.lvLayout = new System.Windows.Forms.ListView();
             this.lImageList = new System.Windows.Forms.ImageList(this.components);
+            this.btn_open = new System.Windows.Forms.Button();
             this.gbFloorplan.SuspendLayout();
             this.gbLayout.SuspendLayout();
             this.SuspendLayout();
@@ -50,13 +51,16 @@
             // 
             this.gbFloorplan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbFloorplan.Controls.Add(this.btn_open);
             this.gbFloorplan.Controls.Add(this.btnFPCreate);
             this.gbFloorplan.Controls.Add(this.btnFPDelete);
             this.gbFloorplan.Controls.Add(this.btnFPCopy);
             this.gbFloorplan.Controls.Add(this.lvFloorplan);
-            this.gbFloorplan.Location = new System.Drawing.Point(13, 13);
+            this.gbFloorplan.Location = new System.Drawing.Point(17, 16);
+            this.gbFloorplan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbFloorplan.Name = "gbFloorplan";
-            this.gbFloorplan.Size = new System.Drawing.Size(200, 437);
+            this.gbFloorplan.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbFloorplan.Size = new System.Drawing.Size(267, 538);
             this.gbFloorplan.TabIndex = 0;
             this.gbFloorplan.TabStop = false;
             this.gbFloorplan.Text = "Floorplan";
@@ -65,9 +69,10 @@
             // 
             this.btnFPCreate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFPCreate.Location = new System.Drawing.Point(7, 410);
+            this.btnFPCreate.Location = new System.Drawing.Point(9, 505);
+            this.btnFPCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFPCreate.Name = "btnFPCreate";
-            this.btnFPCreate.Size = new System.Drawing.Size(187, 23);
+            this.btnFPCreate.Size = new System.Drawing.Size(122, 28);
             this.btnFPCreate.TabIndex = 3;
             this.btnFPCreate.Text = "Create";
             this.btnFPCreate.UseVisualStyleBackColor = true;
@@ -76,9 +81,10 @@
             // btnFPDelete
             // 
             this.btnFPDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFPDelete.Location = new System.Drawing.Point(104, 381);
+            this.btnFPDelete.Location = new System.Drawing.Point(139, 469);
+            this.btnFPDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFPDelete.Name = "btnFPDelete";
-            this.btnFPDelete.Size = new System.Drawing.Size(90, 23);
+            this.btnFPDelete.Size = new System.Drawing.Size(120, 28);
             this.btnFPDelete.TabIndex = 2;
             this.btnFPDelete.Text = "Delete";
             this.btnFPDelete.UseVisualStyleBackColor = true;
@@ -87,9 +93,10 @@
             // btnFPCopy
             // 
             this.btnFPCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFPCopy.Location = new System.Drawing.Point(6, 381);
+            this.btnFPCopy.Location = new System.Drawing.Point(8, 469);
+            this.btnFPCopy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFPCopy.Name = "btnFPCopy";
-            this.btnFPCopy.Size = new System.Drawing.Size(92, 23);
+            this.btnFPCopy.Size = new System.Drawing.Size(123, 28);
             this.btnFPCopy.TabIndex = 1;
             this.btnFPCopy.Text = "Copy";
             this.btnFPCopy.UseVisualStyleBackColor = true;
@@ -104,10 +111,11 @@
             this.lvFloorplan.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvFloorplan.HideSelection = false;
             this.lvFloorplan.LargeImageList = this.fpImageList;
-            this.lvFloorplan.Location = new System.Drawing.Point(7, 20);
+            this.lvFloorplan.Location = new System.Drawing.Point(9, 25);
+            this.lvFloorplan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lvFloorplan.MultiSelect = false;
             this.lvFloorplan.Name = "lvFloorplan";
-            this.lvFloorplan.Size = new System.Drawing.Size(187, 355);
+            this.lvFloorplan.Size = new System.Drawing.Size(248, 436);
             this.lvFloorplan.TabIndex = 0;
             this.lvFloorplan.UseCompatibleStateImageBehavior = false;
             this.lvFloorplan.SelectedIndexChanged += new System.EventHandler(this.lvFloorplan_SelectedIndexChanged);
@@ -127,9 +135,11 @@
             this.gbLayout.Controls.Add(this.btnLDelete);
             this.gbLayout.Controls.Add(this.btnLCopy);
             this.gbLayout.Controls.Add(this.lvLayout);
-            this.gbLayout.Location = new System.Drawing.Point(220, 13);
+            this.gbLayout.Location = new System.Drawing.Point(293, 16);
+            this.gbLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbLayout.Name = "gbLayout";
-            this.gbLayout.Size = new System.Drawing.Size(200, 437);
+            this.gbLayout.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbLayout.Size = new System.Drawing.Size(267, 538);
             this.gbLayout.TabIndex = 1;
             this.gbLayout.TabStop = false;
             this.gbLayout.Text = "Layout";
@@ -137,9 +147,10 @@
             // btnLRunSimulation
             // 
             this.btnLRunSimulation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLRunSimulation.Location = new System.Drawing.Point(88, 408);
+            this.btnLRunSimulation.Location = new System.Drawing.Point(117, 502);
+            this.btnLRunSimulation.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLRunSimulation.Name = "btnLRunSimulation";
-            this.btnLRunSimulation.Size = new System.Drawing.Size(106, 23);
+            this.btnLRunSimulation.Size = new System.Drawing.Size(141, 28);
             this.btnLRunSimulation.TabIndex = 5;
             this.btnLRunSimulation.Text = "Run Simulation";
             this.btnLRunSimulation.UseVisualStyleBackColor = true;
@@ -148,9 +159,10 @@
             // btnLCreate
             // 
             this.btnLCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLCreate.Location = new System.Drawing.Point(7, 408);
+            this.btnLCreate.Location = new System.Drawing.Point(9, 502);
+            this.btnLCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLCreate.Name = "btnLCreate";
-            this.btnLCreate.Size = new System.Drawing.Size(75, 23);
+            this.btnLCreate.Size = new System.Drawing.Size(100, 28);
             this.btnLCreate.TabIndex = 4;
             this.btnLCreate.Text = "Create";
             this.btnLCreate.UseVisualStyleBackColor = true;
@@ -159,9 +171,10 @@
             // btnLDelete
             // 
             this.btnLDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLDelete.Location = new System.Drawing.Point(88, 381);
+            this.btnLDelete.Location = new System.Drawing.Point(117, 469);
+            this.btnLDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLDelete.Name = "btnLDelete";
-            this.btnLDelete.Size = new System.Drawing.Size(106, 23);
+            this.btnLDelete.Size = new System.Drawing.Size(141, 28);
             this.btnLDelete.TabIndex = 3;
             this.btnLDelete.Text = "Delete";
             this.btnLDelete.UseVisualStyleBackColor = true;
@@ -170,9 +183,10 @@
             // btnLCopy
             // 
             this.btnLCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnLCopy.Location = new System.Drawing.Point(7, 382);
+            this.btnLCopy.Location = new System.Drawing.Point(9, 470);
+            this.btnLCopy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLCopy.Name = "btnLCopy";
-            this.btnLCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnLCopy.Size = new System.Drawing.Size(100, 28);
             this.btnLCopy.TabIndex = 1;
             this.btnLCopy.Text = "Copy";
             this.btnLCopy.UseVisualStyleBackColor = true;
@@ -186,10 +200,11 @@
             this.lvLayout.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvLayout.HideSelection = false;
             this.lvLayout.LargeImageList = this.lImageList;
-            this.lvLayout.Location = new System.Drawing.Point(7, 20);
+            this.lvLayout.Location = new System.Drawing.Point(9, 25);
+            this.lvLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lvLayout.MultiSelect = false;
             this.lvLayout.Name = "lvLayout";
-            this.lvLayout.Size = new System.Drawing.Size(187, 355);
+            this.lvLayout.Size = new System.Drawing.Size(248, 436);
             this.lvLayout.TabIndex = 0;
             this.lvLayout.UseCompatibleStateImageBehavior = false;
             // 
@@ -199,14 +214,25 @@
             this.lImageList.ImageSize = new System.Drawing.Size(16, 16);
             this.lImageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // btn_open
+            // 
+            this.btn_open.Location = new System.Drawing.Point(139, 505);
+            this.btn_open.Name = "btn_open";
+            this.btn_open.Size = new System.Drawing.Size(118, 28);
+            this.btn_open.TabIndex = 4;
+            this.btn_open.Text = "Open";
+            this.btn_open.UseVisualStyleBackColor = true;
+            this.btn_open.Click += new System.EventHandler(this.btn_open_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(432, 462);
+            this.ClientSize = new System.Drawing.Size(576, 569);
             this.Controls.Add(this.gbLayout);
             this.Controls.Add(this.gbFloorplan);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
@@ -232,5 +258,6 @@
 		private System.Windows.Forms.Button btnLCopy;
 		private System.Windows.Forms.ImageList fpImageList;
 		private System.Windows.Forms.ImageList lImageList;
-	}
+        private System.Windows.Forms.Button btn_open;
+    }
 }

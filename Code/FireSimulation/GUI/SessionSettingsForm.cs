@@ -28,11 +28,11 @@ namespace FireSimulator.GUI
 
         private void DisplayPreviousSettings()
         {
-            var timeLimit = this.fireSimulatorForm.GetTimeLimit();
+            // var timeLimit = this.fireSimulatorForm.GetTimeLimit();
 
-            this.tbTimeLimitHours.Text = timeLimit.Hours.ToString();
-            this.tbTimeLimitMinutes.Text = timeLimit.Minutes.ToString();
-            this.tbTimeLimitSeconds.Text = timeLimit.Seconds.ToString();
+            //this.tbTimeLimitHours.Text = timeLimit.Hours.ToString();
+            //this.tbTimeLimitMinutes.Text = timeLimit.Minutes.ToString();
+            //this.tbTimeLimitSeconds.Text = timeLimit.Seconds.ToString();
         }
 
         private bool ValidateEnteredSettings()
@@ -65,7 +65,7 @@ namespace FireSimulator.GUI
                 return;
             }
 
-            this.fireSimulatorForm.SetTimeLimit(Convert.ToInt32(this.tbTimeLimitHours.Text), Convert.ToInt32(this.tbTimeLimitMinutes.Text), Convert.ToInt32(this.tbTimeLimitSeconds.Text));
+            // this.fireSimulatorForm.SetTimeLimit(Convert.ToInt32(this.tbTimeLimitHours.Text), Convert.ToInt32(this.tbTimeLimitMinutes.Text), Convert.ToInt32(this.tbTimeLimitSeconds.Text));
             MessageBox.Show("Settings saved");
             this.Close();
         }

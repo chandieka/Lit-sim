@@ -278,6 +278,22 @@ namespace FireSimulator
                     lvLayout.Items.Add(saveItem.Item.Id.ToString(), saveItem.Name, lImageList.Images.Count - 1);
                 }
         }
+
+        private void btn_open_Click(object sender, EventArgs e)
+        {
+            var floorplan = getSelectedFloorplan();
+
+            Statistics form;
+
+
+            if (floorplan == null)
+                MessageBox.Show("Please select a floorplan.");
+            else
+            {
+                form = new Statistics(floorplan);
+                form.ShowDialog();
+            }
+        }
         #endregion
     }
 }

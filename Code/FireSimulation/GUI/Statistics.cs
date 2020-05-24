@@ -27,6 +27,7 @@ namespace FireSimulator
 
 		private SaveItem floorplan;
 		private FileInfo[] simulations;
+        private SimulationData[] simData;
 		private SaveItem[] layouts;
 
 		public Statistics(SaveItem floorplan)
@@ -113,19 +114,38 @@ namespace FireSimulator
 
 		private void populateLayoutPreview()
 		{
-			if (layouts.Length > 0)
-			{
-				PictureBox pb1 = new PictureBox();
-				for (int i = 0; i < layouts.Length; i+=1)
-				{
-					var l = layouts[i];
-					pb1.Image = ((Thumbnailable)l.Item).Render(gbSimulationPreviews.Height - 10);					
-					pb1.Size = new Size(gbSimulationPreviews.Height - 10, gbSimulationPreviews.Height - 10);
-					pb1.Location = new Point(pb1.Width * i + 2, 8);
+            if (layouts.Length > 0)
+            {
+                
+                for (int i = 0; i < layouts.Length; i += 1)
+                {
+                    PictureBox pb1 = new PictureBox();
 
-					gbSimulationPreviews.Controls.Add(pb1);
-				}
-			}
-		}
-	}
+                    var l = layouts[i];
+                    pb1.Image = ((Thumbnailable)l.Item).Render(gbSimulationPreviews.Height - 10);
+                    pb1.Size = new Size(gbSimulationPreviews.Height - 10, gbSimulationPreviews.Height - 10);
+                    pb1.Location = new Point(pb1.Width * i + 2, 8);
+                    pb1.SizeMode = PictureBoxSizeMode.Zoom;
+
+                    pb1.MouseClick += new MouseEventHandler(showPreview);
+                    pb1.MouseClick += (sender, e) => showStatistics(sender, e, l);
+
+                    gbSimulationPreviews.Controls.Add(pb1);
+                }
+            }
+        }
+
+        private void showStatistics(object sender, MouseEventArgs e, SaveItem l)
+        {
+            simData = ((Layout)l.Item).GetSimulatioData();
+
+        }
+
+        private void showPreview(object sender, MouseEventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+            pbSelectedPreview.Image = pb.Image;
+            pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+    }
 }
