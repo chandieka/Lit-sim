@@ -12,6 +12,8 @@ namespace Library
 
 		[field: NonSerialized]
 		private List<SaveItem> parsedLayouts = new List<SaveItem>();
+		[field: NonSerialized]
+		private const bool shouldCacheLayouts = false;
 
 		// Used to check if the 'layouts' list was changed after the 'parsedLayouts' list was updated
 		private bool parsedLayoutsListIsDirty = true;
@@ -60,16 +62,20 @@ namespace Library
 
 		public SaveItem GetLayout(Guid id)
 		{
-			var foundLayout = parsedLayouts.Find(_ => _.Item.Id == id);
+			if (shouldCacheLayouts)
+            {
+				var foundLayout = parsedLayouts.Find(_ => _.Item.Id == id);
 
-			if (foundLayout != null)
-				return foundLayout;
-			else
-			{
-				SaveItem saveItem = SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
-				parsedLayouts.Add(saveItem);
-				return saveItem;
+				if (foundLayout != null)
+					return foundLayout;
 			}
+
+			SaveItem saveItem = SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
+
+			if (shouldCacheLayouts)
+				parsedLayouts.Add(saveItem);
+
+			return saveItem;
 		}
 
 		public SaveItem GetLayoutAt(int index)
@@ -82,7 +88,7 @@ namespace Library
 
 		public SaveItem[] GetAllLayouts(bool skipNotFound = false)
 		{
-			if (!parsedLayoutsListIsDirty)
+			if (!parsedLayoutsListIsDirty && shouldCacheLayouts)
 				return parsedLayouts.ToArray();
 
 			List<SaveItem> items = new List<SaveItem>();
