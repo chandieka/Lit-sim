@@ -39,7 +39,7 @@ namespace FireSimulator
 			panel_overview.VerticalScroll.Maximum = 0;
 			panel_overview.AutoScroll = true;
 
-			this.floorplan = floorplan;
+            this.floorplan = floorplan;
 			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
 
 			this.Text = $"Statistics for {floorplan.Name} Floorplan";
@@ -161,6 +161,7 @@ namespace FireSimulator
 					totalDeaths += data.NrOfDeaths;
 				}
 
+                lbl_name.Text = l.Name;
 				lbl_total_sims.Text = $"{simData.Length}";
                 lbl_total_people.Text = $"{people}";
 				lbl_start_date.Text = $"{start.ToShortDateString()}";
