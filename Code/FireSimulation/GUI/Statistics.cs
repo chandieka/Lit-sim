@@ -162,8 +162,9 @@ namespace FireSimulator
 				}
 
 				lbl_total_sims.Text = $"{simData.Length}";
-				lbl_start_date.Text = $"{start}";
-				lbl_end_date.Text = $"{end}";
+                lbl_total_people.Text = $"{people}";
+				lbl_start_date.Text = $"{start.ToShortDateString()}";
+				lbl_end_date.Text = $"{end.ToShortDateString()}";
 				lbl_avg_deaths.Text = $"{totalDeaths/ simData.Length}";
 			}
 			else
