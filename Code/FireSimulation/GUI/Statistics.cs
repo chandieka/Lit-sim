@@ -33,6 +33,12 @@ namespace FireSimulator
 		public Statistics(SaveItem floorplan)
 		{
 			InitializeComponent();
+			panel_overview.AutoScroll = false;
+			panel_overview.VerticalScroll.Enabled = false;
+			panel_overview.VerticalScroll.Visible = false;
+			panel_overview.VerticalScroll.Maximum = 0;
+			panel_overview.AutoScroll = true;
+
 			this.floorplan = floorplan;
 			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
 
