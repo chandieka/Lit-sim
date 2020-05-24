@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Library;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,11 +25,18 @@ namespace FireSimulator
 			Deathcount
 		}
 
+		private SaveItem floorplan;
 		private FileInfo[] simulations;
+		private SaveItem[] layouts;
 
-		public Statistics()
+		public Statistics(SaveItem floorplan)
 		{
 			InitializeComponent();
+			this.floorplan = floorplan;
+			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
+
+			this.Text = $"Statistics for {floorplan.Name} Floorplan";
+			populateLayoutPreview();
 
 			// put options into the drobdown boxes
 			this.cbbPreviewOrder.Items.AddRange(Enum.GetNames(typeof(SortingOptions)));
@@ -95,6 +104,28 @@ namespace FireSimulator
 			string query = this.tbSearchQuery.Text;
 
 			this.FilterSimulations(options, query);
+		}
+
+		private void btReplaySelected_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void populateLayoutPreview()
+		{
+			if (layouts.Length > 0)
+			{
+				PictureBox pb1 = new PictureBox();
+				for (int i = 0; i < layouts.Length; i+=1)
+				{
+					var l = layouts[i];
+					pb1.Image = ((Thumbnailable)l.Item).Render(gbSimulationPreviews.Height - 10);					
+					pb1.Size = new Size(gbSimulationPreviews.Height - 10, gbSimulationPreviews.Height - 10);
+					pb1.Location = new Point(pb1.Width * i + 2, 8);
+
+					gbSimulationPreviews.Controls.Add(pb1);
+				}
+			}
 		}
 	}
 }
