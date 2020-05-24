@@ -122,15 +122,15 @@ namespace FireSimulator
                     PictureBox pb1 = new PictureBox();
 
                     var l = layouts[i];
-                    pb1.Image = ((Thumbnailable)l.Item).Render(gbSimulationPreviews.Height - 10);
-                    pb1.Size = new Size(gbSimulationPreviews.Height - 10, gbSimulationPreviews.Height - 10);
+                    pb1.Image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
+                    pb1.Size = new Size(panel_overview.Height - 10, panel_overview.Height - 10);
                     pb1.Location = new Point(pb1.Width * i + 2, 8);
                     pb1.SizeMode = PictureBoxSizeMode.Zoom;
 
                     pb1.MouseClick += new MouseEventHandler(showPreview);
                     pb1.MouseClick += (sender, e) => showStatistics(sender, e, l);
 
-                    gbSimulationPreviews.Controls.Add(pb1);
+                    panel_overview.Controls.Add(pb1);
                 }
             }
         }
@@ -138,8 +138,34 @@ namespace FireSimulator
         private void showStatistics(object sender, MouseEventArgs e, SaveItem l)
         {
             simData = ((Layout)l.Item).GetSimulatioData();
+			
 
-        }
+			float totalDeaths = 0;
+			int people = 0;
+			DateTime start, end;
+
+			if (simData.Length > 0)
+			{
+				start = simData[0].DateOfSimulation;
+				people = simData[0].NrOfPeople;
+				end = simData[simData.Length - 1].DateOfSimulation;
+
+				foreach (var data in simData)
+				{
+					totalDeaths += data.NrOfDeaths;
+				}
+
+				lbl_total_sims.Text = $"{simData.Length}";
+				lbl_start_date.Text = $"{start}";
+				lbl_end_date.Text = $"{end}";
+				lbl_avg_deaths.Text = $"{totalDeaths/ simData.Length}";
+			}
+			else
+			{
+				MessageBox.Show($"No simulation data found for {l.Name} layout.");
+			}
+
+		}
 
         private void showPreview(object sender, MouseEventArgs e)
         {
@@ -147,5 +173,10 @@ namespace FireSimulator
             pbSelectedPreview.Image = pb.Image;
             pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
         }
-    }
+
+		private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
+		{
+
+		}
+	}
 }

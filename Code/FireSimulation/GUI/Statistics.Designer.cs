@@ -40,15 +40,28 @@
             this.gbStatisticsMenu = new System.Windows.Forms.GroupBox();
             this.lbStatistics = new System.Windows.Forms.Label();
             this.gbSimulationPreviews = new System.Windows.Forms.GroupBox();
-            this.vsbPreviewScroller = new System.Windows.Forms.HScrollBar();
             this.gbOrderMenu = new System.Windows.Forms.GroupBox();
             this.cbbPreviewOrder = new System.Windows.Forms.ComboBox();
             this.lbSort = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lbl_total_sims = new System.Windows.Forms.Label();
+            this.lbl_avg_deaths = new System.Windows.Forms.Label();
+            this.lbl_start_date = new System.Windows.Forms.Label();
+            this.lbl_total_people = new System.Windows.Forms.Label();
+            this.lbl_avg_time = new System.Windows.Forms.Label();
+            this.lbl_end_date = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.panel_overview = new System.Windows.Forms.Panel();
             this.groupBox2.SuspendLayout();
             this.gbSearchMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btSearch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSelectedPreview)).BeginInit();
             this.gbStatisticsMenu.SuspendLayout();
+            this.gbSimulationPreviews.SuspendLayout();
             this.gbOrderMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -169,6 +182,18 @@
             // 
             this.gbStatisticsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbStatisticsMenu.Controls.Add(this.label6);
+            this.gbStatisticsMenu.Controls.Add(this.lbl_end_date);
+            this.gbStatisticsMenu.Controls.Add(this.lbl_avg_time);
+            this.gbStatisticsMenu.Controls.Add(this.lbl_total_people);
+            this.gbStatisticsMenu.Controls.Add(this.lbl_start_date);
+            this.gbStatisticsMenu.Controls.Add(this.lbl_avg_deaths);
+            this.gbStatisticsMenu.Controls.Add(this.lbl_total_sims);
+            this.gbStatisticsMenu.Controls.Add(this.label5);
+            this.gbStatisticsMenu.Controls.Add(this.label4);
+            this.gbStatisticsMenu.Controls.Add(this.label3);
+            this.gbStatisticsMenu.Controls.Add(this.label2);
+            this.gbStatisticsMenu.Controls.Add(this.label1);
             this.gbStatisticsMenu.Controls.Add(this.lbStatistics);
             this.gbStatisticsMenu.Location = new System.Drawing.Point(506, 11);
             this.gbStatisticsMenu.Margin = new System.Windows.Forms.Padding(2);
@@ -194,22 +219,14 @@
             // 
             this.gbSimulationPreviews.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSimulationPreviews.Controls.Add(this.panel_overview);
             this.gbSimulationPreviews.Location = new System.Drawing.Point(9, 431);
             this.gbSimulationPreviews.Margin = new System.Windows.Forms.Padding(2);
             this.gbSimulationPreviews.Name = "gbSimulationPreviews";
             this.gbSimulationPreviews.Padding = new System.Windows.Forms.Padding(2);
-            this.gbSimulationPreviews.Size = new System.Drawing.Size(485, 133);
+            this.gbSimulationPreviews.Size = new System.Drawing.Size(485, 149);
             this.gbSimulationPreviews.TabIndex = 2;
             this.gbSimulationPreviews.TabStop = false;
-            // 
-            // vsbPreviewScroller
-            // 
-            this.vsbPreviewScroller.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.vsbPreviewScroller.Location = new System.Drawing.Point(9, 566);
-            this.vsbPreviewScroller.Name = "vsbPreviewScroller";
-            this.vsbPreviewScroller.Size = new System.Drawing.Size(485, 16);
-            this.vsbPreviewScroller.TabIndex = 4;
             // 
             // gbOrderMenu
             // 
@@ -246,6 +263,127 @@
             this.lbSort.TabIndex = 4;
             this.lbSort.Text = "Sort";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(32, 104);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 16);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Simulations Ran:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(32, 133);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 16);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "People:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(32, 167);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(85, 16);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "AVG Deaths:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(32, 227);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(85, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Time Period:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(32, 200);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(73, 16);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "AVG Time:";
+            // 
+            // lbl_total_sims
+            // 
+            this.lbl_total_sims.AutoSize = true;
+            this.lbl_total_sims.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_total_sims.Location = new System.Drawing.Point(149, 104);
+            this.lbl_total_sims.Name = "lbl_total_sims";
+            this.lbl_total_sims.Size = new System.Drawing.Size(0, 16);
+            this.lbl_total_sims.TabIndex = 7;
+            // 
+            // lbl_avg_deaths
+            // 
+            this.lbl_avg_deaths.AutoSize = true;
+            this.lbl_avg_deaths.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_avg_deaths.Location = new System.Drawing.Point(149, 167);
+            this.lbl_avg_deaths.Name = "lbl_avg_deaths";
+            this.lbl_avg_deaths.Size = new System.Drawing.Size(0, 16);
+            this.lbl_avg_deaths.TabIndex = 8;
+            // 
+            // lbl_start_date
+            // 
+            this.lbl_start_date.AutoSize = true;
+            this.lbl_start_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_start_date.Location = new System.Drawing.Point(149, 227);
+            this.lbl_start_date.Name = "lbl_start_date";
+            this.lbl_start_date.Size = new System.Drawing.Size(0, 16);
+            this.lbl_start_date.TabIndex = 9;
+            // 
+            // lbl_total_people
+            // 
+            this.lbl_total_people.AutoSize = true;
+            this.lbl_total_people.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_total_people.Location = new System.Drawing.Point(149, 130);
+            this.lbl_total_people.Name = "lbl_total_people";
+            this.lbl_total_people.Size = new System.Drawing.Size(0, 16);
+            this.lbl_total_people.TabIndex = 10;
+            // 
+            // lbl_avg_time
+            // 
+            this.lbl_avg_time.AutoSize = true;
+            this.lbl_avg_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_avg_time.Location = new System.Drawing.Point(149, 200);
+            this.lbl_avg_time.Name = "lbl_avg_time";
+            this.lbl_avg_time.Size = new System.Drawing.Size(0, 16);
+            this.lbl_avg_time.TabIndex = 11;
+            // 
+            // lbl_end_date
+            // 
+            this.lbl_end_date.AutoSize = true;
+            this.lbl_end_date.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_end_date.Location = new System.Drawing.Point(149, 259);
+            this.lbl_end_date.Name = "lbl_end_date";
+            this.lbl_end_date.Size = new System.Drawing.Size(0, 16);
+            this.lbl_end_date.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(166, 243);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(12, 16);
+            this.label6.TabIndex = 13;
+            this.label6.Text = "-";
+            // 
+            // panel_overview
+            // 
+            this.panel_overview.Location = new System.Drawing.Point(5, 8);
+            this.panel_overview.Name = "panel_overview";
+            this.panel_overview.Size = new System.Drawing.Size(475, 136);
+            this.panel_overview.TabIndex = 0;
+            // 
             // Statistics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -253,7 +391,6 @@
             this.ClientSize = new System.Drawing.Size(1071, 591);
             this.Controls.Add(this.gbSimulationPreviews);
             this.Controls.Add(this.gbSearchMenu);
-            this.Controls.Add(this.vsbPreviewScroller);
             this.Controls.Add(this.pbSelectedPreview);
             this.Controls.Add(this.gbStatisticsMenu);
             this.Controls.Add(this.gbOrderMenu);
@@ -269,6 +406,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbSelectedPreview)).EndInit();
             this.gbStatisticsMenu.ResumeLayout(false);
             this.gbStatisticsMenu.PerformLayout();
+            this.gbSimulationPreviews.ResumeLayout(false);
             this.gbOrderMenu.ResumeLayout(false);
             this.gbOrderMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -289,9 +427,21 @@
         private System.Windows.Forms.GroupBox gbStatisticsMenu;
         private System.Windows.Forms.Label lbStatistics;
         private System.Windows.Forms.GroupBox gbSimulationPreviews;
-        private System.Windows.Forms.HScrollBar vsbPreviewScroller;
         private System.Windows.Forms.GroupBox gbOrderMenu;
         private System.Windows.Forms.ComboBox cbbPreviewOrder;
         private System.Windows.Forms.Label lbSort;
+        private System.Windows.Forms.Label lbl_avg_deaths;
+        private System.Windows.Forms.Label lbl_total_sims;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_avg_time;
+        private System.Windows.Forms.Label lbl_total_people;
+        private System.Windows.Forms.Label lbl_start_date;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lbl_end_date;
+        private System.Windows.Forms.Panel panel_overview;
     }
 }
