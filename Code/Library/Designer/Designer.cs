@@ -89,6 +89,7 @@ namespace Library
 			var maxSize = getMaxSize();
 
 			g.DrawImage(bitmap, 0, 0, maxSize.Width, maxSize.Height);
+			bitmap.Dispose();
 		}
 
 		public void drawSample(Graphics g, GUIElement element, Pair curCurPos, Pair prevCurPos)

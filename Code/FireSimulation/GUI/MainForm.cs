@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -121,6 +122,9 @@ namespace FireSimulator
 
         private void updateFloorplanGUI()
         {
+            foreach (Bitmap img in fpImageList.Images)
+                img.Dispose();
+
             lvFloorplan.Items.Clear();
             fpImageList.Images.Clear();
 
@@ -268,6 +272,9 @@ namespace FireSimulator
 
         private void lvFloorplan_SelectedIndexChanged(object sender, EventArgs e)
         {
+            foreach (Bitmap bitmap in lImageList.Images)
+                bitmap.Dispose();
+
             lImageList.Images.Clear();
             lvLayout.Items.Clear();
 
