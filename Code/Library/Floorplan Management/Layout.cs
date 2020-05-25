@@ -25,6 +25,9 @@ namespace Library
 
 		public decimal GetAverageDeathAmount()
 		{
+			if (simulationData.Count < 1)
+				return -1;
+
 			decimal value = 0;
 
 			foreach (SimulationData data in simulationData)
@@ -43,8 +46,11 @@ namespace Library
 			return value / simulationData.Count;
 		}
 
-		public TimeSpan GetAverageElapsedTime()
+		public TimeSpan? GetAverageElapsedTime()
 		{
+			if (simulationData.Count < 1)
+				return null;
+
 			TimeSpan time = TimeSpan.Zero;
 
 			foreach (SimulationData data in simulationData)

@@ -44,7 +44,7 @@ namespace FireSimulator
 			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
 			this.UpdateSearchResults(layouts.ToList());
 
-			this.Text = $"Statistics for {floorplan.Name} Floorplan";
+			this.Text = $"Lit - Statistics for {floorplan.Name} Floorplan";
 			populateLayoutPreview();
 
 			// put options into the drobdown boxes
@@ -107,23 +107,41 @@ namespace FireSimulator
 				if (options == SearchOptions.Title)
 				{
 					if (layout.Name == searchQuery)
-					{
 						filered.Add(layout);
-					}
 				}
 				else if (options == SearchOptions.Duration)
 				{
-					if (((Layout)layout.Item).GetAverageElapsedTime().TotalSeconds == int.Parse(searchQuery))
-					{
+					var time = ((Layout)layout.Item).GetAverageElapsedTime();
+					int number;
+
+					try
+                    {
+						number = int.Parse(searchQuery);
+					} catch (Exception)
+                    {
+						MessageBox.Show("Invalid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+                    }
+
+					if (time != null && time?.TotalSeconds == number)
 						filered.Add(layout);
-					}
 				}
 				else if (options == SearchOptions.Deathcount)
 				{
-					if (((Layout)layout.Item).GetAverageDeathAmount() == int.Parse(searchQuery))
-					{
-						filered.Add(layout);
+					var deathAmount = ((Layout)layout.Item).GetAverageDeathAmount();
+					int number;
+
+					try
+                    {
+						number = int.Parse(searchQuery);
+					} catch (Exception)
+                    {
+						MessageBox.Show("Invalid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
 					}
+
+					if (deathAmount >= 0 && deathAmount == number)
+						filered.Add(layout);
 				}
 			}
 
@@ -149,6 +167,12 @@ namespace FireSimulator
 
 		private void FilterSimulations(object sender, EventArgs e)
 		{
+			if (this.cbbSearchOption.SelectedItem == null)
+            {
+				MessageBox.Show("Please select a search option", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+            }
+
 			SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
 			string query = this.tbSearchQuery.Text;
 
