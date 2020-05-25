@@ -1,6 +1,7 @@
 ﻿using Library;
 using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -41,6 +42,7 @@ namespace FireSimulator
 
             this.floorplan = floorplan;
 			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
+			this.UpdateSearchResults(layouts.ToList());
 
 			this.Text = $"Statistics for {floorplan.Name} Floorplan";
 			populateLayoutPreview();
@@ -94,15 +96,55 @@ namespace FireSimulator
 			this.FilterSimulations(sender, e);
 		}
 
-		private void FilterSimulations(SearchOptions options, string searchQuery)
+		private void FilterLayouts(SearchOptions options, string searchQuery)
 		{
-			List<FileInfo> filtered = new List<FileInfo>();
+			//all commented line were here before I staterted my task and idk what to do with them
+			//List<FileInfo> filtered = new List<FileInfo>();
+			List<SaveItem> filered = new List<SaveItem>();
 
-			for (int i = 0; i < this.simulations.Length; i++)
+			foreach (SaveItem layout in this.layouts)
 			{
+				if (options == SearchOptions.Title)
+				{
+					if (layout.Name == searchQuery)
+					{
+						filered.Add(layout);
+					}
+				}
+				else if (options == SearchOptions.Duration)
+				{
+					if (((Layout)layout.Item).GetAverageElapsedTime().TotalSeconds == int.Parse(searchQuery))
+					{
+						filered.Add(layout);
+					}
+				}
+				else if (options == SearchOptions.Deathcount)
+				{
+					if (((Layout)layout.Item).GetAverageDeathAmount() == int.Parse(searchQuery))
+					{
+						filered.Add(layout);
+					}
+				}
 			}
 
-			this.SortSimulations(filtered.ToArray());
+			this.UpdateSearchResults(filered);
+
+			/*for (int i = 0; i < this.simulations.Length; i++)
+			{
+				//this.simulations[i].
+			}*/
+
+			//this.SortSimulations(filtered.ToArray());
+		}
+
+		private void UpdateSearchResults(List<SaveItem> layouts)
+		{
+			this.lbSearchResults.Items.Clear();
+
+			foreach (SaveItem layout in layouts)
+			{
+				this.lbSearchResults.Items.Add(layout.Name);
+			}
 		}
 
 		private void FilterSimulations(object sender, EventArgs e)
@@ -110,7 +152,7 @@ namespace FireSimulator
 			SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
 			string query = this.tbSearchQuery.Text;
 
-			this.FilterSimulations(options, query);
+			this.FilterLayouts(options, query);
 		}
 
 		private void btReplaySelected_Click(object sender, EventArgs e)
