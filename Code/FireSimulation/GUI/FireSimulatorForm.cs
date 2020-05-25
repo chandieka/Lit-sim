@@ -80,6 +80,7 @@ namespace FireSimulator
 			hasRun = false;
 			running = false;
 			time = TimeSpan.Zero;
+			btnCalculatePaths.Enabled = true;
 			btnRerunSimulation.Visible = false;
 			lblResult.Text = "<Success/Fail>";
 			trackBarSpeed.Value = 50;
