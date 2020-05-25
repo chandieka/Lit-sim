@@ -40,9 +40,9 @@ namespace Library
 					else if (gridObjectType == typeof(Wall))
 						newGrid[i, j] = new Wall();
 					else if (gridObjectType == typeof(Floor))
-						newGrid[i, j] = new Floor();
+						newGrid[i, j] = GridController.Floor;
 					else if (gridObjectType == typeof(Fire))
-						newGrid[i, j] = new Fire();
+						newGrid[i, j] = GridController.Fire;
 					else if (gridObjectType == typeof(FireExtinguisher))
 						newGrid[i, j] = new FireExtinguisher();
 					else
@@ -98,7 +98,7 @@ namespace Library
 				return bmp;
 			}
 
-			// create a new bitmap
+			// Create a new bitmap
 			var bitmap = new Bitmap(grid.GetLength(0) * scaleSize.xScale, grid.GetLength(1) * scaleSize.yScale);
 			return UseGraphics(bitmap);
 		}

@@ -38,7 +38,7 @@ namespace Library
 				for (int y = 0; y < this.GridHeight; y++)
 				{
 					if (this.grid[x, y].GetType() == typeof(Person) || this.grid[x, y].GetType() == typeof(Fire) || this.grid[x, y].GetType() == typeof(FireExtinguisher))
-						this.grid[x, y] = new Floor();
+						this.grid[x, y] = GridController.Floor;
 				}
 			}
 		}
@@ -81,7 +81,7 @@ namespace Library
 				{
 					{
 						if (this.grid[x, y].GetType() == typeof(Person) || this.grid[x, y].GetType() == typeof(Fire) || this.grid[x, y].GetType() == typeof(FireExtinguisher))
-							this.grid[x, y] = new Floor();
+							this.grid[x, y] = GridController.Floor;
 					}
 				}
 		}
