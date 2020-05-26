@@ -57,22 +57,28 @@ namespace Library
 			this.firePathThread?.Interrupt();
 		}
 
-		private void move(Block[,] grid, Pair from, Pair[] pathArr)
+		private bool move(Block[,] grid, Pair from, Pair[] pathArr)
 		{
 			var pathEntry = pathArr[pathIndex];
 
 			if (pathEntry.X > grid.GetLength(0) || pathEntry.Y > grid.GetLength(1) || pathEntry.X < 0 || pathEntry.Y < 0)
-				return;
+				return false;
 
 			var gridEntry = grid[pathEntry.X, pathEntry.Y];
 			if (gridEntry is Person)
+			{
 				pathIndex++;
+				return true;
+			}
 			else if (gridEntry is Floor)
 			{
 				grid[from.X, from.Y] = GridController.Floor;
 				grid[pathEntry.X, pathEntry.Y] = this;
 				pathIndex++;
+				return true;
 			}
+
+			return false;
 		}
 
 		private Pair[] getSurrounding(Block[,] grid, Pair pos, Type typeToCheck = null, int radius = 1, Func<int, int, bool> additionalCheck = null)
@@ -405,7 +411,6 @@ namespace Library
 
 			if (checkForFire.Length > 0)
 			{
-				Console.WriteLine(this.GetHashCode());
 				this.ShortestPath = new Pair[0];
 				RunFromFire(grid, pos);
 				return;
@@ -453,7 +458,8 @@ namespace Library
 					newYPos++;
 
 				this.pathIndex = 0;
-				move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) });
+				if (!move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) }))
+					move(grid, pos, new Pair[] { new Pair(pos.X, newYPos) });
 			}
 		}
 		#endregion
