@@ -13,14 +13,9 @@ namespace Library
 
         public override void Function(Block[,] grid, int x, int y)
         {
-            SpreadToNeighbors(grid, x, y);
-        }
-
-        public static void SpreadToNeighbors(Block[,] grid, int x, int y)
-        {
             void putFire(int locX, int locY)
             {
-                // check if the location is within the grid
+                // Check if the location is within the grid
                 var xMin = 0;
                 var xMax = grid.GetLength(0);
                 var yMin = 0;
@@ -31,19 +26,21 @@ namespace Library
                 if (locY < yMin || locY >= yMax)
                     return;
 
-                // check if the unit that would be replaced is a floor or a person
-                if (grid[locX, locY] is Floor) grid[locX, locY] = new Fire();
-                if (grid[locX, locY] is Person) ((Person)grid[locX, locY]).Kill();
+                // Check if the unit that would be replaced is a floor or a person
+                if (grid[locX, locY] is Floor)
+                    grid[locX, locY] = GridController.Fire;
+                if (grid[locX, locY] is Person)
+                    ((Person)grid[locX, locY]).Kill();
             }
 
-            // place a fire at random, the default probability of it being placed is 5%
+            // Place a fire at random, the default probability of it being placed is 5%
             void maybePutFire(int locX, int locY, double probability = .05d)
             {
                 if (random.NextDouble() < probability)
                     putFire(locX, locY);
             }
 
-            // cycle through the neigboring blocks of the given spot
+            // Cycle through the neigboring blocks of the given spot
             foreach (var xOffset in new[] { -1, 1 })
                 maybePutFire(x + xOffset, y);
             foreach (var yOffset in new[] { -1, 1 })

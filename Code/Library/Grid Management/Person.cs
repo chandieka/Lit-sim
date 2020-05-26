@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,12 +49,7 @@ namespace Library
 		private static int safeDistance = 5;
 
 		public bool HasFireExtinguisher
-		{
-			get
-			{
-				return this.nearestFirePath != null;
-			}
-		}
+			=> this.nearestFirePath != null;
 
 		public void Kill()
 		{
@@ -58,18 +57,28 @@ namespace Library
 			this.firePathThread?.Interrupt();
 		}
 
-		private void move(Block[,] grid, Pair from, Pair[] pathArr)
+		private bool move(Block[,] grid, Pair from, Pair[] pathArr)
 		{
 			var pathEntry = pathArr[pathIndex];
 
-			if (grid[pathEntry.X, pathEntry.Y] is Floor)
+			if (pathEntry.X > grid.GetLength(0) || pathEntry.Y > grid.GetLength(1) || pathEntry.X < 0 || pathEntry.Y < 0)
+				return false;
+
+			var gridEntry = grid[pathEntry.X, pathEntry.Y];
+			if (gridEntry is Person)
+			{
+				pathIndex++;
+				return true;
+			}
+			else if (gridEntry is Floor)
 			{
 				grid[from.X, from.Y] = GridController.Floor;
 				grid[pathEntry.X, pathEntry.Y] = this;
 				pathIndex++;
+				return true;
 			}
-			else if (grid[pathEntry.X, pathEntry.Y] is Person)
-				pathIndex++;
+
+			return false;
 		}
 
 		private Pair[] getSurrounding(Block[,] grid, Pair pos, Type typeToCheck = null, int radius = 1, Func<int, int, bool> additionalCheck = null)
@@ -116,6 +125,9 @@ namespace Library
 
 		private Pair[] findShortestPath(Pair[][] paths, BackgroundWorker worker)
 		{
+			if (paths.Length < 1)
+				return new Pair[0];
+
 			Pair[] shortest = null;
 
 			foreach (Pair[] p in paths)
@@ -181,81 +193,38 @@ namespace Library
 			return null;
 		}
 
-		private Pair[] FindFurthestFirePath(Block[,] grid, Pair pos)
+		private Pair getAveragePoint(Pair[] points)
 		{
-			Pair[] findFire(bool doCheck = true)
+			int x = -1;
+			int y = -1;
+
+			for (int i = 0; i < points.Length; i++)
 			{
-				List<Pair> positions = new List<Pair>();
-				Type floorType = typeof(Floor);
-
-				for (int x = 0; x < grid.GetLength(0); x++)
-					for (int y = 0; y < grid.GetLength(1); y++)
-						if (!Thread.CurrentThread.IsAlive)
-							return positions.ToArray();
-						else if (grid[x, y] is Fire)
-						{
-							Pair p = new Pair(x, y);
-
-							if (doCheck == true && getSurrounding(grid, p, floorType, 1).Length <= 0)
-								continue;
-
-							positions.Add(p);
-						}
-
-				return positions.ToArray();
+				x += points[i].X;
+				y += points[i].Y;
 			}
 
-			Pair[] findEmpty(bool doCheck = true)
+			if (x < 0 || y < 0)
+				return null;
+
+			return new Pair(x / points.Length, y / points.Length);
+		}
+
+		private void calculateFirePathInDiffThread(Block[,] grid, Pair pos)
+		{
+			firePathThread = new Thread(() =>
 			{
-				List<Pair> positions = new List<Pair>();
-				Type floorType = typeof(Floor);
+				var result = findNearestFirePath(grid, pos);
 
-				for (int x = 0; x < grid.GetLength(0); x++)
-					for (int y = 0; y < grid.GetLength(1); y++)
-						if (!Thread.CurrentThread.IsAlive)
-							return positions.ToArray();
-						else if (grid[x, y] is Floor)
-						{
-							Pair p = new Pair(x, y);
-
-							if (doCheck == true && getSurrounding(grid, p, floorType, 1).Length <= 0)
-								continue;
-
-							positions.Add(p);
-						}
-
-				return positions.ToArray();
-			}
-
-			List<Pair[]> paths = new List<Pair[]>();
-			var fires = findFire();
-			var floors = findEmpty();
-
-			(Pair block, int distance)? destination = null;
-			foreach (Pair p in floors)
-			{
-				int shortestDistance = 0;
-
-				foreach (Pair pf in fires)
+				if (result != null)
 				{
-					var distance = new AStar(grid, p, pf).aStarSearch().Length;
-					if (distance < shortestDistance) shortestDistance = distance;
+					this.nearestFirePath = result;
+					pathIndex = 1;
 				}
 
-				if (destination == null)
-					destination = (p, shortestDistance);
-				else
-					if (shortestDistance > destination.Value.distance)
-					destination = (p, shortestDistance);
-			}
-
-			var path = new AStar(grid, pos, destination.Value.block).aStarSearch();
-
-			if (path.Length > 0)
-				return findShortestPath(paths.ToArray(), null);
-
-			Console.WriteLine("For some reason there is no path to the fire???");
-			return null;
+				firePathThread = Thread.CurrentThread; // Set to something not null
+			});
+			firePathThread.Start();
 		}
 
 		private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
@@ -313,12 +282,14 @@ namespace Library
 
 			if (this.IsDead)
 			{
-				Fire.SpreadToNeighbors(grid, x, y);
+				foreach (Pair p in getSurrounding(grid, new Pair(x, y), typeof(Person)))
+					((Person)grid[p.X, p.Y]).Kill();
+
 				return;
 			}
 
-			if (fireExtinguisherGotTaken)
-				return;
+			if (this.ShortestPath.Length < 1 || fireExtinguisherGotTaken)
+				RunFromFire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher)
@@ -385,22 +356,6 @@ namespace Library
 
 				return paths.ToArray();
 			}
-			Pair averagePoint(Pair[] points)
-			{
-				int x = -1;
-				int y = -1;
-
-				for (int i = 0; i < points.Length; i++)
-				{
-					x += points[i].X;
-					y += points[i].Y;
-				}
-
-				if (x < 0 || y < 0)
-					return null;
-
-				return new Pair(x / points.Length, y / points.Length);
-			}
 
 			var radiusSquared = Math.Pow(FireExtinguisher.SpreadRadius, 2);
 			var fires = getSurrounding(grid, pos, typeof(Fire), FireExtinguisher.SpreadRadius, (int x, int y) =>
@@ -424,7 +379,7 @@ namespace Library
 
 			if (fires.Length < 10)
 			{
-				var avgPoint = averagePoint(fires);
+				var avgPoint = getAveragePoint(fires);
 
 				if (avgPoint == null)
 					Console.WriteLine("No average point could be calculated");
@@ -452,6 +407,14 @@ namespace Library
 		private void Move2FE(Block[,] grid, Pair pos)
 		{
 			var endPos = this.ShortestPath[this.ShortestPath.Length - 1];
+			var checkForFire = getSurrounding(grid, pos, typeof(Fire), 2);
+
+			if (checkForFire.Length > 0)
+			{
+				this.ShortestPath = new Pair[0];
+				RunFromFire(grid, pos);
+				return;
+			}
 
 			if (grid[endPos.X, endPos.Y] is FireExtinguisher)
 				move(grid, pos, this.ShortestPath);
@@ -461,8 +424,12 @@ namespace Library
 
 		private void CalculateFirePath(Block[,] grid, Pair myPosPair)
 		{
-			var pos = this.ShortestPath[this.ShortestPath.Length - 1];
+			var index = this.ShortestPath.Length - 1;
 
+			if (index < 0)
+				return;
+
+			var pos = this.ShortestPath[index];
 			if (grid[pos.X, pos.Y] is FireExtinguisher)
 			{
 				grid[pos.X, pos.Y] = GridController.Floor;
@@ -470,21 +437,30 @@ namespace Library
 			}
 		}
 
-		private void calculateFirePathInDiffThread(Block[,] grid, Pair pos)
+		// TODO: This algorithm can make the person stuck...
+		private void RunFromFire(Block[,] grid, Pair pos)
 		{
-			firePathThread = new Thread(() =>
+			var pointToRunAwayFrom = getAveragePoint(getSurrounding(grid, pos, typeof(Fire), 100)); // TODO: Make this smaller
+
+			if (pointToRunAwayFrom != null)
 			{
-				var result = findNearestFirePath(grid, pos);
+				var newXPos = pos.X;
+				var newYPos = pos.Y;
 
-				if (result != null)
-				{
-					this.nearestFirePath = result;
-					pathIndex = 1;
-				}
+				if (pointToRunAwayFrom.X > pos.X)
+					newXPos--;
+				else if (pointToRunAwayFrom.X < pos.X)
+					newXPos++;
 
-				firePathThread = Thread.CurrentThread; // Set to something not null
-			});
-			firePathThread.Start();
+				if (pointToRunAwayFrom.Y > pos.Y)
+					newYPos--;
+				else if (pointToRunAwayFrom.Y < pos.Y)
+					newYPos++;
+
+				this.pathIndex = 0;
+				if (!move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) }))
+					move(grid, pos, new Pair[] { new Pair(pos.X, newYPos) });
+			}
 		}
 		#endregion
 

@@ -27,9 +27,12 @@ namespace FireSimulator
 
 		public void SetPercentage(int percentage)
 		{
-			this.pbMain.Style = ProgressBarStyle.Blocks;
-			this.lblPercentage.Text = percentage + "%";
-			this.pbMain.Value = percentage;
+			syncContext.Post(o =>
+			{
+				this.pbMain.Style = ProgressBarStyle.Blocks;
+				this.lblPercentage.Text = percentage + "%";
+				this.pbMain.Value = percentage;
+			}, null);
 		}
 
 		public void SetProgressReport(string report)
@@ -39,6 +42,23 @@ namespace FireSimulator
 				this.lblMessage.Text = report;
 			}, null);
 		}
+
+		public void SetType(ProgressBarStyle type)
+		{
+			syncContext.Post(o =>
+			{
+				this.lblPercentage.Visible = false;
+				this.pbMain.Style = type;
+			}, null);
+		}
+
+		public new void Close()
+        {
+			syncContext.Post(o =>
+			{
+				base.Close();
+			}, null);
+        }
 
 		private void btnCancel_Click(object sender, EventArgs e)
 		{
