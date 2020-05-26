@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Library;
 
@@ -116,7 +117,10 @@ namespace FireSimulator
 
             dialog.Cancelled += (object s, EventArgs a) => bw.CancelAsync();
 
-            bw.RunWorkerAsync();
+            new Thread(() =>
+            {
+                bw.RunWorkerAsync();
+            }).Start();
             dialog.ShowDialog();
         }
 

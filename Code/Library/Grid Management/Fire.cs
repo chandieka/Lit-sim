@@ -28,7 +28,7 @@ namespace Library
 
                 // Check if the unit that would be replaced is a floor or a person
                 if (grid[locX, locY] is Floor)
-                    grid[locX, locY] = new Fire();
+                    grid[locX, locY] = GridController.Fire;
                 if (grid[locX, locY] is Person)
                     ((Person)grid[locX, locY]).Kill();
             }

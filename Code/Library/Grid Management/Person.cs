@@ -179,6 +179,23 @@ namespace Library
             return null;
         }
 
+        private void calculateFirePathInDiffThread(Block[,] grid, Pair pos)
+        {
+            firePathThread = new Thread(() =>
+            {
+                var result = findNearestFirePath(grid, pos);
+
+                if (result != null)
+                {
+                    this.nearestFirePath = result;
+                    pathIndex = 1;
+                }
+
+                firePathThread = Thread.CurrentThread; // Set to something not null
+            });
+            firePathThread.Start();
+        }
+
         private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
         {
             if (worker.w.CancellationPending)
@@ -241,7 +258,7 @@ namespace Library
             }
 
             if (fireExtinguisherGotTaken)
-                return;
+                RunFromFire(grid, new Pair(x, y));
             else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
                 Move2Fire(grid, new Pair(x, y));
             else if (HasFireExtinguisher)
@@ -397,21 +414,9 @@ namespace Library
             }
         }
 
-        private void calculateFirePathInDiffThread(Block[,] grid, Pair pos)
+        private void RunFromFire(Block[,] grid, Pair pos)
         {
-            firePathThread = new Thread(() =>
-            {
-                var result = findNearestFirePath(grid, pos);
 
-                if (result != null)
-                {
-                    this.nearestFirePath = result;
-                    pathIndex = 1;
-                }
-
-                firePathThread = Thread.CurrentThread; // Set to something not null
-            });
-            firePathThread.Start();
         }
         #endregion
 
