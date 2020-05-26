@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -280,7 +282,7 @@ namespace Library
 				return;
 			}
 
-			if (fireExtinguisherGotTaken)
+			if (this.ShortestPath.Length < 1 || fireExtinguisherGotTaken)
 				RunFromFire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
@@ -399,6 +401,15 @@ namespace Library
 		private void Move2FE(Block[,] grid, Pair pos)
 		{
 			var endPos = this.ShortestPath[this.ShortestPath.Length - 1];
+			var checkForFire = getSurrounding(grid, pos, typeof(Fire), 2);
+
+			if (checkForFire.Length > 0)
+			{
+				Console.WriteLine(this.GetHashCode());
+				this.ShortestPath = new Pair[0];
+				RunFromFire(grid, pos);
+				return;
+			}
 
 			if (grid[endPos.X, endPos.Y] is FireExtinguisher)
 				move(grid, pos, this.ShortestPath);
@@ -424,7 +435,7 @@ namespace Library
 		// TODO: This algorithm can make the person stuck...
 		private void RunFromFire(Block[,] grid, Pair pos)
 		{
-			var pointToRunAwayFrom = getAveragePoint(getSurrounding(grid, pos, typeof(Fire), 50)); // TODO: Make this smaller
+			var pointToRunAwayFrom = getAveragePoint(getSurrounding(grid, pos, typeof(Fire), 100)); // TODO: Make this smaller
 
 			if (pointToRunAwayFrom != null)
 			{
@@ -441,7 +452,7 @@ namespace Library
 				else if (pointToRunAwayFrom.Y < pos.Y)
 					newYPos++;
 
-				pathIndex = 0;
+				this.pathIndex = 0;
 				move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) });
 			}
 		}
