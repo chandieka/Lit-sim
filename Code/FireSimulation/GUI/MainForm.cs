@@ -18,7 +18,7 @@ namespace FireSimulator
             InitializeComponent();
 
             int imageSize = (int)(lvFloorplan.Width / 2);
-            System.Drawing.Size size = new System.Drawing.Size(imageSize, imageSize);
+            Size size = new Size(imageSize, imageSize);
             lImageList.ImageSize = size;
             fpImageList.ImageSize = size;
 
@@ -47,7 +47,7 @@ namespace FireSimulator
 
         private void loadFloorplan()
         {
-            ProgressDialog dialog = new ProgressDialog("Loading...", "Loading floorplans and layouts");
+            ProgressDialog dialog = new ProgressDialog("Loading", "Loading floorplans and layouts...");
             BackgroundWorker bw = new BackgroundWorker();
             SaveItem hasFoundDefault = null;
 
@@ -62,8 +62,7 @@ namespace FireSimulator
                 else
                     floorplanController.MoveToTop(hasFoundDefault);
 
-                updateFloorplanGUI();
-                dialog.Close();
+                updateFloorplanGUI(dialog);
             };
             bw.DoWork += (object sender, DoWorkEventArgs e) =>
             {
@@ -124,8 +123,11 @@ namespace FireSimulator
             dialog.ShowDialog();
         }
 
-        private void updateFloorplanGUI()
+        private void updateFloorplanGUI(ProgressDialog dialog = null)
         {
+            dialog?.SetProgressReport("Rendering thumbnails...");
+            dialog?.SetType(ProgressBarStyle.Marquee);
+
             foreach (Bitmap img in fpImageList.Images)
                 img.Dispose();
 
@@ -142,6 +144,8 @@ namespace FireSimulator
                 lvFloorplan.Items[0].Selected = true;
             else
                 lvLayout.Items.Clear();
+
+            dialog?.Close();
         }
 
         private void showDesigner(SaveItem item = null, Grid grid = null)

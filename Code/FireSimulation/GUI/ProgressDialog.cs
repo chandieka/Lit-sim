@@ -43,6 +43,15 @@ namespace FireSimulator
 			}, null);
 		}
 
+		public void SetType(ProgressBarStyle type)
+		{
+			syncContext.Post(o =>
+			{
+				this.lblPercentage.Visible = false;
+				this.pbMain.Style = type;
+			}, null);
+		}
+
 		public new void Close()
         {
 			syncContext.Post(o =>
