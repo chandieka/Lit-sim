@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Library
 {
@@ -46,6 +44,8 @@ namespace Library
 		private Pair[] nearestFirePath = null;
 		[field: NonSerialized]
 		private Thread firePathThread = null;
+		[field: NonSerialized]
+		private Pair[] feLocations;
 		private static int safeDistance = 5;
 
 		public bool HasFireExtinguisher
@@ -227,6 +227,23 @@ namespace Library
 			firePathThread.Start();
 		}
 
+		private void reCalculateFEPath(Block[,] grid, Pair pos)
+		{
+			var bw = new BackgroundWorker();
+
+			bw.WorkerSupportsCancellation = true;
+			bw.WorkerReportsProgress = false;
+
+			bw.RunWorkerCompleted += (o, e) => this.fireExtinguisherGotTaken = false;
+			bw.DoWork += (o, e) =>
+			{
+				feLocations = feLocations.Where(p => grid[p.X, p.Y] is FireExtinguisher).ToArray();
+				CalculatePaths(grid, pos, feLocations, (bw, e));
+			};
+
+			bw.RunWorkerAsync();
+		}
+
 		private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
 		{
 			if (worker.w.CancellationPending)
@@ -266,6 +283,8 @@ namespace Library
 
 		internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
 		{
+			this.feLocations = feLocations.ToArray();
+
 			var task = Task.Run(() =>
 			{
 				this.CalculatePaths(grid, pos, feLocations, worker);
@@ -419,7 +438,10 @@ namespace Library
 			if (grid[endPos.X, endPos.Y] is FireExtinguisher)
 				move(grid, pos, this.ShortestPath);
 			else
+			{
 				this.fireExtinguisherGotTaken = true;
+				reCalculateFEPath(grid, pos);
+			}
 		}
 
 		private void CalculateFirePath(Block[,] grid, Pair myPosPair)

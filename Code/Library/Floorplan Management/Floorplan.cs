@@ -38,7 +38,11 @@ namespace Library
 
 		public void RemoveLayout(Guid layout)
 		{
-			parsedLayouts.RemoveAt(parsedLayouts.FindIndex(_ => _.Item.Id == layout));
+			var foundIndex = parsedLayouts.FindIndex(_ => _.Item.Id == layout);
+
+			if (foundIndex >= 0)
+				parsedLayouts.RemoveAt(foundIndex);
+
 			layouts.Remove(layout);
 		}
 

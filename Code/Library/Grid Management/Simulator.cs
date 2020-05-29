@@ -99,6 +99,7 @@ namespace Library
 		public Action SetupInDifferentThread(Action<bool> callback, Action<int> progress, Action<string> progressReport)
 		{
 			BackgroundWorker bg = new BackgroundWorker();
+			List<Person> persons = new List<Person>();
 			List<Task> tasks = new List<Task>();
 			bool cancelled = false;
 
@@ -127,8 +128,11 @@ namespace Library
 
 							if (entry is Person)
 							{
+								var p = (Person)entry;
+
 								progressReport("Calculating path for person...");
-								var task = ((Person)entry).CalculatePaths(this.grid, new Pair(x, y), fes, (worker, e), () =>
+								persons.Add(p);
+								var task = p.CalculatePaths(this.grid, new Pair(x, y), fes, (worker, e), () =>
 								{
 									if (worker.CancellationPending)
 										e.Cancel = true;

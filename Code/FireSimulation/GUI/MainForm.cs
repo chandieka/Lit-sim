@@ -136,6 +136,7 @@ namespace FireSimulator
 
             foreach (var item in floorplanController.GetAll())
             {
+                // TODO: This could be faster if multithreaded!
                 fpImageList.Images.Add(((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
                 lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, fpImageList.Images.Count - 1);
             }
