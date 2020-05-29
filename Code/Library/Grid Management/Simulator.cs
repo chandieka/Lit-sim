@@ -39,6 +39,12 @@ namespace Library
 		public Simulator DeepCloneSelf()
 			=> new Simulator(this.Clone());
 
+		public void Stop()
+		{
+			Finished = null;
+			killAll();
+		}
+
 		public void Tick()
 		{
 			if (hasTicked && !hasFoundFireInPreviousTick)
