@@ -148,24 +148,55 @@ namespace FireSimulator
             dialog?.Close();
         }
 
-        private void showDesigner(SaveItem item = null, Grid grid = null)
+        private void showDesigner(SaveItem saveItem = null, Grid grid = null)
         {
             DesignerForm form;
 
-            if (item == null && grid != null)
+            if (saveItem == null && grid != null)
                 form = new DesignerForm(grid, null);
-            else if (item != null && grid != null)
-                form = new DesignerForm(grid, item);
-            else if (item == null)
+            else if (saveItem != null && grid != null)
+                form = new DesignerForm(grid, saveItem);
+            else if (saveItem == null)
                 form = new DesignerForm(100, 100); // TODO: Add popup that lets the user choose the size
             else
-                form = new DesignerForm(item);
+                form = new DesignerForm(saveItem);
 
             form.ShowDialog();
-            if (form.IsFloorplan && form.SaveLocation != null)
-                this.floorplanController.Add(SaveLoadManager.Load(form.SaveLocation));
+            if (form.IsFloorplan)
+			{
+                if (form.SaveLocation != null)
+				{
+                    var item = SaveLoadManager.Load(form.SaveLocation);
+                    var key = item.Item.Id.ToString();
 
-            updateFloorplanGUI();
+                    this.floorplanController.Add(item);
+
+                    fpImageList.Images.Add(key, ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
+                    this.lvFloorplan.Items.Add(key, item.Name, key);
+				} else
+				{
+                    var key = saveItem.Item.Id.ToString();
+
+                    fpImageList.Images.RemoveByKey(key);
+                    fpImageList.Images.Add(key, ((Thumbnailable)saveItem.Item).Render(fpImageList.ImageSize.Width));
+                }
+			} else
+			{
+                if (form.SaveLocation != null)
+				{
+                    var item = SaveLoadManager.Load(form.SaveLocation);
+                    var key = item.Item.Id.ToString();
+
+                    lImageList.Images.Add(key, ((Thumbnailable)item.Item).Render(lImageList.ImageSize.Width));
+                    lvLayout.Items.Add(key, item.Name, key);
+				} else
+				{
+                    var key = saveItem.Item.Id.ToString();
+
+                    lImageList.Images.RemoveByKey(key);
+                    lImageList.Images.Add(key, ((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width));
+                }
+			}
         }
 
         private SaveItem getSelectedFloorplan()
@@ -206,7 +237,9 @@ namespace FireSimulator
                 floorplan.DeleteAllChildren();
                 SaveLoadManager.Delete(floorplan);
                 this.floorplanController.Remove(floorplan);
-                updateFloorplanGUI();
+
+                lvFloorplan.Items.RemoveByKey(floorplan.Id.ToString());
+                fpImageList.Images.RemoveByKey(floorplan.Id.ToString());
             }
         }
 
@@ -244,7 +277,9 @@ namespace FireSimulator
 
                     SaveLoadManager.Delete(selected.Value.Layout.Item);
                     SaveLoadManager.Save(selected.Value.Floorplan);
-                    updateFloorplanGUI();
+
+                    lvLayout.Items.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
+                    lImageList.Images.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
                 }
             }
         }
