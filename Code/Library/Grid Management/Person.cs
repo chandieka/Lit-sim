@@ -458,8 +458,12 @@ namespace Library
 					newYPos++;
 
 				this.pathIndex = 0;
-				if (!move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) }))
+				if (grid[newXPos, newYPos] is Floor)
+					move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) });
+				else if (grid[pos.X, newYPos] is Floor)
 					move(grid, pos, new Pair[] { new Pair(pos.X, newYPos) });
+				else if (grid[newXPos, pos.Y] is Floor)
+					move(grid, pos, new Pair[] { new Pair(newXPos, pos.Y) });
 			}
 		}
 		#endregion
