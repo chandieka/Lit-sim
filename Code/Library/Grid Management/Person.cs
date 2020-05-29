@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
@@ -46,6 +43,8 @@ namespace Library
 		private Pair[] nearestFirePath = null;
 		[field: NonSerialized]
 		private Thread firePathThread = null;
+		[field: NonSerialized]
+		private Pair[] feLocations;
 		private static int safeDistance = 5;
 
 		public bool HasFireExtinguisher
@@ -227,6 +226,29 @@ namespace Library
 			firePathThread.Start();
 		}
 
+		private void reCalculateFEPath(Block[,] grid, Pair pos)
+		{
+			var bw = new BackgroundWorker();
+
+			bw.WorkerSupportsCancellation = true;
+			bw.WorkerReportsProgress = false;
+
+			bw.DoWork += (o, e) =>
+			{
+				feLocations = feLocations.Where(p => grid[p.X, p.Y] is FireExtinguisher).ToArray();
+
+				if (feLocations.Length > 0)
+					CalculatePaths(grid, pos, feLocations, (bw, e));
+				else
+				{
+					this.fireExtinguisherGotTaken = true;
+					RunFromFire(grid, pos);
+				}
+			};
+
+			bw.RunWorkerAsync();
+		}
+
 		private void CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker)
 		{
 			if (worker.w.CancellationPending)
@@ -261,11 +283,14 @@ namespace Library
 				return paths.ToArray();
 			}
 
+			this.pathIndex = 1;
 			this.ShortestPath = findShortestPath(findPaths(), worker.w);
 		}
 
 		internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
 		{
+			this.feLocations = feLocations.ToArray();
+
 			var task = Task.Run(() =>
 			{
 				this.CalculatePaths(grid, pos, feLocations, worker);
@@ -288,7 +313,7 @@ namespace Library
 				return;
 			}
 
-			if (this.ShortestPath.Length < 1 || fireExtinguisherGotTaken)
+			if (this.fireExtinguisherGotTaken || this.ShortestPath.Length < 1)
 				RunFromFire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
@@ -419,7 +444,7 @@ namespace Library
 			if (grid[endPos.X, endPos.Y] is FireExtinguisher)
 				move(grid, pos, this.ShortestPath);
 			else
-				this.fireExtinguisherGotTaken = true;
+				reCalculateFEPath(grid, pos);
 		}
 
 		private void CalculateFirePath(Block[,] grid, Pair myPosPair)
@@ -458,8 +483,12 @@ namespace Library
 					newYPos++;
 
 				this.pathIndex = 0;
-				if (!move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) }))
+				if (grid[newXPos, newYPos] is Floor)
+					move(grid, pos, new Pair[] { new Pair(newXPos, newYPos) });
+				else if (grid[pos.X, newYPos] is Floor)
 					move(grid, pos, new Pair[] { new Pair(pos.X, newYPos) });
+				else if (grid[newXPos, pos.Y] is Floor)
+					move(grid, pos, new Pair[] { new Pair(newXPos, pos.Y) });
 			}
 		}
 		#endregion

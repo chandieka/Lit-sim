@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Library
 {
-    public class Pair
+    public class Pair : IEquatable<Pair>
     {
         public readonly int X, Y;
 
@@ -23,13 +19,12 @@ namespace Library
         }
 
         public (int X, int Y) ToTuple()
-        {
-            return (this.X, this.Y);
-        }
+            => (this.X, this.Y);
+
+        public bool Equals(Pair other)
+            => this.X == other.X && this.Y == other.Y;
 
         public override string ToString()
-        {
-            return $"({this.X}, {this.Y})";
-        }
+            => $"({this.X}, {this.Y})";
     }
 }

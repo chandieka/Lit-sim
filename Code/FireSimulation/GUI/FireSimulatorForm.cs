@@ -232,6 +232,9 @@ namespace FireSimulator
 			lblSpeed.Text = trackBarSpeed.Value.ToString();
 			animationLoopTimer.Interval = 10 + (100 - trackBarSpeed.Value);
 		}
+
+		private void FireSimulatorForm_FormClosing(object sender, FormClosingEventArgs e)
+			=> this.simulator.Stop();
 		#endregion
 	}
 }
