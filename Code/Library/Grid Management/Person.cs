@@ -313,7 +313,7 @@ namespace Library
 				return;
 			}
 
-			if (this.fireExtinguisherGotTaken /*|| this.ShortestPath.Length < 1 */)
+			if (this.fireExtinguisherGotTaken || this.ShortestPath.Length < 1)
 				RunFromFire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
