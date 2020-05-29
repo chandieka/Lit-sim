@@ -136,9 +136,8 @@ namespace FireSimulator
 
             foreach (var item in floorplanController.GetAll())
             {
-                // TODO: This could be faster if multithreaded!
-                fpImageList.Images.Add(((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
-                lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, fpImageList.Images.Count - 1);
+                fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
+                lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, item.Item.Id.ToString());
             }
 
             if (lvFloorplan.Items.Count > 0)
@@ -222,7 +221,6 @@ namespace FireSimulator
         private void btnFPCreate_Click(object sender, EventArgs e)
             => showDesigner();
 
-
         private void btnLCopy_Click(object sender, EventArgs e)
         {
             var saveItem = getSelectedLayout();
@@ -290,8 +288,18 @@ namespace FireSimulator
             if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
                 foreach (SaveItem saveItem in ((Floorplan)getSelectedFloorplan().Item).GetAllLayouts(true))
                 {
-                    lImageList.Images.Add(((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width));
-                    lvLayout.Items.Add(saveItem.Item.Id.ToString(), saveItem.Name, lImageList.Images.Count - 1);
+                    new Thread(() =>
+                    {
+                        var thumbnail = ((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width);
+
+                        lvLayout.Invoke(new Action(() =>
+                        {
+                            lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
+                        }));
+                    }).Start();
+
+
+                    lvLayout.Items.Add(saveItem.Item.Id.ToString(), saveItem.Name, saveItem.Item.Id.ToString());
                 }
         }
 
