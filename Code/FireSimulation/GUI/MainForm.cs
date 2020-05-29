@@ -128,12 +128,6 @@ namespace FireSimulator
 			dialog?.SetProgressReport("Rendering thumbnails...");
 			dialog?.SetType(ProgressBarStyle.Marquee);
 
-			foreach (Bitmap img in fpImageList.Images)
-				img.Dispose();
-
-			lvFloorplan.Items.Clear();
-			fpImageList.Images.Clear();
-
 			foreach (var item in floorplanController.GetAll())
 			{
 				fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
