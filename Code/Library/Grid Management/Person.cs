@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Library
 {
@@ -234,11 +233,17 @@ namespace Library
 			bw.WorkerSupportsCancellation = true;
 			bw.WorkerReportsProgress = false;
 
-			bw.RunWorkerCompleted += (o, e) => this.fireExtinguisherGotTaken = false;
 			bw.DoWork += (o, e) =>
 			{
 				feLocations = feLocations.Where(p => grid[p.X, p.Y] is FireExtinguisher).ToArray();
-				CalculatePaths(grid, pos, feLocations, (bw, e));
+
+				if (feLocations.Length > 0)
+					CalculatePaths(grid, pos, feLocations, (bw, e));
+				else
+				{
+					this.fireExtinguisherGotTaken = true;
+					RunFromFire(grid, pos);
+				}
 			};
 
 			bw.RunWorkerAsync();
@@ -278,6 +283,7 @@ namespace Library
 				return paths.ToArray();
 			}
 
+			this.pathIndex = 1;
 			this.ShortestPath = findShortestPath(findPaths(), worker.w);
 		}
 
@@ -307,7 +313,7 @@ namespace Library
 				return;
 			}
 
-			if (this.ShortestPath.Length < 1 || fireExtinguisherGotTaken)
+			if (this.fireExtinguisherGotTaken /*|| this.ShortestPath.Length < 1 */)
 				RunFromFire(grid, new Pair(x, y));
 			else if (HasFireExtinguisher && pathIndex < this.nearestFirePath.Length)
 				Move2Fire(grid, new Pair(x, y));
@@ -438,10 +444,7 @@ namespace Library
 			if (grid[endPos.X, endPos.Y] is FireExtinguisher)
 				move(grid, pos, this.ShortestPath);
 			else
-			{
-				this.fireExtinguisherGotTaken = true;
 				reCalculateFEPath(grid, pos);
-			}
 		}
 
 		private void CalculateFirePath(Block[,] grid, Pair myPosPair)
