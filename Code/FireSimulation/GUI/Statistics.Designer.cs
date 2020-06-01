@@ -54,10 +54,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lbStatistics = new System.Windows.Forms.Label();
             this.gbSimulationPreviews = new System.Windows.Forms.GroupBox();
+            this.panel_overview = new System.Windows.Forms.Panel();
             this.gbOrderMenu = new System.Windows.Forms.GroupBox();
             this.cbbPreviewOrder = new System.Windows.Forms.ComboBox();
             this.lbSort = new System.Windows.Forms.Label();
-            this.panel_overview = new System.Windows.Forms.Panel();
             this.groupBox2.SuspendLayout();
             this.gbSearchMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btSearch)).BeginInit();
@@ -131,6 +131,7 @@
             this.lbSearchResults.Name = "lbSearchResults";
             this.lbSearchResults.Size = new System.Drawing.Size(209, 282);
             this.lbSearchResults.TabIndex = 5;
+            this.lbSearchResults.SelectedIndexChanged += new System.EventHandler(this.lbSearchResults_SelectedIndexChanged);
             // 
             // btSearch
             // 
@@ -155,6 +156,7 @@
             this.tbSearchQuery.Name = "tbSearchQuery";
             this.tbSearchQuery.Size = new System.Drawing.Size(188, 20);
             this.tbSearchQuery.TabIndex = 3;
+            this.tbSearchQuery.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbSearchQuery_KeyPress);
             // 
             // lbSearch
             // 
@@ -367,6 +369,13 @@
             this.gbSimulationPreviews.TabIndex = 2;
             this.gbSimulationPreviews.TabStop = false;
             // 
+            // panel_overview
+            // 
+            this.panel_overview.Location = new System.Drawing.Point(5, 8);
+            this.panel_overview.Name = "panel_overview";
+            this.panel_overview.Size = new System.Drawing.Size(475, 136);
+            this.panel_overview.TabIndex = 0;
+            // 
             // gbOrderMenu
             // 
             this.gbOrderMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -401,13 +410,6 @@
             this.lbSort.Size = new System.Drawing.Size(43, 24);
             this.lbSort.TabIndex = 4;
             this.lbSort.Text = "Sort";
-            // 
-            // panel_overview
-            // 
-            this.panel_overview.Location = new System.Drawing.Point(5, 8);
-            this.panel_overview.Name = "panel_overview";
-            this.panel_overview.Size = new System.Drawing.Size(475, 136);
-            this.panel_overview.TabIndex = 0;
             // 
             // Statistics
             // 
