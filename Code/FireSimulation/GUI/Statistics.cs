@@ -54,6 +54,41 @@ namespace FireSimulator
             this.cbbPreviewOrder.SelectedValueChanged += new EventHandler(SortSimulations);
             this.btReplaySelected.Click += new EventHandler(ReplaySelected);
             this.btSearch.Click += new EventHandler(FilterSimulations);
+            this.tbSearchQuery.GotFocus += new EventHandler(AddPlaceholder);
+            this.tbSearchQuery.LostFocus += new EventHandler(RemovePlaceholder);
+        }
+
+        private void RemovePlaceholder(object sender, EventArgs e)
+        {
+            if (this.tbSearchQuery.Text == "eg. \"Default\"" || this.tbSearchQuery.Text == "eg. \"120\" (In seconds)" || 
+                this.tbSearchQuery.Text == "eg. \"2\"")
+            {
+                this.tbSearchQuery.Text = "";
+            }
+        }
+
+        private void AddPlaceholder(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(this.tbSearchQuery.Text))
+            {
+                if (this.cbbSearchOption.SelectedItem != null)
+                {
+                    SearchOptions option = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+
+                    if (option == SearchOptions.Title)
+                    {
+                        this.tbSearchQuery.Text = "eg. \"Default\"";
+                    }
+                    else if (option == SearchOptions.Duration)
+                    {
+                        this.tbSearchQuery.Text = "eg. \"120\" (In seconds)";
+                    }
+                    else if (option == SearchOptions.Deathcount)
+                    {
+                        this.tbSearchQuery.Text = "eg. \"2\"";
+                    }
+                }
+            }
         }
 
         public void SetSimulations(SaveItem[] simulations)
