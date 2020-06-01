@@ -219,97 +219,10 @@ namespace FireSimulator
 
 			return null;
 		}
-		#endregion
-		#region Event Handler
-		private void btnFPDelete_Click(object sender, EventArgs e)
-		{
-			var saveItem = getSelectedFloorplan();
+        #endregion
+        #region Event Handler
 
-			if (saveItem != null && (saveItem.Item.IsDeletable || MessageBox.Show(
-				"This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
-				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
-			{
-				var floorplan = (Floorplan)saveItem.Item;
-
-				floorplan.DeleteAllChildren();
-				SaveLoadManager.Delete(floorplan);
-				this.floorplanController.Remove(floorplan);
-
-				lvFloorplan.Items.RemoveByKey(floorplan.Id.ToString());
-				fpImageList.Images.RemoveByKey(floorplan.Id.ToString());
-			}
-		}
-
-		private void btnFPCopy_Click(object sender, EventArgs e)
-		{
-			var saveItem = getSelectedFloorplan();
-
-			if (saveItem != null)
-				showDesigner(null, ((Floorplan)saveItem.Item).Clone());
-		}
-
-		private void btnFPCreate_Click(object sender, EventArgs e)
-			=> showDesigner();
-
-		private void btnLCopy_Click(object sender, EventArgs e)
-		{
-			var saveItem = getSelectedLayout();
-
-			if (saveItem != null)
-				showDesigner(saveItem.Value.Floorplan, ((Layout)saveItem.Value.Layout.Item).Clone());
-		}
-
-		private void btnLDelete_Click(object sender, EventArgs e)
-		{
-			var selected = getSelectedLayout();
-
-			if (selected != null)
-			{
-				if (selected.Value.Layout.Item.IsDeletable || MessageBox.Show(
-				"This also removes all simulation data!\nAre you sure you want to proceed?",
-				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-				{
-					((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
-					selected.Value.Layout.Item.DeleteAllChildren();
-
-					SaveLoadManager.Delete(selected.Value.Layout.Item);
-					SaveLoadManager.Save(selected.Value.Floorplan);
-
-					lvLayout.Items.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
-					lImageList.Images.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
-				}
-			}
-		}
-
-		private void btnLRunSimulation_Click(object sender, EventArgs e)
-		{
-			var selected = getSelectedLayout();
-
-			if (selected != null)
-				new FireSimulatorForm(selected.Value.Layout).ShowDialog();
-		}
-
-		private void btnLCreate_Click(object sender, EventArgs e)
-		{
-			var indices = lvFloorplan.SelectedIndices;
-
-			if (indices != null)
-			{
-				if (indices.Count == 1)
-					showDesigner(floorplanController.GetAt(indices[0]));
-			}
-			else
-			{
-				MessageBox.Show(
-					"Please select 1 floorplan to create a layout",
-					"Warning",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Warning
-					);
-			}
-		}
-
-		private void lvFloorplan_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvFloorplan_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			lvLayout.Items.Clear();
 
@@ -335,21 +248,110 @@ namespace FireSimulator
 				}
 		}
 
-		private void btn_open_Click(object sender, EventArgs e)
-		{
-			var floorplan = getSelectedFloorplan();
+        private void pbFPCopy_Click(object sender, EventArgs e)
+        {
+            var saveItem = getSelectedFloorplan();
 
-			Statistics form;
+            if (saveItem != null)
+                showDesigner(null, ((Floorplan)saveItem.Item).Clone());
+        }
+
+        private void pbFPDelete_Click(object sender, EventArgs e)
+        {
+            var saveItem = getSelectedFloorplan();
+
+            if (saveItem != null && (saveItem.Item.IsDeletable || MessageBox.Show(
+                "This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
+            {
+                var floorplan = (Floorplan)saveItem.Item;
+
+                floorplan.DeleteAllChildren();
+                SaveLoadManager.Delete(floorplan);
+                this.floorplanController.Remove(floorplan);
+
+                lvFloorplan.Items.RemoveByKey(floorplan.Id.ToString());
+                fpImageList.Images.RemoveByKey(floorplan.Id.ToString());
+            }
+        }
 
 
-			if (floorplan == null)
-				MessageBox.Show("Please select a floorplan.");
-			else
-			{
-				form = new Statistics(floorplan);
-				form.ShowDialog();
-			}
-		}
-		#endregion
-	}
+        private void pbFPCreate_Click(object sender, EventArgs e)
+            => showDesigner();
+
+        private void pbLCopy_Click(object sender, EventArgs e)
+        {
+            var saveItem = getSelectedLayout();
+
+            if (saveItem != null)
+                showDesigner(saveItem.Value.Floorplan, ((Layout)saveItem.Value.Layout.Item).Clone());
+        }
+
+        private void pbLDelete_Click(object sender, EventArgs e)
+        {
+            var selected = getSelectedLayout();
+
+            if (selected != null)
+            {
+                if (selected.Value.Layout.Item.IsDeletable || MessageBox.Show(
+                "This also removes all simulation data!\nAre you sure you want to proceed?",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    ((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
+                    selected.Value.Layout.Item.DeleteAllChildren();
+
+                    SaveLoadManager.Delete(selected.Value.Layout.Item);
+                    SaveLoadManager.Save(selected.Value.Floorplan);
+
+                    lvLayout.Items.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
+                    lImageList.Images.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
+                }
+            }
+        }
+
+        private void pbLCreate_Click(object sender, EventArgs e)
+        {
+            var indices = lvFloorplan.SelectedIndices;
+
+            if (indices != null)
+            {
+                if (indices.Count == 1)
+                    showDesigner(floorplanController.GetAt(indices[0]));
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Please select 1 floorplan to create a layout",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                    );
+            }
+        }
+
+        private void pbLRun_Click(object sender, EventArgs e)
+        {
+            var selected = getSelectedLayout();
+
+            if (selected != null)
+                new FireSimulatorForm(selected.Value.Layout).ShowDialog();
+        }
+
+        private void pbFPOpen_Click(object sender, EventArgs e)
+        {
+            var floorplan = getSelectedFloorplan();
+
+            Statistics form;
+
+
+            if (floorplan == null)
+                MessageBox.Show("Please select a floorplan.");
+            else
+            {
+                form = new Statistics(floorplan);
+                form.ShowDialog();
+            }
+        }
+        #endregion
+    }
 }
