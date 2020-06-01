@@ -12,12 +12,14 @@ namespace FireSimulator
 	public partial class MainForm : Form
 	{
 		private readonly FloorplanController floorplanController;
+        private int pageFCount;
+        private int pageFNr = 0;
 
 		public MainForm()
 		{
 			InitializeComponent();
 
-			int imageSize = (int)(lvFloorplan.Width / 2);
+			int imageSize = (int)(lvFloorplan.Width / 5);
 			Size size = new Size(imageSize, imageSize);
 			lImageList.ImageSize = size;
 			fpImageList.ImageSize = size;
@@ -128,19 +130,43 @@ namespace FireSimulator
 			dialog?.SetProgressReport("Rendering thumbnails...");
 			dialog?.SetType(ProgressBarStyle.Marquee);
 
-			foreach (var item in floorplanController.GetAll())
-			{
-				fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
-				lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, item.Item.Id.ToString());
-			}
+            SaveItem[] items = floorplanController.GetAll();
+            pageFCount = items.Length/9;
+            if (items.Length%9 > 0)
+            {
+                pageFCount++;
+            }
+            if (pageFCount == 1)
+            {
+                pbFNext.Enabled = false;
+            }
 
-			if (lvFloorplan.Items.Count > 0)
+            LoadFPage(pageFNr);
+
+            if (lvFloorplan.Items.Count > 0)
 				lvFloorplan.Items[0].Selected = true;
 			else
 				lvLayout.Items.Clear();
 
 			dialog?.Close();
 		}
+
+        private void LoadFPage(int page)
+        {
+            SaveItem[] items = floorplanController.GetAll();
+            lvFloorplan.Items.Clear();
+            fpImageList.Images.Clear();
+            for (int i = page*9; i < ((page*9) + 9); i++)
+            {
+                if (i < items.Length)
+                {
+                    var item = items[i];
+                    fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
+                    lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, item.Item.Id.ToString());
+                }
+            }
+            lvFloorplan_SelectedIndexChanged(null, null);
+        }
 
 		private void showDesigner(SaveItem saveItem = null, Grid grid = null)
 		{
@@ -200,7 +226,7 @@ namespace FireSimulator
 		{
 			var selectedItems = lvFloorplan.SelectedIndices;
 			if (selectedItems != null && selectedItems.Count > 0)
-				return floorplanController.GetFloorplanAt(selectedItems[0]);
+				return floorplanController.GetFloorplanAt(selectedItems[0]+pageFNr*9);
 
 			return null;
 		}
@@ -275,7 +301,6 @@ namespace FireSimulator
             }
         }
 
-
         private void pbFPCreate_Click(object sender, EventArgs e)
             => showDesigner();
 
@@ -316,7 +341,7 @@ namespace FireSimulator
             if (indices != null)
             {
                 if (indices.Count == 1)
-                    showDesigner(floorplanController.GetAt(indices[0]));
+                    showDesigner(floorplanController.GetAt(indices[0] + pageFNr*9));
             }
             else
             {
@@ -353,5 +378,28 @@ namespace FireSimulator
             }
         }
         #endregion
+
+        private void pbFNext_Click(object sender, EventArgs e)
+        {
+            pageFNr++;
+            LoadFPage(pageFNr);
+            pbFPrevious.Enabled = true;
+            if (pageFNr == pageFCount - 1)
+            {
+                pbFNext.Enabled = false;
+            }
+
+        }
+
+        private void pbFPrevious_Click(object sender, EventArgs e)
+        {
+            pageFNr--;
+            LoadFPage(pageFNr);
+            pbFNext.Enabled = true;
+            if (pageFNr == 0)
+            {
+                pbFPrevious.Enabled = false;
+            }
+        }
     }
 }

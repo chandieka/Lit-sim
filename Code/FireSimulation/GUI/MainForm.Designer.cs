@@ -30,6 +30,8 @@
 		{
             this.components = new System.ComponentModel.Container();
             this.gbFloorplan = new System.Windows.Forms.GroupBox();
+            this.pbFPrevious = new System.Windows.Forms.PictureBox();
+            this.pbFNext = new System.Windows.Forms.PictureBox();
             this.pbFPOpen = new System.Windows.Forms.PictureBox();
             this.pbFPDelete = new System.Windows.Forms.PictureBox();
             this.pbFPCreate = new System.Windows.Forms.PictureBox();
@@ -43,7 +45,11 @@
             this.pbLCopy = new System.Windows.Forms.PictureBox();
             this.lvLayout = new System.Windows.Forms.ListView();
             this.lImageList = new System.Windows.Forms.ImageList(this.components);
+            this.pbLPrevious = new System.Windows.Forms.PictureBox();
+            this.pbLNext = new System.Windows.Forms.PictureBox();
             this.gbFloorplan.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFPrevious)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFNext)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPOpen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPCreate)).BeginInit();
@@ -53,12 +59,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCreate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCopy)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLPrevious)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLNext)).BeginInit();
             this.SuspendLayout();
             // 
             // gbFloorplan
             // 
             this.gbFloorplan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.gbFloorplan.Controls.Add(this.pbFPrevious);
+            this.gbFloorplan.Controls.Add(this.pbFNext);
             this.gbFloorplan.Controls.Add(this.pbFPOpen);
             this.gbFloorplan.Controls.Add(this.pbFPDelete);
             this.gbFloorplan.Controls.Add(this.pbFPCreate);
@@ -73,10 +83,36 @@
             this.gbFloorplan.TabStop = false;
             this.gbFloorplan.Text = "Floorplan";
             // 
+            // pbFPrevious
+            // 
+            this.pbFPrevious.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbFPrevious.Enabled = false;
+            this.pbFPrevious.Image = global::FireSimulator.Icons.previous;
+            this.pbFPrevious.Location = new System.Drawing.Point(154, 486);
+            this.pbFPrevious.Name = "pbFPrevious";
+            this.pbFPrevious.Size = new System.Drawing.Size(100, 38);
+            this.pbFPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFPrevious.TabIndex = 11;
+            this.pbFPrevious.TabStop = false;
+            this.pbFPrevious.Click += new System.EventHandler(this.pbFPrevious_Click);
+            // 
+            // pbFNext
+            // 
+            this.pbFNext.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbFNext.Image = global::FireSimulator.Icons.next;
+            this.pbFNext.Location = new System.Drawing.Point(260, 486);
+            this.pbFNext.Name = "pbFNext";
+            this.pbFNext.Size = new System.Drawing.Size(100, 38);
+            this.pbFNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFNext.TabIndex = 10;
+            this.pbFNext.TabStop = false;
+            this.pbFNext.Click += new System.EventHandler(this.pbFNext_Click);
+            // 
             // pbFPOpen
             // 
+            this.pbFPOpen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbFPOpen.Image = global::FireSimulator.Icons.open;
-            this.pbFPOpen.Location = new System.Drawing.Point(240, 571);
+            this.pbFPOpen.Location = new System.Drawing.Point(366, 563);
             this.pbFPOpen.Name = "pbFPOpen";
             this.pbFPOpen.Size = new System.Drawing.Size(100, 50);
             this.pbFPOpen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -86,8 +122,9 @@
             // 
             // pbFPDelete
             // 
+            this.pbFPDelete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbFPDelete.Image = global::FireSimulator.Icons.trash;
-            this.pbFPDelete.Location = new System.Drawing.Point(240, 502);
+            this.pbFPDelete.Location = new System.Drawing.Point(260, 563);
             this.pbFPDelete.Name = "pbFPDelete";
             this.pbFPDelete.Size = new System.Drawing.Size(100, 50);
             this.pbFPDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -97,8 +134,9 @@
             // 
             // pbFPCreate
             // 
+            this.pbFPCreate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbFPCreate.Image = global::FireSimulator.Icons.plus;
-            this.pbFPCreate.Location = new System.Drawing.Point(134, 571);
+            this.pbFPCreate.Location = new System.Drawing.Point(48, 563);
             this.pbFPCreate.Name = "pbFPCreate";
             this.pbFPCreate.Size = new System.Drawing.Size(100, 50);
             this.pbFPCreate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -109,8 +147,9 @@
             // pbFPCopy
             // 
             this.pbFPCopy.BackColor = System.Drawing.SystemColors.Control;
+            this.pbFPCopy.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbFPCopy.Image = global::FireSimulator.Icons.copy;
-            this.pbFPCopy.Location = new System.Drawing.Point(134, 502);
+            this.pbFPCopy.Location = new System.Drawing.Point(154, 563);
             this.pbFPCopy.Name = "pbFPCopy";
             this.pbFPCopy.Size = new System.Drawing.Size(100, 50);
             this.pbFPCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -146,7 +185,9 @@
             // 
             this.gbLayout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbLayout.Controls.Add(this.pbLPrevious);
             this.gbLayout.Controls.Add(this.pbLRun);
+            this.gbLayout.Controls.Add(this.pbLNext);
             this.gbLayout.Controls.Add(this.pbLDelete);
             this.gbLayout.Controls.Add(this.pbLCreate);
             this.gbLayout.Controls.Add(this.pbLCopy);
@@ -162,8 +203,9 @@
             // 
             // pbLRun
             // 
+            this.pbLRun.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbLRun.Image = global::FireSimulator.Icons.play_button;
-            this.pbLRun.Location = new System.Drawing.Point(285, 571);
+            this.pbLRun.Location = new System.Drawing.Point(375, 563);
             this.pbLRun.Name = "pbLRun";
             this.pbLRun.Size = new System.Drawing.Size(100, 50);
             this.pbLRun.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -173,8 +215,9 @@
             // 
             // pbLDelete
             // 
+            this.pbLDelete.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbLDelete.Image = global::FireSimulator.Icons.trash;
-            this.pbLDelete.Location = new System.Drawing.Point(285, 502);
+            this.pbLDelete.Location = new System.Drawing.Point(269, 563);
             this.pbLDelete.Name = "pbLDelete";
             this.pbLDelete.Size = new System.Drawing.Size(100, 50);
             this.pbLDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -184,8 +227,9 @@
             // 
             // pbLCreate
             // 
+            this.pbLCreate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbLCreate.Image = global::FireSimulator.Icons.plus;
-            this.pbLCreate.Location = new System.Drawing.Point(179, 571);
+            this.pbLCreate.Location = new System.Drawing.Point(57, 563);
             this.pbLCreate.Name = "pbLCreate";
             this.pbLCreate.Size = new System.Drawing.Size(100, 50);
             this.pbLCreate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -196,8 +240,9 @@
             // pbLCopy
             // 
             this.pbLCopy.BackColor = System.Drawing.SystemColors.Control;
+            this.pbLCopy.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbLCopy.Image = global::FireSimulator.Icons.copy;
-            this.pbLCopy.Location = new System.Drawing.Point(179, 502);
+            this.pbLCopy.Location = new System.Drawing.Point(163, 563);
             this.pbLCopy.Name = "pbLCopy";
             this.pbLCopy.Size = new System.Drawing.Size(100, 50);
             this.pbLCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -227,6 +272,29 @@
             this.lImageList.ImageSize = new System.Drawing.Size(16, 16);
             this.lImageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // pbLPrevious
+            // 
+            this.pbLPrevious.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbLPrevious.Enabled = false;
+            this.pbLPrevious.Image = global::FireSimulator.Icons.previous;
+            this.pbLPrevious.Location = new System.Drawing.Point(163, 486);
+            this.pbLPrevious.Name = "pbLPrevious";
+            this.pbLPrevious.Size = new System.Drawing.Size(100, 38);
+            this.pbLPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLPrevious.TabIndex = 13;
+            this.pbLPrevious.TabStop = false;
+            // 
+            // pbLNext
+            // 
+            this.pbLNext.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbLNext.Image = global::FireSimulator.Icons.next;
+            this.pbLNext.Location = new System.Drawing.Point(269, 486);
+            this.pbLNext.Name = "pbLNext";
+            this.pbLNext.Size = new System.Drawing.Size(100, 38);
+            this.pbLNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLNext.TabIndex = 12;
+            this.pbLNext.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -241,6 +309,8 @@
             this.Name = "MainForm";
             this.Text = "Lit - Main";
             this.gbFloorplan.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbFPrevious)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFNext)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPOpen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPCreate)).EndInit();
@@ -250,6 +320,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCreate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCopy)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLPrevious)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLNext)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -270,5 +342,9 @@
         private System.Windows.Forms.PictureBox pbLDelete;
         private System.Windows.Forms.PictureBox pbLCreate;
         private System.Windows.Forms.PictureBox pbLCopy;
+        private System.Windows.Forms.PictureBox pbFNext;
+        private System.Windows.Forms.PictureBox pbFPrevious;
+        private System.Windows.Forms.PictureBox pbLPrevious;
+        private System.Windows.Forms.PictureBox pbLNext;
     }
 }
