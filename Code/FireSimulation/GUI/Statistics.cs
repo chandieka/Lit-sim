@@ -54,6 +54,41 @@ namespace FireSimulator
             this.cbbPreviewOrder.SelectedValueChanged += new EventHandler(SortSimulations);
             this.btReplaySelected.Click += new EventHandler(ReplaySelected);
             this.btSearch.Click += new EventHandler(FilterSimulations);
+            this.tbSearchQuery.GotFocus += new EventHandler(AddPlaceholder);
+            this.tbSearchQuery.LostFocus += new EventHandler(RemovePlaceholder);
+        }
+
+        private void RemovePlaceholder(object sender, EventArgs e)
+        {
+            if (this.tbSearchQuery.Text == "eg. \"Default\"" || this.tbSearchQuery.Text == "eg. \"120\" (In seconds)" || 
+                this.tbSearchQuery.Text == "eg. \"2\"")
+            {
+                this.tbSearchQuery.Text = "";
+            }
+        }
+
+        private void AddPlaceholder(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(this.tbSearchQuery.Text))
+            {
+                if (this.cbbSearchOption.SelectedItem != null)
+                {
+                    SearchOptions option = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+
+                    if (option == SearchOptions.Title)
+                    {
+                        this.tbSearchQuery.Text = "eg. \"Default\"";
+                    }
+                    else if (option == SearchOptions.Duration)
+                    {
+                        this.tbSearchQuery.Text = "eg. \"120\" (In seconds)";
+                    }
+                    else if (option == SearchOptions.Deathcount)
+                    {
+                        this.tbSearchQuery.Text = "eg. \"2\"";
+                    }
+                }
+            }
         }
 
         public void SetSimulations(SaveItem[] simulations)
@@ -129,15 +164,15 @@ namespace FireSimulator
 
         private void FilterLayouts(SearchOptions options, string searchQuery)
         {
-            //all commented line were here before I staterted my task and idk what to do with them
-            //List<FileInfo> filtered = new List<FileInfo>();
             List<SaveItem> filered = new List<SaveItem>();
 
             foreach (SaveItem layout in this.layouts)
             {
                 if (options == SearchOptions.Title)
                 {
-                    if (layout.Name == searchQuery)
+                    string layoutName = layout.Name.ToLower();
+
+                    if (layoutName.Contains(searchQuery.ToLower()))
                         filered.Add(layout);
                 }
                 else if (options == SearchOptions.Duration)
@@ -179,13 +214,6 @@ namespace FireSimulator
             }
 
             this.UpdateSearchResults(filered);
-
-            /*for (int i = 0; i < this.simulations.Length; i++)
-			{
-				//this.simulations[i].
-			}*/
-
-            //this.SortSimulations(filtered.ToArray());
         }
 
         private void UpdateSearchResults(List<SaveItem> layouts)
@@ -194,7 +222,7 @@ namespace FireSimulator
 
             foreach (SaveItem layout in layouts)
             {
-                this.lbSearchResults.Items.Add(layout.Name);
+                this.lbSearchResults.Items.Add(layout);
             }
         }
 
@@ -237,6 +265,14 @@ namespace FireSimulator
             }
         }
 
+        private void lbSearchResults_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbSearchResults.SelectedItem != null)
+            {
+                showStatistics((SaveItem)lbSearchResults.SelectedItem);
+            }
+        }
+
         private void showStatistics(object sender, MouseEventArgs e, SaveItem l)
         {
             simData = ((Layout)l.Item).GetSimulatioData();
@@ -273,8 +309,63 @@ namespace FireSimulator
             }
         }
 
+        private void showStatistics(SaveItem l)
+        {
+            simData = ((Layout)l.Item).GetSimulatioData();
+
+            float totalDeaths = 0;
+            int people = 0;
+            DateTime start, end;
+
+            if (simData.Length > 0)
+            {
+                start = simData[0].DateOfSimulation;
+                people = simData[0].NrOfPeople;
+                end = simData[simData.Length - 1].DateOfSimulation;
+
+                foreach (var data in simData)
+                {
+                    totalDeaths += data.NrOfDeaths;
+                }
+
+                PictureBox pb = this.pbSelectedPreview;
+                pbSelectedPreview.Image = pb.Image;
+                pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
+
+                lbl_name.Text = l.Name;
+                lbl_total_sims.Text = $"{simData.Length}";
+                lbl_total_people.Text = $"{people}";
+                lbl_start_date.Text = $"{start.ToShortDateString()}";
+                lbl_end_date.Text = $"{end.ToShortDateString()}";
+                lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
+            }
+            else
+            {
+                MessageBox.Show($"No simulation data found for {l.Name} layout.");
+            }
+        }
+
+
+
         private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
         {
+        }
+
+        private void tbSearchQuery_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                if (this.cbbSearchOption.SelectedItem == null)
+                {
+                    MessageBox.Show("Please select a search option", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+                string query = this.tbSearchQuery.Text;
+
+                this.FilterLayouts(options, query);
+            }
         }
     }
 }

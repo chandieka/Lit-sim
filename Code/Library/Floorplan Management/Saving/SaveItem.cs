@@ -16,5 +16,10 @@ namespace Library
 			this.Item = saveItem;
 			this.Name = name;
 		}
+
+		public override string ToString()
+		{
+			return this.Name;
+		}
 	}
 }
