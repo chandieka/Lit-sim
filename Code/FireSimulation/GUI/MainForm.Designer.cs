@@ -39,14 +39,15 @@
             this.lvFloorplan = new System.Windows.Forms.ListView();
             this.fpImageList = new System.Windows.Forms.ImageList(this.components);
             this.gbLayout = new System.Windows.Forms.GroupBox();
+            this.pbLPrevious = new System.Windows.Forms.PictureBox();
             this.pbLRun = new System.Windows.Forms.PictureBox();
+            this.pbLNext = new System.Windows.Forms.PictureBox();
             this.pbLDelete = new System.Windows.Forms.PictureBox();
             this.pbLCreate = new System.Windows.Forms.PictureBox();
             this.pbLCopy = new System.Windows.Forms.PictureBox();
             this.lvLayout = new System.Windows.Forms.ListView();
             this.lImageList = new System.Windows.Forms.ImageList(this.components);
-            this.pbLPrevious = new System.Windows.Forms.PictureBox();
-            this.pbLNext = new System.Windows.Forms.PictureBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.gbFloorplan.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPrevious)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFNext)).BeginInit();
@@ -55,12 +56,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbFPCreate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPCopy)).BeginInit();
             this.gbLayout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLPrevious)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLRun)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLNext)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCreate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCopy)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLPrevious)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLNext)).BeginInit();
             this.SuspendLayout();
             // 
             // gbFloorplan
@@ -201,6 +202,19 @@
             this.gbLayout.TabStop = false;
             this.gbLayout.Text = "Layout";
             // 
+            // pbLPrevious
+            // 
+            this.pbLPrevious.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbLPrevious.Enabled = false;
+            this.pbLPrevious.Image = global::FireSimulator.Icons.previous;
+            this.pbLPrevious.Location = new System.Drawing.Point(163, 486);
+            this.pbLPrevious.Name = "pbLPrevious";
+            this.pbLPrevious.Size = new System.Drawing.Size(100, 38);
+            this.pbLPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLPrevious.TabIndex = 13;
+            this.pbLPrevious.TabStop = false;
+            this.pbLPrevious.Click += new System.EventHandler(this.pbLPrevious_Click);
+            // 
             // pbLRun
             // 
             this.pbLRun.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -212,6 +226,18 @@
             this.pbLRun.TabIndex = 13;
             this.pbLRun.TabStop = false;
             this.pbLRun.Click += new System.EventHandler(this.pbLRun_Click);
+            // 
+            // pbLNext
+            // 
+            this.pbLNext.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbLNext.Image = global::FireSimulator.Icons.next;
+            this.pbLNext.Location = new System.Drawing.Point(269, 486);
+            this.pbLNext.Name = "pbLNext";
+            this.pbLNext.Size = new System.Drawing.Size(100, 38);
+            this.pbLNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbLNext.TabIndex = 12;
+            this.pbLNext.TabStop = false;
+            this.pbLNext.Click += new System.EventHandler(this.pbLNext_Click);
             // 
             // pbLDelete
             // 
@@ -271,31 +297,21 @@
             this.lImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.lImageList.ImageSize = new System.Drawing.Size(16, 16);
             this.lImageList.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // pbLPrevious
-            // 
-            this.pbLPrevious.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbLPrevious.Enabled = false;
-            this.pbLPrevious.Image = global::FireSimulator.Icons.previous;
-            this.pbLPrevious.Location = new System.Drawing.Point(163, 486);
-            this.pbLPrevious.Name = "pbLPrevious";
-            this.pbLPrevious.Size = new System.Drawing.Size(100, 38);
-            this.pbLPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbLPrevious.TabIndex = 13;
-            this.pbLPrevious.TabStop = false;
-            this.pbLPrevious.Click += new System.EventHandler(this.pbLPrevious_Click);
-            // 
-            // pbLNext
-            // 
-            this.pbLNext.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbLNext.Image = global::FireSimulator.Icons.next;
-            this.pbLNext.Location = new System.Drawing.Point(269, 486);
-            this.pbLNext.Name = "pbLNext";
-            this.pbLNext.Size = new System.Drawing.Size(100, 38);
-            this.pbLNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbLNext.TabIndex = 12;
-            this.pbLNext.TabStop = false;
-            this.pbLNext.Click += new System.EventHandler(this.pbLNext_Click);
+            //
+            // ToolTip
+            //
+            toolTip1.SetToolTip(pbFNext, "Next page");
+            toolTip1.SetToolTip(pbFPrevious, "Previous page");
+            toolTip1.SetToolTip(pbFPCreate, "Create floorplan");
+            toolTip1.SetToolTip(pbFPCopy, "Copy floorplan");
+            toolTip1.SetToolTip(pbFPDelete, "Delete floorplan");
+            toolTip1.SetToolTip(pbFPOpen, "Open floorplan");
+            toolTip1.SetToolTip(pbLNext, "Next page");
+            toolTip1.SetToolTip(pbLPrevious, "Previous page");
+            toolTip1.SetToolTip(pbLCreate, "Create layout");
+            toolTip1.SetToolTip(pbLCopy, "Copy layout");
+            toolTip1.SetToolTip(pbLDelete, "Delete layout");
+            toolTip1.SetToolTip(pbLRun, "Simulate layout");
             // 
             // MainForm
             // 
@@ -318,12 +334,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbFPCreate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbFPCopy)).EndInit();
             this.gbLayout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbLPrevious)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLRun)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLNext)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCreate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLCopy)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLPrevious)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLNext)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -348,5 +364,6 @@
         private System.Windows.Forms.PictureBox pbFPrevious;
         private System.Windows.Forms.PictureBox pbLPrevious;
         private System.Windows.Forms.PictureBox pbLNext;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

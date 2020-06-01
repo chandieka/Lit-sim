@@ -101,6 +101,11 @@ namespace Library
             // Create a new bitmap
             int width = grid.GetLength(0) * scaleSize.xScale;
             int height = grid.GetLength(1) * scaleSize.yScale;
+            if (width%4 != 0 || height%4 != 0)
+            {
+                width = width + width % 4;
+                height = height + height % 4;
+            }
             var bitmap = new Bitmap(width,height);
 			return UseGraphics(bitmap);
 		}
