@@ -98,8 +98,10 @@ namespace Library
 				return bmp;
 			}
 
-			// Create a new bitmap
-			var bitmap = new Bitmap(grid.GetLength(0) * scaleSize.xScale, grid.GetLength(1) * scaleSize.yScale);
+            // Create a new bitmap
+            int width = grid.GetLength(0) * scaleSize.xScale;
+            int height = grid.GetLength(1) * scaleSize.yScale;
+            var bitmap = new Bitmap(width,height);
 			return UseGraphics(bitmap);
 		}
 	}

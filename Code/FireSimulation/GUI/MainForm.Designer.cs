@@ -283,6 +283,7 @@
             this.pbLPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLPrevious.TabIndex = 13;
             this.pbLPrevious.TabStop = false;
+            this.pbLPrevious.Click += new System.EventHandler(this.pbLPrevious_Click);
             // 
             // pbLNext
             // 
@@ -294,6 +295,7 @@
             this.pbLNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLNext.TabIndex = 12;
             this.pbLNext.TabStop = false;
+            this.pbLNext.Click += new System.EventHandler(this.pbLNext_Click);
             // 
             // MainForm
             // 
