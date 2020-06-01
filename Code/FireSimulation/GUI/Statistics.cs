@@ -367,5 +367,11 @@ namespace FireSimulator
                 this.FilterLayouts(options, query);
             }
         }
+
+        private void btn_open_graphs_Click(object sender, EventArgs e)
+        {            
+            GraphForm form = new GraphForm();
+            form.ShowDialog();
+        }
     }
 }
