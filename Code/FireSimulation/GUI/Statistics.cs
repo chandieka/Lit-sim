@@ -302,10 +302,12 @@ namespace FireSimulator
                 lbl_start_date.Text = $"{start.ToShortDateString()}";
                 lbl_end_date.Text = $"{end.ToShortDateString()}";
                 lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
+                btn_open_graphs.Enabled = true;
             }
             else
             {
                 MessageBox.Show($"No simulation data found for {l.Name} layout.");
+                
             }
         }
 
@@ -338,6 +340,7 @@ namespace FireSimulator
                 lbl_start_date.Text = $"{start.ToShortDateString()}";
                 lbl_end_date.Text = $"{end.ToShortDateString()}";
                 lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
+                btn_open_graphs.Enabled = true;
             }
             else
             {

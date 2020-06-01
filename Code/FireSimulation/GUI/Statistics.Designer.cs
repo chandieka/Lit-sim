@@ -38,6 +38,7 @@
             this.lbSearch = new System.Windows.Forms.Label();
             this.pbSelectedPreview = new System.Windows.Forms.PictureBox();
             this.gbStatisticsMenu = new System.Windows.Forms.GroupBox();
+            this.btn_open_graphs = new System.Windows.Forms.Button();
             this.lbl_name = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.gbOrderMenu = new System.Windows.Forms.GroupBox();
             this.cbbPreviewOrder = new System.Windows.Forms.ComboBox();
             this.lbSort = new System.Windows.Forms.Label();
-            this.btn_open_graphs = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.gbSearchMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btSearch)).BeginInit();
@@ -210,6 +210,17 @@
             this.gbStatisticsMenu.Size = new System.Drawing.Size(255, 408);
             this.gbStatisticsMenu.TabIndex = 1;
             this.gbStatisticsMenu.TabStop = false;
+            // 
+            // btn_open_graphs
+            // 
+            this.btn_open_graphs.Enabled = false;
+            this.btn_open_graphs.Location = new System.Drawing.Point(129, 351);
+            this.btn_open_graphs.Name = "btn_open_graphs";
+            this.btn_open_graphs.Size = new System.Drawing.Size(105, 28);
+            this.btn_open_graphs.TabIndex = 15;
+            this.btn_open_graphs.Text = "Graphs";
+            this.btn_open_graphs.UseVisualStyleBackColor = true;
+            this.btn_open_graphs.Click += new System.EventHandler(this.btn_open_graphs_Click);
             // 
             // lbl_name
             // 
@@ -412,16 +423,6 @@
             this.lbSort.Size = new System.Drawing.Size(43, 24);
             this.lbSort.TabIndex = 4;
             this.lbSort.Text = "Sort";
-            // 
-            // btn_open_graphs
-            // 
-            this.btn_open_graphs.Location = new System.Drawing.Point(129, 351);
-            this.btn_open_graphs.Name = "btn_open_graphs";
-            this.btn_open_graphs.Size = new System.Drawing.Size(105, 28);
-            this.btn_open_graphs.TabIndex = 15;
-            this.btn_open_graphs.Text = "Graphs";
-            this.btn_open_graphs.UseVisualStyleBackColor = true;
-            this.btn_open_graphs.Click += new System.EventHandler(this.btn_open_graphs_Click);
             // 
             // Statistics
             // 
