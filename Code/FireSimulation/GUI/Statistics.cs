@@ -13,6 +13,7 @@ namespace FireSimulator
     {
         private enum SortingOptions
         {
+            None,
             MostDeaths,
             LeastDeaths,
             MostSuccessful,
@@ -48,10 +49,11 @@ namespace FireSimulator
 
             // put options into the drobdown boxes
             this.cbbPreviewOrder.Items.AddRange(Enum.GetNames(typeof(SortingOptions)));
+            this.cbbPreviewOrder.SelectedItem = Enum.GetName(typeof(SortingOptions), SortingOptions.None);
             this.cbbSearchOption.Items.AddRange(Enum.GetNames(typeof(SearchOptions)));
 
             // add eventhandlers to controls
-            this.cbbPreviewOrder.SelectedValueChanged += new EventHandler(SortSimulations);
+            this.cbbPreviewOrder.SelectedIndexChanged += new EventHandler(SortSimulations);
             this.btReplaySelected.Click += new EventHandler(ReplaySelected);
             this.btSearch.Click += new EventHandler(FilterSimulations);
             this.tbSearchQuery.GotFocus += new EventHandler(AddPlaceholder);
@@ -60,7 +62,7 @@ namespace FireSimulator
 
         private void RemovePlaceholder(object sender, EventArgs e)
         {
-            if (this.tbSearchQuery.Text == "eg. \"Default\"" || this.tbSearchQuery.Text == "eg. \"120\" (In seconds)" || 
+            if (this.tbSearchQuery.Text == "eg. \"Default\"" || this.tbSearchQuery.Text == "eg. \"120\" (In seconds)" ||
                 this.tbSearchQuery.Text == "eg. \"2\"")
             {
                 this.tbSearchQuery.Text = "";
@@ -96,29 +98,6 @@ namespace FireSimulator
             this.layouts = simulations;
         }
 
-        private void ShowSimulations()
-        {
-            this.panel_overview.Controls.Clear();
-
-            int xSpacer = 50;
-            this.panel_overview.Controls.AddRange(
-            this.layouts.Select(_ =>
-            {
-                var pb = new PictureBox();
-                var layout = (Layout)_.Item;
-                pb.Image = layout.Render(16);
-                pb.SizeMode = PictureBoxSizeMode.Zoom;
-                pb.Size = new Size(130, 130);
-                pb.Location = new Point(xSpacer, 5);
-                pb.Click += new EventHandler((s, e) =>
-                {
-                    this.floorplan = _;
-                });
-                xSpacer += 130;
-                return pb;
-            }).ToArray());
-        }
-
         private void ReplaySelected(object sender, EventArgs e)
         {
             // TODO
@@ -131,6 +110,11 @@ namespace FireSimulator
 
             switch (option)
             {
+                case SortingOptions.None:
+                {
+                    sorted = this.layouts;
+                    break;
+                }
                 case SortingOptions.LeastDeaths:
                 {
                     sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageDeathAmount())).OrderBy(_ => _.Item2).Select(_ => _._).ToArray();
@@ -154,7 +138,7 @@ namespace FireSimulator
             }
 
             this.layouts = sorted;
-            this.ShowSimulations();
+            populateLayoutPreview();
         }
 
         private void SortSimulations(object sender, EventArgs e)
@@ -246,6 +230,8 @@ namespace FireSimulator
 
         private void populateLayoutPreview()
         {
+            this.panel_overview.Controls.Clear();
+
             if (layouts.Length > 0)
             {
                 for (int i = 0; i < layouts.Length; i += 1)
@@ -344,8 +330,6 @@ namespace FireSimulator
                 MessageBox.Show($"No simulation data found for {l.Name} layout.");
             }
         }
-
-
 
         private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
         {
