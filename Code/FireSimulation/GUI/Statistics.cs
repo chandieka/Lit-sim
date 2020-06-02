@@ -1,364 +1,333 @@
 ﻿using Library;
 using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace FireSimulator
 {
-    public partial class Statistics : Form
-    {
-        private enum SortingOptions
-        {
-            None,
-            MostDeaths,
-            LeastDeaths,
-            MostSuccessful,
-            LeastSuccessful
-        }
+	public partial class Statistics : Form
+	{
+		private enum SortingOptions
+		{
+			None,
+			MostDeaths,
+			LeastDeaths,
+			MostSuccessful,
+			LeastSuccessful
+		}
 
-        private enum SearchOptions
-        {
-            Title,
-            Duration,
-            Deathcount
-        }
+		private enum SearchOptions
+		{
+			Title,
+			Duration,
+			Deathcount
+		}
 
-        private SaveItem floorplan;
-        private SimulationData[] simData;
-        private SaveItem[] layouts;
+		private SaveItem floorplan;
+		private SimulationData[] simData;
+		private SaveItem[] layouts;
 
-        public Statistics(SaveItem floorplan)
-        {
-            InitializeComponent();
-            panel_overview.AutoScroll = false;
-            panel_overview.VerticalScroll.Enabled = false;
-            panel_overview.VerticalScroll.Visible = false;
-            panel_overview.VerticalScroll.Maximum = 0;
-            panel_overview.AutoScroll = true;
+		private SaveItem selected;
 
-            this.floorplan = floorplan;
-            layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
-            this.UpdateSearchResults(layouts.ToList());
+		public Statistics(SaveItem floorplan)
+		{
+			InitializeComponent();
+			panel_overview.AutoScroll = false;
+			panel_overview.VerticalScroll.Enabled = false;
+			panel_overview.VerticalScroll.Visible = false;
+			panel_overview.VerticalScroll.Maximum = 0;
+			panel_overview.AutoScroll = true;
 
-            this.Text = $"Lit - Statistics for {floorplan.Name} Floorplan";
-            populateLayoutPreview();
+			this.floorplan = floorplan;
+			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
+			this.UpdateSearchResults(layouts.ToList());
 
-            // put options into the drobdown boxes
-            this.cbbPreviewOrder.Items.AddRange(Enum.GetNames(typeof(SortingOptions)));
-            this.cbbPreviewOrder.SelectedItem = Enum.GetName(typeof(SortingOptions), SortingOptions.None);
-            this.cbbSearchOption.Items.AddRange(Enum.GetNames(typeof(SearchOptions)));
+			this.Text = $"Lit - Statistics for '{floorplan.Name}' floorplan";
+			populateLayoutPreview();
 
-            // add eventhandlers to controls
-            this.cbbPreviewOrder.SelectedIndexChanged += new EventHandler(SortSimulations);
-            this.btReplaySelected.Click += new EventHandler(ReplaySelected);
-            this.btSearch.Click += new EventHandler(FilterSimulations);
-            this.tbSearchQuery.GotFocus += new EventHandler(AddPlaceholder);
-            this.tbSearchQuery.LostFocus += new EventHandler(RemovePlaceholder);
-        }
+			// put options into the drobdown boxes
+			this.cbbPreviewOrder.Items.AddRange(Enum.GetNames(typeof(SortingOptions)));
+			this.cbbPreviewOrder.SelectedItem = Enum.GetName(typeof(SortingOptions), SortingOptions.None);
+			this.cbbSearchOption.Items.AddRange(Enum.GetNames(typeof(SearchOptions)));
 
-        private void RemovePlaceholder(object sender, EventArgs e)
-        {
-            if (this.tbSearchQuery.Text == "eg. \"Default\"" || this.tbSearchQuery.Text == "eg. \"120\" (In seconds)" ||
-                this.tbSearchQuery.Text == "eg. \"2\"")
-            {
-                this.tbSearchQuery.Text = "";
-            }
-        }
+			// add eventhandlers to controls
+			this.cbbPreviewOrder.SelectedIndexChanged += new EventHandler(SortSimulations);
+			this.btReplaySelected.Click += new EventHandler(ReplaySelected);
+			this.btSearch.Click += new EventHandler(FilterSimulations);
+			this.tbSearchQuery.GotFocus += new EventHandler(AddPlaceholder);
+			this.tbSearchQuery.LostFocus += new EventHandler(RemovePlaceholder);
+		}
 
-        private void AddPlaceholder(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(this.tbSearchQuery.Text))
-            {
-                if (this.cbbSearchOption.SelectedItem != null)
-                {
-                    SearchOptions option = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+		private void RemovePlaceholder(object sender, EventArgs e)
+		{
+			if (this.tbSearchQuery.Text == "eg. \"Default\"" || this.tbSearchQuery.Text == "eg. \"120\" (In seconds)" ||
+				this.tbSearchQuery.Text == "eg. \"2\"")
+			{
+				this.tbSearchQuery.Text = "";
+			}
+		}
 
-                    if (option == SearchOptions.Title)
-                    {
-                        this.tbSearchQuery.Text = "eg. \"Default\"";
-                    }
-                    else if (option == SearchOptions.Duration)
-                    {
-                        this.tbSearchQuery.Text = "eg. \"120\" (In seconds)";
-                    }
-                    else if (option == SearchOptions.Deathcount)
-                    {
-                        this.tbSearchQuery.Text = "eg. \"2\"";
-                    }
-                }
-            }
-        }
+		private void AddPlaceholder(object sender, EventArgs e)
+		{
+			if (string.IsNullOrWhiteSpace(this.tbSearchQuery.Text))
+			{
+				if (this.cbbSearchOption.SelectedItem != null)
+				{
+					SearchOptions option = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
 
-        public void SetSimulations(SaveItem[] simulations)
-        {
-            this.layouts = simulations;
-        }
+					if (option == SearchOptions.Title)
+					{
+						this.tbSearchQuery.Text = "eg. \"Default\"";
+					}
+					else if (option == SearchOptions.Duration)
+					{
+						this.tbSearchQuery.Text = "eg. \"120\" (In seconds)";
+					}
+					else if (option == SearchOptions.Deathcount)
+					{
+						this.tbSearchQuery.Text = "eg. \"2\"";
+					}
+				}
+			}
+		}
 
-        private void ReplaySelected(object sender, EventArgs e)
-        {
-            // TODO
-        }
+		public void SetSimulations(SaveItem[] simulations)
+		{
+			this.layouts = simulations;
+		}
 
-        private void SortSimulations()
-        {
-            SortingOptions option = (SortingOptions)Enum.Parse(typeof(SortingOptions), (string)this.cbbPreviewOrder.SelectedItem);
-            var sorted = new SaveItem[this.layouts.Length];
+		private void ReplaySelected(object sender, EventArgs e)
+		{
+			// TODO
+		}
 
-            switch (option)
-            {
-                case SortingOptions.None:
-                {
-                    sorted = this.layouts;
-                    break;
-                }
-                case SortingOptions.LeastDeaths:
-                {
-                    sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageDeathAmount())).OrderBy(_ => _.Item2).Select(_ => _._).ToArray();
-                    break;
-                }
-                case SortingOptions.MostDeaths:
-                {
-                    sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageDeathAmount())).OrderByDescending(_ => _.Item2).Select(_ => _._).ToArray();
-                    break;
-                }
-                case SortingOptions.MostSuccessful:
-                {
-                    sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageElapsedTime())).OrderBy(_ => _.Item2).Select(_ => _._).ToArray();
-                    break;
-                }
-                case SortingOptions.LeastSuccessful:
-                {
-                    sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageElapsedTime())).OrderByDescending(_ => _.Item2).Select(_ => _._).ToArray();
-                    break;
-                }
-            }
+		private void SortSimulations()
+		{
+			SortingOptions option = (SortingOptions)Enum.Parse(typeof(SortingOptions), (string)this.cbbPreviewOrder.SelectedItem);
+			var sorted = new SaveItem[this.layouts.Length];
 
-            this.layouts = sorted;
-            populateLayoutPreview();
-        }
+			switch (option)
+			{
+				case SortingOptions.None:
+					{
+						sorted = this.layouts;
+						break;
+					}
+				case SortingOptions.LeastDeaths:
+					{
+						sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageDeathAmount())).OrderBy(_ => _.Item2).Select(_ => _._).ToArray();
+						break;
+					}
+				case SortingOptions.MostDeaths:
+					{
+						sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageDeathAmount())).OrderByDescending(_ => _.Item2).Select(_ => _._).ToArray();
+						break;
+					}
+				case SortingOptions.MostSuccessful:
+					{
+						sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageElapsedTime())).OrderBy(_ => _.Item2).Select(_ => _._).ToArray();
+						break;
+					}
+				case SortingOptions.LeastSuccessful:
+					{
+						sorted = this.layouts.Select(_ => (_, ((Layout)_.Item).GetAverageElapsedTime())).OrderByDescending(_ => _.Item2).Select(_ => _._).ToArray();
+						break;
+					}
+			}
 
-        private void SortSimulations(object sender, EventArgs e)
-        {
-            this.SortSimulations();
-        }
+			this.layouts = sorted;
+			populateLayoutPreview();
+		}
 
-        private void FilterLayouts(SearchOptions options, string searchQuery)
-        {
-            List<SaveItem> filered = new List<SaveItem>();
+		private void SortSimulations(object sender, EventArgs e)
+		{
+			this.SortSimulations();
+		}
 
-            foreach (SaveItem layout in this.layouts)
-            {
-                if (options == SearchOptions.Title)
-                {
-                    string layoutName = layout.Name.ToLower();
+		private void FilterLayouts(SearchOptions options, string searchQuery)
+		{
+			List<SaveItem> filered = new List<SaveItem>();
 
-                    if (layoutName.Contains(searchQuery.ToLower()))
-                        filered.Add(layout);
-                }
-                else if (options == SearchOptions.Duration)
-                {
-                    var time = ((Layout)layout.Item).GetAverageElapsedTime();
-                    int number;
+			foreach (SaveItem layout in this.layouts)
+			{
+				if (options == SearchOptions.Title)
+				{
+					string layoutName = layout.Name.ToLower();
 
-                    try
-                    {
-                        number = int.Parse(searchQuery);
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Invalid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+					if (layoutName.Contains(searchQuery.ToLower()))
+						filered.Add(layout);
+				}
+				else if (options == SearchOptions.Duration)
+				{
+					var time = ((Layout)layout.Item).GetAverageElapsedTime();
+					int number;
 
-                    if (time != null && time?.TotalSeconds == number)
-                        filered.Add(layout);
-                }
-                else if (options == SearchOptions.Deathcount)
-                {
-                    var deathAmount = ((Layout)layout.Item).GetAverageDeathAmount();
-                    int number;
+					try
+					{
+						number = int.Parse(searchQuery);
+					}
+					catch (Exception)
+					{
+						MessageBox.Show("Invalid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
 
-                    try
-                    {
-                        number = int.Parse(searchQuery);
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Invalid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+					if (time != null && time?.TotalSeconds == number)
+						filered.Add(layout);
+				}
+				else if (options == SearchOptions.Deathcount)
+				{
+					var deathAmount = ((Layout)layout.Item).GetAverageDeathAmount();
+					int number;
 
-                    if (deathAmount >= 0 && deathAmount == number)
-                        filered.Add(layout);
-                }
-            }
+					try
+					{
+						number = int.Parse(searchQuery);
+					}
+					catch (Exception)
+					{
+						MessageBox.Show("Invalid number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return;
+					}
 
-            this.UpdateSearchResults(filered);
-        }
+					if (deathAmount >= 0 && deathAmount == number)
+						filered.Add(layout);
+				}
+			}
 
-        private void UpdateSearchResults(List<SaveItem> layouts)
-        {
-            this.lbSearchResults.Items.Clear();
+			this.UpdateSearchResults(filered);
+		}
 
-            foreach (SaveItem layout in layouts)
-            {
-                this.lbSearchResults.Items.Add(layout);
-            }
-        }
+		private void UpdateSearchResults(List<SaveItem> layouts)
+		{
+			this.lbSearchResults.Items.Clear();
 
-        private void FilterSimulations(object sender, EventArgs e)
-        {
-            if (this.cbbSearchOption.SelectedItem == null)
-            {
-                MessageBox.Show("Please select a search option", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+			foreach (SaveItem layout in layouts)
+			{
+				this.lbSearchResults.Items.Add(layout);
+			}
+		}
 
-            SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
-            string query = this.tbSearchQuery.Text;
+		private void FilterSimulations(object sender, EventArgs e)
+		{
+			if (this.cbbSearchOption.SelectedItem == null)
+			{
+				MessageBox.Show("Please select a search option", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
-            this.FilterLayouts(options, query);
-        }
+			SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+			string query = this.tbSearchQuery.Text;
 
-        private void btReplaySelected_Click(object sender, EventArgs e)
-        {
-        }
+			this.FilterLayouts(options, query);
+		}
 
-        private void populateLayoutPreview()
-        {
-            this.panel_overview.Controls.Clear();
+		private void btReplaySelected_Click(object sender, EventArgs e)
+		{
+		}
 
-            if (layouts.Length > 0)
-            {
-                for (int i = 0; i < layouts.Length; i += 1)
-                {
-                    PictureBox pb1 = new PictureBox();
+		private void populateLayoutPreview()
+		{
+			this.panel_overview.Controls.Clear();
 
-                    var l = layouts[i];
-                    pb1.Image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
-                    pb1.Size = new Size(panel_overview.Height - 10, panel_overview.Height - 10);
-                    pb1.Location = new Point(pb1.Width * i + 2, 8);
-                    pb1.SizeMode = PictureBoxSizeMode.Zoom;
+			if (layouts.Length > 0)
+			{
+				for (int i = 0; i < layouts.Length; i += 1)
+				{
+					PictureBox pb1 = new PictureBox();
 
-                    pb1.MouseClick += (sender, e) => showStatistics(sender, e, l);
+					var l = layouts[i];
 
-                    panel_overview.Controls.Add(pb1);
-                }
-            }
-        }
+					pb1.Image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
+					pb1.Size = new Size(panel_overview.Height - 10, panel_overview.Height - 10);
+					pb1.Location = new Point(pb1.Width * i + 2, 8);
+					pb1.SizeMode = PictureBoxSizeMode.Zoom;
 
-        private void lbSearchResults_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbSearchResults.SelectedItem != null)
-            {
-                showStatistics((SaveItem)lbSearchResults.SelectedItem);
-            }
-        }
+					pb1.MouseClick += (sender, e) => showStatistics(sender, l);
 
-        private void showStatistics(object sender, MouseEventArgs e, SaveItem l)
-        {
-            simData = ((Layout)l.Item).GetSimulatioData();
+					panel_overview.Controls.Add(pb1);
+				}
+			}
+		}
 
-            float totalDeaths = 0;
-            int people = 0;
-            DateTime start, end;
+		private void lbSearchResults_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (lbSearchResults.SelectedItem != null)
+			{
+				showStatistics((SaveItem)lbSearchResults.SelectedItem);
+			}
+		}
 
-            if (simData.Length > 0)
-            {
-                start = simData[0].DateOfSimulation;
-                people = simData[0].NrOfPeople;
-                end = simData[simData.Length - 1].DateOfSimulation;
+		private void showStatistics(object sender, SaveItem l)
+			=> showStatistics(l, (PictureBox)sender);
 
-                foreach (var data in simData)
-                {
-                    totalDeaths += data.NrOfDeaths;
-                }
+		private void showStatistics(SaveItem l, PictureBox pb = null)
+		{
+			var simData = ((Layout)l.Item).GetSimulatioData();
+			this.selected = l;
 
-                PictureBox pb = (PictureBox)sender;
-                pbSelectedPreview.Image = pb.Image;
-                pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
+			float totalDeaths = 0;
+			DateTime start, end;
+			int people = 0;
 
-                lbl_name.Text = l.Name;
-                lbl_total_sims.Text = $"{simData.Length}";
-                lbl_total_people.Text = $"{people}";
-                lbl_start_date.Text = $"{start.ToShortDateString()}";
-                lbl_end_date.Text = $"{end.ToShortDateString()}";
-                lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
-                btn_open_graphs.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show($"No simulation data found for {l.Name} layout.");
-                
-            }
-        }
+			if (pb == null)
+				pb = this.pbSelectedPreview;
 
-        private void showStatistics(SaveItem l)
-        {
-            simData = ((Layout)l.Item).GetSimulatioData();
+			if (simData.Length > 0)
+			{
+				start = simData[0].DateOfSimulation;
+				people = simData[0].NrOfPeople;
+				end = simData[simData.Length - 1].DateOfSimulation;
 
-            float totalDeaths = 0;
-            int people = 0;
-            DateTime start, end;
+				foreach (var data in simData)
+				{
+					totalDeaths += data.NrOfDeaths;
+				}
 
-            if (simData.Length > 0)
-            {
-                start = simData[0].DateOfSimulation;
-                people = simData[0].NrOfPeople;
-                end = simData[simData.Length - 1].DateOfSimulation;
+				pbSelectedPreview.Image = pb.Image;
+				pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
 
-                foreach (var data in simData)
-                {
-                    totalDeaths += data.NrOfDeaths;
-                }
+				lbl_name.Text = l.Name;
+				lbl_total_sims.Text = $"{simData.Length}";
+				lbl_total_people.Text = $"{people}";
+				lbl_start_date.Text = $"{start.ToShortDateString()}";
+				lbl_end_date.Text = $"{end.ToShortDateString()}";
+				lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
+				btn_open_graphs.Enabled = true;
+			}
+			else
+			{
+				MessageBox.Show($"No simulation data found for {l.Name} layout.");
+			}
+		}
 
-                PictureBox pb = this.pbSelectedPreview;
-                pbSelectedPreview.Image = pb.Image;
-                pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
+		private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
+		{
+		}
 
-                lbl_name.Text = l.Name;
-                lbl_total_sims.Text = $"{simData.Length}";
-                lbl_total_people.Text = $"{people}";
-                lbl_start_date.Text = $"{start.ToShortDateString()}";
-                lbl_end_date.Text = $"{end.ToShortDateString()}";
-                lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
-                btn_open_graphs.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show($"No simulation data found for {l.Name} layout.");
-            }
-        }
+		private void tbSearchQuery_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)13)
+			{
+				if (this.cbbSearchOption.SelectedItem == null)
+				{
+					MessageBox.Show("Please select a search option", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
 
-        private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
-        {
-        }
+				SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
+				string query = this.tbSearchQuery.Text;
 
-        private void tbSearchQuery_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-            {
-                if (this.cbbSearchOption.SelectedItem == null)
-                {
-                    MessageBox.Show("Please select a search option", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+				this.FilterLayouts(options, query);
+			}
+		}
 
-                SearchOptions options = (SearchOptions)Enum.Parse(typeof(SearchOptions), (string)this.cbbSearchOption.SelectedItem);
-                string query = this.tbSearchQuery.Text;
-
-                this.FilterLayouts(options, query);
-            }
-        }
-
-        private void btn_open_graphs_Click(object sender, EventArgs e)
-        {            
-            GraphForm form = new GraphForm();
-            form.ShowDialog();
-        }
-    }
+		private void btn_open_graphs_Click(object sender, EventArgs e)
+		{
+			GraphForm form = new GraphForm(this.selected);
+			form.ShowDialog();
+		}
+	}
 }
