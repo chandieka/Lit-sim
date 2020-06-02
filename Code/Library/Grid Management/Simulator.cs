@@ -10,6 +10,8 @@ namespace Library
 	{
 		private bool hasFoundFireInPreviousTick = false;
 		private bool hasTicked = false;
+		private bool isSuccessful = false;
+		private EScenario scenario;
 
 		private int personDelayCounter = 0;
 		private const int personDelay = 2;
@@ -79,15 +81,22 @@ namespace Library
 				personDelayCounter = 0;
 
 			if (!hasFoundFireInPreviousTick)
+			{
 				Finish(EScenario.ALL_FIRES_EXTINGUISHED, true);
-			else if (persons.TrueForAll(person => person.IsDead))
+				scenario = EScenario.ALL_FIRES_EXTINGUISHED;
+				isSuccessful = true;
+			}
+			else if (persons.TrueForAll(person => person.IsDead)) {
+				scenario = EScenario.EVERY_PERSON_DIED;
 				Finish(EScenario.EVERY_PERSON_DIED, false);
+			}				
 		}
 
 		public void TimeLimitReached()
 		{
 			killAll();
 			Finish(EScenario.TIME_LIMIT_REACHED, false);
+			scenario = EScenario.TIME_LIMIT_REACHED;
 		}
 
 		public void SaveSimulationData(SaveItem saveItem, DateTime date, TimeSpan elapsedTime)
@@ -95,7 +104,7 @@ namespace Library
 			if (!(saveItem.Item is Layout))
 				throw new Exception("Cannot save simulation data of SaveItem that does not contain a Layout");
 
-			((Layout)saveItem.Item).AddSimulationData(new SimulationData(GetNrOfDeaths(), PersonAmount, date, elapsedTime));
+			((Layout)saveItem.Item).AddSimulationData(new SimulationData(GetNrOfDeaths(), PersonAmount, date, elapsedTime, isSuccessful, scenario));
 			SaveLoadManager.Save(saveItem);
 		}
 

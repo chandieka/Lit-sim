@@ -38,6 +38,7 @@
             this.lbSearch = new System.Windows.Forms.Label();
             this.pbSelectedPreview = new System.Windows.Forms.PictureBox();
             this.gbStatisticsMenu = new System.Windows.Forms.GroupBox();
+            this.btn_open_graphs = new System.Windows.Forms.Button();
             this.lbl_name = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -186,6 +187,7 @@
             // 
             this.gbStatisticsMenu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbStatisticsMenu.Controls.Add(this.btn_open_graphs);
             this.gbStatisticsMenu.Controls.Add(this.lbl_name);
             this.gbStatisticsMenu.Controls.Add(this.label7);
             this.gbStatisticsMenu.Controls.Add(this.label6);
@@ -208,6 +210,17 @@
             this.gbStatisticsMenu.Size = new System.Drawing.Size(255, 408);
             this.gbStatisticsMenu.TabIndex = 1;
             this.gbStatisticsMenu.TabStop = false;
+            // 
+            // btn_open_graphs
+            // 
+            this.btn_open_graphs.Enabled = false;
+            this.btn_open_graphs.Location = new System.Drawing.Point(129, 351);
+            this.btn_open_graphs.Name = "btn_open_graphs";
+            this.btn_open_graphs.Size = new System.Drawing.Size(105, 28);
+            this.btn_open_graphs.TabIndex = 15;
+            this.btn_open_graphs.Text = "Graphs";
+            this.btn_open_graphs.UseVisualStyleBackColor = true;
+            this.btn_open_graphs.Click += new System.EventHandler(this.btn_open_graphs_Click);
             // 
             // lbl_name
             // 
@@ -472,5 +485,6 @@
         private System.Windows.Forms.Label lbl_name;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel_overview;
+        private System.Windows.Forms.Button btn_open_graphs;
     }
 }
