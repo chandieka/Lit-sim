@@ -227,7 +227,7 @@ namespace FireSimulator
 					fpImageList.Images.Add(key, ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
 					this.lvFloorplan.Items.Add(key, item.Name, key);
 				}
-				else
+				else if (saveItem != null)
 				{
 					var key = saveItem.Item.Id.ToString();
 
@@ -245,7 +245,7 @@ namespace FireSimulator
 					lImageList.Images.Add(key, ((Thumbnailable)item.Item).Render(lImageList.ImageSize.Width));
 					lvLayout.Items.Add(key, item.Name, key);
 				}
-				else
+				else if (saveItem.Item is Layout)
 				{
 					var key = saveItem.Item.Id.ToString();
 
