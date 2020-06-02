@@ -287,6 +287,8 @@ namespace FireSimulator
 						saveStore = designer.SaveAsFloorplan(result.Value);
 					else
 						saveStore = designer.SaveAsLayout(result.Value, saveItem);
+                    // close the form after saving
+                    this.Close();
 				}
 			}
 		}
