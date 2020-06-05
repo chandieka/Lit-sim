@@ -44,7 +44,7 @@ namespace Library
 		[field: NonSerialized]
 		private Thread firePathThread = null;
 		[field: NonSerialized]
-		private Pair[] feLocations;
+		private static Pair[] feLocations;
 		private static int safeDistance = 5;
 
 		public bool HasFireExtinguisher
@@ -289,7 +289,7 @@ namespace Library
 
 		internal Task CalculatePaths(Block[,] grid, Pair pos, Pair[] feLocations, (BackgroundWorker w, DoWorkEventArgs e) worker, Action callback)
 		{
-			this.feLocations = feLocations.ToArray();
+			Person.feLocations = feLocations.ToArray();
 
 			var task = Task.Run(() =>
 			{
