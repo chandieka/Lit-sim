@@ -70,6 +70,7 @@
 			this.label32 = new System.Windows.Forms.Label();
 			this.pbSimulator = new System.Windows.Forms.PictureBox();
 			this.gbAutoSimulation = new System.Windows.Forms.GroupBox();
+			this.btnLegend = new System.Windows.Forms.Button();
 			this.gbControls.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxPlayPause)).BeginInit();
 			this.gbStatistics.SuspendLayout();
@@ -89,6 +90,7 @@
 			this.gbControls.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gbControls.BackColor = System.Drawing.Color.White;
+			this.gbControls.Controls.Add(this.btnLegend);
 			this.gbControls.Controls.Add(this.picBoxPlayPause);
 			this.gbControls.Controls.Add(this.btnCalculatePaths);
 			this.gbControls.Controls.Add(this.btnTerminate);
@@ -455,6 +457,17 @@
 			this.gbAutoSimulation.TabStop = false;
 			this.gbAutoSimulation.Text = "Auto Simulation";
 			// 
+			// btnLegend
+			// 
+			this.btnLegend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnLegend.Location = new System.Drawing.Point(520, 13);
+			this.btnLegend.Name = "btnLegend";
+			this.btnLegend.Size = new System.Drawing.Size(75, 61);
+			this.btnLegend.TabIndex = 19;
+			this.btnLegend.Text = "Color Legend";
+			this.btnLegend.UseVisualStyleBackColor = true;
+			this.btnLegend.Click += new System.EventHandler(this.btnLegend_Click);
+			// 
 			// FireSimulatorForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,6 +544,7 @@
 		private System.Windows.Forms.Label label32;
 		private System.Windows.Forms.ListBox lbHistory;
 		private System.Windows.Forms.GroupBox gbAutoSimulation;
+		private System.Windows.Forms.Button btnLegend;
 	}
 }
 

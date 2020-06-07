@@ -63,6 +63,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\ColorLegendForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ColorLegendForm.Designer.cs">
+      <DependentUpon>ColorLegendForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\DesignerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     <Compile Include="GUI\Statistics.Designer.cs">
       <DependentUpon>Statistics.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="GUI\ColorLegendForm.resx">
+      <DependentUpon>ColorLegendForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\DesignerForm.resx">
       <DependentUpon>DesignerForm.cs</DependentUpon>
     </EmbeddedResource>

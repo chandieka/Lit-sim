@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using FireSimulator.GUI;
+using Library;
 using System;
 using System.Windows.Forms;
 
@@ -15,9 +16,14 @@ namespace FireSimulator
 		private bool running;
 		private bool hasRun;
 
+		private readonly Form colorLegend;
+
 		public FireSimulatorForm(SaveItem saveItem)
 		{
 			InitializeComponent();
+
+			this.colorLegend = new ColorLegendForm();
+			this.colorLegend.Owner = this;
 
 			lblElapsedTime.Text = time.ToString();
 
@@ -235,6 +241,12 @@ namespace FireSimulator
 
 		private void FireSimulatorForm_FormClosing(object sender, FormClosingEventArgs e)
 			=> this.simulator.Stop();
+
+		private void btnLegend_Click(object sender, EventArgs e)
+		{
+			this.colorLegend.Show();
+			this.colorLegend.Location = new System.Drawing.Point(this.Left - this.colorLegend.Width, this.Top);
+		}
 		#endregion
 	}
 }
