@@ -193,10 +193,11 @@ namespace FireSimulator
 						{
 							var thumbnail = ((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width);
 
-							lvLayout.Invoke(new Action(() =>
-							{
-								lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
-							}));
+							if (thumbnail != null)
+								lvLayout.Invoke(new Action(() =>
+								{
+									lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
+								}));
 						}).Start();
 					}
 
