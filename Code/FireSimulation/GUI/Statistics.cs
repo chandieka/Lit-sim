@@ -329,5 +329,5 @@ namespace FireSimulator
 			GraphForm form = new GraphForm(this.selected);
 			form.ShowDialog();
 		}
-    }
+	}
 }

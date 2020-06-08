@@ -79,7 +79,7 @@
             this.gbFloorplan.Margin = new System.Windows.Forms.Padding(4);
             this.gbFloorplan.Name = "gbFloorplan";
             this.gbFloorplan.Padding = new System.Windows.Forms.Padding(4);
-            this.gbFloorplan.Size = new System.Drawing.Size(646, 629);
+            this.gbFloorplan.Size = new System.Drawing.Size(532, 636);
             this.gbFloorplan.TabIndex = 0;
             this.gbFloorplan.TabStop = false;
             this.gbFloorplan.Text = "Floorplan";
@@ -95,7 +95,6 @@
             this.pbFPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFPrevious.TabIndex = 11;
             this.pbFPrevious.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbFPrevious, "Previous page");
             this.pbFPrevious.Click += new System.EventHandler(this.pbFPrevious_Click);
             // 
             // pbFNext
@@ -108,7 +107,6 @@
             this.pbFNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFNext.TabIndex = 10;
             this.pbFNext.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbFNext, "Next page");
             this.pbFNext.Click += new System.EventHandler(this.pbFNext_Click);
             // 
             // pbFPOpen
@@ -121,7 +119,6 @@
             this.pbFPOpen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFPOpen.TabIndex = 9;
             this.pbFPOpen.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbFPOpen, "Open floorplan");
             this.pbFPOpen.Click += new System.EventHandler(this.pbFPOpen_Click);
             // 
             // pbFPDelete
@@ -134,7 +131,6 @@
             this.pbFPDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFPDelete.TabIndex = 8;
             this.pbFPDelete.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbFPDelete, "Delete floorplan");
             this.pbFPDelete.Click += new System.EventHandler(this.pbFPDelete_Click);
             // 
             // pbFPCreate
@@ -147,7 +143,6 @@
             this.pbFPCreate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFPCreate.TabIndex = 7;
             this.pbFPCreate.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbFPCreate, "Create floorplan");
             this.pbFPCreate.Click += new System.EventHandler(this.pbFPCreate_Click);
             // 
             // pbFPCopy
@@ -161,7 +156,6 @@
             this.pbFPCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbFPCopy.TabIndex = 6;
             this.pbFPCopy.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbFPCopy, "Copy floorplan");
             this.pbFPCopy.Click += new System.EventHandler(this.pbFPCopy_Click);
             // 
             // lvFloorplan
@@ -177,7 +171,7 @@
             this.lvFloorplan.Margin = new System.Windows.Forms.Padding(4);
             this.lvFloorplan.MultiSelect = false;
             this.lvFloorplan.Name = "lvFloorplan";
-            this.lvFloorplan.Size = new System.Drawing.Size(614, 193);
+            this.lvFloorplan.Size = new System.Drawing.Size(513, 454);
             this.lvFloorplan.TabIndex = 0;
             this.lvFloorplan.UseCompatibleStateImageBehavior = false;
             this.lvFloorplan.SelectedIndexChanged += new System.EventHandler(this.lvFloorplan_SelectedIndexChanged);
@@ -199,11 +193,11 @@
             this.gbLayout.Controls.Add(this.pbLCreate);
             this.gbLayout.Controls.Add(this.pbLCopy);
             this.gbLayout.Controls.Add(this.lvLayout);
-            this.gbLayout.Location = new System.Drawing.Point(738, 16);
+            this.gbLayout.Location = new System.Drawing.Point(623, 16);
             this.gbLayout.Margin = new System.Windows.Forms.Padding(4);
             this.gbLayout.Name = "gbLayout";
             this.gbLayout.Padding = new System.Windows.Forms.Padding(4);
-            this.gbLayout.Size = new System.Drawing.Size(656, 629);
+            this.gbLayout.Size = new System.Drawing.Size(532, 636);
             this.gbLayout.TabIndex = 1;
             this.gbLayout.TabStop = false;
             this.gbLayout.Text = "Layout";
@@ -219,7 +213,6 @@
             this.pbLPrevious.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLPrevious.TabIndex = 13;
             this.pbLPrevious.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbLPrevious, "Previous page");
             this.pbLPrevious.Click += new System.EventHandler(this.pbLPrevious_Click);
             // 
             // pbLRun
@@ -232,7 +225,6 @@
             this.pbLRun.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLRun.TabIndex = 13;
             this.pbLRun.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbLRun, "Simulate layout");
             this.pbLRun.Click += new System.EventHandler(this.pbLRun_Click);
             // 
             // pbLNext
@@ -245,7 +237,6 @@
             this.pbLNext.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLNext.TabIndex = 12;
             this.pbLNext.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbLNext, "Next page");
             this.pbLNext.Click += new System.EventHandler(this.pbLNext_Click);
             // 
             // pbLDelete
@@ -258,7 +249,6 @@
             this.pbLDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLDelete.TabIndex = 12;
             this.pbLDelete.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbLDelete, "Delete layout");
             this.pbLDelete.Click += new System.EventHandler(this.pbLDelete_Click);
             // 
             // pbLCreate
@@ -271,7 +261,6 @@
             this.pbLCreate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLCreate.TabIndex = 11;
             this.pbLCreate.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbLCreate, "Create layout");
             this.pbLCreate.Click += new System.EventHandler(this.pbLCreate_Click);
             // 
             // pbLCopy
@@ -285,7 +274,6 @@
             this.pbLCopy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLCopy.TabIndex = 10;
             this.pbLCopy.TabStop = false;
-            this.toolTip1.SetToolTip(this.pbLCopy, "Copy layout");
             this.pbLCopy.Click += new System.EventHandler(this.pbLCopy_Click);
             // 
             // lvLayout
@@ -300,7 +288,7 @@
             this.lvLayout.Margin = new System.Windows.Forms.Padding(4);
             this.lvLayout.MultiSelect = false;
             this.lvLayout.Name = "lvLayout";
-            this.lvLayout.Size = new System.Drawing.Size(624, 193);
+            this.lvLayout.Size = new System.Drawing.Size(513, 454);
             this.lvLayout.TabIndex = 0;
             this.lvLayout.UseCompatibleStateImageBehavior = false;
             // 
@@ -309,12 +297,27 @@
             this.lImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.lImageList.ImageSize = new System.Drawing.Size(16, 16);
             this.lImageList.TransparentColor = System.Drawing.Color.Transparent;
+            //
+            // ToolTip
+            //
+            toolTip1.SetToolTip(pbFNext, "Next page");
+            toolTip1.SetToolTip(pbFPrevious, "Previous page");
+            toolTip1.SetToolTip(pbFPCreate, "Create floorplan");
+            toolTip1.SetToolTip(pbFPCopy, "Copy floorplan");
+            toolTip1.SetToolTip(pbFPDelete, "Delete floorplan");
+            toolTip1.SetToolTip(pbFPOpen, "Open floorplan");
+            toolTip1.SetToolTip(pbLNext, "Next page");
+            toolTip1.SetToolTip(pbLPrevious, "Previous page");
+            toolTip1.SetToolTip(pbLCreate, "Create layout");
+            toolTip1.SetToolTip(pbLCopy, "Copy layout");
+            toolTip1.SetToolTip(pbLDelete, "Delete layout");
+            toolTip1.SetToolTip(pbLRun, "Simulate layout");
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1410, 660);
+            this.ClientSize = new System.Drawing.Size(1171, 667);
             this.Controls.Add(this.gbLayout);
             this.Controls.Add(this.gbFloorplan);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
