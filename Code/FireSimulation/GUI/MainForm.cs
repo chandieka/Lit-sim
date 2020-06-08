@@ -23,7 +23,7 @@ namespace FireSimulator
 		{
 			InitializeComponent();
 
-			int imageSize = (int)(lvFloorplan.Width / 5);
+			int imageSize = (int)(lvFloorplan.Height / 3 * 2);
 			Size size = new Size(imageSize, imageSize);
 			lImageList.ImageSize = size;
 			fpImageList.ImageSize = size;
@@ -134,16 +134,16 @@ namespace FireSimulator
 			dialog?.SetProgressReport("Rendering thumbnails...");
 			dialog?.SetType(ProgressBarStyle.Marquee);
 
-			SaveItem[] itemsF = floorplanController.GetAll();
-			pageFCount = itemsF.Length / 9;
-			if (itemsF.Length % 9 > 0)
-			{
-				pageFCount++;
-			}
-			if (pageFCount == 1)
-			{
-				pbFNext.Enabled = false;
-			}
+            SaveItem[] itemsF = floorplanController.GetAll();
+            pageFCount = itemsF.Length/3;
+            if (itemsF.Length%3 > 0)
+            {
+                pageFCount++;
+            }
+            if (pageFCount == 1)
+            {
+                pbFNext.Enabled = false;
+            }
 
 			LoadFPage(pageFNr);
 
@@ -155,57 +155,53 @@ namespace FireSimulator
 			dialog?.Close();
 		}
 
-		private void LoadFPage(int page)
-		{
-			itemsF = floorplanController.GetAll();
-			lvFloorplan.Items.Clear();
-			fpImageList.Images.Clear();
-			for (int i = page * 9; i < ((page * 9) + 9); i++)
-			{
-				if (i < itemsF.Length)
-				{
-					var item = itemsF[i];
-					fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
-					lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, item.Item.Id.ToString());
-				}
-			}
-			lvFloorplan_SelectedIndexChanged(null, null);
-		}
+        private void LoadFPage(int page)
+        {
+            itemsF = floorplanController.GetAll();
+            lvFloorplan.Items.Clear();
+            fpImageList.Images.Clear();
+            for (int i = page*3; i < ((page*3) + 3); i++)
+            {
+                if (i < itemsF.Length)
+                {
+                    var item = itemsF[i];
+                    fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
+                    lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, item.Item.Id.ToString());
+                }
+            }
+            lvFloorplan_SelectedIndexChanged(null, null);
+        }
 
-		private void LoadLPage(int page)
-		{
-			foreach (Bitmap b in lImageList.Images)
-				b.Dispose();
+        private void LoadLPage(int page)
+        {
+            lvLayout.Items.Clear();
+            lImageList.Images.Clear();
+            for (int i = page * 3; i < ((page * 3) + 3); i++)
+            {
+                if (i < itemsL.Length)
+                {
+                    SaveItem saveItem = itemsL[i];
+                    var key = saveItem.Item.Id.ToString();
 
-			lvLayout.Items.Clear();
-			lImageList.Images.Clear();
+                    if (!lImageList.Images.ContainsKey(key))
+                    {
+                        new Thread(() =>
+                        {
+                            var thumbnail = ((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width);
 
-			for (int i = page * 9; i < ((page * 9) + 9); i++)
-			{
-				if (i < itemsL.Length)
-				{
-					SaveItem saveItem = itemsL[i];
-					var key = saveItem.Item.Id.ToString();
+                            lvLayout.Invoke(new Action(() =>
+                            {
+                                lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
+                            }));
+                        }).Start();
+                    }
 
-					if (!lImageList.Images.ContainsKey(key))
-					{
-						new Thread(() =>
-						{
-							var thumbnail = ((Thumbnailable)saveItem.Item).Render(lImageList.ImageSize.Width);
+                    lvLayout.Items.Add(key, saveItem.Name, key);
+                }
+            }
+        }
 
-							lvLayout.Invoke(new Action(() =>
-							{
-								lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
-							}));
-						}).Start();
-					}
-
-					lvLayout.Items.Add(key, saveItem.Name, key);
-				}
-			}
-		}
-
-		private void showDesigner(SaveItem saveItem = null, Grid grid = null)
+        private void showDesigner(SaveItem saveItem = null, Grid grid = null)
 		{
 			DesignerForm form;
 
@@ -263,7 +259,7 @@ namespace FireSimulator
 		{
 			var selectedItems = lvFloorplan.SelectedIndices;
 			if (selectedItems != null && selectedItems.Count > 0)
-				return floorplanController.GetFloorplanAt(selectedItems[0] + pageFNr * 9);
+				return floorplanController.GetFloorplanAt(selectedItems[0]+pageFNr*3);
 
 			return null;
 		}
@@ -290,176 +286,170 @@ namespace FireSimulator
 			lvLayout.Items.Clear();
 
 			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
-			{
-				itemsL = ((Floorplan)getSelectedFloorplan().Item).GetAllLayouts(true);
-				pageLCount = itemsL.Length / 9;
-				if (itemsL.Length % 9 > 0)
-				{
-					pageLCount++;
-				}
-				if (pageLCount == 1)
-				{
-					pbLNext.Enabled = false;
-				}
-				LoadLPage(pageLNr);
-			}
-			else
-			{
-				foreach (Bitmap b in lImageList.Images)
-					b.Dispose();
-
-				lImageList.Images.Clear();
-			}
+            {
+                itemsL = ((Floorplan)getSelectedFloorplan().Item).GetAllLayouts(true);
+                pageLCount = itemsL.Length / 3;
+                if (itemsL.Length % 3 > 0)
+                {
+                    pageLCount++;
+                }
+                if (pageLCount == 1)
+                {
+                    pbLNext.Enabled = false;
+                }
+                LoadLPage(pageLNr);
+            }
+				
 		}
 
-		private void pbFPCopy_Click(object sender, EventArgs e)
-		{
-			var saveItem = getSelectedFloorplan();
+        private void pbFPCopy_Click(object sender, EventArgs e)
+        {
+            var saveItem = getSelectedFloorplan();
 
-			if (saveItem != null)
-				showDesigner(null, ((Floorplan)saveItem.Item).Clone());
-		}
+            if (saveItem != null)
+                showDesigner(null, ((Floorplan)saveItem.Item).Clone());
+        }
 
-		private void pbFPDelete_Click(object sender, EventArgs e)
-		{
-			var saveItem = getSelectedFloorplan();
+        private void pbFPDelete_Click(object sender, EventArgs e)
+        {
+            var saveItem = getSelectedFloorplan();
 
-			if (saveItem != null && (saveItem.Item.IsDeletable || MessageBox.Show(
-				"This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
-				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
-			{
-				var floorplan = (Floorplan)saveItem.Item;
+            if (saveItem != null && (saveItem.Item.IsDeletable || MessageBox.Show(
+                "This also removes all layouts and simulation data!\nAre you sure you want to proceed?",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes))
+            {
+                var floorplan = (Floorplan)saveItem.Item;
 
-				floorplan.DeleteAllChildren();
-				SaveLoadManager.Delete(floorplan);
-				this.floorplanController.Remove(floorplan);
+                floorplan.DeleteAllChildren();
+                SaveLoadManager.Delete(floorplan);
+                this.floorplanController.Remove(floorplan);
 
-				lvFloorplan.Items.RemoveByKey(floorplan.Id.ToString());
-				fpImageList.Images.RemoveByKey(floorplan.Id.ToString());
-			}
-		}
+                lvFloorplan.Items.RemoveByKey(floorplan.Id.ToString());
+                fpImageList.Images.RemoveByKey(floorplan.Id.ToString());
+            }
+        }
 
-		private void pbFPCreate_Click(object sender, EventArgs e)
-			=> showDesigner();
+        private void pbFPCreate_Click(object sender, EventArgs e)
+            => showDesigner();
 
-		private void pbLCopy_Click(object sender, EventArgs e)
-		{
-			var saveItem = getSelectedLayout();
+        private void pbLCopy_Click(object sender, EventArgs e)
+        {
+            var saveItem = getSelectedLayout();
 
-			if (saveItem != null)
-				showDesigner(saveItem.Value.Floorplan, ((Layout)saveItem.Value.Layout.Item).Clone());
-		}
+            if (saveItem != null)
+                showDesigner(saveItem.Value.Floorplan, ((Layout)saveItem.Value.Layout.Item).Clone());
+        }
 
-		private void pbLDelete_Click(object sender, EventArgs e)
-		{
-			var selected = getSelectedLayout();
+        private void pbLDelete_Click(object sender, EventArgs e)
+        {
+            var selected = getSelectedLayout();
 
-			if (selected != null)
-			{
-				if (selected.Value.Layout.Item.IsDeletable || MessageBox.Show(
-				"This also removes all simulation data!\nAre you sure you want to proceed?",
-				"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-				{
-					((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
-					selected.Value.Layout.Item.DeleteAllChildren();
+            if (selected != null)
+            {
+                if (selected.Value.Layout.Item.IsDeletable || MessageBox.Show(
+                "This also removes all simulation data!\nAre you sure you want to proceed?",
+                "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    ((Floorplan)selected.Value.Floorplan.Item).RemoveLayout(selected.Value.Layout.Item.Id);
+                    selected.Value.Layout.Item.DeleteAllChildren();
 
-					SaveLoadManager.Delete(selected.Value.Layout.Item);
-					SaveLoadManager.Save(selected.Value.Floorplan);
+                    SaveLoadManager.Delete(selected.Value.Layout.Item);
+                    SaveLoadManager.Save(selected.Value.Floorplan);
 
-					lvLayout.Items.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
-					lImageList.Images.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
-				}
-			}
-		}
+                    lvLayout.Items.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
+                    lImageList.Images.RemoveByKey(selected.Value.Layout.Item.Id.ToString());
+                }
+            }
+        }
 
-		private void pbLCreate_Click(object sender, EventArgs e)
-		{
-			var indices = lvFloorplan.SelectedIndices;
+        private void pbLCreate_Click(object sender, EventArgs e)
+        {
+            var indices = lvFloorplan.SelectedIndices;
 
-			if (indices != null)
-			{
-				if (indices.Count == 1)
-					showDesigner(floorplanController.GetAt(indices[0] + pageFNr * 9));
-			}
-			else
-			{
-				MessageBox.Show(
-					"Please select 1 floorplan to create a layout",
-					"Warning",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Warning
-					);
-			}
-		}
+            if (indices != null)
+            {
+                if (indices.Count == 1)
+                    showDesigner(floorplanController.GetAt(indices[0] + pageFNr*3));
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Please select 1 floorplan to create a layout",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                    );
+            }
+        }
 
-		private void pbLRun_Click(object sender, EventArgs e)
-		{
-			var selected = getSelectedLayout();
+        private void pbLRun_Click(object sender, EventArgs e)
+        {
+            var selected = getSelectedLayout();
 
-			if (selected != null)
-				new FireSimulatorForm(selected.Value.Layout).ShowDialog();
-		}
+            if (selected != null)
+                new FireSimulatorForm(selected.Value.Layout).ShowDialog();
+        }
 
-		private void pbFPOpen_Click(object sender, EventArgs e)
-		{
-			var floorplan = getSelectedFloorplan();
+        private void pbFPOpen_Click(object sender, EventArgs e)
+        {
+            var floorplan = getSelectedFloorplan();
 
-			Statistics form;
+            Statistics form;
 
 
-			if (floorplan == null)
-				MessageBox.Show("Please select a floorplan.");
-			else
-			{
-				form = new Statistics(floorplan);
-				form.ShowDialog();
-			}
-		}
-		#endregion
+            if (floorplan == null)
+                MessageBox.Show("Please select a floorplan.");
+            else
+            {
+                form = new Statistics(floorplan);
+                form.ShowDialog();
+            }
+        }
+        #endregion
 
-		private void pbFNext_Click(object sender, EventArgs e)
-		{
-			pageFNr++;
-			LoadFPage(pageFNr);
-			pbFPrevious.Enabled = true;
-			if (pageFNr == pageFCount - 1)
-			{
-				pbFNext.Enabled = false;
-			}
+        private void pbFNext_Click(object sender, EventArgs e)
+        {
+            pageFNr++;
+            LoadFPage(pageFNr);
+            pbFPrevious.Enabled = true;
+            if (pageFNr == pageFCount - 1)
+            {
+                pbFNext.Enabled = false;
+            }
 
-		}
+        }
 
-		private void pbFPrevious_Click(object sender, EventArgs e)
-		{
-			pageFNr--;
-			LoadFPage(pageFNr);
-			pbFNext.Enabled = true;
-			if (pageFNr == 0)
-			{
-				pbFPrevious.Enabled = false;
-			}
-		}
+        private void pbFPrevious_Click(object sender, EventArgs e)
+        {
+            pageFNr--;
+            LoadFPage(pageFNr);
+            pbFNext.Enabled = true;
+            if (pageFNr == 0)
+            {
+                pbFPrevious.Enabled = false;
+            }
+        }
 
-		private void pbLPrevious_Click(object sender, EventArgs e)
-		{
-			pageLNr--;
-			LoadLPage(pageLNr);
-			pbLNext.Enabled = true;
-			if (pageLNr == 0)
-			{
-				pbLPrevious.Enabled = false;
-			}
-		}
+        private void pbLPrevious_Click(object sender, EventArgs e)
+        {
+            pageLNr--;
+            LoadLPage(pageLNr);
+            pbLNext.Enabled = true;
+            if (pageLNr == 0)
+            {
+                pbLPrevious.Enabled = false;
+            }
+        }
 
-		private void pbLNext_Click(object sender, EventArgs e)
-		{
-			pageLNr++;
-			LoadLPage(pageFNr);
-			pbLPrevious.Enabled = true;
-			if (pageLNr == pageLCount - 1)
-			{
-				pbLNext.Enabled = false;
-			}
-		}
-	}
+        private void pbLNext_Click(object sender, EventArgs e)
+        {
+            pageLNr++;
+            LoadLPage(pageFNr);
+            pbLPrevious.Enabled = true;
+            if (pageLNr == pageLCount - 1)
+            {
+                pbLNext.Enabled = false;
+            }
+        }
+    }
 }
