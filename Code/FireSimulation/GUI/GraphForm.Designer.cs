@@ -32,6 +32,7 @@
             this.pieChart1 = new LiveCharts.WinForms.PieChart();
             this.cartesianChart2 = new LiveCharts.WinForms.CartesianChart();
             this.cartesianChart3 = new LiveCharts.WinForms.CartesianChart();
+            this.cartesianDeathProgression = new LiveCharts.WinForms.CartesianChart();
             this.SuspendLayout();
             // 
             // cartesianChart1
@@ -66,18 +67,26 @@
             this.cartesianChart3.TabIndex = 3;
             this.cartesianChart3.Text = "cartesianChart3";
             // 
+            // cartesianDeathProgression
+            // 
+            this.cartesianDeathProgression.Location = new System.Drawing.Point(12, 841);
+            this.cartesianDeathProgression.Name = "cartesianDeathProgression";
+            this.cartesianDeathProgression.Size = new System.Drawing.Size(1020, 217);
+            this.cartesianDeathProgression.TabIndex = 4;
+            this.cartesianDeathProgression.Text = "Death Progression";
+            // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1044, 880);
+            this.ClientSize = new System.Drawing.Size(1044, 1073);
+            this.Controls.Add(this.cartesianDeathProgression);
             this.Controls.Add(this.cartesianChart3);
             this.Controls.Add(this.cartesianChart2);
             this.Controls.Add(this.pieChart1);
             this.Controls.Add(this.cartesianChart1);
             this.Name = "GraphForm";
             this.Text = "Lit - Graphs";
-            this.Load += new System.EventHandler(this.GraphForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -88,5 +97,6 @@
         private LiveCharts.WinForms.PieChart pieChart1;
         private LiveCharts.WinForms.CartesianChart cartesianChart2;
         private LiveCharts.WinForms.CartesianChart cartesianChart3;
+        private LiveCharts.WinForms.CartesianChart cartesianDeathProgression;
     }
 }

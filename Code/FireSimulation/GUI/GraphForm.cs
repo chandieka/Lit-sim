@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Forms;
 using Library;
 using LiveCharts;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 
 namespace FireSimulator
@@ -24,16 +25,40 @@ namespace FireSimulator
 
             getBarChart();
             getPieChart();
+            getDeathProgression();
         }
 
-        private void GraphForm_Load(object sender, EventArgs e)
+        private void getDeathProgression()
         {
+            this.cartesianDeathProgression.Series.Clear();
 
+            for (int i = 0; i < this.simData.Length; i++)
+            {
+                SimulationData simulation = this.simData[i];
+                Series series = new LineSeries();
+
+                series.Title = $"{simulation.SimulationTime} - {simulation.NrOfSurvivors}/{simulation.NrOfPeople} - {simulation.SimulationTime}";
+
+                // add linear progression (for now)
+                series.Values = new ChartValues<ObservablePoint>();
+                series.Values.Add(new ObservablePoint() { X = 0, Y = 0 });
+                double deathsPerSecond = simulation.SimulationTime.TotalSeconds / simulation.NrOfDeaths;
+                for (int j = 0; j < simulation.NrOfDeaths; j++)
+                {
+                    ObservablePoint pnt = new ObservablePoint();
+                    series.Values.Add(pnt);
+
+                    pnt.X = j * deathsPerSecond;
+                    pnt.Y = j;
+                }
+
+                this.cartesianDeathProgression.Series.Add(series);
+            }
         }
 
         private void getPieChart()
         {
-            ChartValues<int> firesExtingueshed = new ChartValues<int> { 0 };
+            ChartValues<int> firesExtinguished = new ChartValues<int> { 0 };
             ChartValues<int> allPeopleDead = new ChartValues<int> { 0 };
             ChartValues<int> allPeopleEscaped = new ChartValues<int> { 0 };
             ChartValues<int> timeLimitReached = new ChartValues<int> { 0 };
@@ -42,7 +67,7 @@ namespace FireSimulator
             {
                 if (sd.Scenario == EScenario.ALL_FIRES_EXTINGUISHED)
                 {
-                    firesExtingueshed[0]++;
+                    firesExtinguished[0]++;
                 }
                 else if (sd.Scenario == EScenario.EVERY_PERSON_DIED)
                 {
@@ -65,8 +90,8 @@ namespace FireSimulator
             {
                 new PieSeries
                 {
-                    Title = "All fires extingueshed",
-                    Values = firesExtingueshed,
+                    Title = "All fires extinguished",
+                    Values = firesExtinguished,
                     PushOut = 10,
                     DataLabels = true,
                     LabelPoint = labelPoint
