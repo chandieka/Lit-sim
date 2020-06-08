@@ -23,7 +23,7 @@ namespace FireSimulator
 		{
 			InitializeComponent();
 
-			int imageSize = (int)(lvFloorplan.Width / 5);
+			int imageSize = (int)(lvFloorplan.Height / 3 * 2);
 			Size size = new Size(imageSize, imageSize);
 			lImageList.ImageSize = size;
 			fpImageList.ImageSize = size;
@@ -135,8 +135,8 @@ namespace FireSimulator
 			dialog?.SetType(ProgressBarStyle.Marquee);
 
             SaveItem[] itemsF = floorplanController.GetAll();
-            pageFCount = itemsF.Length/9;
-            if (itemsF.Length%9 > 0)
+            pageFCount = itemsF.Length/3;
+            if (itemsF.Length%3 > 0)
             {
                 pageFCount++;
             }
@@ -160,7 +160,7 @@ namespace FireSimulator
             itemsF = floorplanController.GetAll();
             lvFloorplan.Items.Clear();
             fpImageList.Images.Clear();
-            for (int i = page*9; i < ((page*9) + 9); i++)
+            for (int i = page*3; i < ((page*3) + 3); i++)
             {
                 if (i < itemsF.Length)
                 {
@@ -176,7 +176,7 @@ namespace FireSimulator
         {
             lvLayout.Items.Clear();
             lImageList.Images.Clear();
-            for (int i = page * 9; i < ((page * 9) + 9); i++)
+            for (int i = page * 3; i < ((page * 3) + 3); i++)
             {
                 if (i < itemsL.Length)
                 {
@@ -259,7 +259,7 @@ namespace FireSimulator
 		{
 			var selectedItems = lvFloorplan.SelectedIndices;
 			if (selectedItems != null && selectedItems.Count > 0)
-				return floorplanController.GetFloorplanAt(selectedItems[0]+pageFNr*9);
+				return floorplanController.GetFloorplanAt(selectedItems[0]+pageFNr*3);
 
 			return null;
 		}
@@ -288,8 +288,8 @@ namespace FireSimulator
 			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
             {
                 itemsL = ((Floorplan)getSelectedFloorplan().Item).GetAllLayouts(true);
-                pageLCount = itemsL.Length / 9;
-                if (itemsL.Length % 9 > 0)
+                pageLCount = itemsL.Length / 3;
+                if (itemsL.Length % 3 > 0)
                 {
                     pageLCount++;
                 }
@@ -369,7 +369,7 @@ namespace FireSimulator
             if (indices != null)
             {
                 if (indices.Count == 1)
-                    showDesigner(floorplanController.GetAt(indices[0] + pageFNr*9));
+                    showDesigner(floorplanController.GetAt(indices[0] + pageFNr*3));
             }
             else
             {
