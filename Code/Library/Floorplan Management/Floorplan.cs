@@ -10,14 +10,6 @@ namespace Library
 		private readonly List<Guid> layouts = new List<Guid>();
 		public Guid Id { get; } = Guid.NewGuid();
 
-		[field: NonSerialized]
-		private List<SaveItem> parsedLayouts = new List<SaveItem>();
-		[field: NonSerialized]
-		private const bool shouldCacheLayouts = false;
-
-		// Used to check if the 'layouts' list was changed after the 'parsedLayouts' list was updated
-		private bool parsedLayoutsListIsDirty = true;
-
 		public bool IsDeletable => LayoutAmount <= 0;
 		public int LayoutAmount => layouts.Count;
 
@@ -33,18 +25,10 @@ namespace Library
 				throw new Exception("Cannot add Layout multiple times");
 
 			layouts.Add(layout);
-			parsedLayoutsListIsDirty = true;
 		}
 
 		public void RemoveLayout(Guid layout)
-		{
-			var foundIndex = parsedLayouts.FindIndex(_ => _.Item.Id == layout);
-
-			if (foundIndex >= 0)
-				parsedLayouts.RemoveAt(foundIndex);
-
-			layouts.Remove(layout);
-		}
+			=> layouts.Remove(layout);
 
 		public void DeleteAllChildren()
 		{
@@ -66,20 +50,7 @@ namespace Library
 
 		public SaveItem GetLayout(Guid id)
 		{
-			if (shouldCacheLayouts)
-            {
-				var foundLayout = parsedLayouts.Find(_ => _.Item.Id == id);
-
-				if (foundLayout != null)
-					return foundLayout;
-			}
-
-			SaveItem saveItem = SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
-
-			if (shouldCacheLayouts)
-				parsedLayouts.Add(saveItem);
-
-			return saveItem;
+			return SaveLoadManager.Load(SaveLoadManager.GetFilePath(id, typeof(Layout), false));
 		}
 
 		public SaveItem GetLayoutAt(int index)
@@ -92,9 +63,6 @@ namespace Library
 
 		public SaveItem[] GetAllLayouts(bool skipNotFound = false)
 		{
-			if (!parsedLayoutsListIsDirty && shouldCacheLayouts)
-				return parsedLayouts.ToArray();
-
 			List<SaveItem> items = new List<SaveItem>();
 
 			for (int i = layouts.Count - 1; i >= 0; i--)
@@ -115,15 +83,8 @@ namespace Library
 				}
 			}
 
-			parsedLayoutsListIsDirty = false;
 			items.Reverse();
 			return items.ToArray();
-		}
-
-		[OnDeserialized]
-		private void OnDeserialized(StreamingContext context)
-		{
-			this.parsedLayouts = new List<SaveItem>();
 		}
 
 		public override string ToString()

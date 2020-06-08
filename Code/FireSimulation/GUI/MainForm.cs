@@ -174,8 +174,12 @@ namespace FireSimulator
 
         private void LoadLPage(int page)
         {
+            foreach (Bitmap b in lImageList.Images)
+                b.Dispose();
+
             lvLayout.Items.Clear();
             lImageList.Images.Clear();
+
             for (int i = page * 9; i < ((page * 9) + 9); i++)
             {
                 if (i < itemsL.Length)
@@ -299,8 +303,13 @@ namespace FireSimulator
                 }
                 LoadLPage(pageLNr);
             }
-				
-		}
+
+
+            foreach (Bitmap b in lImageList.Images)
+                b.Dispose();
+
+            lImageList.Images.Clear();
+        }
 
         private void pbFPCopy_Click(object sender, EventArgs e)
         {
