@@ -38,7 +38,7 @@
             // 
             this.cartesianChart1.Location = new System.Drawing.Point(39, 50);
             this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(909, 339);
+            this.cartesianChart1.Size = new System.Drawing.Size(981, 339);
             this.cartesianChart1.TabIndex = 0;
             this.cartesianChart1.Text = "cartesianChart1";
             // 
@@ -54,7 +54,7 @@
             // 
             this.cartesianChart2.Location = new System.Drawing.Point(436, 395);
             this.cartesianChart2.Name = "cartesianChart2";
-            this.cartesianChart2.Size = new System.Drawing.Size(512, 217);
+            this.cartesianChart2.Size = new System.Drawing.Size(584, 217);
             this.cartesianChart2.TabIndex = 2;
             this.cartesianChart2.Text = "Numer of Deaths";
             // 
@@ -62,7 +62,7 @@
             // 
             this.cartesianChart3.Location = new System.Drawing.Point(436, 618);
             this.cartesianChart3.Name = "cartesianChart3";
-            this.cartesianChart3.Size = new System.Drawing.Size(512, 217);
+            this.cartesianChart3.Size = new System.Drawing.Size(584, 217);
             this.cartesianChart3.TabIndex = 3;
             this.cartesianChart3.Text = "cartesianChart3";
             // 
@@ -70,7 +70,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(991, 895);
+            this.ClientSize = new System.Drawing.Size(1044, 880);
             this.Controls.Add(this.cartesianChart3);
             this.Controls.Add(this.cartesianChart2);
             this.Controls.Add(this.pieChart1);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -81,49 +82,75 @@ namespace FireSimulator
 
         private void getBarChart()
         {
+            int counter = 0;
+
+            Dictionary<string, int> datesCounter = new Dictionary<string, int>();
             List<string> dates = new List<string>();
-            ChartValues<int> people = new ChartValues<int>();
+            List<string> counters = new List<string>();
             ChartValues<int> deaths = new ChartValues<int>();
-            ChartValues<int> survivors = new ChartValues<int>();
+            ChartValues<int> durations = new ChartValues<int>();
+            ChartValues<int> simulationPerDate = new ChartValues<int>();
 
             foreach (SimulationData sd in this.simData)
             {
+                counter++;
+
+                if (datesCounter.ContainsKey(sd.DateOfSimulation.ToString("d")))
+                {
+                    datesCounter[sd.DateOfSimulation.ToString("d")]++;
+                }
+                else
+                {
+                    datesCounter.Add(sd.DateOfSimulation.ToString("d"), 1);
+                }
+
                 dates.Add(sd.DateOfSimulation.ToString("g"));
-                people.Add(sd.NrOfPeople);
                 deaths.Add(sd.NrOfDeaths);
-                survivors.Add(sd.NrOfSurvivors);
+                counters.Add(counter.ToString());
+                durations.Add((int)sd.SimulationTime.TotalSeconds);
             }
+
+            simulationPerDate.AddRange(datesCounter.Values);
 
             cartesianChart1.Series = new SeriesCollection
             {
                 new ColumnSeries
                 {
-                    Title = "People",
-                    Values = people
+                    Title = "Number of simulations",
+                    Values = simulationPerDate
                 }
             };
-
-            cartesianChart1.Series.Add(new ColumnSeries
-            {
-                Title = "Survivors",
-                Values = survivors
-            });
-
-            cartesianChart1.Series.Add(new ColumnSeries
-            {
-                Title = "Deaths",
-                Values = deaths
-            });
 
             cartesianChart1.AxisX.Add(new Axis
             {
                 Title = "Date",
-                Labels = dates
+                Labels = datesCounter.Keys.ToList()
             });
 
             cartesianChart1.AxisY.Add(new Axis
             {
-                Title = "People/Survivors/Deaths",
+                Title = "Number of simulations",
+                LabelFormatter = value => value.ToString("N")
+            });
+
+            cartesianChart2.Series = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Deaths",
+                    Values = deaths
+                }
+            };
+
+            cartesianChart2.AxisX.Add(new Axis
+            {
+                Title = "",
+                Labels = counters
+            });
+
+            cartesianChart2.AxisY.Add(new Axis
+            {
+                Title = "Deaths",
                 LabelFormatter = value => value.ToString("N")
             });
 
@@ -131,30 +158,20 @@ namespace FireSimulator
             {
                 new ColumnSeries
                 {
-                    Title = "2015",
-                    Values = new ChartValues<double> { 10, 50, 39, 50 }
+                    Title = "Duration",
+                    Values = durations
                 }
             };
 
-            //adding series will update and animate the chart automatically
-            cartesianChart3.Series.Add(new ColumnSeries
-            {
-                Title = "2016",
-                Values = new ChartValues<double> { 11, 56, 42 }
-            });
-
-            //also adding values updates and animates the chart automatically
-            cartesianChart3.Series[1].Values.Add(48d);
-
             cartesianChart3.AxisX.Add(new Axis
             {
-                Title = "Sales Man",
-                Labels = new[] { "Maria", "Susan", "Charles", "Frida" }
+                Title = "",
+                Labels = counters
             });
 
             cartesianChart3.AxisY.Add(new Axis
             {
-                Title = "Sold Apps",
+                Title = "Durations",
                 LabelFormatter = value => value.ToString("N")
             });
         }
