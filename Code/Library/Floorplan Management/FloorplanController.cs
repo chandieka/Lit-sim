@@ -41,7 +41,7 @@ namespace Library
 			{
 				var itm = saveItems[i];
 				if (itm.Item == floorplan)
-					saveItems.Remove(itm);
+					this.Remove(itm);
 			}
 		}
 
