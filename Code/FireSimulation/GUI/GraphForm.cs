@@ -33,48 +33,65 @@ namespace FireSimulator
 
         private void getPieChart()
         {
+            ChartValues<int> firesExtingueshed = new ChartValues<int> { 0 };
+            ChartValues<int> allPeopleDead = new ChartValues<int> { 0 };
+            ChartValues<int> allPeopleEscaped = new ChartValues<int> { 0 };
+            ChartValues<int> timeLimitReached = new ChartValues<int> { 0 };
+
+            foreach (SimulationData sd in this.simData)
+            {
+                if (sd.Scenario == EScenario.ALL_FIRES_EXTINGUISHED)
+                {
+                    firesExtingueshed[0]++;
+                }
+                else if (sd.Scenario == EScenario.EVERY_PERSON_DIED)
+                {
+                    allPeopleDead[0]++;
+                }
+                else if (sd.Scenario == EScenario.EVERY_PERSON_ESCAPED)
+                {
+                    allPeopleEscaped[0]++;
+                }
+                else if (sd.Scenario == EScenario.TIME_LIMIT_REACHED)
+                {
+                    timeLimitReached[0]++;
+                }
+            }
+
             Func<ChartPoint, string> labelPoint = chartPoint =>
                 string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
 
             pieChart1.Series = new SeriesCollection
             {
-                /*foreach(SimulationData sd in this.simData)
-                {
                 new PieSeries
                 {
-                    Title = sd.ToString(),
-                    Values = new ChartValues<int> { sd.NrOfDeaths }
-                };
-                }*/
-                new PieSeries
-                {
-                    Title = "Maria",
-                    Values = new ChartValues<double> {3},
-                    PushOut = 15,
+                    Title = "All fires extingueshed",
+                    Values = firesExtingueshed,
+                    PushOut = 10,
                     DataLabels = true,
                     LabelPoint = labelPoint
                 },
                 new PieSeries
                 {
-                    Title = "Charles",
-                    Values = new ChartValues<double> {4},
+                    Title = "Time limit reached",
+                    Values = timeLimitReached,
                     DataLabels = true,
                     LabelPoint = labelPoint
                 },
                 new PieSeries
                 {
-                    Title = "Frida",
-                    Values = new ChartValues<double> {6},
+                    Title = "All people dead",
+                    Values = allPeopleDead,
                     DataLabels = true,
                     LabelPoint = labelPoint
                 },
                 new PieSeries
                 {
-                    Title = "Frederic",
-                    Values = new ChartValues<double> {2},
+                    Title = "All people escaped",
+                    Values = allPeopleEscaped,
                     DataLabels = true,
                     LabelPoint = labelPoint
-                }
+                },
             };
 
             pieChart1.LegendLocation = LegendLocation.Bottom;
