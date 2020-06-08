@@ -271,6 +271,8 @@ namespace FireSimulator
 			float totalDeaths = 0;
 			DateTime start, end;
 			int people = 0;
+			double totalTime = 0;
+			int success = 0;
 
 			if (pb == null)
 				pb = this.pbSelectedPreview;
@@ -281,9 +283,12 @@ namespace FireSimulator
 				people = simData[0].NrOfPeople;
 				end = simData[simData.Length - 1].DateOfSimulation;
 
+
 				foreach (var data in simData)
 				{
 					totalDeaths += data.NrOfDeaths;
+					totalTime += data.SimulationTime.TotalSeconds;
+					if (data.IsSuccessful) success += 1;
 				}
 
 				pbSelectedPreview.Image = pb.Image;
@@ -295,6 +300,8 @@ namespace FireSimulator
 				lbl_start_date.Text = $"{start.ToShortDateString()}";
 				lbl_end_date.Text = $"{end.ToShortDateString()}";
 				lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
+				lbl_avg_time.Text = $"{totalTime / simData.Length} sec.";
+				lbl_ratio.Text = $"{success} : {simData.Length - success}";
 				btn_open_graphs.Enabled = true;
 			}
 			else
