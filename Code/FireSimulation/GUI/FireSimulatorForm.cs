@@ -55,6 +55,7 @@ namespace FireSimulator
 
 			btnRerunSimulation.Visible = true;
 			picBoxPlayPause.Enabled = false;
+            btnTerminate.Visible = false;
 
 			if (e.IsSuccess)
 				lblResult.Text = "Success";

@@ -165,6 +165,7 @@ namespace FireSimulator
 				if (i < itemsF.Length)
 				{
 					var item = itemsF[i];
+                    // cause high ram usage idk why but why?????
 					fpImageList.Images.Add(item.Item.Id.ToString(), ((Thumbnailable)item.Item).Render(fpImageList.ImageSize.Width));
 					lvFloorplan.Items.Add(item.Item.Id.ToString(), item.Name, item.Item.Id.ToString());
 				}
@@ -196,7 +197,8 @@ namespace FireSimulator
 							if (thumbnail != null)
 								lvLayout.Invoke(new Action(() =>
 								{
-									lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
+                                    // cause high ram usage idk why but why?????
+                                    lImageList.Images.Add(saveItem.Item.Id.ToString(), thumbnail);
 								}));
 						}).Start();
 					}
@@ -416,51 +418,52 @@ namespace FireSimulator
 				form.ShowDialog();
 			}
 		}
-		#endregion
+        private void pbFNext_Click(object sender, EventArgs e)
+        {
+            pageFNr++;
+            LoadFPage(pageFNr);
+            pbFPrevious.Enabled = true;
+            if (pageFNr == pageFCount - 1)
+            {
+                pbFNext.Enabled = false;
+            }
 
-		private void pbFNext_Click(object sender, EventArgs e)
-		{
-			pageFNr++;
-			LoadFPage(pageFNr);
-			pbFPrevious.Enabled = true;
-			if (pageFNr == pageFCount - 1)
-			{
-				pbFNext.Enabled = false;
-			}
+        }
 
-		}
+        private void pbFPrevious_Click(object sender, EventArgs e)
+        {
+            pageFNr--;
+            LoadFPage(pageFNr);
+            pbFNext.Enabled = true;
+            if (pageFNr == 0)
+            {
+                pbFPrevious.Enabled = false;
+            }
+        }
 
-		private void pbFPrevious_Click(object sender, EventArgs e)
-		{
-			pageFNr--;
-			LoadFPage(pageFNr);
-			pbFNext.Enabled = true;
-			if (pageFNr == 0)
-			{
-				pbFPrevious.Enabled = false;
-			}
-		}
+        private void pbLPrevious_Click(object sender, EventArgs e)
+        {
+            pageLNr--;
+            LoadLPage(pageLNr);
+            pbLNext.Enabled = true;
+            if (pageLNr == 0)
+            {
+                pbLPrevious.Enabled = false;
+            }
+        }
 
-		private void pbLPrevious_Click(object sender, EventArgs e)
-		{
-			pageLNr--;
-			LoadLPage(pageLNr);
-			pbLNext.Enabled = true;
-			if (pageLNr == 0)
-			{
-				pbLPrevious.Enabled = false;
-			}
-		}
+        private void pbLNext_Click(object sender, EventArgs e)
+        {
+            pageLNr++;
+            LoadLPage(pageFNr);
+            pbLPrevious.Enabled = true;
+            if (pageLNr == pageLCount - 1)
+            {
+                pbLNext.Enabled = false;
+            }
+        }
 
-		private void pbLNext_Click(object sender, EventArgs e)
-		{
-			pageLNr++;
-			LoadLPage(pageFNr);
-			pbLPrevious.Enabled = true;
-			if (pageLNr == pageLCount - 1)
-			{
-				pbLNext.Enabled = false;
-			}
-		}
-	}
+        #endregion
+
+    }
 }

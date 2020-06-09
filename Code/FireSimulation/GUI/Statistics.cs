@@ -310,10 +310,6 @@ namespace FireSimulator
 			}
 		}
 
-		private void vsbPreviewScroller_Scroll(object sender, ScrollEventArgs e)
-		{
-		}
-
 		private void tbSearchQuery_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == (char)13)

@@ -82,24 +82,28 @@ namespace Library
 
 			if (!hasFoundFireInPreviousTick)
 			{
-				Finish(EScenario.ALL_FIRES_EXTINGUISHED, true);
-				scenario = EScenario.ALL_FIRES_EXTINGUISHED;
-				isSuccessful = true;
+                isSuccessful = true;
+                scenario = EScenario.ALL_FIRES_EXTINGUISHED;
+                Finish(EScenario.ALL_FIRES_EXTINGUISHED, true);
+                return;
 			}
-			else if (persons.TrueForAll(person => person.IsDead)) {
-				scenario = EScenario.EVERY_PERSON_DIED;
-				Finish(EScenario.EVERY_PERSON_DIED, false);
-			}				
-		}
+			else if (persons.TrueForAll(person => person.IsDead))
+            {
+                isSuccessful = false;
+                scenario = EScenario.EVERY_PERSON_DIED;
+                Finish(EScenario.EVERY_PERSON_DIED, false);
+                return;
+            }
+        }
 
 		public void TimeLimitReached()
 		{
-			killAll();
-			Finish(EScenario.TIME_LIMIT_REACHED, false);
-			scenario = EScenario.TIME_LIMIT_REACHED;
-		}
+            isSuccessful = false;
+            scenario = EScenario.TIME_LIMIT_REACHED;
+            Finish(EScenario.TIME_LIMIT_REACHED, false);
+        }
 
-		public void SaveSimulationData(SaveItem saveItem, DateTime date, TimeSpan elapsedTime)
+        public void SaveSimulationData(SaveItem saveItem, DateTime date, TimeSpan elapsedTime)
 		{
 			if (!(saveItem.Item is Layout))
 				throw new Exception("Cannot save simulation data of SaveItem that does not contain a Layout");
