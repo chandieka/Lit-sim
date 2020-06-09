@@ -60,7 +60,6 @@ namespace FireSimulator
         {
             ChartValues<int> firesExtinguished = new ChartValues<int> { 0 };
             ChartValues<int> allPeopleDead = new ChartValues<int> { 0 };
-            ChartValues<int> allPeopleEscaped = new ChartValues<int> { 0 };
             ChartValues<int> timeLimitReached = new ChartValues<int> { 0 };
 
             foreach (SimulationData sd in this.simData)
@@ -72,10 +71,6 @@ namespace FireSimulator
                 else if (sd.Scenario == EScenario.EVERY_PERSON_DIED)
                 {
                     allPeopleDead[0]++;
-                }
-                else if (sd.Scenario == EScenario.EVERY_PERSON_ESCAPED)
-                {
-                    allPeopleEscaped[0]++;
                 }
                 else if (sd.Scenario == EScenario.TIME_LIMIT_REACHED)
                 {
@@ -107,13 +102,6 @@ namespace FireSimulator
                 {
                     Title = "All people dead",
                     Values = allPeopleDead,
-                    DataLabels = true,
-                    LabelPoint = labelPoint
-                },
-                new PieSeries
-                {
-                    Title = "All people escaped",
-                    Values = allPeopleEscaped,
                     DataLabels = true,
                     LabelPoint = labelPoint
                 },

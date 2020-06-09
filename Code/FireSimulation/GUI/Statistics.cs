@@ -100,7 +100,10 @@ namespace FireSimulator
 
 		private void ReplaySelected(object sender, EventArgs e)
 		{
-			// TODO
+			if (this.selected != null)
+				new FireSimulatorForm(this.selected).ShowDialog();
+			else
+				MessageBox.Show("No layout selected");
 		}
 
 		private void SortSimulations()
@@ -224,10 +227,6 @@ namespace FireSimulator
 			this.FilterLayouts(options, query);
 		}
 
-		private void btReplaySelected_Click(object sender, EventArgs e)
-		{
-		}
-
 		private void populateLayoutPreview()
 		{
 			this.panel_overview.Controls.Clear();
@@ -256,7 +255,7 @@ namespace FireSimulator
 		{
 			if (lbSearchResults.SelectedItem != null)
 			{
-				showStatistics((SaveItem)lbSearchResults.SelectedItem);
+				showStatistics((SaveItem)lbSearchResults.SelectedItem, this.pbSelectedPreview);
 			}
 		}
 
@@ -267,6 +266,7 @@ namespace FireSimulator
 		{
 			var simData = ((Layout)l.Item).GetSimulatioData();
 			this.selected = l;
+			this.btReplaySelected.Visible = true;
 
 			float totalDeaths = 0;
 			DateTime start, end;
@@ -282,7 +282,6 @@ namespace FireSimulator
 				start = simData[0].DateOfSimulation;
 				people = simData[0].NrOfPeople;
 				end = simData[simData.Length - 1].DateOfSimulation;
-
 
 				foreach (var data in simData)
 				{
