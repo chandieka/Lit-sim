@@ -31,6 +31,7 @@
 			this.components = new System.ComponentModel.Container();
 			this.animationLoopTimer = new System.Windows.Forms.Timer(this.components);
 			this.gbControls = new System.Windows.Forms.GroupBox();
+			this.btnLegend = new System.Windows.Forms.Button();
 			this.picBoxPlayPause = new System.Windows.Forms.PictureBox();
 			this.btnCalculatePaths = new System.Windows.Forms.Button();
 			this.btnTerminate = new System.Windows.Forms.Button();
@@ -70,7 +71,6 @@
 			this.label32 = new System.Windows.Forms.Label();
 			this.pbSimulator = new System.Windows.Forms.PictureBox();
 			this.gbAutoSimulation = new System.Windows.Forms.GroupBox();
-			this.btnLegend = new System.Windows.Forms.Button();
 			this.gbControls.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picBoxPlayPause)).BeginInit();
 			this.gbStatistics.SuspendLayout();
@@ -101,6 +101,17 @@
 			this.gbControls.Size = new System.Drawing.Size(600, 82);
 			this.gbControls.TabIndex = 13;
 			this.gbControls.TabStop = false;
+			// 
+			// btnLegend
+			// 
+			this.btnLegend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnLegend.Location = new System.Drawing.Point(520, 13);
+			this.btnLegend.Name = "btnLegend";
+			this.btnLegend.Size = new System.Drawing.Size(75, 61);
+			this.btnLegend.TabIndex = 19;
+			this.btnLegend.Text = "Color Legend";
+			this.btnLegend.UseVisualStyleBackColor = true;
+			this.btnLegend.Click += new System.EventHandler(this.btnLegend_Click);
 			// 
 			// picBoxPlayPause
 			// 
@@ -456,17 +467,6 @@
 			this.gbAutoSimulation.TabIndex = 29;
 			this.gbAutoSimulation.TabStop = false;
 			this.gbAutoSimulation.Text = "Auto Simulation";
-			// 
-			// btnLegend
-			// 
-			this.btnLegend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnLegend.Location = new System.Drawing.Point(520, 13);
-			this.btnLegend.Name = "btnLegend";
-			this.btnLegend.Size = new System.Drawing.Size(75, 61);
-			this.btnLegend.TabIndex = 19;
-			this.btnLegend.Text = "Color Legend";
-			this.btnLegend.UseVisualStyleBackColor = true;
-			this.btnLegend.Click += new System.EventHandler(this.btnLegend_Click);
 			// 
 			// FireSimulatorForm
 			// 
