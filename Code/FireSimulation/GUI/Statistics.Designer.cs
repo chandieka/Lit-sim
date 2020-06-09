@@ -91,9 +91,9 @@
             this.btReplaySelected.Name = "btReplaySelected";
             this.btReplaySelected.Size = new System.Drawing.Size(224, 57);
             this.btReplaySelected.TabIndex = 0;
-            this.btReplaySelected.Text = "Replay selected simulation";
+            this.btReplaySelected.Text = "Run new simulation";
             this.btReplaySelected.UseVisualStyleBackColor = true;
-            this.btReplaySelected.Click += new System.EventHandler(this.btReplaySelected_Click);
+            this.btReplaySelected.Visible = false;
             // 
             // gbSearchMenu
             // 
