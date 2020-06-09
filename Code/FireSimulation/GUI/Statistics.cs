@@ -255,7 +255,7 @@ namespace FireSimulator
 		{
 			if (lbSearchResults.SelectedItem != null)
 			{
-				showStatistics((SaveItem)lbSearchResults.SelectedItem);
+				showStatistics((SaveItem)lbSearchResults.SelectedItem, this.pbSelectedPreview);
 			}
 		}
 
@@ -282,7 +282,6 @@ namespace FireSimulator
 				start = simData[0].DateOfSimulation;
 				people = simData[0].NrOfPeople;
 				end = simData[simData.Length - 1].DateOfSimulation;
-
 
 				foreach (var data in simData)
 				{
