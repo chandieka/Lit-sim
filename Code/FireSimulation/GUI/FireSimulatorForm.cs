@@ -42,15 +42,13 @@ namespace FireSimulator
 		private void handleFinished(object sender, FinishedEventArgs e)
 		{
 			picBoxPlayPause_Click(null, null);
+			VisualizeSimulation();
+
 			btnCalculatePaths.Enabled = false;
 
 			this.simulator.ClearHistory();
 			this.UpdateHistory();
 			this.simulator.AddToHistory("Simulation finished");
-
-			btnRerunSimulation.Visible = true;
-			picBoxPlayPause.Enabled = false;
-            btnTerminate.Visible = false;
 
 			if (e.IsSuccess)
 				lblResult.Text = "Success";
@@ -60,6 +58,10 @@ namespace FireSimulator
 			if (MessageBox.Show($"The simulation finished \"{e.ToString()}\"\nDo you want to save the simulation data?",
 				"Finish", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
 				simulator.SaveSimulationData(saveItem, DateTime.Now, time);
+
+			btnRerunSimulation.Visible = true;
+			picBoxPlayPause.Enabled = false;
+            btnTerminate.Visible = false;
 		}
 
 		private void SetTimeLimit(int hours = 0, int minutes = 0, int seconds = 0)

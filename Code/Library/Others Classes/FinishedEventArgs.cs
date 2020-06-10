@@ -8,7 +8,7 @@ namespace Library
 		public readonly EScenario Scenario;
 		public readonly bool IsSuccess;
 
-		private static Dictionary<EScenario, string> scenarioMessageList = new Dictionary<EScenario, string>
+		public readonly static Dictionary<EScenario, string> ScenarioMessageList = new Dictionary<EScenario, string>
 		{
 			{ EScenario.ALL_FIRES_EXTINGUISHED, "All fires were extinguished" },
 			{ EScenario.EVERY_PERSON_ESCAPED, "Every person escaped" },
@@ -23,6 +23,6 @@ namespace Library
 		}
 
 		public override string ToString()
-			=> scenarioMessageList[Scenario];
+			=> ScenarioMessageList[Scenario];
 	}
 }

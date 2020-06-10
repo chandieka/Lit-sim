@@ -87,6 +87,12 @@
     <Compile Include="GUI\GraphForm.Designer.cs">
       <DependentUpon>GraphForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\ScenarioDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ScenarioDialog.Designer.cs">
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SessionSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GraphForm.resx">
       <DependentUpon>GraphForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ScenarioDialog.resx">
+      <DependentUpon>ScenarioDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\SessionSettingsForm.resx">
       <DependentUpon>SessionSettingsForm.cs</DependentUpon>

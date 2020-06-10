@@ -1,4 +1,5 @@
-﻿using Library;
+﻿using FireSimulator.GUI;
+using Library;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -25,10 +26,8 @@ namespace FireSimulator
 			Deathcount
 		}
 
-		private SaveItem floorplan;
-		private SimulationData[] simData;
+		private Dictionary<EScenario, int> scenarioCount;
 		private SaveItem[] layouts;
-
 		private SaveItem selected;
 
 		public Statistics(SaveItem floorplan)
@@ -40,8 +39,7 @@ namespace FireSimulator
 			panel_overview.VerticalScroll.Maximum = 0;
 			panel_overview.AutoScroll = true;
 
-			this.floorplan = floorplan;
-			layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
+			this.layouts = ((Floorplan)floorplan.Item).GetAllLayouts();
 			this.UpdateSearchResults(layouts.ToList());
 
 			this.Text = $"Lit - Statistics for '{floorplan.Name}' floorplan";
@@ -91,11 +89,6 @@ namespace FireSimulator
 					}
 				}
 			}
-		}
-
-		public void SetSimulations(SaveItem[] simulations)
-		{
-			this.layouts = simulations;
 		}
 
 		private void ReplaySelected(object sender, EventArgs e)
@@ -268,27 +261,42 @@ namespace FireSimulator
 			this.selected = l;
 			this.btReplaySelected.Visible = true;
 
-			float totalDeaths = 0;
-			DateTime start, end;
-			int people = 0;
-			double totalTime = 0;
-			int success = 0;
-
 			if (pb == null)
 				pb = this.pbSelectedPreview;
 
 			if (simData.Length > 0)
 			{
-				start = simData[0].DateOfSimulation;
-				people = simData[0].NrOfPeople;
-				end = simData[simData.Length - 1].DateOfSimulation;
+				float totalDeaths = 0;
+				double totalTime = 0;
+				int success = 0;
+
+				DateTime end = simData[simData.Length - 1].DateOfSimulation;
+				DateTime start = simData[0].DateOfSimulation;
+				int people = simData[0].NrOfPeople;
 
 				foreach (var data in simData)
 				{
 					totalDeaths += data.NrOfDeaths;
 					totalTime += data.SimulationTime.TotalSeconds;
-					if (data.IsSuccessful) success += 1;
+
+					if (data.IsSuccessful)
+						success += 1;
 				}
+
+				this.scenarioCount = new Dictionary<EScenario, int>();
+				foreach (var data in simData)
+				{
+					var scenario = data.Scenario;
+
+					if (scenarioCount.ContainsKey(scenario))
+						scenarioCount[scenario]++;
+					else
+						scenarioCount[scenario] = 1;
+				}
+				Tuple<int, EScenario> topScenario = new Tuple<int, EScenario>(-1, 0);
+				foreach (var s in scenarioCount)
+					if (s.Value > topScenario.Item1)
+						topScenario = new Tuple<int, EScenario>(s.Value, s.Key);
 
 				pbSelectedPreview.Image = pb.Image;
 				pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
@@ -298,9 +306,10 @@ namespace FireSimulator
 				lbl_total_people.Text = $"{people}";
 				lbl_start_date.Text = $"{start.ToShortDateString()}";
 				lbl_end_date.Text = $"{end.ToShortDateString()}";
-				lbl_avg_deaths.Text = $"{totalDeaths / simData.Length}";
-				lbl_avg_time.Text = $"{totalTime / simData.Length} sec.";
+				lbl_avg_deaths.Text = $"{Math.Round(totalDeaths / simData.Length, 2)}";
+				lbl_avg_time.Text = $"{Math.Round(totalTime / simData.Length, 2)} sec.";
 				lbl_ratio.Text = $"{success} : {simData.Length - success}";
+				lbl_scenario.Text = FinishedEventArgs.ScenarioMessageList[topScenario.Item2];
 				btn_open_graphs.Enabled = true;
 			}
 			else
@@ -327,9 +336,12 @@ namespace FireSimulator
 		}
 
 		private void btn_open_graphs_Click(object sender, EventArgs e)
+			=> new GraphForm(this.selected).ShowDialog();
+
+		private void scenario_Click(object sender, EventArgs e)
 		{
-			GraphForm form = new GraphForm(this.selected);
-			form.ShowDialog();
+			if (this.scenarioCount != null && this.selected != null)
+				new ScenarioDialog(this.scenarioCount.ToArray(), this.selected.Name).ShowDialog();
 		}
 	}
 }
