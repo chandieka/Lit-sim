@@ -29,11 +29,13 @@ namespace FireSimulator
 		private SimulationData[] simData;
 		private SaveItem[] layouts;
 
+		private Dictionary<SaveItem, Image> layoutImages;
 		private SaveItem selected;
 
 		public Statistics(SaveItem floorplan)
 		{
 			InitializeComponent();
+			this.layoutImages = new Dictionary<SaveItem, Image>();
 			panel_overview.AutoScroll = false;
 			panel_overview.VerticalScroll.Enabled = false;
 			panel_overview.VerticalScroll.Visible = false;
@@ -239,7 +241,10 @@ namespace FireSimulator
 
 					var l = layouts[i];
 
-					pb1.Image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
+					Image image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
+					this.layoutImages.Add(l, image);
+
+					pb1.Image = image;
 					pb1.Size = new Size(panel_overview.Height - 10, panel_overview.Height - 10);
 					pb1.Location = new Point(pb1.Width * i + 2, 8);
 					pb1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -255,14 +260,16 @@ namespace FireSimulator
 		{
 			if (lbSearchResults.SelectedItem != null)
 			{
-				showStatistics((SaveItem)lbSearchResults.SelectedItem, this.pbSelectedPreview);
+				SaveItem l = (SaveItem)lbSearchResults.SelectedItem;
+				Image i = this.layoutImages.FirstOrDefault(li => li.Key == l).Value;
+				showStatistics(l, i);
 			}
 		}
 
 		private void showStatistics(object sender, SaveItem l)
-			=> showStatistics(l, (PictureBox)sender);
+			=> showStatistics(l, ((PictureBox)sender).Image);
 
-		private void showStatistics(SaveItem l, PictureBox pb = null)
+		private void showStatistics(SaveItem l, Image layoutImage = null)
 		{
 			var simData = ((Layout)l.Item).GetSimulatioData();
 			this.selected = l;
@@ -273,9 +280,6 @@ namespace FireSimulator
 			int people = 0;
 			double totalTime = 0;
 			int success = 0;
-
-			if (pb == null)
-				pb = this.pbSelectedPreview;
 
 			if (simData.Length > 0)
 			{
@@ -290,7 +294,7 @@ namespace FireSimulator
 					if (data.IsSuccessful) success += 1;
 				}
 
-				pbSelectedPreview.Image = pb.Image;
+				pbSelectedPreview.Image = layoutImage;
 				pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
 
 				lbl_name.Text = l.Name;
