@@ -269,15 +269,6 @@ namespace FireSimulator
 			this.selected = l;
 			this.btReplaySelected.Visible = true;
 
-			
-			float totalDeaths = 0;
-			DateTime start, end;
-			int people = 0;
-			double totalTime = 0;
-			int success = 0;
-
-			if (pb == null)
-				pb = this.pbSelectedPreview;
 
 			if (simData.Length > 0)
 			{
@@ -313,7 +304,6 @@ namespace FireSimulator
 					if (s.Value > topScenario.Item1)
 						topScenario = new Tuple<int, EScenario>(s.Value, s.Key);
 
-				// pbSelectedPreview.Image = pb.Image;
 				pbSelectedPreview.Image = layoutImage;
 				pbSelectedPreview.SizeMode = PictureBoxSizeMode.Zoom;
 
