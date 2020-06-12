@@ -175,11 +175,8 @@ namespace FireSimulator
 
 		private void LoadLPage(int page)
 		{
-			foreach (Bitmap b in lImageList.Images)
-				b.Dispose();
-
 			lvLayout.Items.Clear();
-			lImageList.Images.Clear();
+			// lImageList.Images.Clear();
 
 			for (int i = page * 9; i < ((page * 9) + 9); i++)
 			{
@@ -305,13 +302,6 @@ namespace FireSimulator
 					pbLNext.Enabled = false;
 				}
 				LoadLPage(pageLNr);
-			}
-			else
-			{
-				foreach (Bitmap b in lImageList.Images)
-					b.Dispose();
-
-				lImageList.Images.Clear();
 			}
 		}
 
