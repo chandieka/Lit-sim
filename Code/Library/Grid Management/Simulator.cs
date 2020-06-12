@@ -108,7 +108,7 @@ namespace Library
 			if (!(saveItem.Item is Layout))
 				throw new Exception("Cannot save simulation data of SaveItem that does not contain a Layout");
 
-			((Layout)saveItem.Item).AddSimulationData(new SimulationData(GetNrOfDeaths(), PersonAmount, date, elapsedTime, isSuccessful, scenario));
+			((Layout)saveItem.Item).AddSimulationData(new SimulationData(GetNrOfDeaths(), PersonAmount, date, elapsedTime, scenario));
 			SaveLoadManager.Save(saveItem);
 		}
 
