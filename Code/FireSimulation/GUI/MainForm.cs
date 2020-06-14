@@ -288,6 +288,7 @@ namespace FireSimulator
 		private void lvFloorplan_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			lvLayout.Items.Clear();
+            pageLNr = 0;
 
 			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
 			{
@@ -300,7 +301,10 @@ namespace FireSimulator
 				if (pageLCount == 1)
 				{
 					pbLNext.Enabled = false;
-				}
+				} else
+                {
+                    pbLNext.Enabled = true;
+                }
 				LoadLPage(pageLNr);
 			}
 		}
@@ -445,7 +449,7 @@ namespace FireSimulator
         private void pbLNext_Click(object sender, EventArgs e)
         {
             pageLNr++;
-            LoadLPage(pageFNr);
+            LoadLPage(pageLNr);
             pbLPrevious.Enabled = true;
             if (pageLNr == pageLCount - 1)
             {
