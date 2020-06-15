@@ -175,11 +175,8 @@ namespace FireSimulator
 
 		private void LoadLPage(int page)
 		{
-			foreach (Bitmap b in lImageList.Images)
-				b.Dispose();
-
 			lvLayout.Items.Clear();
-			lImageList.Images.Clear();
+			// lImageList.Images.Clear();
 
 			for (int i = page * 9; i < ((page * 9) + 9); i++)
 			{
@@ -291,6 +288,7 @@ namespace FireSimulator
 		private void lvFloorplan_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			lvLayout.Items.Clear();
+            pageLNr = 0;
 
 			if (lvFloorplan.SelectedIndices != null && lvFloorplan.SelectedIndices.Count > 0)
 			{
@@ -303,15 +301,11 @@ namespace FireSimulator
 				if (pageLCount == 1)
 				{
 					pbLNext.Enabled = false;
-				}
+				} else
+                {
+                    pbLNext.Enabled = true;
+                }
 				LoadLPage(pageLNr);
-			}
-			else
-			{
-				foreach (Bitmap b in lImageList.Images)
-					b.Dispose();
-
-				lImageList.Images.Clear();
 			}
 		}
 
@@ -455,7 +449,7 @@ namespace FireSimulator
         private void pbLNext_Click(object sender, EventArgs e)
         {
             pageLNr++;
-            LoadLPage(pageFNr);
+            LoadLPage(pageLNr);
             pbLPrevious.Enabled = true;
             if (pageLNr == pageLCount - 1)
             {
