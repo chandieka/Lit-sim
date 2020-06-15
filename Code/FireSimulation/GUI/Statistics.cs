@@ -227,26 +227,22 @@ namespace FireSimulator
 		{
 			this.panel_overview.Controls.Clear();
 
-			if (layouts.Length > 0)
+			for (int i = 0; i < layouts.Length; i++)
 			{
-				for (int i = 0; i < layouts.Length; i += 1)
-				{
-					PictureBox pb1 = new PictureBox();
+				PictureBox pb1 = new PictureBox();
+				SaveItem l = layouts[i];
 
-					var l = layouts[i];
+				Image image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
+				this.layoutImages[l] = image;
 
-					Image image = ((Thumbnailable)l.Item).Render(panel_overview.Height - 10);
-					this.layoutImages.Add(l, image);
+				pb1.Image = image;
+				pb1.Size = new Size(panel_overview.Height - 10, panel_overview.Height - 10);
+				pb1.Location = new Point(pb1.Width * i + 2, 8);
+				pb1.SizeMode = PictureBoxSizeMode.Zoom;
 
-					pb1.Image = image;
-					pb1.Size = new Size(panel_overview.Height - 10, panel_overview.Height - 10);
-					pb1.Location = new Point(pb1.Width * i + 2, 8);
-					pb1.SizeMode = PictureBoxSizeMode.Zoom;
+				pb1.MouseClick += (sender, e) => showStatistics(sender, l);
 
-					pb1.MouseClick += (sender, e) => showStatistics(sender, l);
-
-					panel_overview.Controls.Add(pb1);
-				}
+				panel_overview.Controls.Add(pb1);
 			}
 		}
 
