@@ -26,6 +26,25 @@ namespace FireSimulator
             getBarChart();
             getPieChart();
             getDeathProgression();
+
+            this.vScrollBar1.SmallChange = 1;
+            this.vScrollBar1.LargeChange = 1;
+            this.vScrollBar1.Minimum = 0;
+            this.vScrollBar1.Maximum = this.cartesianDeathProgression.Bottom - this.ClientSize.Height + 10;
+
+            this.Resize += new EventHandler((s, e) =>
+            {
+                this.vScrollBar1.Maximum = this.cartesianDeathProgression.Bottom - this.ClientSize.Height + 10;
+            });
+
+            this.vScrollBar1.Scroll += new ScrollEventHandler((s, e) =>
+            {
+                this.cartesianChart1.Top += e.OldValue - e.NewValue;
+                this.cartesianChart2.Top += e.OldValue - e.NewValue;
+                this.cartesianChart3.Top += e.OldValue - e.NewValue;
+                this.pieChart1.Top += e.OldValue - e.NewValue;
+                this.cartesianDeathProgression.Top += e.OldValue - e.NewValue;
+            });
         }
 
         private void getDeathProgression()
