@@ -64,7 +64,15 @@ namespace Library
 			var path = GetThumbnailPath(savable.Id);
 
 			if (File.Exists(path))
-				File.Delete(path);
+			{
+				try
+				{
+					File.Delete(path);
+				}
+				catch (Exception) {
+					Console.WriteLine($"Unable to delete '{path}'!");
+				}
+			}
 		}
 
 		public static string GetSaveFolder(Type type, bool shouldCheck = true)
